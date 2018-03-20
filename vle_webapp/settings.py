@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import sys
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -23,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'm792=#*_(5x5c80&z+i0u80rj+0kn!f94i!*z^xwiy5zb#6a&1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = not os.environ.get('ON_HEROKU', False)
 
 ALLOWED_HOSTS = ['*']
 
@@ -37,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'webapp',
+    'webapp.apps.WebappConfig',
+    'alumnica_model.apps.AlumnicaModelConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -118,4 +122,63 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+MEDIA_ROOT = 'media'
+MEDIA_URL = '/media/'
+# noinspection PyUnresolvedReferences
+STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'alumnica_model.AuthUser'
+
+admin_names = os.environ.get('ADMIN_NAMES')
+admin_emails = os.environ.get('ADMIN_EMAILS')
+
+if admin_names and admin_emails:
+    admin_names = admin_names.split(';')
+    admin_emails = admin_emails.split(';')
+
+    ADMINS = list(zip(admin_names, admin_emails))
+
+    print('ADMINS = {}'.format(ADMINS))
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': ('%(asctime)s [%(levelname)s] [%(module)s.%(funcName)s:%(lineno)s] %(message)s'),
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        }
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+            'stream': sys.stdout,
+        },
+        'mail': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'studio': {
+            'handlers': ['console', 'mail'],
+            'level': os.getenv('STUDIO_LOG_LEVEL', 'DEBUG'),
+            'propagate': False
+        }
+    }
+}
