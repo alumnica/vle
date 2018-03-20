@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="cell medium-auto medium-cell-block-container">
+
+    <div class="grid-x">
+        <div class="cell  medium-cell-block-y">
+            <div class="grid-container">
+                <div class="grid-x align-center">
+                    <div class="small-12 cell">
+                        <h3>Bienvenido</h3>
+                        <p class="h4">Completa tu perfil:</p>
+                        <hr>
+                    </div>
+
+                    <div class="medium-8">
+                        <p class="u-margin-bottom-small">Selecciona tu Avatar</p>
+                        <form method="POST" role="form">
+                            <div class="grid-x grid-padding-x">
+                                <div class="cell small-6 text-center">
+                                    <div class="avatar-selector">
+                                        <input id="av-1" type="radio" name="credit-card" />
+                                        <label class="drinkcard-avatar avatar-1" for="av-1"></label>
+                                    </div>
+                                </div>
+                                <div class="cell small-6 text-center">
+                                    <div class="avatar-selector">
+                                        <input id="av-2" type="radio" name="credit-card" />
+                                        <label class="drinkcard-avatar avatar-2" for="av-2"></label>
+                                    </div>
+                                </div>
+                                <div class="medium-6 cell">
+                                    <label>Nombre
+                                        <input type="text" placeholder="Nombre">
+                                    </label>
+                                </div>
+                                <div class="medium-6 cell">
+                                    <label>Apellidos
+                                        <input type="text" placeholder="Paterno y Materno">
+                                    </label>
+                                </div>
+                                <div class="medium-6 cell">
+                                    <label>Fecha de Nacimiento
+                                        <input type="date">
+                                    </label>
+                                </div>
+                                <div class="medium-12 cell">
+                                    <legend>Sexo</legend>
+                                    <input type="radio" name="sexo" value="femenino" id="sexo_femenino">
+                                    <label for="sexo_femenino">Femenino</label>
+                                    <input type="radio" name="sexo" value="masculino" id="sexo_masculino">
+                                    <label for="sexo_masculino">Masculino</label>
+                                </div>
+
+                                {% comment %} <input type="submit" value="SIGUIENTE" class="button expanded u-margin-top-small"> {% endcomment %}
+
+                                <a href="first-login-p1.html" class="button expanded u-margin-top-small">SIGUIENTE</a>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
