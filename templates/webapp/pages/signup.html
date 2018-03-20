@@ -1,61 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <section class="login-bg">
-        <div class="grid-container">
-            <div class="grid-y window-height grid-margin-y">
-                <div class="cell medium-1 hide-for-small-only">
 
+<div class="login-bg"></div>
+<div class="cell medium-auto medium-cell-block-container">
+    <div class="grid-x grid-padding-x">
+        <div class="cell medium-4 medium-offset-1 ">
+            <div class="login-content">
+                <h3>REGISTRO</h3>
+                <form method="POST" role="form" class="u-margin-bottom-small">{% csrf_token %}
+                    <label>CORREO {{ user_form.email }}
+                    </label>
+                    <label>CONTRASEÑA {{ user_form.password1 }}
+                    </label>
+                    <label>CONFIRMA TU CONTRASEÑA {{ user_form.password2 }}
+                    </label>
+                    <input type="submit" class="button login-btn expanded" value="SIGUIENTE">
+                </form>
+                <div class="social-login">
+                    <h4>CONTINUAR CON</h4>
+                    <img src="http://via.placeholder.com/100x100" alt="">
+                    <img src="http://via.placeholder.com/200x100" alt="">
                 </div>
-                <div class="cell medium-2 hide-for-small-only">
-                    <!-- <div class="grid-x">
-                        <div class="cell medium-4">
 
-                            <div class="grid-x">
-                                <div class="small-4 third"></div>
-                                <div class="small-4 first"></div>
-                                <div class="small-4 second"></div>
-
-                            </div>
-                        </div>
-                    </div> -->
-
-                </div>
-                <div class="cell medium-10 small-11">
-                    <div class="grid-x">
-                        <div class="cell medium-4">
-                            <h3>REGISTRO</h3>
-                            <form method="POST" role="form" class="u-margin-bottom-small">{% csrf_token %}
-                                <label>USUARIO
-                                    {{ user_form.username }}
-                                </label>
-                                <label>CORREO
-                                    {{ user_form.email }}
-                                </label>
-                                <label>CONTRASEÑA
-                                    {{ user_form.password1 }}
-                                </label>
-                                <label>CONFIRMA TU CONTRASEÑA
-                                    {{ user_form.password2 }}
-                                </label>
-                                <label>TIPO DE USUARIO
-                                    {{ user_form.user_type }}
-                                </label>
-                                <input type="submit" value="signup" class="button login-btn expanded" value="SIGUIENTE">
-                            </form>
-                            <div class="social-login">
-                                <h4>CONTINUAR CON</h4>
-                                <img src="https://via.placeholder.com/100x100" alt="">
-                                <img src="https://via.placeholder.com/200x100" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-
         </div>
-
-
-    </section>
+    </div>
 
 {% endblock %}
+
+

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="cell medium-auto medium-cell-block-container">
+
+    <div class="grid-x">
+        <div class="cell  medium-cell-block-y">
+            <div class="grid-container">
+                <div class="grid-x align-center">
+                    <div class="cell medium-12 u-margin-bottom-small">
+                        <h2>Define tu estilo de aprendizaje</h2>
+                        <p class="h4">Selecciona una opción de cada bloque</p>
+                    </div>
+                    <div class="cell medium-8">
+                        <form class="first-q-form">
+                            <div class="first-q-form__container fl-bg-1">
+                                <div class="first-q-form__radio-group">
+                                    <input type="radio" class="first-q-form__radio-input" id="p1-1" name="pregunta-1set">
+                                    <label for="p1-1" class="first-q-form__radio-label-1">
+                                        <div class="first-q-form__radio-image">
+                                            <img src="http://via.placeholder.com/200x300" alt="">
+                                        </div>
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                    </label>
+                                </div>
+                                <div class="first-q-form__radio-group">
+                                    <input type="radio" class="first-q-form__radio-input" id="p1-2" name="pregunta-1set">
+                                    <label for="p1-2" class="first-q-form__radio-label-1">
+                                        <div class="first-q-form__radio-image">
+                                            <img src="http://via.placeholder.com/200x300" alt="">
+                                        </div>
+                                        Lorem ipsum dolor sit amet consectetur adipisicing.
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            {% comment %} <input type="submit" value="SIGUIENTE" class="button expanded u-margin-top-small"> {% endcomment %}
+
+
+                            <a href="first-login-p2.html" class="button expanded u-margin-top-small">SIGUIENTE</a>
+
+                            {% comment %} A first-login-p2.1 o first-login-2.2 dependiendo de su respuesta {% endcomment %}
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
