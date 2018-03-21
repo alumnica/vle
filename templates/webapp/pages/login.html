@@ -11,16 +11,17 @@
             <div class="cell medium-4 medium-offset-1 ">
                 <div class="login-content">
                     <h3>MI CUENTA</h3>
-                    <form class="u-margin-bottom-small">
-                        <label>CORREO {{ user_form.email }}
+                    <form method="POST" class="u-margin-bottom-small">
+                        {% csrf_token %}
+                        <label>CORREO {{ form.email }}
                         </label>
-                        <label>CONTRASEÑA {{ user_form.password }}
+                        <label>CONTRASEÑA {{ form.password }}
                         </label>
                         
-                        {% comment %} <input type="submit" class="button login-btn expanded" value="ENTRAR"> {% endcomment %}
+                        {% comment %} <a href="first-login.html" class="button login-btn expanded">ENTRAR</a> {% endcomment %}
 
+                        <input type="submit" class="button login-btn expanded" value="ENTRAR">
 
-                        <a href="first-login.html" class="button login-btn expanded">ENTRAR</a>
 
                         {% comment %} Aqui te puede mandar a las pantallas de "first-login" o directo al "dashboard" dependiedno si es tu primera vez o no{% endcomment %}
                         
