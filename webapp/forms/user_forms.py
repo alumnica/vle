@@ -23,6 +23,8 @@ class UserForm(forms.ModelForm):
             self.add_error('password', error)
             self.add_error('password_confirmation', error)
 
+        return cleaned_data
+
     def save(self, commit=True):
         user = super(UserForm, self).save(commit)
         user.set_password(self.cleaned_data.get('password'))
