@@ -9,31 +9,32 @@
     <meta charset="utf-8"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foundation for Sites</title>
+    <title>Alúmnica</title>
     <link rel="stylesheet" href="{% static "/webapp/css/app.css" %}">
     {% block scripts %}{% endblock %}
 </head>
 
 <body>
-<div class="off-canvas position-left" id="offCanvas" data-off-canvas>
 
+<div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
 
     {% include "webapp/partials/menu.html" %}
 
-
 </div>
+
 
 <div class="off-canvas-content" data-off-canvas-content>
 
+    <div class="grid-y medium-grid-frame">
+        {% include "webapp/partials/nav.html" %}
 
-    {% include "webapp/partials/nav.html" %}
+        {% block content %}
+        {% endblock %}
 
-    {% block content %}
-    {% endblock %}
+    </div>
 
-
+    <script src="{% static "webapp/js/app.js" %}"></script>
 </div>
-<script src="{% static "webapp/js/app.js" %}"></script>
 </body>
 
 </html>

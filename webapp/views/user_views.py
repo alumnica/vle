@@ -1,9 +1,19 @@
+<<<<<<< HEAD
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView, View, RedirectView
 
 from alumnica_model.models import AuthUser
 from webapp.forms.user_forms import LearnerForm, UserForm, UserLoginForm
+=======
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic import FormView
+from django.views.generic.base import TemplateView, View
+
+from alumnica_model.alumnica_entities.users import UserType
+from webapp.forms.user_forms import UserForm
+>>>>>>> da9c0a46540845372681e37725917f818122afbf
 
 
 class IndexView(TemplateView):
@@ -11,6 +21,7 @@ class IndexView(TemplateView):
 
 
 class LoginView(View):
+<<<<<<< HEAD
     class LoginView(View):
         form_class = UserLoginForm
         template_name = "studio/pages/login.html"
@@ -46,38 +57,19 @@ class LoginView(View):
 
 class LogoutView(RedirectView):
     pass
+=======
+    def dispatch(self, request, *args, **kwargs):
+        return redirect(to='index_view')
+>>>>>>> da9c0a46540845372681e37725917f818122afbf
 
-class SignUpView(View):
-    user_form_class = UserForm
-    learner_form_class = LearnerForm
 
+class SignUpView(FormView):
+    form_class = UserForm
     template_name = 'webapp/pages/signup.html'
+    success_url = reverse_lazy('index_view')
 
-    def get(self, request):
-        if request.user.is_authenticated:
-            return redirect('/users/profile')
-        user_form = self.user_form_class(None)
-        learner_form = self.learner_form_class(None)
-
-        return render(request, self.template_name,
-                      {'user_form': user_form, 'learner_form': learner_form})
-
-    def post(self, request, *args, **kwargs):
-        password = request.POST['password1']
-        password2 = request.POST['password2']
-        print(password)
-        print(password2)
-        if password != password2:
-            user_form = self.user_form_class(data=request.POST)
-            learner_form = self.learner_form_class(data=request.POST)
-            return render(request, "webapp/pages/signup.html", {'user_form': user_form, 'learner_form': learner_form})
-        user_form = UserForm(data=request.POST)
-        user = user_form.save(commit=False)
-
-        if user_form.is_valid:
-            user.set_password(password)
-            user.save()
-
-            return redirect('/users/login_view')
-
-        return redirect(request, *args, **kwargs)
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.user_type = UserType.LEARNER
+        user.save()
+        return super(SignUpView, self).form_valid(form)

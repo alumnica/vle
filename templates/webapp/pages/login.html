@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="login-bg">
+</section>
+<div class="cell medium-auto medium-cell-block-container">
+    <div class="grid-x grid-padding-x">
+        <div class="cell medium-auto medium-cell-block-y">
+            <div class="grid-x">
+            <div class="cell medium-4 medium-offset-1 ">
+                <div class="login-content">
+                    <h3>MI CUENTA</h3>
+                    <form class="u-margin-bottom-small">
+                        <label>CORREO {{ user_form.email }}
+                        </label>
+                        <label>CONTRASEÑA {{ user_form.password }}
+                        </label>
+                        
+                        {% comment %} <input type="submit" class="button login-btn expanded" value="ENTRAR"> {% endcomment %}
+
+
+                        <a href="first-login.html" class="button login-btn expanded">ENTRAR</a>
+
+                        {% comment %} Aqui te puede mandar a las pantallas de "first-login" o directo al "dashboard" dependiedno si es tu primera vez o no{% endcomment %}
+                        
+                    </form>
+                    <a href="#">¿Olvidaste tu contraseña?</a>
+                    <div class="social-login">
+                        <h4>CONTINUAR CON</h4>
+                        <img src="http://via.placeholder.com/100x100.png" alt="">
+                        <img src="http://via.placeholder.com/100x100.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
