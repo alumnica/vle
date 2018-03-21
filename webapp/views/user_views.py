@@ -1,7 +1,7 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import *
 from django.views.generic.base import TemplateView
@@ -20,15 +20,14 @@ class LoginView(FormView):
     def dispatch(self, request, *args, **kwargs):
         print('dispatch!')
         if request.user.is_authenticated and not request.user.is_staff:
-            return redirect(to='loggedin_view')
+            return redirect(to='dashboard_view')
         else:
             print('dispatch not autheticated')
             return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         login(self.request, form.get_user())
-        return redirect(to='loggedin_view')
-
+        return redirect(to='dashboard_view')
 
 
 class SignUpView(FormView):
@@ -40,16 +39,17 @@ class SignUpView(FormView):
         user = form.save(commit=False)
         user.user_type = UserType.LEARNER
         user.save()
-        return redirect(to='login_view')
+        login(self.request, user)
+        return redirect(to='')
 
 
-class LoggedInView(TemplateView):
-    template_name = 'logged-in.html'
+class DashboardView(TemplateView):
+    template_name = 'webapp/pages/dashboard.html'
 
     @method_decorator(login_required(login_url='login_view'))
     def dispatch(self, *args, **kwargs):
         if not self.request.user.is_staff:
-            return super(LoggedInView, self).dispatch(*args, **kwargs)
+            return super(DashboardView, self).dispatch(*args, **kwargs)
         else:
             return redirect('/admin/')
 
