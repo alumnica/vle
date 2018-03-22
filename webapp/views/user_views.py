@@ -40,7 +40,7 @@ class SignUpView(FormView):
         user.user_type = UserType.LEARNER
         user.save()
         login(self.request, user)
-        return redirect(to='')
+        return redirect(to='login_view')
 
 
 class DashboardView(TemplateView):
