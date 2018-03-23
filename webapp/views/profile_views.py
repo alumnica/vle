@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import FormView, TemplateView
 
+from alumnica_model.models import UserModel, AuthUser
 from webapp.forms.profile_forms import FirstLoginInfoForm
 
 
@@ -16,6 +17,11 @@ class FirstLoginInfoView(FormView):
             return super(FirstLoginInfoView, self).dispatch(*args, **kwargs)
         else:
             return redirect('/admin/')
+
+    def form_valid(self, form):
+        user = AuthUser.objects.get(email=self.request.user.email)
+        form.save_form(user)
+        return redirect(to='first-login-p1_view')
 
 
 class FirstLoginP1View(TemplateView):
