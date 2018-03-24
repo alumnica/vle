@@ -11,4 +11,6 @@ urlpatterns = [
     path(_('logout/'), LogoutView.as_view(), name='logout_view'),
     path(_('first-login-info/'), FirstLoginInfoView.as_view(), name='first-login-info_view'),
     path(_('first-login-p1/'), FirstLoginP1View.as_view(), name='first-login-p1_view'),
+    path(_('first-login-p21/'), FirstLoginP1View.as_view(), name='first-login-p21_view'),
+    path(_('first-login-p22/'), FirstLoginP21View.as_view(), name='first-login-p22_view'),
 ]

@@ -3,8 +3,8 @@ from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import FormView, TemplateView
 
-from alumnica_model.models import UserModel, AuthUser
-from webapp.forms.profile_forms import FirstLoginInfoForm
+from alumnica_model.models import AuthUser
+from webapp.forms.profile_forms import *
 
 
 class FirstLoginInfoView(FormView):
@@ -24,5 +24,15 @@ class FirstLoginInfoView(FormView):
         return redirect(to='first-login-p1_view')
 
 
-class FirstLoginP1View(TemplateView):
+class FirstLoginP1View(FormView):
     template_name = 'webapp/pages/first-login-p1.html'
+    form_class = FirstLoginP1
+
+    def form_valid(self, form):
+        option_selected = form.cleaned_data.get('learning_options')
+        if option_selected == '2':
+            return redirect(to='first-login-p21_view')
+
+
+class FirstLoginP21View(TemplateView):
+    template_name = 'webapp/pages/first-login-p2.1.html'
