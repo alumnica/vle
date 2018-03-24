@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'webapp.apps.WebappConfig',
     'django_use_email_as_username.apps.DjangoUseEmailAsUsernameConfig',
     'alumnica_model.apps.AlumnicaModelConfig',
+    'sweetify',
 
 ]
 

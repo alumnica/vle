@@ -13,4 +13,5 @@ urlpatterns = [
     path(_('first-login-p1/'), FirstLoginP1View.as_view(), name='first-login-p1_view'),
     path(_('first-login-p21/'), FirstLoginP1View.as_view(), name='first-login-p21_view'),
     path(_('first-login-p22/'), FirstLoginP21View.as_view(), name='first-login-p22_view'),
+    path(_('test/'), test_view, name='test_view'),
 ]

@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView
 
 from alumnica_model.models import AuthUser
 from webapp.forms.profile_forms import *
@@ -34,5 +34,11 @@ class FirstLoginP1View(FormView):
             return redirect(to='first-login-p21_view')
 
 
-class FirstLoginP21View(TemplateView):
+class FirstLoginP21View(FormView):
     template_name = 'webapp/pages/first-login-p2.1.html'
+    form_class = FirstLoginP21
+
+    def form_valid(self, form):
+        option_selected = form.cleaned_data.get('learning_options')
+
+        return redirect(to='first-login-p22_view')

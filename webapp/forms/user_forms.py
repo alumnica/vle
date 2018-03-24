@@ -44,12 +44,12 @@ class UserLoginForm(forms.Form):
         try:
             user = AuthUser.objects.get(email=email)
             if not user.check_password(password):
-                error = ValidationError(_("Invalid password or email."), code='password_mismatch')
+                error = ValidationError(_("Invalid password or email."), code='credentials_error')
                 self.add_error('password', error)
                 self.add_error('email', error)
 
         except AuthUser.DoesNotExist:
-            error = ValidationError(_("Invalid password or email."), code='password_mismatch')
+            error = ValidationError(_("Invalid password or email."), code='credentials_error')
             self.add_error('password', error)
             self.add_error('email', error)
         return cleaned_data
