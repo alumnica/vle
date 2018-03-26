@@ -3,10 +3,11 @@ from django import forms
 from django.utils.safestring import mark_safe
 
 from alumnica_model.models import LearnerModel
+from alumnica_model.models.content import LearningStyleModel
 
 P1CHOICES = (
-  (2, mark_safe('<img src="http://via.placeholder.com/200x300" alt="approve" title="approve">')),
-  (3, mark_safe('<img src="http://via.placeholder.com/200x300" alt="disapprove" title="disapprove">')),
+  (1, mark_safe('<img src="http://via.placeholder.com/200x300" alt="approve" title="approve">')),
+  (2, mark_safe('<img src="http://via.placeholder.com/200x300" alt="disapprove" title="disapprove">')),
 )
 
 P21CHOICES = (
@@ -59,3 +60,53 @@ class FirstLoginP21(forms.Form):
     learning_options = forms.CharField(widget=forms.RadioSelect(choices=P21CHOICES))
 
 
+class FirstLoginP22(forms.Form):
+    learning_options = forms.CharField(widget=forms.RadioSelect(choices=P22CHOICES))
+
+
+    def save_form(self, user, first_selection):
+        cleaned_data = super(FirstLoginP22, self).clean()
+        option_1 = first_selection
+        option_2 = cleaned_data.get('learning_options')
+        profile = user.profile
+
+        if option_1 == '1':
+            if option_2 == '1':
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Acomodador')
+            else:
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Divergente')
+        elif option_1 == '2':
+            if option_2 == '1':
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Convergente')
+            else:
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Asimilador')
+
+        user.save()
+
+
+
+class FirstLoginP31(forms.Form):
+    learning_options = forms.CharField(widget=forms.RadioSelect(choices=P31CHOICES))
+
+
+class FirstLoginP32(forms.Form):
+    learning_options = forms.CharField(widget=forms.RadioSelect(choices=P32CHOICES))
+
+    def save_form(self, user, first_selection):
+        cleaned_data = super(FirstLoginP32, self).clean()
+        option_1 = first_selection
+        option_2 = cleaned_data.get('learning_options')
+        profile = user.profile
+
+        if option_1 == '1':
+            if option_2 == '1':
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Convergente')
+            else:
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Asimilador')
+        elif option_1 == '2':
+            if option_2 == '1':
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Acomodador')
+            else:
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Divergente')
+
+        user.save()

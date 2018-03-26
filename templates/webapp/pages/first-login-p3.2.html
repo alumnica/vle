@@ -13,30 +13,14 @@
                             <p class="h4">Selecciona una opciond e cada bloque</p>
                         </div>
                         <div class="cell medium-8">
-                            <form class="first-q-form">
+                            <form method="POST" class="first-q-form">
+                                {% csrf_token %}
                                 <div class="first-q-form__container fl-bg-3">
-                                    <div class="first-q-form__radio-group">
-                                        <input type="radio" class="first-q-form__radio-input" id="p3.2-1" name="pregunta-3.2-set">
-                                        <label for="p1-1" class="first-q-form__radio-label-3">
-                                            <div class="first-q-form__radio-image">
-                                                <img src="http://via.placeholder.com/200x300" alt="">
-                                            </div>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        </label>
-                                    </div>
-                                    <div class="first-q-form__radio-group">
-                                        <input type="radio" class="first-q-form__radio-input" id="p3.2-2" name="pregunta-3.2-set">
-                                        <label for="p1-2" class="first-q-form__radio-label-3">
-                                            <div class="first-q-form__radio-image">
-                                                <img src="http://via.placeholder.com/200x300" alt="">
-                                            </div>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing.
-                                        </label>
-                                    </div>
+                                    {{ form.learning_options }}
                                 </div>
-                                <!-- <input type="submit" value="SIGUIENTE" class="button expanded u-margin-top-small"> -->
+                                <!-- <a href="dashboard.html" class="button expanded u-margin-top-small">FINALIZAR</a> -->
 
-                                <a href="dashboard.html" class="button expanded u-margin-top-small">FINALIZAR</a>
+                                <input type="submit" value="SIGUIENTE" class="button expanded u-margin-top-small">
 
                                 {% comment %} TO DASHBOARD {% endcomment %}
 
