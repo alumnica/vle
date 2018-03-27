@@ -14,10 +14,11 @@
                         <p class="h4">Selecciona una opción de cada bloque</p>
                     </div>
                     <div class="cell medium-8">
-                        <form class="first-q-form">
+                        <form method="POST" class="first-q-form">
+                            {% csrf_token %}
                             <div class="first-q-form__container fl-bg-1">
                                 <div class="first-q-form__radio-group">
-                                    <input type="radio" class="first-q-form__radio-input" id="p1-1" name="pregunta-1set">
+                                    <input type="radio" class="first-q-form__radio-input" id="p1-1" name="pregunta-1set" value="1">
                                     <label for="p1-1" class="first-q-form__radio-label-1">
                                         <div class="first-q-form__radio-image">
                                             <img src="http://via.placeholder.com/200x300" alt="">
@@ -26,7 +27,7 @@
                                     </label>
                                 </div>
                                 <div class="first-q-form__radio-group">
-                                    <input type="radio" class="first-q-form__radio-input" id="p1-2" name="pregunta-1set">
+                                    <input type="radio" class="first-q-form__radio-input" id="p1-2" name="pregunta-1set" value="2">
                                     <label for="p1-2" class="first-q-form__radio-label-1">
                                         <div class="first-q-form__radio-image">
                                             <img src="http://via.placeholder.com/200x300" alt="">
@@ -37,10 +38,10 @@
                             </div>
 
 
-                            {% comment %} <input type="submit" value="SIGUIENTE" class="button expanded u-margin-top-small"> {% endcomment %}
+                            {% comment %} <a href="first-login-p2.html" class="button expanded u-margin-top-small">SIGUIENTE</a> {% endcomment %}
 
+                            <input type="submit" value="SIGUIENTE" class="button expanded u-margin-top-small">
 
-                            <a href="first-login-p2.html" class="button expanded u-margin-top-small">SIGUIENTE</a>
 
                             {% comment %} A first-login-p2.1 o first-login-2.2 dependiendo de su respuesta {% endcomment %}
 

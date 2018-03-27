@@ -1,45 +1,69 @@
+
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.utils.decorators import method_decorator
 from django.shortcuts import redirect, render
-from django.views.generic.base import TemplateView, View
-from webapp.forms.user_forms import LearnerForm, UserForm
+from django.urls import reverse_lazy
+from django.views.generic import *
+from django.views.generic.base import TemplateView
+from sweetify import sweetify
+
+from alumnica_model.alumnica_entities.users import UserType
+from webapp.forms.user_forms import UserForm, UserLoginForm
 
 
 class IndexView(TemplateView):
     template_name = 'webapp/pages/index.html'
 
-class LoginView(View):
-    pass
 
-class SignUpView(View):
-    user_form_class = UserForm
-    learner_form_class = LearnerForm
+class LoginView(FormView):
+    form_class = UserLoginForm
+    template_name = 'webapp/pages/login.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and not request.user.is_staff:
+            return redirect(to='dashboard_view')
+        else:
+            return super(LoginView, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        return redirect(to='dashboard_view')
+
+
+class SignUpView(FormView):
+    form_class = UserForm
     template_name = 'webapp/pages/signup.html'
+    success_url = reverse_lazy('index_view')
 
-    def get(self, request):
-        if request.user.is_authenticated:
-            return redirect('/users/profile')
-        user_form = self.user_form_class(None)
-        learner_form = self.learner_form_class(None)
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.user_type = UserType.LEARNER
+        user.save()
+        login(self.request, user)
+        return redirect(to='first-login-info_view')
 
-        return render(request, self.template_name,
-                      {'user_form': user_form, 'learner_form': learner_form})
+    def form_invalid(self, form):
+        sweetify.error(self.request, 'Some error happened here - reload the site', persistent=':(')
+        return HttpResponseRedirect(self.request.path_info)
 
-    def post(self, request, *args, **kwargs):
-        password = request.POST['password1']
-        password2 = request.POST['password2']
-        print(password)
-        print(password2)
-        if password != password2:
-            user_form = self.user_form_class(data=request.POST)
-            learner_form = self.learner_form_class(data=request.POST)
-            return render(request, "webapp/pages/signup.html", {'user_form': user_form, 'learner_form': learner_form})
-        user_form = UserForm(data=request.POST)
-        user = user_form.save(commit=False)
 
-        if user_form.is_valid:
-            user.set_password(password)
-            user.save()
+class DashboardView(TemplateView):
+    template_name = 'webapp/pages/dashboard.html'
 
-            return redirect('/users/login_view')
+    @method_decorator(login_required(login_url='login_view'))
+    def dispatch(self, *args, **kwargs):
+        if not self.request.user.is_staff:
+            return super(DashboardView, self).dispatch(*args, **kwargs)
+        else:
+            return redirect('/admin/')
 
-        return redirect(request, *args, **kwargs)
+
+class LogoutView(RedirectView):
+    pattern_name = 'login_view'
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super(LogoutView, self).get(request, *args, **kwargs)
+

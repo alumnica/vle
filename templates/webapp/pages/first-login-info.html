@@ -18,6 +18,7 @@
                     <div class="medium-8">
                         <p class="u-margin-bottom-small">Selecciona tu Avatar</p>
                         <form method="POST" role="form">
+                             {% csrf_token %}
                             <div class="grid-x grid-padding-x">
                                 <div class="cell small-6 text-center">
                                     <div class="avatar-selector">
@@ -33,30 +34,27 @@
                                 </div>
                                 <div class="medium-6 cell">
                                     <label>Nombre
-                                        <input type="text" placeholder="Nombre">
+                                        {{ form.first_name }}
                                     </label>
                                 </div>
                                 <div class="medium-6 cell">
                                     <label>Apellidos
-                                        <input type="text" placeholder="Paterno y Materno">
+                                        {{ form.last_name }}
                                     </label>
                                 </div>
                                 <div class="medium-6 cell">
                                     <label>Fecha de Nacimiento
-                                        <input type="date">
+                                        {{ form.birth_date_field }}
                                     </label>
                                 </div>
                                 <div class="medium-12 cell">
                                     <legend>Sexo</legend>
-                                    <input type="radio" name="sexo" value="femenino" id="sexo_femenino">
-                                    <label for="sexo_femenino">Femenino</label>
-                                    <input type="radio" name="sexo" value="masculino" id="sexo_masculino">
-                                    <label for="sexo_masculino">Masculino</label>
+                                    {{ form.gender_field }}
                                 </div>
 
-                                {% comment %} <input type="submit" value="SIGUIENTE" class="button expanded u-margin-top-small"> {% endcomment %}
+                                {% comment %} <a href="first-login-p1.html" class="button expanded u-margin-top-small">SIGUIENTE</a> {% endcomment %}
+                                <input type="submit" value="SIGUIENTE" class="button expanded u-margin-top-small">
 
-                                <a href="first-login-p1.html" class="button expanded u-margin-top-small">SIGUIENTE</a>
                             </div>
 
                         </form>
