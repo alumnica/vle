@@ -1,8 +1,7 @@
 {# This is the base layout for your project, and will be used on every page. #}
 
 {% load static %}
-{% load sweetify %}
-{% sweetify %}
+
 <!doctype html>
 <html class="no-js" lang="es">
 
@@ -16,7 +15,8 @@
 </head>
 
 <body>
-
+{% load sweetify %}
+{% sweetify %}
 <div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
 
     {% include "webapp/partials/menu.html" %}
@@ -36,6 +36,7 @@
 
     <script src="{% static "webapp/js/app.js" %}"></script>
 </div>
+
 </body>
 
 </html>

@@ -26,6 +26,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('', IndexView.as_view(), name='index_view'),
-    path(_('users/'), include('webapp.urls')),
+    path(_('users/'), include('webapp.urls.users_urls')),
+    path(_('profile/'), include('webapp.urls.profile_urls')),
     path(_('admin/'), admin.site.urls),
 )

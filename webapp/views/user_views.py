@@ -22,11 +22,9 @@ class LoginView(FormView):
     template_name = 'webapp/pages/login.html'
 
     def dispatch(self, request, *args, **kwargs):
-        print('dispatch!')
         if request.user.is_authenticated and not request.user.is_staff:
             return redirect(to='dashboard_view')
         else:
-            print('dispatch not autheticated')
             return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -69,7 +67,3 @@ class LogoutView(RedirectView):
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
 
-def test_view(request):
-    sweetify.sweetalert(request, 'Westworld is awesome', text='Really... if you have the chance - watch it!',
-    persistent = 'I agree!')
-    return redirect('/')

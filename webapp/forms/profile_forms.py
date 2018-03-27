@@ -5,31 +5,6 @@ from django.utils.safestring import mark_safe
 from alumnica_model.models import LearnerModel
 from alumnica_model.models.content import LearningStyleModel
 
-P1CHOICES = (
-  (1, mark_safe('<img src="http://via.placeholder.com/200x300" alt="approve" title="approve">')),
-  (2, mark_safe('<img src="http://via.placeholder.com/200x300" alt="disapprove" title="disapprove">')),
-)
-
-P21CHOICES = (
-  (1, mark_safe('<img src="http://via.placeholder.com/200x300" alt="approve" title="approve">')),
-  (2, mark_safe('<img src="http://via.placeholder.com/200x300" alt="disapprove" title="disapprove">')),
-)
-
-P22CHOICES = (
-  (1, mark_safe('<img src="http://via.placeholder.com/200x300" alt="approve" title="approve">')),
-  (2, mark_safe('<img src="http://via.placeholder.com/200x300" alt="disapprove" title="disapprove">')),
-)
-
-P31CHOICES = (
-  (1, mark_safe('<img src="http://via.placeholder.com/200x300" alt="approve" title="approve">')),
-  (2, mark_safe('<img src="http://via.placeholder.com/200x300" alt="disapprove" title="disapprove">')),
-)
-
-P32CHOICES = (
-  (1, mark_safe('<img src="http://via.placeholder.com/200x300" alt="approve" title="approve">')),
-  (2, mark_safe('<img src="http://via.placeholder.com/200x300" alt="disapprove" title="disapprove">')),
-)
-
 
 class FirstLoginInfoForm(forms.ModelForm):
     first_name = forms.CharField()
@@ -53,21 +28,18 @@ class FirstLoginInfoForm(forms.ModelForm):
 
 
 class FirstLoginP1(forms.Form):
-    learning_options = forms.CharField(widget=forms.RadioSelect(choices=P1CHOICES))
+    pass
 
 
 class FirstLoginP21(forms.Form):
-    learning_options = forms.CharField(widget=forms.RadioSelect(choices=P21CHOICES))
+    pass
 
 
 class FirstLoginP22(forms.Form):
-    learning_options = forms.CharField(widget=forms.RadioSelect(choices=P22CHOICES))
 
-
-    def save_form(self, user, first_selection):
-        cleaned_data = super(FirstLoginP22, self).clean()
+    def save_form(self, user, first_selection, second_selection):
         option_1 = first_selection
-        option_2 = cleaned_data.get('learning_options')
+        option_2 = second_selection
         profile = user.profile
 
         if option_1 == '1':
@@ -86,16 +58,14 @@ class FirstLoginP22(forms.Form):
 
 
 class FirstLoginP31(forms.Form):
-    learning_options = forms.CharField(widget=forms.RadioSelect(choices=P31CHOICES))
+    pass
 
 
 class FirstLoginP32(forms.Form):
-    learning_options = forms.CharField(widget=forms.RadioSelect(choices=P32CHOICES))
 
-    def save_form(self, user, first_selection):
-        cleaned_data = super(FirstLoginP32, self).clean()
+    def save_form(self, user, first_selection, second_selection):
         option_1 = first_selection
-        option_2 = cleaned_data.get('learning_options')
+        option_2 = second_selection
         profile = user.profile
 
         if option_1 == '1':
