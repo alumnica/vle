@@ -4,43 +4,68 @@
 
 <div class="cell medium-auto medium-cell-block-container">
 
-    <div class="grid-x">
+    <div class="grid-x ">
         <div class="cell  medium-cell-block-y">
             <div class="grid-container">
-                <div class="grid-x align-center">
-                    <div class="cell medium-12 u-margin-bottom-small">
-                        <h2>Define tu estilo de aprendizaje</h2>
-                        <p class="h4">Selecciona una opciond e cada bloque</p>
+                <div class="grid-x">
+                    <div class="cell medium-12">
+                        <h3>Define tu estilo de aprendizaje</h3>
+                        <p class="h4 highlight">Selecciona una opcion de cada bloque</p>
+                        <p class="pregunta-2">Al encontrarme con una realidad nueva, ¿cómo soy?</p>
                     </div>
-                    <div class="cell medium-8">
+                    <div class="cell medium-12">
                         <form method="POST" class="first-q-form">
                             {% csrf_token %}
-                            <div class="first-q-form__container fl-bg-2">
-                                <div class="first-q-form__radio-group">
-                                    <input type="radio" class="first-q-form__radio-input" id="p2.1-1" name="pregunta-2.1-set" value ="1">
-                                    <label for="p1-1" class="first-q-form__radio-label-2">
-                                        <div class="first-q-form__radio-image">
-                                            <img src="http://via.placeholder.com/200x300" alt="">
+                            <div class="grid-x align-center">
+                                <div class="cell medium-6 fl-bg-2">
+                                    <div class="first-q-form__container">
+                                        <div class="first-q-form__radio-group">
+                                            <input type="radio" class="first-q-form__radio-input" id="p2-1" name="pregunta-2set" value="1">
+                                            <label for="p2-1" class="first-q-form__radio-label-2">
+                                                <div class="first-q-form__radio-image">
+                                                    <img src="http://via.placeholder.com/190x300" alt="">
+                                                </div>
+                                                Abro mis sentidos, soy receptivo.
+                                            </label>
                                         </div>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                    </label>
+                                        <div class="first-q-form__radio-group">
+                                            <input type="radio" class="first-q-form__radio-input" id="p2-2" name="pregunta-2set" value="2">
+                                            <label for="p2-2" class="first-q-form__radio-label-2">
+                                                <div class="first-q-form__radio-image">
+                                                    <img src="http://via.placeholder.com/190x300" alt="">
+                                                </div>
+                                                Filtro con mis razonamientos, soy analítico.
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="first-q-form__radio-group">
-                                    <input type="radio" class="first-q-form__radio-input" id="p2.1-2" name="pregunta-2.1-set" value="2">
-                                    <label for="p1-2" class="first-q-form__radio-label-2">
-                                        <div class="first-q-form__radio-image">
-                                            <img src="http://via.placeholder.com/200x300" alt="">
+                                <div class="cell medium-6  fl-bg-3">
+                                    <div class="first-q-form__container">
+                                        <div class="first-q-form__radio-group">
+                                            <input type="radio" class="first-q-form__radio-input" id="p3-1" name="pregunta-3set" value="1">
+                                            <label for="p3-1" class="first-q-form__radio-label-3">
+                                                <div class="first-q-form__radio-image">
+                                                    <img src="http://via.placeholder.com/190x300" alt="">
+                                                </div>
+                                                Observo los hechos, soy realista.
+                                            </label>
                                         </div>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing.
-                                    </label>
+                                        <div class="first-q-form__radio-group">
+                                            <input type="radio" class="first-q-form__radio-input" id="p3-2" name="pregunta-3set" value="2">
+                                            <label for="p3-2" class="first-q-form__radio-label-3">
+                                                <div class="first-q-form__radio-image">
+                                                    <img src="http://via.placeholder.com/190x300" alt="">
+                                                </div>
+                                                Me arriesgo a vivirla, soy imparcial.
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cell medium-6">
+                                    <input type="submit" value="SIGUIENTE" class="button expanded u-margin-top-small">
+                                    
                                 </div>
                             </div>
-                            <!-- <a href="first-login-p3.html" class="button expanded u-margin-top-small">SIGUIENTE</a> -->
-                            <input type="submit" value="SIGUIENTE" class="button expanded u-margin-top-small">
-
-
-                            {% comment %} A first-login-p3.1 {% endcomment %}
-
                         </form>
                     </div>
                 </div>
