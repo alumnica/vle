@@ -11,12 +11,8 @@
                     <h3>{% trans "REGISTRO" %}</h3>
                     <form method="POST" role="form" class="u-margin-bottom-small">
                         {% csrf_token %}
-                        {{ form.non_field_errors }}
-                        {{ form.email.errors }}
                         <label>{% trans "CORREO" %} {{ form.email }}</label>
-                        {{ form.password.errors }}
                         <label>{% trans "CONTRASEÑA" %} {{ form.password }}</label>
-                        {{ form.password_confirmation.errors }}
                         <label>{% trans "CONFIRMA TU CONTRASEÑA" %} {{ form.password_confirmation }}</label>
                         <input type="submit" class="button login-btn expanded" value="{% trans "SIGUIENTE" %}">
                     </form>

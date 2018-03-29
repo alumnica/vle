@@ -17,10 +17,14 @@ class UserForm(forms.ModelForm):
         password = cleaned_data.get('password')
         password_confirmation = cleaned_data.get('password_confirmation')
 
-        if password != password_confirmation:
-            error = ValidationError(_("The two password fields didn't match."), code='password_mismatch')
+        if len(password) < 6:
+            error = ValidationError(_("Password must have 6 characters or more."), code='password_length_error')
             self.add_error('password', error)
-            self.add_error('password_confirmation', error)
+        else:
+            if password != password_confirmation:
+                error = ValidationError(_("The two password fields didn't match."), code='password_mismatch')
+                self.add_error('password', error)
+                self.add_error('password_confirmation', error)
         return cleaned_data
 
     def save(self, commit=True):

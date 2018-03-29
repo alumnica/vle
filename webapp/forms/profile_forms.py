@@ -31,11 +31,7 @@ class FirstLoginP1(forms.Form):
     pass
 
 
-class FirstLoginP21(forms.Form):
-    pass
-
-
-class FirstLoginP22(forms.Form):
+class FirstLoginP2(forms.Form):
 
     def save_form(self, user, first_selection, second_selection):
         option_1 = first_selection
@@ -56,12 +52,7 @@ class FirstLoginP22(forms.Form):
         user.save()
 
 
-
-class FirstLoginP31(forms.Form):
-    pass
-
-
-class FirstLoginP32(forms.Form):
+class FirstLoginP3(forms.Form):
 
     def save_form(self, user, first_selection, second_selection):
         option_1 = first_selection
