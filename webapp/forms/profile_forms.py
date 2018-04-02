@@ -40,14 +40,14 @@ class FirstLoginP2(forms.Form):
 
         if option_1 == '1':
             if option_2 == '1':
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Acomodador')
-            else:
                 profile.learning_style = LearningStyleModel.objects.get(name_field='Divergente')
+            elif option_2 == '2':
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Acomodador')
         elif option_1 == '2':
             if option_2 == '1':
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Convergente')
-            else:
                 profile.learning_style = LearningStyleModel.objects.get(name_field='Asimilador')
+            elif option_2 == '2':
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Convergente')
 
         user.save()
 
@@ -61,13 +61,13 @@ class FirstLoginP3(forms.Form):
 
         if option_1 == '1':
             if option_2 == '1':
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Convergente')
-            else:
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Asimilador')
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Divergente')
+            elif option_2 == '2':
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Acomodador')
         elif option_1 == '2':
             if option_2 == '1':
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Acomodador')
-            else:
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Divergente')
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Asimilador')
+            elif option_2 == '2':
+                profile.learning_style = LearningStyleModel.objects.get(name_field='Convergente')
 
         user.save()
