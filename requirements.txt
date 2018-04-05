@@ -2,3 +2,4 @@ Django==2.0.3
 django-use-email-as-username==1.0.0
 Pillow==5.0.0
 pytz==2018.3
+sweetify==1.0.3
