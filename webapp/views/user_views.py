@@ -1,0 +1,77 @@
+
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.utils.decorators import method_decorator
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic import *
+from django.views.generic.base import TemplateView
+from sweetify import sweetify
+from django.utils.translation import gettext_lazy as _
+
+
+from alumnica_model.alumnica_entities.users import UserType
+from webapp.forms.user_forms import UserForm, UserLoginForm
+
+
+class IndexView(TemplateView):
+    template_name = 'webapp/pages/index.html'
+
+
+class LoginView(FormView):
+    form_class = UserLoginForm
+    template_name = 'webapp/pages/login.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and not request.user.is_staff:
+            return redirect(to='dashboard_view')
+        else:
+            return super(LoginView, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        return redirect(to='dashboard_view')
+
+    def form_invalid(self, form):
+        sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
+        context = self.get_context_data()
+        return self.render_to_response(context)
+
+
+class SignUpView(FormView):
+    form_class = UserForm
+    template_name = 'webapp/pages/signup.html'
+    success_url = reverse_lazy('index_view')
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.user_type = UserType.LEARNER
+        user.save()
+        login(self.request, user)
+        return redirect(to='first-login-info_view')
+
+    def form_invalid(self, form):
+        sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
+        context = self.get_context_data()
+        return self.render_to_response(context)
+
+
+class DashboardView(TemplateView):
+    template_name = 'webapp/pages/dashboard.html'
+
+    @method_decorator(login_required(login_url='login_view'))
+    def dispatch(self, *args, **kwargs):
+        if not self.request.user.is_staff:
+            return super(DashboardView, self).dispatch(*args, **kwargs)
+        else:
+            return redirect('/admin/')
+
+
+class LogoutView(RedirectView):
+    pattern_name = 'login_view'
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super(LogoutView, self).get(request, *args, **kwargs)
+

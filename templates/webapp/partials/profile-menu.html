@@ -1,0 +1,24 @@
+<button class="close-button" aria-label="Close menu" type="button" data-close>
+        <span aria-hidden="true">&times;</span>
+</button>
+<div class="grid-x grid-margin-y">
+    <div class="cell medium-12 text-center">
+            <img src="https://via.placeholder.com/200/fffff" alt="">
+    </div>
+    <div class="cell medium-12 text-center">
+        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+
+        {% comment %} Aqui requerimos la variable USERNAME {% endcomment %}
+
+        <h5>{{ experience_points_field }}</h5>
+
+        {% comment %} Variable de puntos {% endcomment %}
+    </div>
+    <div class="cell medium12 text-center">
+            <ul class="menu vertical">
+                    <li>Cosa</li>
+                    <li>Otra Cosa</li>
+                    <li>Tercera Cosa</li>
+                </ul>
+    </div>   
+</div>

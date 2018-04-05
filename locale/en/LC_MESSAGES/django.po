@@ -1,0 +1,83 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-21 05:26+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: alumnica_model/models/users.py:31
+msgid "Can't get profile for invalid user type: {}"
+msgstr ""
+
+#: alumnica_model/models/users.py:186
+msgid "Invalid user type selected: {}"
+msgstr ""
+
+#: alumnica_model/models/users.py:189
+msgid "There was an error creating the profile for user {}."
+msgstr ""
+
+#: templates/webapp/pages/signup.html:10
+msgid "REGISTRO"
+msgstr "SIGN UP"
+
+#: templates/webapp/pages/signup.html:15
+msgid "CORREO"
+msgstr "EMAIL"
+
+#: templates/webapp/pages/signup.html:17
+msgid "CONTRASEÑA"
+msgstr "PASSWORD"
+
+#: templates/webapp/pages/signup.html:19
+msgid "CONFIRMA TU CONTRASEÑA"
+msgstr "CONFIRM YOUR PASSWORD"
+
+#: templates/webapp/pages/signup.html:20
+msgid "SIGUIENTE"
+msgstr "NEXT"
+
+#: templates/webapp/pages/signup.html:23
+msgid "CONTINUAR CON"
+msgstr "CONTINUE WITH"
+
+#: vle_webapp/settings.py:125
+msgid "English"
+msgstr ""
+
+#: vle_webapp/settings.py:126
+msgid "Spanish"
+msgstr ""
+
+#: vle_webapp/urls.py:29
+msgid "users/"
+msgstr ""
+
+#: vle_webapp/urls.py:30
+msgid "admin/"
+msgstr ""
+
+#: webapp/forms/user_forms.py:22
+msgid "The two password fields didn't match."
+msgstr ""
+
+#: webapp/urls.py:7
+msgid "login/"
+msgstr ""
+
+#: webapp/urls.py:8
+msgid "signup/"
+msgstr ""

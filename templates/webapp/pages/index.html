@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="home-bg">
+</section>
+<div class="cell medium-auto medium-cell-block-container">
+    <div class="grid-x align-right">
+        <div class="cell medium-4 text-center">
+            <div class="index-content">
+                <h2 class="u-margin-bottom-small">alumnica</h2>
+                <a href="{% url 'login_view' %}" class="button large login-btn">Iniciar Sesión</a>
+                <p class="login-p">¿Aún no tienes cuenta?</p>
+                <a href="{% url 'signup_view' %}">REGÍSTRATE AHORA</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

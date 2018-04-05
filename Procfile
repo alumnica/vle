@@ -1,0 +1,1 @@
+web: gunicorn vle_webapp.wsgi --log-file -
