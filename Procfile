@@ -1,1 +1,1 @@
-web: gunicorn studio_webapp.wsgi --log-file -
+web: gunicorn vle_webapp.wsgi --log-file -
