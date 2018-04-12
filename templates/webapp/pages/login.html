@@ -4,39 +4,35 @@
 
 <section class="login-bg">
 </section>
-<div class="cell medium-auto medium-cell-block-container">
+<div class="grid-container">
     <div class="grid-x grid-padding-x">
-        <div class="cell medium-auto medium-cell-block-y">
-            <div class="grid-x">
-            <div class="cell medium-4 medium-offset-1 ">
-                <div class="login-content">
-                    <h3>MI CUENTA</h3>
-                    <form method="POST" class="u-margin-bottom-small">
-                        {% csrf_token %}
-                        <label>CORREO {{ form.email }}
-                        </label>
-                        <label>CONTRASEÑA {{ form.password }}
-                        </label>
-                        
-                        {% comment %} <a href="first-login.html" class="button login-btn expanded">ENTRAR</a> {% endcomment %}
+        <div class="cell medium-4 large-3">
+            <div class="login-content">
+                <h3>MI CUENTA</h3>
+                <form method="POST" class="u-margin-bottom-small">
+                    {% csrf_token %}
+                    <label>CORREO {{ form.email }}
+                    </label>
+                    <label>CONTRASEÑA {{ form.password }}
+                    </label>
 
-                        <input type="submit" class="button login-btn expanded" value="ENTRAR">
+                    {% comment %}
+                    <a href="first-login.html" class="button login-btn expanded">ENTRAR</a> {% endcomment %}
 
+                    <input type="submit" class="button login-btn expanded" value="ENTRAR"> {% comment %} Aqui te puede mandar a las pantallas de "first-login" o directo al "dashboard" dependiedno
+                    si es tu primera vez o no{% endcomment %}
 
-                        {% comment %} Aqui te puede mandar a las pantallas de "first-login" o directo al "dashboard" dependiedno si es tu primera vez o no{% endcomment %}
-                        
-                    </form>
-                    <a href="#">¿Olvidaste tu contraseña?</a>
-                    <div class="social-login">
-                        <h4>CONTINUAR CON</h4>
-                        <img src="http://via.placeholder.com/100x100.png" alt="">
-                        <img src="http://via.placeholder.com/100x100.png" alt="">
-                    </div>
+                </form>
+                <a href="#">¿Olvidaste tu contraseña?</a>
+                <div class="social-login">
+                    <h4>CONTINUAR CON</h4>
+                    <img src="http://via.placeholder.com/100x100.png" alt="">
+                    <img src="http://via.placeholder.com/100x100.png" alt="">
                 </div>
             </div>
         </div>
-        </div>
     </div>
 </div>
+
 
 {% endblock %}
