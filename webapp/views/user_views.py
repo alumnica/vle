@@ -3,11 +3,13 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import *
 from django.views.generic.base import TemplateView
 from sweetify import sweetify
+from django.utils.translation import gettext_lazy as _
+
 
 from alumnica_model.alumnica_entities.users import UserType
 from webapp.forms.user_forms import UserForm, UserLoginForm
@@ -31,6 +33,11 @@ class LoginView(FormView):
         login(self.request, form.get_user())
         return redirect(to='dashboard_view')
 
+    def form_invalid(self, form):
+        sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
+        context = self.get_context_data()
+        return self.render_to_response(context)
+
 
 class SignUpView(FormView):
     form_class = UserForm
@@ -45,8 +52,9 @@ class SignUpView(FormView):
         return redirect(to='first-login-info_view')
 
     def form_invalid(self, form):
-        sweetify.error(self.request, 'Some error happened here - reload the site', persistent=':(')
-        return HttpResponseRedirect(self.request.path_info)
+        sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
+        context = self.get_context_data()
+        return self.render_to_response(context)
 
 
 class DashboardView(TemplateView):

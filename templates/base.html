@@ -15,8 +15,7 @@
 </head>
 
 <body>
-{% load sweetify %}
-{% sweetify %}
+
 <div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
 
     {% include "webapp/partials/menu.html" %}
@@ -35,8 +34,10 @@
 
 
     <script src="{% static "webapp/js/app.js" %}"></script>
-</div>
 
+</div>
+{% load sweetify %}
+{% sweetify %}
 </body>
 
 </html>
