@@ -17,12 +17,14 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path, include
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
+from django.conf.urls.static import static
 
 from webapp.views.user_views import IndexView
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += i18n_patterns(
     path('', IndexView.as_view(), name='index_view'),
