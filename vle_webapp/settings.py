@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django_use_email_as_username.apps.DjangoUseEmailAsUsernameConfig',
     'alumnica_model.apps.AlumnicaModelConfig',
     'sweetify',
-
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -148,6 +148,17 @@ MEDIA_URL = '/media/'
 # noinspection PyUnresolvedReferences
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
+if all([AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME]):
+    # Use S3 from Amazon Web Services to store uploaded files
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
 
 AUTH_USER_MODEL = 'alumnica_model.AuthUser'
 
