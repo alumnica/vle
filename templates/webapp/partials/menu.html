@@ -1,21 +1,38 @@
-<ul class="vertical menu menu-item">
-    <li><a href="{% url 'index_view' %}"><strong>alumnica</strong></a></li>
-    <li><a href="#">Acerca de Alumnica</a></li>
-    <li><a href="#">FAQ</a></li>
-</ul>
-<ul class="vertical menu" data-accordion-menu>
-    <li>
-        <a href="#">Indice</a>
-        <ul class="menu vertical nested">
-            <li>
-                <a href="#">1</a>
-            </li>
-            <li>
-                <a href="#">2</a>
-            </li>
-            <li>
-                <a href="#">3</a>
-            </li>
-        </ul>
-    </li>
-</ul>
+<!-- Menu -->
+<ul class="vertical menu">
+        <li>
+            <button class="close-button" aria-label="Close menu" type="button" data-close>
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </li>
+        <li>
+            &nbsp;
+        </li>
+        <li>
+            <a href="{% url 'index_view' %}">
+                <img src="../assets/media/aluminca-logo-menu.png" alt="alumnica logo">
+            </a>
+        </li>
+        <li>
+            <a href="#">Acerca de Alumnica</a>
+        </li>
+        <li>
+            <a href="#">FAQ</a>
+        </li>
+    </ul>
+    <ul class="vertical menu accordion-menu" data-accordion-menu>
+        <li>
+            <a href="#">Indice</a>
+            <ul class="menu vertical indice-menu">
+                <li>
+                    <a href="#">Item de menu 1</a>
+                </li>
+                <li>
+                    <a href="#">Item de menu 2</a>
+                </li>
+                <li>
+                    <a href="#">Item de menu 3</a>
+                </li>
+            </ul>
+        </li>
+    </ul>

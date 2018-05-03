@@ -1,0 +1,46 @@
+{% extends "logged-in.html" %}
+{% load static %}
+{% block content %}
+
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+        <div class="grid-container u-margin-top-small">
+
+        <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "gutter": 15, "isFitWidth": true}'>
+            {% for ambit in ambits_list %}
+                <div class="grid-item grid-item--height{{ ambit.subjects.count }}">
+                 <div class="card">
+                         <div class="front {{ ambit.color_field }}">
+                             <div class="ambito-image">
+                                 <img src=" {{ MEDIA_URL }}{{ ambit.background_image_field.file_field.url }}" alt="{{ ambit.name_field }}">
+                             </div>
+                             <div class="ambito-title {{ ambit.color_field }}_text">
+                                     {{ ambit.name_field }}
+                             </div>
+                         </div>
+                         <div class="back {{ ambit.color_field }}">
+                             <div class="{{ ambit.color_field }}_text">
+                                 {{ ambit.name_field }}
+                             </div>
+
+                             {% for subject in ambit.subjects %}
+                                 <a href="#" class="materia">
+                                  {{ subject.name_field }}
+                                 </a>
+                             {% endfor %}
+
+                         </div>
+                     </div>
+           </div>
+            {% endfor %}
+
+         </div>
+
+
+
+</div>
+    </form>
+
+
+
+{% endblock %}

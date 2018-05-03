@@ -3,45 +3,39 @@
 {% block content %}
 
 
-<div class="cell medium-auto medium-cell-block-container">
 
-    <div class="grid-x">
-        <div class="cell  medium-cell-block-y">
-            <div class="grid-container">
-                <div class="grid-x align-center">
-                    <div class="cell medium-12 u-margin-bottom-small">
-                        <h3>Define tu estilo de aprendizaje</h3>
-                        <p class="h4">¿Qué crees que te domine más en tu forma de aprender?</p>
-                    </div>
-                    <div class="cell medium-8">
-                        <form method="POST" class="first-q-form">
-                            {% csrf_token %}
-                            <div class="first-q-form__container">
-                                <div class="first-q-form__radio-group">
-                                    <input required type="radio" class="first-q-form__radio-input" id="p1-1" name="pregunta-1set" value="1">
-                                    <label for="p1-1" class="first-q-form__radio-label-1">
-                                        <div class="first-q-form__radio-image">
-                                            <img src="https://via.placeholder.com/190x300" alt="">
-                                        </div>
-                                        Las características de tu personalidad.
-                                    </label>
-                                </div>
-                                <div class="first-q-form__radio-group">
-                                    <input required type="radio" class="first-q-form__radio-input" id="p1-2" name="pregunta-1set" value="2">
-                                    <label for="p1-2" class="first-q-form__radio-label-1">
-                                        <div class="first-q-form__radio-image">
-                                            <img src="https://via.placeholder.com/190x300" alt="">
-                                        </div>
-                                        Las estrategias que has aprendido como estudiante.
-                                    </label>
-                                </div>
+<div class="grid-container">
+    <div class="grid-x align-center">
+        <div class="cell medium-8 caps">
+            <p class="h5">Define tu estilo de aprendizaje</p>
+            <p>¿Qué crees que te domine más en tu forma de aprender?</p>
+        </div>
+        <div class="cell medium-8">
+            <form method="POST" class="first-q-form">
+                {% csrf_token %}
+                <div class="first-q-form__container">
+                    <div class="first-q-form__radio-group">
+                        <input type="radio" class="first-q-form__radio-input" id="p1-1" name="pregunta-1set" value="1">
+                        <label for="p1-1" class="first-q-form__radio-label-1">
+                            <div class="first-q-form__radio-image">
+                                <img src="http://via.placeholder.com/190x300" alt="">
                             </div>
-                            <input type="submit" value="SIGUIENTE" class="button expanded u-margin-top-small">
-                            
-                        </form>
+                            Las características de tu personalidad.
+                        </label>
+                    </div>
+                    <div class="first-q-form__radio-group">
+                        <input type="radio" class="first-q-form__radio-input" id="p1-2" name="pregunta-1set" value="2">
+                        <label for="p1-2" class="first-q-form__radio-label-1">
+                            <div class="first-q-form__radio-image">
+                                <img src="http://via.placeholder.com/190x300" alt="">
+                            </div>
+                            Las estrategias que has aprendido como estudiante.
+                        </label>
                     </div>
                 </div>
-            </div>
+                <input type="submit" value="SIGUIENTE" class="button expanded u-margin-top-small">
+                
+            </form>
         </div>
     </div>
 </div>

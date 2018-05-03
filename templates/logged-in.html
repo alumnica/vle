@@ -30,13 +30,12 @@
 
   <div class="off-canvas-content" data-off-canvas-content>
 
-    <div class="grid-y medium-grid-frame">
+    
       {% include "webapp/partials/nav-logged-in.html" %}
 
         {% block content %}
         {% endblock %}
-    <a href="{% url 'logout_view' %}" class="button">Cerrar Sesión</a>
-    </div>
+    
   </div>
 
   <script src="{% static "webapp/js/app.js" %}"></script>

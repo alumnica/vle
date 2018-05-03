@@ -1,7 +1,7 @@
 <button class="close-button" aria-label="Close menu" type="button" data-close>
         <span aria-hidden="true">&times;</span>
 </button>
-<div class="grid-x grid-margin-y">
+<div class="grid-x grid-padding-x grid-margin-y u-margin-top-small">
     <div class="cell medium-12 text-center">
             <img src="https://via.placeholder.com/200/fffff" alt="">
     </div>
@@ -10,15 +10,21 @@
 
         {% comment %} Aqui requerimos la variable USERNAME {% endcomment %}
 
-        <h5>{{ experience_points_field }}</h5>
+        <p><i class="fas fa-star star"></i> {{ experience_points_field }}</p>
+        <div class="warning progress">
+                <div class="progress-meter" style="width: 80%"></div>
+        </div>
 
         {% comment %} Variable de puntos {% endcomment %}
     </div>
-    <div class="cell medium12 text-center">
-            <ul class="menu vertical">
-                    <li>Cosa</li>
-                    <li>Otra Cosa</li>
-                    <li>Tercera Cosa</li>
-                </ul>
-    </div>   
+    <div class="cell medium-12 text-center">
+                Insignias:
+        </div>
+        <div class="cell small-3 text-center"><img src="http://via.placeholder.com/80x80/6a83c0" alt=""></div>   
+        <div class="cell small-3 text-center"><img src="http://via.placeholder.com/80x80/6a83c0" alt=""></div>   
+        <div class="cell small-3 text-center"><img src="http://via.placeholder.com/80x80/6a83c0" alt=""></div>   
+        <div class="cell small-3 text-center"><img src="http://via.placeholder.com/80x80/6a83c0" alt=""></div>
+        <div class="cell small-12 u-margin-top-medium">
+                        <a href="{% url 'logout_view' %}" class="button warning expanded caps">Cerrar Sesión</a>
+        </div>  
 </div>
