@@ -81,11 +81,7 @@ WSGI_APPLICATION = 'vle_webapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-
-    }
-}
+DATABASES = {'default': {}}
 
 if DEBUG:
     DATABASES = {
@@ -97,6 +93,7 @@ if DEBUG:
 else:
     DATABASES['default'] = dj_database_url.config()
 
+# noinspection PyTypeChecker
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 # Password validation
@@ -178,7 +175,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': ('%(asctime)s [%(levelname)s] [%(module)s.%(funcName)s:%(lineno)s] %(message)s'),
+            'format': '%(asctime)s [%(levelname)s] [%(module)s.%(funcName)s:%(lineno)s] %(message)s',
             'datefmt': '%Y-%m-%d %H:%M:%S'
         },
         'simple': {
