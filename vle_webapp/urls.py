@@ -31,5 +31,6 @@ urlpatterns += i18n_patterns(
     path(_('users/'), include('webapp.urls.users_urls')),
     path(_('profile/'), include('webapp.urls.profile_urls')),
     path(_('ambit/'), include('webapp.urls.ambit_urls')),
+    path(_('subjects/'), include('webapp.urls.subject_urls')),
     path(_('admin/'), admin.site.urls),
 )

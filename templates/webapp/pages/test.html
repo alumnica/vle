@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="id_name_field">Nombre de la materia: </label>
+        {{ subject.name_field}}
+
+        <div>
+        ODAS:
+            {% for oda_in_subject in subject.odas %}
+                    <div>
+                    {{ oda_in_subject.oda_field.name_field }}
+                    </div>
+            {% endfor %}
+        </div>
+    </form>
+</body>
+</html>
