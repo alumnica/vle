@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
@@ -7,7 +8,7 @@
         <div class="grid-x grid-padding-x align-center-middle main-part">
             <div class="cell medium-8 text-center">
                 <div class="splash-logo">
-                    <img src="../assets/media/aluminca-splash-logo.png" alt="alumnica logo">
+                    <img src="{% static 'webapp/media/aluminca-splash-logo.png' %}" alt="alumnica logo">
                 </div>
                 <p class="splash-info">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, temporibus quia mollitia.</p>
                 <p class="splash-info-2">Odio cumque animi inventore accusamus quam itaque corrupti.</p>
@@ -47,7 +48,7 @@
           </div>
     </div>
     <div class="splash-footer">
-        <p class="footer-text">Alúmnica 2018 &copy; | Fundacion Moreno</p>
+        <p class="footer-text">Alúmnica 2018 &copy; | Fundación Manuel Moreno</p>
     </div>
 </section>
 
