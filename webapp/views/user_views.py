@@ -1,18 +1,18 @@
-
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from django.utils.decorators import method_decorator
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import *
 from django.views.generic.base import TemplateView
 from sweetify import sweetify
-from django.utils.translation import gettext_lazy as _
-
 
 from alumnica_model.alumnica_entities.users import UserType
 from webapp.forms.user_forms import UserForm, UserLoginForm
+
+
+class LandingPageView(TemplateView):
+    template_name = 'webapp/pages/landing.html'
 
 
 class IndexView(TemplateView):
@@ -74,4 +74,3 @@ class LogoutView(RedirectView):
     def get(self, request, *args, **kwargs):
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
-
