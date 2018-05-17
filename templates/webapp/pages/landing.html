@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="splash-bg">
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x align-center-middle main-part">
+            <div class="cell medium-8 text-center">
+                <div class="splash-logo">
+                    <img src="../assets/media/aluminca-splash-logo.png" alt="alumnica logo">
+                </div>
+                <p class="splash-info">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, temporibus quia mollitia.</p>
+                <p class="splash-info-2">Odio cumque animi inventore accusamus quam itaque corrupti.</p>
+                    
+                <label for="news">¿Interesado en nuestra plataforma? Subscirbete a nuestro newsletter</label>
+                
+
+                <div class="input-group news-input">                
+                    <input class="input-group-field" type="text">
+                    <div class="input-group-button">
+                        <input type="submit" class="button secondary" value="Enviar">
+                    </div>
+                </div>
+
+                
+                <div class="grid-x grid-margin-x emailer">
+                        <div class="cell medium-12">
+                                <p class="contacto">Contáctanos:</p>
+                                <hr class="cont-linea">
+                        </div>
+                        <div class="cell medium-4">
+                            <p class="email-name">Diego Cevallos</p>
+                            <a class="email-to" href="mailto:someone@example.com?Subject=Hola%20Alumnica" target="_blank">diego@alumnica.org</a>
+                        </div>
+                        <div class="cell medium-4">
+                            <p class="email-name">Diego Cevallos</p>
+                            <a class="email-to" href="mailto:someone@example.com?Subject=Hola%20Alumnica" target="_blank">diego@alumnica.org</a>
+                        </div>
+                        <div class="cell medium-4">
+                            <p class="email-name">Diego Cevallos</p>
+                            <a class="email-to" href="mailto:someone@example.com?Subject=Hola%20Alumnica" target="_blank">diego@alumnica.org</a>
+                        </div>
+                    </div>
+
+
+            </div>            
+          </div>
+    </div>
+    <div class="splash-footer">
+        <p class="footer-text">Alúmnica 2018 &copy; | Fundacion Moreno</p>
+    </div>
+</section>
+
+{% endblock %}
+
