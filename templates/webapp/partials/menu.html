@@ -1,3 +1,4 @@
+{% load static %}
 <!-- Menu -->
 <ul class="vertical menu">
         <li>
@@ -10,7 +11,7 @@
         </li>
         <li>
             <a href="{% url 'index_view' %}">
-                <img src="../assets/media/aluminca-logo-menu.png" alt="alumnica logo">
+                <img src="{% static 'webapp/media/aluminca-logo-menu.png' %}" alt="alumnica logo">
             </a>
         </li>
         <li>

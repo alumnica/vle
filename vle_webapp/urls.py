@@ -20,16 +20,18 @@ from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.conf.urls.static import static
 
-from webapp.views.user_views import IndexView
+from webapp.views.user_views import IndexView, LandingPageView
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += i18n_patterns(
-    path('', IndexView.as_view(), name='index_view'),
+    path('', LandingPageView.as_view(), name='index_view'),
+    path(_('learn/'), IndexView.as_view(), name='index_view'),
     path(_('users/'), include('webapp.urls.users_urls')),
     path(_('profile/'), include('webapp.urls.profile_urls')),
     path(_('ambit/'), include('webapp.urls.ambit_urls')),
+    path(_('subjects/'), include('webapp.urls.subject_urls')),
     path(_('admin/'), admin.site.urls),
 )

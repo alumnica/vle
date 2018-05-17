@@ -8,7 +8,8 @@
 
         <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "gutter": 15, "isFitWidth": true}'>
             {% for ambit in ambits_list %}
-                <div class="grid-item grid-item--height{{ ambit.subjects.count }}">
+                {% if ambit != 'na' %}
+                    <div class="grid-item grid-item--height{{ ambit.subjects.count }}">
                  <div class="card">
                          <div class="front {{ ambit.color_field }}">
                              <div class="ambito-image">
@@ -24,7 +25,7 @@
                              </div>
 
                              {% for subject in ambit.subjects %}
-                                 <a href="#" class="materia">
+                                 <a href="{% url 'subject_view' subject.pk %}" class="materia">
                                   {{ subject.name_field }}
                                  </a>
                              {% endfor %}
@@ -32,6 +33,7 @@
                          </div>
                      </div>
            </div>
+                {% endif %}
             {% endfor %}
 
          </div>
