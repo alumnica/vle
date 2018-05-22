@@ -1,20 +1,17 @@
-
 from django import forms
-from django.utils.safestring import mark_safe
 
-from alumnica_model.models import LearnerModel
-from alumnica_model.models.content import LearningStyleModel
+from alumnica_model.models import Learner, users
+from alumnica_model.models.content import LearningStyle
 
 
 class FirstLoginInfoForm(forms.ModelForm):
     first_name = forms.CharField()
     last_name = forms.CharField()
-    gender_field = forms.CharField(widget=forms.RadioSelect(attrs={'display':'inline'},
-                                                            choices=LearnerModel.GENDER_TYPES))
+    gender_field = forms.CharField(widget=forms.RadioSelect(attrs={'display': 'inline'}, choices=users.GENDER_TYPES))
     birth_date_field = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
-        model = LearnerModel
+        model = Learner
         fields = ['birth_date_field', 'gender_field']
 
     def save_form(self, user):
@@ -32,7 +29,6 @@ class FirstLoginP1(forms.Form):
 
 
 class FirstLoginP2(forms.Form):
-
     def save_form(self, user, first_selection, second_selection):
         option_1 = first_selection
         option_2 = second_selection
@@ -40,20 +36,19 @@ class FirstLoginP2(forms.Form):
 
         if option_1 == '1':
             if option_2 == '1':
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Divergente')
+                profile.learning_style = LearningStyle.objects.get(name_field='Divergente')
             elif option_2 == '2':
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Acomodador')
+                profile.learning_style = LearningStyle.objects.get(name_field='Acomodador')
         elif option_1 == '2':
             if option_2 == '1':
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Asimilador')
+                profile.learning_style = LearningStyle.objects.get(name_field='Asimilador')
             elif option_2 == '2':
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Convergente')
+                profile.learning_style = LearningStyle.objects.get(name_field='Convergente')
 
         user.save()
 
 
 class FirstLoginP3(forms.Form):
-
     def save_form(self, user, first_selection, second_selection):
         option_1 = first_selection
         option_2 = second_selection
@@ -61,13 +56,13 @@ class FirstLoginP3(forms.Form):
 
         if option_1 == '1':
             if option_2 == '1':
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Divergente')
+                profile.learning_style = LearningStyle.objects.get(name_field='Divergente')
             elif option_2 == '2':
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Acomodador')
+                profile.learning_style = LearningStyle.objects.get(name_field='Acomodador')
         elif option_1 == '2':
             if option_2 == '1':
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Asimilador')
+                profile.learning_style = LearningStyle.objects.get(name_field='Asimilador')
             elif option_2 == '2':
-                profile.learning_style = LearningStyleModel.objects.get(name_field='Convergente')
+                profile.learning_style = LearningStyle.objects.get(name_field='Convergente')
 
         user.save()

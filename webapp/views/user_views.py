@@ -7,7 +7,8 @@ from django.views.generic import *
 from django.views.generic.base import TemplateView
 from sweetify import sweetify
 
-from alumnica_model.alumnica_entities.users import UserType
+from alumnica_model.models import users
+from alumnica_model.models.users import TYPE_LEARNER
 from webapp.forms.user_forms import UserForm, UserLoginForm
 
 
@@ -46,7 +47,7 @@ class SignUpView(FormView):
 
     def form_valid(self, form):
         user = form.save(commit=False)
-        user.user_type = UserType.LEARNER
+        user.user_type = users.TYPE_LEARNER
         user.save()
         login(self.request, user)
         return redirect(to='first-login-info_view')
