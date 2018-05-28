@@ -10,7 +10,7 @@ class AmbitGridView(LoginRequiredMixin, FormView):
     template_name = 'webapp/pages/ambitos-grid.html'
 
     def get(self, request, *args, **kwargs):
-        ambits_list_raw = Ambit.objects.all().filter(is_published_field=True)
+        ambits_list_raw = Ambit.objects.all().filter(is_published=True)
         ambits_list = ['na']*30
 
         for ambit in ambits_list_raw:
