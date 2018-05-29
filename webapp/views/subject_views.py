@@ -8,7 +8,7 @@ from alumnica_model.models import Subject
 
 class SubjectView(LoginRequiredMixin, View):
     login_url = 'login_view'
-    template_name = 'webapp/pages/test.html'
+    template_name = 'webapp/pages/materia.html'
     model = Subject
 
     def dispatch(self, request, *args, **kwargs):
@@ -23,7 +23,8 @@ class SubjectView(LoginRequiredMixin, View):
                 state = moments_state
             odas_list.append(oda)
             odas_states.append(state)
-
+        zones = ['a', 'b', 'c', 'd']
         odas_zip = zip(odas_list, odas_states)
+        subject_zip = zip(subject.sections_images.all(), zones[0:subject.number_of_sections])
 
-        return render(request, self.template_name, {'subject': subject, 'odas_zip': odas_zip})
+        return render(request, self.template_name, {'subject_zip': subject_zip, 'odas_zip': odas_zip})

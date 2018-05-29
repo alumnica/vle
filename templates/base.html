@@ -12,7 +12,6 @@
     <title>Alúmnica</title>
     <link rel="stylesheet" href="{% static "/webapp/css/app.css" %}">
     <link rel="icon" href="{% static 'webapp/media/alumnica-favico.png' %}" type="image/png" sizes="16x16">
-    {% block scripts %}{% endblock %}
 </head>
 
 <body>
@@ -37,6 +36,8 @@
     <script src="{% static "webapp/js/app.js" %}"></script>
 
 </div>
+{% block scripts %}
+{% endblock %}
 {% load sweetify %}
 {% sweetify %}
 </body>
