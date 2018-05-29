@@ -1,0 +1,163 @@
+{% extends "logged-in.html" %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container">
+    <h4>Álgebra</h4>
+    <div class="grid-x align-center">
+        <div id="the-odas">
+            <div class="block" id="oda-1" data-n="b-4" state="unopened">
+                <a href="#" class="oda-image">
+                    <img src="../assets/media/ODAs/camion.gif" alt="">
+                </a>
+            </div>
+            <div class="block" id="oda-2" data-n="a-12" state="in-progress">
+                <a href="#" class="oda-image">
+                    <img src="../assets/media/ODAs/camion.gif" alt="">
+                </a>
+            </div>
+            <div href="#" class="block" id="oda-3" data-n="a-1" state="completed">             
+               
+                <a class="oda-image" href="#">
+                    <img src="../assets/media/ODAs/semaforo.gif" alt="">
+                </a>
+            </div>
+                      
+            <div class="block" id="oda-4" data-n="a-10" state="finalized">
+                <a href="#" class="oda-image">
+                    <img src="../assets/media/ODAs/semaforo2.gif" alt="">
+                </a>
+            </div>
+           
+        </div>
+
+        <div class="cell medium-4 large-3">
+            <div class="canvas" style="background-image: url(../assets/media/secciones/bloque-01.png)">
+                <div class="frame">
+                    <div id="a-1" class="drop-area"></div>
+                    <div id="a-2" class="drop-area"></div>
+                    <div id="a-3" class="drop-area"></div>
+                    <div id="a-4" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="a-5" class="drop-area"></div>
+                    <div id="a-6" class="drop-area"></div>
+                    <div id="a-7" class="drop-area"></div>
+                    <div id="a-8" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="a-9" class="drop-area"></div>
+                    <div id="a-10" class="drop-area"></div>
+                    <div id="a-11" class="drop-area"></div>
+                    <div id="a-12" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="a-13" class="drop-area"></div>
+                    <div id="a-14" class="drop-area"></div>
+                    <div id="a-15" class="drop-area"></div>
+                    <div id="a-16" class="drop-area"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cell medium-4 large-3">
+            <div class="canvas" style="background-image: url(../assets/media/secciones/bloque-02.png)">
+
+
+                <div class="frame">
+                    <div id="b-1" class="drop-area"></div>
+                    <div id="b-2" class="drop-area"></div>
+                    <div id="b-3" class="drop-area"></div>
+                    <div id="b-4" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="b-5" class="drop-area"></div>
+                    <div id="b-6" class="drop-area"></div>
+                    <div id="b-7" class="drop-area"></div>
+                    <div id="b-8" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="b-9" class="drop-area"></div>
+                    <div id="b-10" class="drop-area"></div>
+                    <div id="b-11" class="drop-area"></div>
+                    <div id="b-12" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="b-13" class="drop-area"></div>
+                    <div id="b-14" class="drop-area"></div>
+                    <div id="b-15" class="drop-area"></div>
+                    <div id="b-16" class="drop-area"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cell medium-4 large-3">
+            <div class="canvas" style="background-image: url(../assets/media/secciones/bloque-03.png)">
+                <div class="frame">
+                    <div id="c-1" class="drop-area"></div>
+                    <div id="c-2" class="drop-area"></div>
+                    <div id="c-3" class="drop-area"></div>
+                    <div id="c-4" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="c-5" class="drop-area"></div>
+                    <div id="c-6" class="drop-area"></div>
+                    <div id="c-7" class="drop-area"></div>
+                    <div id="c-8" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="c-9" class="drop-area"></div>
+                    <div id="c-10" class="drop-area"></div>
+                    <div id="c-11" class="drop-area"></div>
+                    <div id="c-12" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="c-13" class="drop-area"></div>
+                    <div id="c-14" class="drop-area"></div>
+                    <div id="c-15" class="drop-area"></div>
+                    <div id="c-16" class="drop-area"></div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- <div class="cell medium-4 large-3">
+            <div class="canvas" style="background-image: url(../assets/media/secciones/bloque-03.png)">
+
+                <div class="frame">
+                    <div id="c-1" class="drop-area"></div>
+                    <div id="c-2" class="drop-area"></div>
+                    <div id="c-3" class="drop-area"></div>s
+                    <div id="c-4" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="c-5" class="drop-area"></div>
+                    <div id="c-6" class="drop-area"></div>
+                    <div id="c-7" class="drop-area"></div>
+                    <div id="c-8" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="c-9" class="drop-area"></div>
+                    <div id="c-10" class="drop-area"></div>
+                    <div id="c-11" class="drop-area"></div>
+                    <div id="c-12" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="c-13" class="drop-area"></div>
+                    <div id="c-14" class="drop-area"></div>
+                    <div id="c-15" class="drop-area"></div>
+                    <div id="c-16" class="drop-area"></div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static "webapp/js/materias.js" %}"></script>
+{% endblock %}
