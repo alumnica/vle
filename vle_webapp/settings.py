@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['.herokuapp.com', 'studio.alumnica.org', 'localhost', '127.0.0.
 # Application definition
 
 INSTALLED_APPS = [
+    'django_db_prefix',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'django_use_email_as_username.apps.DjangoUseEmailAsUsernameConfig',
     'alumnica_model.apps.AlumnicaModelConfig',
     'sweetify',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -164,7 +166,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': ('%(asctime)s [%(levelname)s] [%(module)s.%(funcName)s:%(lineno)s] %(message)s'),
+            'format': '%(asctime)s [%(levelname)s] [%(module)s.%(funcName)s:%(lineno)s] %(message)s',
             'datefmt': '%Y-%m-%d %H:%M:%S'
         },
         'simple': {
