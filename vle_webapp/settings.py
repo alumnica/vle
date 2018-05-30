@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django_use_email_as_username.apps.DjangoUseEmailAsUsernameConfig',
     'alumnica_model.apps.AlumnicaModelConfig',
     'sweetify',
-
 ]
 
 MIDDLEWARE = [
@@ -83,13 +82,9 @@ WSGI_APPLICATION = 'vle_webapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+DATABASES = {'default': {}}
 
-    }
-}
-
-if DEBUG:
+if not os.environ.get('DATABASE_URL'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -99,7 +94,9 @@ if DEBUG:
 else:
     DATABASES['default'] = dj_database_url.config()
 
+# noinspection PyTypeChecker
 DATABASES['default']['ATOMIC_REQUESTS'] = True
+DB_PREFIX = 'alumnica_'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
