@@ -27,4 +27,4 @@ class SubjectView(LoginRequiredMixin, View):
         odas_zip = zip(odas_list, odas_states)
         subject_zip = zip(subject.sections_images.all(), zones[0:subject.number_of_sections])
 
-        return render(request, self.template_name, {'subject_zip': subject_zip, 'odas_zip': odas_zip})
+        return render(request, self.template_name, {'subject':subject, 'subject_zip': subject_zip, 'odas_zip': odas_zip})
