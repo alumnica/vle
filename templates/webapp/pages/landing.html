@@ -1,5 +1,6 @@
 {% extends "empty-base.html" %}
 {% load static %}
+{% load vle_extras %}
 
 {% block content %}
 <section class="splash-bg">
@@ -53,8 +54,10 @@
         </div>
     </div>
     <div class="splash-footer">
-        <p class="footer-text">Alúmnica 2018 &copy; |
+        <p class="footer-text">
+            Alúmnica 2018 &copy; |
             <a href="https://www.manuelmoreno.org/">Fundacion Manuel Moreno</a>
+            | {% version_number %}
         </p>
     </div>
 </div>
