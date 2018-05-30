@@ -1,5 +1,6 @@
 {% extends "logged-in.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 
     <form method="POST" enctype="multipart/form-data">
@@ -8,7 +9,6 @@
 
             <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "gutter": 15, "isFitWidth": true}'>
                 {% for ambit in ambits_list %}
-                    {% if ambit != 'na' %}
                         <div class="grid-item grid-item--height{{ ambit.subjects.all.count }}">
                             <div class="card">
                                 <div class="front {{ ambit.color }}">
@@ -34,8 +34,11 @@
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
                 {% endfor %}
+
+            {% if ambits_list|length == 0 %}
+                {% trans "No existe ningún ámbito publicado" %}
+            {% endif %}
 
             </div>
 
