@@ -30,7 +30,7 @@ SECRET_KEY = 'm792=#*_(5x5c80&z+i0u80rj+0kn!f94i!*z^xwiy5zb#6a&1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get('ON_HEROKU', False)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.herokuapp.com', 'studio.alumnica.org', 'localhost', '127.0.0.1']
 
 # Application definition
 
