@@ -162,8 +162,6 @@ if admin_names and admin_emails:
 
     ADMINS = list(zip(admin_names, admin_emails))
 
-    print('ADMINS = {}'.format(ADMINS))
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
