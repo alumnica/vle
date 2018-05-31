@@ -1,5 +1,6 @@
 {% extends "empty-base.html" %}
 {% load static %}
+{% load vle_extras %}
 
 {% block content %}
 <section class="splash-bg">
@@ -9,7 +10,7 @@
         <div class="grid-x grid-padding-x align-center-middle main-part">
             <div class="cell medium-8 text-center">
                 <div class="splash-logo">
-                    <img src="../assets/media/aluminca-splash-logo.png" alt="alumnica logo">
+                    <img src="{% static 'webapp/media/aluminca-splash-logo.png' %}" alt="alumnica logo">
                 </div>
                 <p class="splash-info">México tiene uno de los niveles más bajos de educación en el mundo. Todavía no logramos el acceso deseado
                     a la educación, sobretodo en el nivel medio superior y superior. Es un punto clave enfocarnos en que
@@ -53,8 +54,10 @@
         </div>
     </div>
     <div class="splash-footer">
-        <p class="footer-text">Alúmnica 2018 &copy; |
-            <a href="https://www.manuelmoreno.org/">Fundacion Manuel Moreno</a>
+        <p class="footer-text">
+            Alúmnica 2018 &copy; |
+            <a href="https://www.manuelmoreno.org/">Fundación Manuel Moreno</a>
+            | {% version_number %}
         </p>
     </div>
 </div>

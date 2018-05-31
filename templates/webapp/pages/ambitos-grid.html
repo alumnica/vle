@@ -1,46 +1,49 @@
 {% extends "logged-in.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 
     <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
+        {% csrf_token %}
         <div class="grid-container u-margin-top-small">
 
-        <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "gutter": 15, "isFitWidth": true}'>
-            {% for ambit in ambits_list %}
-                {% if ambit != 'na' %}
-                    <div class="grid-item grid-item--height{{ ambit.subjects.all.count }}">
-                 <div class="card">
-                         <div class="front {{ ambit.color }}">
-                             <div class="ambito-image">
-                                 <img src=" {{ MEDIA_URL }}{{ ambit.background_image.file.url }}" alt="{{ ambit.name }}">
-                             </div>
-                             <div class="ambito-title {{ ambit.color }}_text">
-                                     {{ ambit.name }}
-                             </div>
-                         </div>
-                         <div class="back {{ ambit.color }}">
-                             <div class="{{ ambit.color }}_text">
-                                 {{ ambit.name }}
-                             </div>
+            <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "gutter": 15, "isFitWidth": true}'>
+                {% for ambit in ambits_list %}
+                        <div class="grid-item">
+                            <div class="card">
+                                <div class="front {{ ambit.color }}">
+                                    <div class="ambito-image">
+                                        <img src=" {{ MEDIA_URL }}{{ ambit.background_image.file.url }}"
+                                             alt="{{ ambit.name }}">
+                                    </div>
+                                    <div class="ambito-title {{ ambit.color }}_text">
+                                        {{ ambit.name }}
+                                    </div>
+                                </div>
+                                <div class="back {{ ambit.color }}">
+                                    <div class="{{ ambit.color }}_text">
+                                        {{ ambit.name }}
+                                    </div>
 
-                             {% for subject in ambit.subjects.all %}
-                                 <a href="{% url 'subject_view' subject.pk %}" class="materia">
-                                  {{ subject.name }}
-                                 </a>
-                             {% endfor %}
+                                    {% for subject in ambit.subjects.all %}
+                                        <a href="{% url 'subject_view' subject.pk %}" class="materia">
+                                            {{ subject.name }}
+                                        </a>
+                                    {% endfor %}
 
-                         </div>
-                     </div>
-           </div>
-                {% endif %}
-            {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                {% endfor %}
 
-         </div>
+            {% if ambits_list|length == 0 %}
+                {% trans "No existe ningún ámbito publicado" %}
+            {% endif %}
+
+            </div>
 
 
-
-</div>
+        </div>
     </form>
 
 
@@ -48,5 +51,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{% static "webapp/js/ambitos-grid.js" %}"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script src="{% static "webapp/js/ambitos-grid.js" %}"></script>
 {% endblock %}

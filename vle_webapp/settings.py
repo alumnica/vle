@@ -17,22 +17,25 @@ import sys
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 
+VERSION_NUMBER = 'v0.6.0'
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'm792=#*_(5x5c80&z+i0u80rj+0kn!f94i!*z^xwiy5zb#6a&1'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'm792=#*_(5x5c80&z+i0u80rj+0kn!f94i!*z^xwiy5zb#6a&1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get('ON_HEROKU', False)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.herokuapp.com', 'learn.alumnica.org', 'localhost', '127.0.0.1']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django_db_prefix',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +46,7 @@ INSTALLED_APPS = [
     'django_use_email_as_username.apps.DjangoUseEmailAsUsernameConfig',
     'alumnica_model.apps.AlumnicaModelConfig',
     'sweetify',
-
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -81,13 +84,9 @@ WSGI_APPLICATION = 'vle_webapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+DATABASES = {'default': {}}
 
-    }
-}
-
-if DEBUG:
+if not os.environ.get('DATABASE_URL'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -97,7 +96,9 @@ if DEBUG:
 else:
     DATABASES['default'] = dj_database_url.config()
 
+# noinspection PyTypeChecker
 DATABASES['default']['ATOMIC_REQUESTS'] = True
+DB_PREFIX = 'alumnica_'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -122,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Mexico_City'
 
 USE_I18N = True
 
@@ -149,6 +150,17 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
+if all([AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME]):
+    # Use S3 from Amazon Web Services to store uploaded files
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+
 AUTH_USER_MODEL = 'alumnica_model.AuthUser'
 
 admin_names = os.environ.get('ADMIN_NAMES')
@@ -160,14 +172,12 @@ if admin_names and admin_emails:
 
     ADMINS = list(zip(admin_names, admin_emails))
 
-    print('ADMINS = {}'.format(ADMINS))
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': ('%(asctime)s [%(levelname)s] [%(module)s.%(funcName)s:%(lineno)s] %(message)s'),
+            'format': '%(asctime)s [%(levelname)s] [%(module)s.%(funcName)s:%(lineno)s] %(message)s',
             'datefmt': '%Y-%m-%d %H:%M:%S'
         },
         'simple': {

@@ -53,7 +53,10 @@ class SignUpView(FormView):
         return redirect(to='first-login-info_view')
 
     def form_invalid(self, form):
-        sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
+        if form['password'].errors:
+            sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
+        elif form['email'].errors:
+            sweetify.error(self.request, form.errors['email'][0], persistent='Ok')
         context = self.get_context_data()
         return self.render_to_response(context)
 
