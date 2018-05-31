@@ -17,22 +17,25 @@ import sys
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 
+VERSION_NUMBER = 'v0.6.0'
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'm792=#*_(5x5c80&z+i0u80rj+0kn!f94i!*z^xwiy5zb#6a&1'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'm792=#*_(5x5c80&z+i0u80rj+0kn!f94i!*z^xwiy5zb#6a&1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get('ON_HEROKU', False)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.herokuapp.com', 'learn.alumnica.org', 'localhost', '127.0.0.1']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django_db_prefix',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -83,7 +86,7 @@ WSGI_APPLICATION = 'vle_webapp.wsgi.application'
 
 DATABASES = {'default': {}}
 
-if DEBUG:
+if not os.environ.get('DATABASE_URL'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -95,6 +98,7 @@ else:
 
 # noinspection PyTypeChecker
 DATABASES['default']['ATOMIC_REQUESTS'] = True
+DB_PREFIX = 'alumnica_'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -119,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Mexico_City'
 
 USE_I18N = True
 
@@ -167,8 +171,6 @@ if admin_names and admin_emails:
     admin_emails = admin_emails.split(';')
 
     ADMINS = list(zip(admin_names, admin_emails))
-
-    print('ADMINS = {}'.format(ADMINS))
 
 LOGGING = {
     'version': 1,

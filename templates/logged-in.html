@@ -15,6 +15,7 @@
 {% comment %} Aqui requerimos la variable USERNAME {% endcomment %}
 
   <link rel="stylesheet" href="{% static "/webapp/css/app.css" %}">
+  <link rel="icon" href="{% static 'webapp/media/alumnica-favico.png' %}" type="image/png" sizes="16x16">
 </head>
 
 <body>
@@ -39,6 +40,9 @@
   </div>
 
   <script src="{% static "webapp/js/app.js" %}"></script>
+
+{% block scripts %}
+{% endblock %}
 {% load sweetify %}
 {% sweetify %}
 </body>

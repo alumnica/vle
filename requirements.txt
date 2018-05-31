@@ -2,6 +2,7 @@ boto3==1.7.12
 botocore==1.10.12
 dj-config-url==0.1.1
 Django==2.0.3
+django-db-prefix==1.0.5
 django-storages==1.6.6
 django-use-email-as-username==1.0.0
 docutils==0.14

@@ -12,34 +12,16 @@
     <title>Alúmnica</title>
     <link rel="stylesheet" href="{% static "/webapp/css/app.css" %}">
     <link rel="icon" href="{% static 'webapp/media/alumnica-favico.png' %}" type="image/png" sizes="16x16">
+    {% block scripts %}{% endblock %}
 </head>
 
 <body>
 
-<div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
 
-    {% include "webapp/partials/menu.html" %}
-
-</div>
-
-
-<div class="off-canvas-content" data-off-canvas-content>
-
-   
-        {% include "webapp/partials/nav.html" %}
 
         {% block content %}
         {% endblock %}
 
-
-
-    <script src="{% static "webapp/js/app.js" %}"></script>
-
-</div>
-{% block scripts %}
-{% endblock %}
-{% load sweetify %}
-{% sweetify %}
 </body>
 
 </html>
