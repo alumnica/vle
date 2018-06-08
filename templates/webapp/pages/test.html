@@ -7,18 +7,8 @@
 <body>
     <form method="POST">
         {% csrf_token %}
-        <label for="id_name_field">Nombre de la materia: </label>
-        {{ subject.name}}
-
-        <div>
-        ODAS:
-            {% for oda, state in odas_zip %}
-                    <div>
-                    {{ oda.name}}
-                    state: {{ state }}
-                    </div>
-            {% endfor %}
-        </div>
+        <div class="oda-name">Nombre de la oda</div>
+       {{ oda.name }}
     </form>
 </body>
 </html>

@@ -11,7 +11,7 @@
                 {% if oda.section == 1 %}
 
                     <div class="block" id="oda-{{ oda.pk }}" data-n="a-{{ oda.zone }}" state="{{ state }}">
-                        <a href="#" class="oda-image">
+                        <a href="{% url 'oda_view' oda.pk %}" class="oda-image">
                             {% if state != 'finalized' %}
                                 <img src="{{ oda.active_icon.file.url }}" alt="">
                             {% else %}
