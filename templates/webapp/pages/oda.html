@@ -51,7 +51,7 @@
     <div id="fullpage">
         <div class="section " id="section0">
             <div class="oda-title">
-                Titulo de la ODA
+                {{ oda.name }}
             </div>
             <div class="oda-desc">
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda maiores soluta ex adipisci sint, deserunt sed laudantium?
@@ -59,101 +59,32 @@
             </div>
             <div class="oda-tags">
                 <ul>
-                    <li>tag 1</li>
-                    <li>the other tag</li>
-                    <li>one more</li>
-                    <li>tag 1</li>
-                    <li>one more</li>
-                    <li>tag 1</li>
-                    <li>the other tag</li>
+                    {% for tag in oda.tags.all %}
+                        <li>{{ tag.name }}</li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
-        <div class="section" id="section1">
+
+    {% for microoda in oda.microodas.all %}
+         <div class="section" id="section{{ forloop.counter }}">
             <div class="micro-tags">
                 <ul>
-                    <li>tag 1</li>
-                    <li>dos micro</li>
-                    <li>tres tags raros</li>
-                    <li>la cuarta</li>
+                    {% for tag in microoda.tags.all %}
+                        <li>{{ tag.name }}</li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="micro-image">
                 <ul class="micro-momentos">
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
+                    {% for momento in microoda.activities.all %}
+                        <li>{{ momento.name }}</li>
+                        {% endfor %}
                 </ul>
             </div>
         </div>
-        <div class="section" id="section2">
-            <div class="micro-tags">
-                <ul>
-                    <li>tag 1</li>
-                    <li>dos micro</li>
-                    <li>tres tags raros</li>
-                    <li>la cuarta</li>
-                </ul>
-            </div>
-            <div class="micro-image">
-                <ul class="micro-momentos">
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
-                </ul>
-            </div>
-        </div>
-        <div class="section" id="section3">
-            <div class="micro-tags">
-                <ul>
-                    <li>tag 1</li>
-                    <li>dos micro</li>
-                    <li>tres tags raros</li>
-                    <li>la cuarta</li>
-                </ul>
-            </div>
-            <div class="micro-image">
-                <ul class="micro-momentos">
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
-                </ul>
-            </div>
-        </div>
-        <div class="section" id="section4">
-            <div class="micro-tags">
-                <ul>
-                    <li>tag 1</li>
-                    <li>dos micro</li>
-                    <li>tres tags raros</li>
-                    <li>la cuarta</li>
-                </ul>
-            </div>
-            <div class="micro-image">
-                <ul class="micro-momentos">
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
-                </ul>
-            </div>
-        </div>
-        <div class="section" id="section5">
-            <div class="micro-tags">
-                <ul>
-                    <li>tag 1</li>
-                    <li>dos micro</li>
-                    <li>tres tags raros</li>
-                    <li>la cuarta</li>
-                </ul>
-            </div>
-            <div class="micro-image">
-                <ul class="micro-momentos">
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
-                </ul>
-            </div>
-        </div>
+    {% endfor %}
+
     </div>
 </div>
 
