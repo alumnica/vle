@@ -67,7 +67,7 @@
             </div>
         </div>
 
-    {% for microoda in oda.microodas.all %}
+    {% for microoda, moments in microodas_moments %}
          <div class="section" id="section{{ forloop.counter }}">
             <div class="micro-tags">
                 <ul>
@@ -76,9 +76,9 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="micro-image">
+            <div href="{% url 'moment_view' moments.0.pk %}" class="micro-image">
                 <ul class="micro-momentos">
-                    {% for momento in microoda.activities.all %}
+                    {% for momento in moments %}
                         <li>{{ momento.name }}</li>
                         {% endfor %}
                 </ul>

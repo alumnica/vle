@@ -6,7 +6,7 @@ $(document).ready(function () {
       navigation: true,
       navigationPosition: 'left',
       // navigationTooltips: ['First page', 'Second page', 'Third and last page'],
-      paddingBottom: '5rem',
+      paddingBottom: '1rem',
     });
   });
   

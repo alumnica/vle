@@ -11,4 +11,12 @@ class ODAView(LoginRequiredMixin, View):
 
     def dispatch(self, request, *args, **kwargs):
         oda = ODA.objects.get(pk=kwargs['pk'])
-        return render(request, self.template_name, {'oda': oda})
+        microodas_list = oda.microodas.order_by('default_position')
+        moments_list = []
+        for microoda in microodas_list:
+            moments = microoda.activities.order_by('default_position')
+            moments_list.append(moments)
+
+        microodas_moments = zip(microodas_list, moments_list)
+
+        return render(request, self.template_name, {'oda': oda, 'microodas_moments': microodas_moments})

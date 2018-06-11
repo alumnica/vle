@@ -3,6 +3,7 @@
 {% block content %}
 
 <div class="nav-items">
+
     <button type="button" class="prev-arrow">
         <i class="fas fa-chevron-left"></i>
     </button>
@@ -15,7 +16,7 @@
         <div class="the-h5p">
             <!-- aqui va el paquete de h5p -->
 
-
+        {{ moment.name }}
 
 
 
@@ -31,6 +32,9 @@
             
         </div>
         <div class="moments">
+            {% comment %}{% for types in types_list %}
+                <div id="{{ type }}" class="single-mom"></div>
+            {% endfor %}{% endcomment %}
             <div id="m1" class="single-mom"></div>
             <div id="m2" class="single-mom active-mom"></div>
             <div id="m3" class="single-mom"></div>

@@ -34,5 +34,6 @@ urlpatterns += i18n_patterns(
     path(_('ambit/'), include('webapp.urls.ambit_urls')),
     path(_('subjects/'), include('webapp.urls.subject_urls')),
     path(_('odas/'), include('webapp.urls.oda_urls')),
+    path(_('moments/'), include('webapp.urls.moment_urls')),
     path(_('admin/'), admin.site.urls),
 )
