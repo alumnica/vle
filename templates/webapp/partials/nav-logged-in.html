@@ -1,3 +1,4 @@
+{% load static %}
 <div data-sticky-container>
         <div class="title-bar" data-sticky data-options="marginTop:0;" style="width:100%" data-sticky-on="small">
             <div class="title-bar-left">
@@ -10,7 +11,7 @@
             <div class="title-bar-right">
                     <div class="button profile-button" data-toggle="offCanvasRight">
                             <span class="title-bar-text hide-for-small-only">{{ user.first_name }} {{ user.last_name }}</span>
-                            <img src="  perfil-01-01_100x100.png" alt="">
+                            <img src="{% static "/webapp/media/perfil-01-01_100x100.png"%}" alt="User Avatar" style="height:50px;">
                         </div>
             </div>
         </div>
