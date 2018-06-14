@@ -25,13 +25,22 @@ class LoginView(FormView):
     template_name = 'webapp/pages/login.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and not request.user.is_staff:
+        if request.user.is_authenticated and request.user.profile == users.TYPE_LEARNER:
+            if request.user.first_name == "":
+                return redirect(to='first-login-info_view')
+            if request.user.profile.learning_style is None:
+                return redirect(to='first-login-p1_view')
             return redirect(to='dashboard_view')
         else:
             return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        login(self.request, form.get_user())
+        user = form.get_user()
+        login(self.request, user)
+        if user.first_name == "":
+            return redirect(to='first-login-info_view')
+        if self.request.user.profile.learning_style is None:
+            return redirect(to='first-login-p1_view')
         return redirect(to='dashboard_view')
 
     def form_invalid(self, form):
@@ -50,6 +59,7 @@ class SignUpView(FormView):
         user.user_type = users.TYPE_LEARNER
         user.save()
         login(self.request, user)
+
         return redirect(to='first-login-info_view')
 
     def form_invalid(self, form):

@@ -1,0 +1,57 @@
+{% extends "logged-in.html" %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container screen-height">
+    <div class="grid-x align-center cont-height">
+        <div class="cell small-11 h5p-cont">
+            <iframe src="{{ moment.file_name }}" class="the-h5p">
+                <!-- aqui va el paquete de h5p -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+            </iframe>
+            <div class="moments">
+                {% comment %}{% for types in types_list %}
+                    <div id="{{ type }}" class="single-mom"></div>
+                {% endfor %}{% endcomment %}
+                <div id="m1" class="single-mom"></div>
+                <div id="m2" class="single-mom active-mom"></div>
+                <div id="m3" class="single-mom"></div>
+            </div>
+        </div>
+    </div>
+    <div class="nav-items">
+            <button type="button" class="prev-arrow">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button type="button" class="next-arrow">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+    <!-- return buttons -->
+            <a href="{% url 'ambitos-grid_view' %}" class="mom-grid-btn">
+                <i class="fas fa-th"></i>
+            </a>
+            <a href="{% url 'oda_view' moment.microodas.all.0.oda.pk  %}" class="mom-return-btn">
+                <i class="fas fa-undo-alt"></i>
+            </a>
+        </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}
