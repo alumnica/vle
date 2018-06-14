@@ -74,7 +74,9 @@
                     {% endfor %}
                 </ul>
             </div>
+            {% if moments|length > 0 %}
             <a href="{% url 'moment_view' moments.0.pk %}" class="micro-image">
+            {% endif %}
                 <ul class="micro-momentos">
                     {% for momento in moments %}
                         <li>{{ momento.name }}</li>
