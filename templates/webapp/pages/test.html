@@ -7,8 +7,13 @@
 <body>
     <form method="POST">
         {% csrf_token %}
-        <div class="oda-name">Nombre de la oda</div>
-       {{ oda.name }}
+        {% for microoda in evaluation %}
+            <div class="microoda">{{ microoda.0 }}</div>
+            {% for question in microoda.1 %}
+                <div class="question">{{ question.sentence }}</div>
+                <div class="answers">{{ question.success_description }}</div>
+                {% endfor %}
+        {% endfor %}
     </form>
 </body>
 </html>
