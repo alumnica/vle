@@ -10,9 +10,12 @@
         {% for microoda in evaluation %}
             <div class="microoda">{{ microoda.0 }}</div>
             {% for question in microoda.1 %}
+                <div class="type">Tipo de pregunta: {{ question.type }}</div>
                 <div class="question">{{ question.sentence }}</div>
                 <div class="answers">{{ question.success_description }}</div>
+                <div class="space">-----</div>
                 {% endfor %}
+            <div class="space">-----------------------</div>
         {% endfor %}
     </form>
 </body>
