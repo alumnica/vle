@@ -33,14 +33,14 @@ class EvaluationView(LoginRequiredMixin, FormView):
 
             for question in random_questions:
                 if question.type == TYPE_RELATIONSHIP or question.type == TYPE_PULL_DOWN_LIST:
-                    self.evaluation.append([microODA.type.name, question, random.shuffle(question.answers)])
+                    self.evaluation.append([microODA.type.name, question, random.shuffle(question.answers.split(','))])
                 elif question.type == TYPE_MULTIPLE_OPTION:
-                    answers = question.incorrect_answers
+                    answers = question.incorrect_answers.split(',')
                     answers.append(question.correct_answer)
                     self.evaluation.append([microODA.type.name, question, random.shuffle(answers)])
                 elif question.type == TYPE_MULTIPLE_ANSWER:
-                    answers = question.incorrect_answers
-                    answers.append(question.correct_answers)
+                    answers = question.incorrect_answers.split(',')
+                    answers.append(question.correct_answers.split(','))
                     self.evaluation.append([microODA.type.name, question, random.shuffle(answers)])
 
     def form_valid(self, form):
@@ -50,9 +50,11 @@ class EvaluationView(LoginRequiredMixin, FormView):
         numeric_answers = self.request.POST.get('')
         pulldown_list_answers = self.request.POST.get('')
 
-        score, microodas = form.review_evaluation(self.evaluation,
-                                                  relationship_answers, multiple_option_answers,
-                                                  multiple_answer_answers, numeric_answers,
-                                                  pulldown_list_answers, self.request.user)
+        score, wrong_answers = form.review_evaluation(self.evaluation,
+                                                      relationship_answers, multiple_option_answers,
+                                                      multiple_answer_answers, numeric_answers,
+                                                      pulldown_list_answers, self.request.user.profile)
+
+
 
 
