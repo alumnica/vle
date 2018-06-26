@@ -1,0 +1,359 @@
+{% extends "logged-in.html" %}
+{% load static %}
+{% block content %}
+<div class="scroll-menu">
+    <ul id="evalMenu">
+        <li data-menuanchor="firstPage" class="active"><a href="#firstPage"><i class="far fa-bookmark"></i></a></li>
+        <li data-menuanchor="secondPage"><a href="#secondPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="thirdPage"><a href="#thirdPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="fourthPage"><a href="#fourthPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="fifthPage"><a href="#fifthPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="sixthPage"><a href="#sixthPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="seventhPage"><a href="#sevenththPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="eighthPage"><a href="#eighthPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="ninethPage"><a href="#ninethPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="tenthPage"><a href="#tenthPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="eleventhPage"><a href="#eleventhPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="twelvethPage" ><a href="#" id="score"><i class="fas fa-bookmark"></i></a></li>
+       
+    </ul>
+</div>
+<div id="evaluate">
+    <!-- Primera seccion es la intro de la evaluacion -->
+
+    <div class="section">
+        <div class="question">           
+                <div class="eval-intro">
+
+                    <!-- titulo de la evaluacion -->
+
+                    <p class="eval-intro_title">Esto es una evaluacions. Avanza con el boton verde de siguiente.
+                    </p>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequiadipisicing elit. Sequi inventore esse eligendi maxime excepturi enim tenetur sunt, sed expedita quis!</p>
+                    <p class="h4">Suerte!</p>
+                </div>
+           
+            <div class="next">
+                <button class="button success large" type="button"><i class="fa fa-check"></i> Comenzar la Evaluación</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- cada pregunta empieza con un DIV class "section" -->
+
+    <div class="section">
+
+        <!-- ponemos tipo de pregunta y PK unico de pregunta -->
+
+        <!-- tipo "relationsip" -->
+        <div class="question" question-type="relationship" pk="15">
+            <!-- icono si respondio correcto -->
+            <div class="correct-icon hideit">
+                <i class="far fa-check-circle"></i>
+            </div>
+            <!-- icono si respondio incorrecto -->
+            <div class="incorrect-icon hideit">
+                <i class="far fa-check-circle"></i>
+            </div>
+
+            <!-- texto de la pregunta  -->
+            <div class="the-text">
+                Sunt quo, possimus minima numquam debitis sit. Consequuntur, aspernatur libero. Veritatis harum quia laboriosam quisquam
+                amet ratione?
+            </div>
+            <div class="grid-x grid-margin-x align-center">
+                <div class="cell small-4 medium-6 left-side">
+                    <ul>
+                        <!-- aqui ponemos la parte isquierda -->
+                        <li class="ls">Match 1</li>
+                        <li class="ls">Wakaka</li>
+                        <li class="ls">YOLO</li>
+                        <li class="ls">360 No-scope</li>
+                    </ul>
+                </div>
+                <div class="cell small-4 medium-6 right-side">
+                    <ul>
+                            <!-- aqui ponemos la parte derecha -->
+                        <li class="rs">OMG</li>
+                        <li class="rs">Memes para todos</li>
+                        <li class="rs">Una dos tres catorce</li>
+                        <li class="rs">Here we come!</li>
+                    </ul>
+                </div>
+                <div class="cell small-4 medium-6 align-self-middle">
+                    <div class="reset">
+                        <i class="fas fa-eraser er-button"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- texto de respuesta correcta, escondido -->
+            <div class="answer-correct hideit">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta ab reiciendis dolore ipsum sint inventore quisquam? Ipsum sit excepturi unde, et iste animi libero sapiente?
+            </div>
+            <!-- texto de respuesta incorrecta, escondido -->
+            <div class="answer-incorrect hideit">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta ab reiciendis dolore ipsum sint inventore quisquam? Ipsum sit excepturi unde, et iste animi libero sapiente?
+            </div>
+                <!-- boton para avanzar a la siguiente seccion -->
+            <div class="next">
+                <button class="button success u-margin-top-small" type="button">Siguiente</button>
+            </div>
+        </div>
+
+    </div>  
+    <div class="section">
+        <!-- tipo "multiple_option" -->
+        <div class="question" question-type="multiple_option" pk="9">
+            <!-- icono si respondio correcto -->
+            <div class="correct-icon hideit">
+                <i class="far fa-check-circle"></i>
+            </div>
+            <!-- icono si respondio incorrecto -->
+            <div class="incorrect-icon hideit">
+                <i class="far fa-check-circle"></i>
+            </div>
+
+            <!-- texto de la pregunta -->
+            <p class="the-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum iusto soluta quibusdam totam aut aspernatur!</p>  
+            <!-- cada opcion es un div "radio-choice"
+                el "value" es como el "index", siempre empieza en "0"
+            -->
+            <div class="radio-choice">
+                <input type="radio" value="0" id="YOLO"/>
+                <label for="YOLO">YOLO</label>
+            </div>
+            <div class="radio-choice">
+                <input type="radio" value="1"  id="Lo"/>
+                <label for="Lo">Lo que sea</label>
+            </div>
+            <div class="radio-choice">
+                <input type="radio" value="2" id="MVP"/>
+                <label for="MVP">MVP</label>
+            </div>
+            <div class="radio-choice">
+                <input type="radio" value="3" id="MC"/>
+                <label for="MC">MC</label>
+            </div>
+            <!-- texto de respuesta correcta, escondido -->
+            <div class="answer-correct hideit">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta ab reiciendis dolore ipsum sint inventore quisquam? Ipsum sit excepturi unde, et iste animi libero sapiente?
+            </div>
+            <!-- texto de respuesta incorrecta, escondido -->
+            <div class="answer-incorrect hideit">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta ab reiciendis dolore ipsum sint inventore quisquam? Ipsum sit excepturi unde, et iste animi libero sapiente?
+            </div>
+                <!-- boton para avanzar a la siguiente seccion -->
+             <div class="next">
+                 <button class="button success u-margin-top-small" type="button">Siguiente</button>
+            </div>
+        </div>
+    </div>
+  
+    <div class="section">
+        <!-- tipo "multiple_answer" -->
+        <div class="question" question-type="multiple_answers" pk="60">
+            <!-- icono si respondio correcto -->
+            <div class="correct-icon hideit">
+                <i class="far fa-check-circle"></i>
+            </div>
+            <!-- icono si respondio incorrecto -->
+            <div class="incorrect-icon hideit">
+                <i class="far fa-check-circle"></i>
+            </div>
+
+            <!-- texto de la pregunta -->
+            <p class="the-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam modi deserunt tempora dolor id perspiciatis fugit
+                eveniet dolore nostrum repudiandae quasi, voluptatibus deleniti iste iusto.</p>
+            
+            <!-- cada respuesta tiene su propio DIV "checkbox-choice"
+            el "value" toma el papel de "index", empieza siempre en 0 -->
+            <div class="checkbox-choice">
+                <input type="checkbox" id="scales" name="feature" value="0" />
+                <label for="scales">Scales</label>
+            </div>
+    
+            <div class="checkbox-choice">
+                <input type="checkbox" id="horns" name="feature" value="1" />
+                <label for="horns">Horns</label>
+            </div>
+    
+            <div class="checkbox-choice">
+                <input type="checkbox" id="claws" name="feature" value="2" />
+                <label for="claws">Claws</label>
+            </div>
+            <!-- texto de respuesta correcta, escondido -->
+            <div class="answer-correct hideit">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta ab reiciendis dolore ipsum sint inventore quisquam? Ipsum sit excepturi unde, et iste animi libero sapiente?
+            </div>
+            <!-- texto de respuesta incorrecta, escondido -->
+            <div class="answer-incorrect hideit">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta ab reiciendis dolore ipsum sint inventore quisquam? Ipsum sit excepturi unde, et iste animi libero sapiente?
+            </div>
+                <!-- boton para avanzar a la siguiente seccion -->
+            <div class="next">
+                <button class="button success u-margin-top-small" type="button">Siguiente</button>
+            </div>
+        </div>
+    </div>
+  
+    <div class="section">
+        <!-- tipo "numeric_answer" -->
+        <div class="question" question-type="numeric_answer" pk="2">
+             <!-- icono si respondio correcto -->
+            <div class="correct-icon hideit">
+                <i class="far fa-check-circle"></i>
+            </div>
+            <!-- icono si respondio incorrecto -->
+            <div class="incorrect-icon hideit">
+                <i class="far fa-check-circle"></i>
+            </div>
+
+            <!-- texto de la pregunta -->
+            <div class="the-text">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident velit accusantium voluptatibus nostrum iure accusamus.
+                <br> Entonces, ¿cuanto es 1+1?
+            </div>
+            <div class="number-answer">
+                <input type="number">
+            </div>
+             <!-- texto de respuesta correcta, escondido -->
+             <div class="answer-correct hideit">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta ab reiciendis dolore ipsum sint inventore quisquam? Ipsum sit excepturi unde, et iste animi libero sapiente?
+            </div>
+            <!-- texto de respuesta incorrecta, escondido -->
+            <div class="answer-incorrect hideit">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta ab reiciendis dolore ipsum sint inventore quisquam? Ipsum sit excepturi unde, et iste animi libero sapiente?
+            </div>
+            <!-- boton para avanzar a la siguiente seccion -->
+            <div class="next">
+                <button class="button success u-margin-top-small" type="button">Siguiente</button>
+            </div>
+        </div>
+    </div>
+   
+    <div class="section">
+        <!-- tipo "pulldown_list" -->
+        <div class="question" question-type="pulldown_list" pk="102">
+            <!-- icono si respondio correcto -->
+            <div class="correct-icon hideit">
+                <i class="far fa-check-circle"></i>
+            </div>
+            <!-- icono si respondio incorrecto -->
+            <div class="incorrect-icon hideit">
+                <i class="far fa-check-circle"></i>
+            </div>
+
+            <!-- texto de la pregunta -->
+            <div class="the-text">
+                Algo que algo que aglo esto es el texto que te dice que hagas algo
+            </div>
+            
+            <div class="desp-secc">
+                <div class="grid-x">
+                    <div class="cell small-6">
+                        <ul>
+                            <!-- aqui van los textos de la columna isquierda -->
+                            <li>Lorem ipsum dolor sit.</li>
+                            <li>Cosa due whatever yolo.</li>
+                            <li>Le Cose ququque</li>
+                        </ul>
+                    </div>
+                    <div class="cell small-6">
+                        <!-- cada select es un dropdown. el "name" toma el papel de "index", comienza siempre en 0 -->
+                        <select name="0">
+                            <!-- la primera opcion siempre es "disabled sel;ected value" -->
+                            <option disabled selected value> -- select an option -- </option>
+                            <!-- aqui comienzan las opciones de el dropdown. el "value" toma el papel de "index" -->
+                            <option value="0">Una</option>
+                            <option value="1">YEAH YEAH</option>
+                            <option value="2">Forever</option>
+                            <option value="3">whatever</option>
+                        </select>
+                        <!-- cada select es un dropdown. el "name" toma el papel de "index", comienza siempre en 0 -->
+                        <select name="1">
+                            <!-- la primera opcion siempre es "disabled sel;ected value" -->
+                            <option disabled selected value> -- select an option -- </option>
+                            <!-- aqui comienzan las opciones de el dropdown. el "value" toma el papel de "index" -->
+                            <option value="0">Una</option>
+                            <option value="1">YEAH YEAH</option>
+                            <option value="2">Forever</option>
+                            <option value="3">whatever</option>
+                        </select>
+                        <!-- cada select es un dropdown. el "name" toma el papel de "index", comienza siempre en 0 -->
+                        <select name="2">
+                                <!-- la primera opcion siempre es "disabled sel;ected value" -->
+                            <option disabled selected value> -- select an option -- </option>
+                            <!-- aqui comienzan las opciones de el dropdown. el "value" toma el papel de "index" -->
+                            <option value="0">Una</option>
+                            <option value="1">YEAH YEAH</option>
+                            <option value="2">Forever</option>
+                            <option value="3">whatever</option>
+                        </select>
+                    </div>
+                </div>
+            </div>  <!-- end desp-secc -->
+
+             <!-- texto de respuesta correcta, escondido -->
+             <div class="answer-correct hideit">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta ab reiciendis dolore ipsum sint inventore quisquam? Ipsum sit excepturi unde, et iste animi libero sapiente?
+            </div>
+            <!-- texto de respuesta incorrecta, escondido -->
+            <div class="answer-incorrect hideit">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta ab reiciendis dolore ipsum sint inventore quisquam? Ipsum sit excepturi unde, et iste animi libero sapiente?
+            </div>
+            <!-- boton para avanzar a la siguiente seccion -->
+
+            <!-- MUY IMPORTANTE - la ultima pregunta tiene un boton diferente.
+            Este llama a un modal para terminar la evaluacion y poder bajar
+             a la siguiente "seccion" donde vendria la calificacion y sugerencias de ODAS -->
+
+            <div class="end">
+                <button class="button success large u-margin-top-small" type="button" data-open="exampleModal1">Terminar Evaluación</button>
+            </div>
+
+        </div>
+    </div>
+    
+    <!-- cuando se ponen todas las preguntas, esta "section" sera la #12.  -->
+    <div class="section">
+            <!-- Aqui pondermos la calificacion y sugerencias -->
+        <div class="the-answer">
+            The score goes here
+        </div>
+    </div>
+</div>
+
+<!-- inputs escondidos que contienen las respuestas en forma:
+PK;[,] | PK; [] 
+un input por tipo de pregunta
+-->
+
+<div class="eval-inputs">
+    <form>
+        <input type="text" id="relationship">
+        <input type="text" id="multiple_option">
+        <input type="text" id="multiple_answer">
+        <input type="text" id="numeric_answer">
+        <input type="text" id="pulldown_list">
+    </form>
+
+</div>
+
+
+<!-- modal de termino de evaluacion -->
+
+<div class="reveal" id="exampleModal1" data-reveal>
+    <p class="h4">Terminar Evaluación</p>
+    <p> ¿Estas seguro que deseas terminar la evaluacion?</p>
+    <button type="button" class="button" data-close id="end-eval">Si</button>
+    <button type="button" class="button alert" data-close>No</button>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static "webapp/js/eval.js" %}"></script>
+{% endblock %}
