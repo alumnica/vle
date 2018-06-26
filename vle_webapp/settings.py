@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'alumnica_model.apps.AlumnicaModelConfig',
     'sweetify',
     'storages',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -212,4 +213,9 @@ LOGGING = {
             'propagate': False
         }
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
 }
