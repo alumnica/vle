@@ -23,10 +23,18 @@ $(document).ready(function () {
     // $.fn.fullpage.setAllowScrolling(false, 'down');
     // $.fn.fullpage.setKeyboardScrolling(false);
 
-    $('.next').on('click', '.button', function () {
+    $('.next').on('click', 'button', function () {
         $.fn.fullpage.moveSectionDown();
     });
     $('.reveal').on('click', '#end-eval', function () {
+        $.ajax({
+                url: '/api/evaluation/',
+                data: {'evaluation': JSON.stringify(evaluation)},
+                dataType: "application/json",
+                success: function(data){
+                    swal('Evaluation received');
+                }
+            });
        finished = true;
        $.fn.fullpage.moveSectionDown();
        $('#score').attr('href', '#twelvethPage');

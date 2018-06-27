@@ -14,94 +14,16 @@ from webapp.serializers import *
 class EvaluationViewSet(ModelViewSet):
     serializer_class = EvaluationSerializer
     queryset = Evaluation.objects.all()
-    evaluation = []
+    evaluation = None
 
     def list(self, request, *args, **kwargs):
-        evaluation_to_send = namedtuple('evaluation_to_send',
-                                ('relationship', 'multiple_option', 'multiple_answer', 'numeric', 'pulldown_list'))
-        evaluation_to_send.relationship = []
-        evaluation_to_send.multiple_option = []
-        evaluation_to_send.multiple_answer = []
-        evaluation_to_send.numeric = []
-        evaluation_to_send.pulldown_list = []
-
-        pk = request.GET['pk']
-        evaluation_instance = Evaluation.objects.get(pk=pk)
-        microoda_questions = []
-
-        for microODA in evaluation_instance.oda.all()[0].microodas.all():
-            microoda_questions.extend(evaluation_instance.relationship_questions.all())
-            microoda_questions.extend(evaluation_instance.multiple_option_questions.all())
-            microoda_questions.extend(evaluation_instance.multiple_answer_questions.all())
-            microoda_questions.extend(evaluation_instance.numeric_questions.all())
-            microoda_questions.extend(evaluation_instance.pull_down_list_questions.all())
-
-            random_questions = random.sample(microoda_questions, 2)
-
-            for question in random_questions:
-                if question.type == TYPE_RELATIONSHIP:
-                    self.evaluation.append([question, random.shuffle(question.answers.split(','))])
-                    question_serializer = RelationShipQuestionModelSerializer(question)
-                    data = RelationShip(relationship=question_serializer,
-                                        shuffle_answers=random.shuffle(question.answers.split(',')))
-                    #data.relationship = question_serializer
-                    #data.shuffle_answers = random.shuffle(question.answers.split(','))
-                    evaluation_to_send.relationship.append(RelationShipSerializer(data))
-
-                elif question.type == TYPE_PULL_DOWN_LIST:
-                    self.evaluation.append([question, random.shuffle(question.answers.split(','))])
-                    question_serializer = PullDownListQuestionModelSerializer(question)
-                    data = PullDownList(pulldown_list=question_serializer,
-                                        shuffle_answers=random.shuffle(question.answers.split(',')))
-                    #data = namedtuple('data', ('shuffle_answers', 'pulldown_list'))
-                    #data.pulldown_list = question_serializer
-                    #data.shuffle_answers = random.shuffle(question.answers.split(','))
-                    evaluation_to_send.pulldown_list.append(PullDownListSerializer(data))
-
-                elif question.type == TYPE_MULTIPLE_OPTION:
-                    answers = question.incorrect_answers.split(',')
-                    answers.append(question.correct_answer)
-                    self.evaluation.append([question, random.shuffle(answers)])
-                    question_serializer = MultipleOptionQuestionModelSerializer(question)
-                    data = MultipleOption(multiple_option=question_serializer,
-                                        shuffle_answers=random.shuffle(answers))
-                    #data = namedtuple('data', ('shuffle_answers', 'multiple_option'))
-                    #data.multiple_option = question_serializer
-                    #data.shuffle_answers = random.shuffle(answers)
-                    evaluation_to_send.multiple_option.append(MultipleOptionSerializer(data))
-
-                elif question.type == TYPE_MULTIPLE_ANSWER:
-                    answers = question.incorrect_answers.split(',')
-                    answers.append(question.correct_answers.split(','))
-                    self.evaluation.append([question, random.shuffle(answers)])
-                    question_serializer = MultipleAnswerQuestionModelSerializer(question)
-                    data = MultipleAnswer(multiple_answer=question_serializer,
-                                          shuffle_answers=random.shuffle(answers))
-                    #data = namedtuple('data', ('shuffle_answers', 'multiple_answer'))
-                    #data.multiple_answer = question_serializer
-                    #data.shuffle_answers = random.shuffle(answers)
-                    evaluation_to_send.multiple_answer.append(MultipleAnswerSerializer(data))
-
-                elif question.type == TYPE_NUMERIC_ANSWER:
-                    self.evaluation.append([question, question.min_limit])
-                    question_serializer = NumericQuestionModelSerializer(question)
-                    data = NumericAnswer(pk=question.pk,
-                                          shuffle_answers=question.min_limit)
-                    #data = namedtuple('data', ('shuffle_answers', 'numeric'))
-                    #data.numeric = question_serializer
-                    #data.shuffle_answers = question.min_limit
-                    seriali = NumericAnswerSerializer(data)
-                    evaluation_to_send.numeric.append(NumericAnswerSerializer(data))
-
-        serializer = self.get_serializer(evaluation_to_send)
-        return Response({'status': status.HTTP_200_OK, 'data': serializer.data}, template_name='webapp/pages/test.html')
-
-    def get_score(self):
-        relationship_answers = self.request.data.get('')
-        multiple_option_answers = self.request.data.get('')
-        multiple_answer_answers = self.request.data.get('')
-        numeric_answers = self.request.data.get('')
-        pulldown_list_answers = self.request.data.get('')
+        eva = request.data
+        evaluation = request.GET.getlist('evaluation[]',[])
+        relationship_answers = self.request.GET('')
+        multiple_option_answers = self.request.GET('')
+        multiple_answer_answers = self.request.GET('')
+        numeric_answers = self.request.data.GET('')
+        pulldown_list_answers = self.request.data.GET('')
 
         score, wrong_answers = self.review_evaluation(self.evaluation,
                                                       relationship_answers, multiple_option_answers,
