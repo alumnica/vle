@@ -17,13 +17,12 @@ class EvaluationViewSet(ModelViewSet):
     evaluation = None
 
     def list(self, request, *args, **kwargs):
-        eva = request.data
-        evaluation = request.GET.getlist('evaluation[]',[])
-        relationship_answers = self.request.GET('')
-        multiple_option_answers = self.request.GET('')
-        multiple_answer_answers = self.request.GET('')
-        numeric_answers = self.request.data.GET('')
-        pulldown_list_answers = self.request.data.GET('')
+        evaluation = request.GET['evaluation']
+        relationship_answers = request.GET['relationship_answers']
+        multiple_option_answers = request.GET['multiple_option_answers']
+        multiple_answer_answers = request.GET['multiple_answer_answers']
+        numeric_answers = request.GET['numeric_answer_answers']
+        pulldown_list_answers = request.GET['pulldown_list_answers']
 
         score, wrong_answers = self.review_evaluation(self.evaluation,
                                                       relationship_answers, multiple_option_answers,

@@ -27,9 +27,20 @@ $(document).ready(function () {
         $.fn.fullpage.moveSectionDown();
     });
     $('.reveal').on('click', '#end-eval', function () {
+        let relationship_answers = document.getElementById('relationship').value;
+        let multiple_option_answers = document.getElementById('multiple_option').value;
+        let multiple_answer_answers = document.getElementById('multiple_answer').value;
+        let numeric_answer_answers = document.getElementById('numeric_answer').value;
+        let pulldown_list_answers = document.getElementById('pulldown_list').value;
+
         $.ajax({
             url: '/api/evaluation/',
-            data: {evaluation: evaluation_object},
+            data: {evaluation: JSON.stringify(evaluation_object),
+                   relationship_answers: relationship_answers,
+                    multiple_option_answers: multiple_option_answers,
+                    multiple_answer_answers: multiple_answer_answers,
+                    numeric_answer_answers: numeric_answer_answers,
+                    pulldown_list_answers: pulldown_list_answers},
             dataType: "application/json",
             success: function(data){
                 swal('Evaluation received');
@@ -42,7 +53,7 @@ $(document).ready(function () {
 
     var relAnswersLength = $('.question[question-type="relationship"]').length;
     var relMOAnswersLength = $('.question[question-type="multiple_option"]').length;
-    var relMAAnswersLength = $('.question[question-type="multiple_option"]').length;
+    var relMAAnswersLength = $('.question[question-type="multiple_answers"]').length;
     var relNAAnswersLength = $('.question[question-type="numeric_answer"]').length;
     var relAnswers = new Array(relAnswersLength);
     var relMOAnswers = new Array(relMOAnswersLength);

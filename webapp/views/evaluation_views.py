@@ -33,17 +33,17 @@ class EvaluationView(LoginRequiredMixin, FormView):
 
             for question in random_questions:
                 if question.type == TYPE_RELATIONSHIP or question.type == TYPE_PULL_DOWN_LIST:
-                    answers = question.answers.split(',')
+                    answers = question.answers.split('|')
                     random.shuffle(answers)
                     self.evaluation.append([question, answers])
                 elif question.type == TYPE_MULTIPLE_OPTION:
-                    answers = question.incorrect_answers.split(',')
+                    answers = question.incorrect_answers.split('|')
                     answers.append(question.correct_answer)
                     random.shuffle(answers)
                     self.evaluation.append([question, answers])
                 elif question.type == TYPE_MULTIPLE_ANSWER:
-                    answers = question.incorrect_answers.split(',')
-                    answers.extend(question.correct_answers.split(','))
+                    answers = question.incorrect_answers.split('|')
+                    answers.extend(question.correct_answers.split('|'))
                     random.shuffle(answers)
                     self.evaluation.append([question, answers])
                 elif question.type == TYPE_NUMERIC_ANSWER:

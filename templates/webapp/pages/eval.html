@@ -72,7 +72,7 @@
                         <div class="cell small-4 medium-6 left-side">
                             <ul>
                                 <!-- aqui ponemos la parte izquierda -->
-                            {% with  question.0.options|split:"," as options%}
+                            {% with  question.0.options|split:"|" as options%}
                                 {% for option in options %}
                                      <li class="ls">{{ option }}</li>
                                 {% endfor %}
@@ -274,7 +274,7 @@
                         <div class="grid-x">
                             <div class="cell small-6">
                                 <ul>
-                                    {% with  question.0.options|split:"," as options%}
+                                    {% with  question.0.options|split:"|" as options%}
                                         {% for option in options %}
                                              <li>{{ option }}</li>
                                         {% endfor %}
@@ -326,8 +326,17 @@
     <!-- cada pregunta empieza con un DIV class "section" -->
 
 <script type="text/javascript">
+    let element = null;
     {% for question in evaluation %}
-            evaluation_object.push({question_type: "{{ question.0.type|safe }}", question_pk: "{{ question.0.pk|safe }}", answers: {{question.1|safe}}});
+            evaluation_object.push({question_type: "{{ question.0.type|safe }}", question_pk: "{{ question.0.pk|safe }}", answers: []});
+            element = evaluation_object[{{ forloop.counter0 }}];
+        {% if question.1|length > 1 %}
+            {% for answer in question.1 %}
+                element.answers.push({answer: "{{ answer }}"});
+            {% endfor %}
+        {% else %}
+            element.answers.push({answer: "{{ question.1 }}"});
+        {% endif %}
     {% endfor %}
 </script>
 
