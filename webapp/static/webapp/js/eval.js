@@ -27,9 +27,10 @@ $(document).ready(function () {
         $.fn.fullpage.moveSectionDown();
     });
     $('.reveal').on('click', '#end-eval', function () {
+
         $.ajax({
                 url: '/api/evaluation/',
-                data: {'evaluation': JSON.stringify(evaluation)},
+                data: {evaluation: evaluation_object},
                 dataType: "application/json",
                 success: function(data){
                     swal('Evaluation received');

@@ -39,14 +39,14 @@
             </div>
         </div>
         <script type="text/javascript">
-            let evaluation  = [];
+            let evaluation_object  = [];
         </script>
     </div>
+
+
+
     {% for question in evaluation %}
 
-        <script type="text/javascript">
-            evaluation.push({question_type: "{{ question.0.type|safe }}", question_pk: {{ question.0.pk|safe }}, answers: {{ question.1|safe }} })
-        </script>
 
         {% ifequal question.0.type 'relationship' %}
             <div class="section">
@@ -325,12 +325,16 @@
     {% endfor %}
     <!-- cada pregunta empieza con un DIV class "section" -->
 
+<script type="text/javascript">
+    {% for question in evaluation %}
+            evaluation_object.push({question_type: "{{ question.0.type|safe }}", question_pk: "{{ question.0.pk|safe }}", answers: {{question.1|safe}}});
+    {% endfor %}
+</script>
 
-  
 
-   
 
-    
+
+
     <!-- cuando se ponen todas las preguntas, esta "section" sera la #12.  -->
     <div class="section">
             <!-- Aqui pondermos la calificacion y sugerencias -->
@@ -341,7 +345,7 @@
 </div>
 
 <!-- inputs escondidos que contienen las respuestas en forma:
-PK;[,] | PK; [] 
+PK;[,] | PK; []
 un input por tipo de pregunta
 -->
 
