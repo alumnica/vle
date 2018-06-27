@@ -23,19 +23,18 @@ $(document).ready(function () {
     // $.fn.fullpage.setAllowScrolling(false, 'down');
     // $.fn.fullpage.setKeyboardScrolling(false);
 
-    $('.next').on('click', 'button', function () {
+    $('.next').on('click', '.button', function () {
         $.fn.fullpage.moveSectionDown();
     });
     $('.reveal').on('click', '#end-eval', function () {
-
         $.ajax({
-                url: '/api/evaluation/',
-                data: {evaluation: evaluation_object},
-                dataType: "application/json",
-                success: function(data){
-                    swal('Evaluation received');
-                }
-            });
+            url: '/api/evaluation/',
+            data: {evaluation: evaluation_object},
+            dataType: "application/json",
+            success: function(data){
+                swal('Evaluation received');
+            }
+        });
        finished = true;
        $.fn.fullpage.moveSectionDown();
        $('#score').attr('href', '#twelvethPage');
@@ -44,10 +43,11 @@ $(document).ready(function () {
     var relAnswersLength = $('.question[question-type="relationship"]').length;
     var relMOAnswersLength = $('.question[question-type="multiple_option"]').length;
     var relMAAnswersLength = $('.question[question-type="multiple_option"]').length;
+    var relNAAnswersLength = $('.question[question-type="numeric_answer"]').length;
     var relAnswers = new Array(relAnswersLength);
     var relMOAnswers = new Array(relMOAnswersLength);
     var relMAAnswers = new Array(relMAAnswersLength);
-    var relNAAnswers = new Array();
+    var relNAAnswers = new Array(relNAAnswersLength);
     var relPLAnswers = new Array();
 
     $('.question[question-type="relationship"]').each(function () {
@@ -63,12 +63,13 @@ $(document).ready(function () {
 
             if(!theAnswers.includes(undefined)){
                 $('#evalMenu li[data-menuanchor="'+dataAnchor+'"] a').html('<i class="fa fa-circle"></i>');
-                
+
                 theAnswers.unshift(thePk);
                 relAnswers.splice(qIndex,1,theAnswers.join(';'));
                 $('#relationship').val(relAnswers.join('|'));
 
-             
+                console.log(theAnswers);
+
             }
 
             var selected = $(this);
@@ -99,9 +100,9 @@ $(document).ready(function () {
                         selected.removeClass("ls").addClass("selected");
 
                         theAnswers.splice(indexLeft, 1, [indexLeft, indexRight]);
-                    
-                        
-                        
+                        console.log(theAnswers);
+
+
                     }
                 });
             } else if (selected.hasClass("rs")) {
@@ -131,35 +132,38 @@ $(document).ready(function () {
                         selected.removeClass("rs").addClass("selected");
 
                         theAnswers.splice(indexLeft, 1, [indexLeft, indexRight]);
-                     
-                        
-                        
+                        console.log(theAnswers);
+
+
                     }
                 });
             }
 
         });
 
-        
+
 
 
         //reset all
 
-        $(".reset").click(function () {
-            colors = ["red", "orange", "yellow", "green", "blue", "purple"];            
+        theQuest.find(".reset").click(function () {
+            colors = ["red", "orange", "yellow", "green", "blue", "purple"];
             theAnswers = new Array(theQuest.find(".left-side ul li").length);
-         
-        
-            $(".left-side li").each(function () {
+            console.log(theAnswers);
+            console.log(colors);
+            theQuest.find(".left-side li").each(function () {
                 $(this).removeClass("ls");
                 $(this).addClass("ls");
                 $(this).removeAttr("style");
             });
-            $(".right-side li").each(function () {
+            theQuest.find(".right-side li").each(function () {
                 $(this).removeClass("rs");
                 $(this).addClass("rs");
                 $(this).removeAttr("style");
             });
+            relAnswers.splice(qIndex,1,'');
+            $('#relationship').val(relAnswers.join('|'));
+            $('#evalMenu li[data-menuanchor="'+dataAnchor+'"] a').html('<i class="far fa-circle"></i>');
         });
 
 
@@ -170,23 +174,32 @@ $(document).ready(function () {
         var thePk = $(this).attr('pk');
         var qIndex = $('.question[question-type="multiple_option"]').index(this);
 		var theAnswer = new Array(2);
-		
+
 		$( "input", this ).on( "click", function() {
 			$('#evalMenu li[data-menuanchor="'+dataAnchor+'"] a').html('<i class="fa fa-circle"></i>');
-            
-            theAnswer.splice(1, 1, $(this).val());     
-			theAnswer.splice(0, 1, thePk);		
+
+            theAnswer.splice(1, 1, $(this).val());
+
+            console.log(theAnswer);
+
+			theAnswer.splice(0, 1, thePk);
+
+            console.log(theAnswer);
+
             relMOAnswers.splice(qIndex,1,theAnswer.join(';'));
             $('#multiple_option').val(relMOAnswers.join('|'));
 
+
+
 		});
-				
+
+
     });
 
     $('.question[question-type="multiple_answers"').each(function () {
         var dataAnchor = $(this).parent().attr('data-anchor');
         var thePk = $(this).attr('pk');
-        var qIndex = $('.question[question-type="multiple_answer"]').index(this);
+        var qIndex = $('.question[question-type="multiple_answers"]').index(this);
         var theAnswer = new Array();
         var theQuest = $(this);
 
@@ -195,20 +208,20 @@ $(document).ready(function () {
             var allVals = [];
             theQuest.find(':checked').each(function() {
             allVals.push($(this).val());
-            
+            console.log(allVals);
             });
             allVals.unshift(thePk);
-            
+            // console.log(allVals);
             relMAAnswers.splice(qIndex,1,allVals.join(';'));
             $('#multiple_answer').val(relMAAnswers.join('|'));
-            
+
             if ($('input', $(this).parent().parent()).is(':checked')) {
                 $('#evalMenu li[data-menuanchor="' + dataAnchor + '"] a').html('<i class="fa fa-circle"></i>');
             } else if (!$('input', $(this).parent().parent()).is(':checked')) {
                 $('#evalMenu li[data-menuanchor="' + dataAnchor + '"] a').html('<i class="far fa-circle"></i>');
-            }            
+            }
         });
-        
+
     });
 
     $('.question[question-type="numeric_answer"').each(function () {
@@ -234,34 +247,39 @@ $(document).ready(function () {
                 relNAAnswers.splice(qIndex,1,theAnswer.join(';'));
                 $('#numeric_answer').val(relNAAnswers.join('|'));
             }
-        });    
+
+
+        });
+
 
     });
-    
+
     $('.question[question-type="pulldown_list"').each(function (){
         var dataAnchor = $(this).parent().attr('data-anchor');
         var thePk = $(this).attr('pk');
         var qIndex = $('.question[question-type="pulldown_list"]').index(this);
         var theAnswersLength = $(this).find("select").length;
         var theAnswer = new Array(theAnswersLength);
-        var theQuest = $(this);       
-        
-        $('select', this).change(function(){            
+        var theQuest = $(this);
+
+
+
+        $('select', this).change(function(){
 
             var thisAnswer = [];
             var selIndex = theQuest.find("select").index(this);
-            thisAnswer = ([selIndex, $(this).val()]);           
+            thisAnswer = ([selIndex, $(this).val()]);
             theAnswer.splice(selIndex, 1, thisAnswer);
-            
+            console.log(theAnswer);
 
             if(!theAnswer.includes(undefined)){
                 $('#evalMenu li[data-menuanchor="'+dataAnchor+'"] a').html('<i class="fa fa-circle"></i>');
-                
-                theAnswer.unshift(thePk);
-                relPLAnswers.splice(qIndex,1,theAnswer.join(';'));
+
+                // theAnswer.unshift(thePk);
+                relPLAnswers.splice(qIndex,1,thePk +';'+theAnswer.join(';'));
                 $('#pulldown_list').val(relPLAnswers.join('|'));
-    
-                
+
+                console.log(theAnswer);
     
             }
         });
