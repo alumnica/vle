@@ -19,8 +19,14 @@ from django.urls import path, include
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import routers
 
+from webapp import api_viewsets
 from webapp.views.user_views import IndexView, LandingPageView
+
+router = routers.DefaultRouter()
+router.register(r'evaluation', api_viewsets.EvaluationViewSet)
+
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
@@ -35,5 +41,8 @@ urlpatterns += i18n_patterns(
     path(_('subjects/'), include('webapp.urls.subject_urls')),
     path(_('odas/'), include('webapp.urls.oda_urls')),
     path(_('moments/'), include('webapp.urls.moment_urls')),
+    path(_('evaluations/'), include('webapp.urls.evaluation_urls')),
     path(_('admin/'), admin.site.urls),
+    path(_('api/'), include(router.urls)),
+    path(_('api-auth/'), include('rest_framework.urls', namespace='rest_framework')),
 )

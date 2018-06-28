@@ -17,7 +17,7 @@ import sys
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 
-VERSION_NUMBER = 'v0.7.0'
+VERSION_NUMBER = 'v0.8.0'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'm792=#*_(5x5c80&z+i0u80rj+0kn!f94i!*z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get('ON_HEROKU', False)
 
-ALLOWED_HOSTS = ['.herokuapp.com', 'learn.alumnica.org', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.herokuapp.com', 'learn.alumnica.org', 'www.alumnica.org', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'alumnica_model.apps.AlumnicaModelConfig',
     'sweetify',
     'storages',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -212,4 +213,9 @@ LOGGING = {
             'propagate': False
         }
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
 }

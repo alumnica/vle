@@ -1,0 +1,389 @@
+{% extends "logged-in.html" %}
+{% load static %}
+{% load vle_extras %}
+{% block content %}
+<div class="scroll-menu">
+    <ul id="evalMenu">
+        <li data-menuanchor="firstPage" class="active"><a href="#firstPage"><i class="far fa-bookmark"></i></a></li>
+        <li data-menuanchor="secondPage"><a href="#secondPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="thirdPage"><a href="#thirdPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="fourthPage"><a href="#fourthPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="fifthPage"><a href="#fifthPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="sixthPage"><a href="#sixthPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="seventhPage"><a href="#seventhPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="eighthPage"><a href="#eighthPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="ninethPage"><a href="#ninethPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="tenthPage"><a href="#tenthPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="eleventhPage"><a href="#eleventhPage"><i class="far fa-circle"></i></a></li>
+        <li data-menuanchor="twelvethPage" ><a href="#" id="score"><i class="fas fa-bookmark"></i></a></li>
+       
+    </ul>
+</div>
+<div id="evaluate">
+    <!-- Primera seccion es la intro de la evaluacion -->
+
+    <div class="section">
+        <div class="question">           
+                <div class="eval-intro">
+
+                    <!-- titulo de la evaluacion -->
+
+                    <p class="eval-intro_title">Esto es una evaluacions. Avanza con el boton verde de siguiente.
+                    </p>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequiadipisicing elit. Sequi inventore esse eligendi maxime excepturi enim tenetur sunt, sed expedita quis!</p>
+                    <p class="h4">Suerte!</p>
+                </div>
+           
+            <div class="next">
+                <button class="button success large" type="button"><i class="fa fa-check"></i> Comenzar la Evaluación</button>
+            </div>
+        </div>
+        <script type="text/javascript">
+            let evaluation_object  = [];
+        </script>
+    </div>
+
+
+
+    {% for question in evaluation %}
+
+
+        {% ifequal question.0.type 'relationship' %}
+            <div class="section">
+
+                <!-- ponemos tipo de pregunta y PK unico de pregunta -->
+
+                <!-- tipo "relationsip" -->
+                <div class="question" question-type="relationship" pk={{ question.0.pk }}>
+                    <!-- icono si respondio correcto -->
+                    <div class="correct-icon hideit">
+                        <i class="far fa-check-circle"></i>
+                    </div>
+                    <!-- icono si respondio incorrecto -->
+                    <div class="incorrect-icon hideit">
+                        <i class="far fa-check-circle"></i>
+                    </div>
+
+                    <!-- texto de la pregunta  -->
+                    <div class="the-text">
+                        {{ question.0.sentence }}
+                    </div>
+                    <div class="grid-x grid-margin-x align-center">
+                        <div class="cell small-4 medium-6 left-side">
+                            <ul>
+                                <!-- aqui ponemos la parte izquierda -->
+                            {% with  question.0.options|split:"|" as options%}
+                                {% for option in options %}
+                                     <li class="ls">{{ option }}</li>
+                                {% endfor %}
+                            {% endwith %}
+                            </ul>
+                        </div>
+                        <div class="cell small-4 medium-6 right-side">
+                            <ul>
+                                    <!-- aqui ponemos la parte derecha -->
+                                {%  for answer in question.1 %}
+                                    <li class="rs">{{ answer }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="cell small-4 medium-6 align-self-middle">
+                            <div class="reset">
+                                <i class="fas fa-eraser er-button"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- texto de respuesta correcta, escondido -->
+                    <div class="answer-correct hideit">
+                        {{ question.0.success_description }}
+                    </div>
+                    <!-- texto de respuesta incorrecta, escondido -->
+                    <div class="answer-incorrect hideit">
+                        {{ question.0.fail_description }}
+                    </div>
+                        <!-- boton para avanzar a la siguiente seccion -->
+                {% ifequal evaluation|length forloop.counter %}
+                    <div class="end">
+                        <button class="button success large u-margin-top-small" type="button" data-open="exampleModal1">Terminar Evaluación</button>
+                    </div>
+                    {% else %}
+                        <div class="next">
+                            <button class="button success u-margin-top-small" type="button">Siguiente</button>
+                        </div>
+                    {% endifequal %}
+                </div>
+
+            </div>
+        {% endifequal %}
+
+        {% ifequal question.0.type 'multiple_option' %}
+            <div class="section">
+                <!-- tipo "multiple_option" -->
+                <div class="question" question-type="multiple_option" pk={{ question.0.pk }}>
+                    <!-- icono si respondio correcto -->
+                    <div class="correct-icon hideit">
+                        <i class="far fa-check-circle"></i>
+                    </div>
+                    <!-- icono si respondio incorrecto -->
+                    <div class="incorrect-icon hideit">
+                        <i class="far fa-check-circle"></i>
+                    </div>
+
+                    <!-- texto de la pregunta -->
+                    <p class="the-text">{{ question.0.sentence }}</p>
+                    <!-- cada opcion es un div "radio-choice"
+                        el "value" es como el "index", siempre empieza en "0"
+                    -->
+                    {%  for answer in question.1 %}
+                        <div class="radio-choice">
+                            <input type="radio" value="{{ forloop.counter0 }}" id="{{ answer }}" name={{ question.0.pk }}/>
+                            <label for="{{ answer }}">{{ answer }}</label>
+                        </div>
+                    {% endfor %}
+
+                    <!-- texto de respuesta correcta, escondido -->
+                    <div class="answer-correct hideit">
+                        {{ question.0.success_description }}
+                    </div>
+                    <!-- texto de respuesta incorrecta, escondido -->
+                    <div class="answer-incorrect hideit">
+                        {{ question.0.fail_description }}
+                    </div>
+                        <!-- boton para avanzar a la siguiente seccion -->
+                     {% ifequal evaluation|length forloop.counter %}
+                    <div class="end">
+                        <button class="button success large u-margin-top-small" type="button" data-open="exampleModal1">Terminar Evaluación</button>
+                    </div>
+                    {% else %}
+                        <div class="next">
+                            <button class="button success u-margin-top-small" type="button">Siguiente</button>
+                        </div>
+                    {% endifequal %}
+                </div>
+            </div>
+        {% endifequal %}
+
+        {% ifequal question.0.type 'multiple_answer' %}
+            <div class="section">
+                <!-- tipo "multiple_answer" -->
+                <div class="question" question-type="multiple_answers" pk="{{ question.0.pk }}">
+                    <!-- icono si respondio correcto -->
+                    <div class="correct-icon hideit">
+                        <i class="far fa-check-circle"></i>
+                    </div>
+                    <!-- icono si respondio incorrecto -->
+                    <div class="incorrect-icon hideit">
+                        <i class="far fa-check-circle"></i>
+                    </div>
+
+                    <!-- texto de la pregunta -->
+                    <p class="the-text">{{ question.0.sentence }}</p>
+
+                    <!-- cada respuesta tiene su propio DIV "checkbox-choice"
+                    el "value" toma el papel de "index", empieza siempre en 0 -->
+                    {% for answer in question.1 %}
+                        <div class="checkbox-choice">
+                            <input type="checkbox" id="{{ answer }}" name="feature" value="{{ forloop.counter0 }}" />
+                            <label for="{{ answer }}">{{ answer }}</label>
+                        </div>
+                    {% endfor %}
+
+                    <!-- texto de respuesta correcta, escondido -->
+                    <div class="answer-correct hideit">
+                         {{ question.0.success_description }}
+                    </div>
+                    <!-- texto de respuesta incorrecta, escondido -->
+                    <div class="answer-incorrect hideit">
+                        {{ question.0.fail_description }}
+                    </div>
+                        <!-- boton para avanzar a la siguiente seccion -->
+                    {% ifequal evaluation|length forloop.counter %}
+                    <div class="end">
+                        <button class="button success large u-margin-top-small" type="button" data-open="exampleModal1">Terminar Evaluación</button>
+                    </div>
+                    {% else %}
+                        <div class="next">
+                            <button class="button success u-margin-top-small" type="button">Siguiente</button>
+                        </div>
+                    {% endifequal %}
+                </div>
+            </div>
+        {% endifequal %}
+
+        {% ifequal question.0.type 'numeric_answer' %}
+            <div class="section">
+                    <!-- tipo "numeric_answer" -->
+                    <div class="question" question-type="numeric_answer" pk="{{ question.0.pk }}">
+                         <!-- icono si respondio correcto -->
+                        <div class="correct-icon hideit">
+                            <i class="far fa-check-circle"></i>
+                        </div>
+                        <!-- icono si respondio incorrecto -->
+                        <div class="incorrect-icon hideit">
+                            <i class="far fa-check-circle"></i>
+                        </div>
+
+                        <!-- texto de la pregunta -->
+                        <div class="the-text">
+                            {{ question.0.sentence }}
+                        </div>
+                        <div class="number-answer">
+                            <input type="number">
+                        </div>
+                         <!-- texto de respuesta correcta, escondido -->
+                         <div class="answer-correct hideit">
+                            {{ question.0.success_description }}
+                        </div>
+                        <!-- texto de respuesta incorrecta, escondido -->
+                        <div class="answer-incorrect hideit">
+                            {{ question.0.fail_description }}
+                        </div>
+                        <!-- boton para avanzar a la siguiente seccion -->
+                        {% ifequal evaluation|length forloop.counter %}
+                            <div class="end">
+                                <button class="button success large u-margin-top-small" type="button" data-open="exampleModal1">Terminar Evaluación</button>
+                            </div>
+                        {% else %}
+                                <div class="next">
+                                    <button class="button success u-margin-top-small" type="button">Siguiente</button>
+                                </div>
+                        {% endifequal %}
+                    </div>
+                </div>
+        {% endifequal %}
+
+        {% ifequal question.0.type 'pulldown_list' %}
+            <div class="section">
+                <!-- tipo "pulldown_list" -->
+                <div class="question" question-type="pulldown_list" pk="{{ question.0.pk }}">
+                    <!-- icono si respondio correcto -->
+                    <div class="correct-icon hideit">
+                        <i class="far fa-check-circle"></i>
+                    </div>
+                    <!-- icono si respondio incorrecto -->
+                    <div class="incorrect-icon hideit">
+                        <i class="far fa-check-circle"></i>
+                    </div>
+
+                    <!-- texto de la pregunta -->
+                    <div class="the-text">
+                        {{ question.0.sentence }}
+                    </div>
+
+                    <div class="desp-secc">
+                        <div class="grid-x">
+                            <div class="cell small-6">
+                                <ul>
+                                    {% with  question.0.options|split:"|" as options%}
+                                        {% for option in options %}
+                                             <li>{{ option }}</li>
+                                        {% endfor %}
+                                    {% endwith %}
+                                </ul>
+                            </div>
+                            <div class="cell small-6">
+                                <!-- cada select es un dropdown. el "name" toma el papel de "index", comienza siempre en 0 -->
+                                {% for answer in question.1 %}
+                                    <select name="{{ forloop.counter0 }}">
+                                        <option disabled selected value> -- select an option -- </option>
+                                        {% for answer in question.1 %}
+                                            <option value="{{ forloop.counter0 }}">{{ answer }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>  <!-- end desp-secc -->
+
+                     <!-- texto de respuesta correcta, escondido -->
+                     <div class="answer-correct hideit">
+                        {{ question.0.success_description }}
+                    </div>
+                    <!-- texto de respuesta incorrecta, escondido -->
+                    <div class="answer-incorrect hideit">
+                        {{ question.0.fail_description }}
+                    </div>
+                    <!-- boton para avanzar a la siguiente seccion -->
+
+                    <!-- MUY IMPORTANTE - la ultima pregunta tiene un boton diferente.
+                    Este llama a un modal para terminar la evaluacion y poder bajar
+                     a la siguiente "seccion" donde vendria la calificacion y sugerencias de ODAS -->
+                    {% ifequal evaluation|length forloop.counter %}
+                        <div class="end">
+                            <button class="button success large u-margin-top-small" type="button" data-open="exampleModal1">Terminar Evaluación</button>
+                        </div>
+                    {% else %}
+                        <div class="next">
+                            <button class="button success u-margin-top-small" type="button">Siguiente</button>
+                        </div>
+                    {% endifequal %}
+
+                </div>
+            </div>
+        {% endifequal %}
+    {% endfor %}
+    <!-- cada pregunta empieza con un DIV class "section" -->
+
+<script type="text/javascript">
+    let element = null;
+    {% for question in evaluation %}
+            evaluation_object.push({question_type: "{{ question.0.type|safe }}", question_pk: "{{ question.0.pk|safe }}", answers: []});
+            element = evaluation_object[{{ forloop.counter0 }}];
+        {% if question.1|length > 1 %}
+            {% for answer in question.1 %}
+                element.answers.push({answer: "{{ answer }}"});
+            {% endfor %}
+        {% else %}
+            element.answers.push({answer: "{{ question.1 }}"});
+        {% endif %}
+    {% endfor %}
+</script>
+
+
+
+
+
+    <!-- cuando se ponen todas las preguntas, esta "section" sera la #12.  -->
+    <div class="section">
+            <!-- Aqui pondermos la calificacion y sugerencias -->
+        <div class="the-answer">
+            The score goes here
+        </div>
+    </div>
+</div>
+
+<!-- inputs escondidos que contienen las respuestas en forma:
+PK;[,] | PK; []
+un input por tipo de pregunta
+-->
+
+<div class="eval-inputs">
+    <form>
+        <input type="text" id="relationship">
+        <input type="text" id="multiple_option">
+        <input type="text" id="multiple_answer">
+        <input type="text" id="numeric_answer">
+        <input type="text" id="pulldown_list">
+    </form>
+
+</div>
+
+
+<!-- modal de termino de evaluacion -->
+
+<div class="reveal" id="exampleModal1" data-reveal>
+    <p class="h4">Terminar Evaluación</p>
+    <p> ¿Estas seguro que deseas terminar la evaluacion?</p>
+    <button type="button" class="button" data-close id="end-eval">Si</button>
+    <button type="button" class="button alert" data-close>No</button>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static "webapp/js/eval.js" %}"></script>
+{% endblock %}

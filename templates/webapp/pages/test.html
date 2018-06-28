@@ -1,14 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Test</title>
-</head>
+{% extends "logged-in.html" %}
+{% block content %}
 <body>
     <form method="POST">
         {% csrf_token %}
-        <div class="oda-name">Nombre de la oda</div>
-       {{ oda.name }}
+        {% for microoda in evaluation %}
+            <div class="microoda">{{ microoda.0 }}</div>
+            {% for question in microoda.1 %}
+                <div class="type">Tipo de pregunta: {{ question.type }}</div>
+                <div class="question">{{ question.sentence }}</div>
+                <div class="answers">{{ question.success_description }}</div>
+                <div class="space">-----</div>
+                {% endfor %}
+            <div class="space">-----------------------</div>
+        {% endfor %}
     </form>
+
 </body>
-</html>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        // simple request function
+        $(document).ready(function () {
+            $.ajax({
+                url: '/api/evaluation/',
+                data: {pk: 1},
+                dataType: "application/json",
+                success: function(msg){
+                    swal('Evaluation received');
+                }
+            });
+        });
+
+    </script>
+{% endblock %}
