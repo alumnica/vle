@@ -21,7 +21,9 @@ class EvaluationView(LoginRequiredMixin, FormView):
 
     def get_evaluation(self, pk):
         evaluation_instance = Evaluation.objects.get(pk=pk)
-        for microODA in evaluation_instance.oda.all()[0].microodas.all():
+        microODA_array = list(evaluation_instance.oda.all()[0].microodas.all())
+        random.shuffle(microODA_array)
+        for microODA in microODA_array:
             microoda_questions = []
             microoda_questions.extend(evaluation_instance.relationship_questions.filter(microoda=microODA.type))
             microoda_questions.extend(evaluation_instance.multiple_option_questions.filter(microoda=microODA.type))
