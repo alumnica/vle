@@ -40,10 +40,10 @@ $(document).ready(function () {
                     multiple_option_answers: multiple_option_answers,
                     multiple_answer_answers: multiple_answer_answers,
                     numeric_answer_answers: numeric_answer_answers,
-                    pulldown_list_answers: pulldown_list_answers},
-            dataType: "application/json",
+                    pulldown_list_answers: pulldown_list_answers,
+                    pk: user_pk},
             success: function(data){
-                swal('Evaluation received');
+                swal('Sacaste '+data.score);
             }
         });
        finished = true;

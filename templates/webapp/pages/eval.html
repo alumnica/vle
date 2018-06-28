@@ -369,6 +369,7 @@ un input por tipo de pregunta
 </div>
 
     <script type="text/javascript">
+    let user_pk = {{ request.user.pk|safe }};
     let element = null;
     {% for question in evaluation %}
             evaluation_object.push({question_type: "{{ question.0.type|safe }}", question_pk: "{{ question.0.pk|safe }}", answers: []});
