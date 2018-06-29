@@ -43,7 +43,9 @@ $(document).ready(function () {
                     pulldown_list_answers: pulldown_list_answers,
                     pk: user_pk},
             success: function(data){
-                swal('Sacaste '+data.score);
+                let wrong_questions_array = JSON.parse(data.data);
+                let score = data.score;
+                swal('Sacaste '+score);
             }
         });
        finished = true;

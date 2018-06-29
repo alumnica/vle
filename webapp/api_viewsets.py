@@ -39,6 +39,7 @@ class EvaluationViewSet(ModelViewSet):
                           numeric_answers, pulldown_list_answers, learner):
         score = 0
         wrong_answers = []
+        question_instance = None
 
         for question in evaluation:
             correct_answer = False
@@ -136,10 +137,17 @@ class EvaluationViewSet(ModelViewSet):
                     question_instance = NumericQuestion.objects.get(pk=int(question['question_pk']))
                     wrong_answers.append({'type': TYPE_NUMERIC_ANSWER, 'pk': question_instance.pk})
 
-        #progress, created = LearnerEvaluationProgress.objects.get_or_create(learner=learner, evaluation=question_instance.evaluation)
-
-        # if score >= 8:
-        #     progress.is_complete = True
-        #     progress.save()
+        progress = None
+        evaluation_completed = False
+        if score >= 7:
+            evaluation_completed = True
+        if learner.evaluations_progresses.filter(pk=question_instance.evaluation.pk).exists():
+            progress = learner.evaluations_progresses.get(pk=question_instance.evaluation.pk)
+            if not progress.is_complete and evaluation_completed:
+                #To do. Give more points or stars or something
+                progress.is_complete = evaluation_completed
+        else:
+            progress= LearnerEvaluationProgress.objects.create(evaluation=question_instance.evaluation, is_complete=evaluation_completed)
+            learner.evaluations_progresses.add(progress)
 
         return score, wrong_answers
