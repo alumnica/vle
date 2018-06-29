@@ -33,7 +33,7 @@ class EvaluationViewSet(ModelViewSet):
                                                       multiple_answer_answers, numeric_answers,
                                                       pulldown_list_answers, user.profile)
         json_response = json.dumps(wrong_answers)
-        return JsonResponse({'score':score,'data': json_response})
+        return JsonResponse({'score': score, 'data': json_response})
 
     def review_evaluation(self, evaluation, relationship_answers, multiple_option_answers, multiple_answer_answers,
                           numeric_answers, pulldown_list_answers, learner):
@@ -141,13 +141,15 @@ class EvaluationViewSet(ModelViewSet):
         evaluation_completed = False
         if score >= 7:
             evaluation_completed = True
-        if learner.evaluations_progresses.filter(pk=question_instance.evaluation.pk).exists():
-            progress = learner.evaluations_progresses.get(pk=question_instance.evaluation.pk)
+        if learner.evaluations_progresses.filter(evaluation=question_instance.evaluation).exists():
+            progress = learner.evaluations_progresses.get(evaluation=question_instance.evaluation)
             if not progress.is_complete and evaluation_completed:
-                #To do. Give more points or stars or something
+                # To do. Give more points or stars or something
                 progress.is_complete = evaluation_completed
+                progress.save()
         else:
-            progress= LearnerEvaluationProgress.objects.create(evaluation=question_instance.evaluation, is_complete=evaluation_completed)
+            progress = LearnerEvaluationProgress.objects.create(evaluation=question_instance.evaluation,
+                                                                is_complete=evaluation_completed)
             learner.evaluations_progresses.add(progress)
 
         return score, wrong_answers
