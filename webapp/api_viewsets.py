@@ -212,5 +212,4 @@ class EvaluationViewSet(ModelViewSet):
                                                                 is_complete=evaluation_completed)
             learner.evaluations_progresses.add(progress)
 
-
         return score, questions_status, suggestions_dict
