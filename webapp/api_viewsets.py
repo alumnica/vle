@@ -28,12 +28,12 @@ class EvaluationViewSet(ModelViewSet):
         pulldown_list_answers = request.GET['pulldown_list_answers'].split('|')
         user_pk = request.GET['pk']
         user = AuthUser.objects.get(pk=user_pk)
-        score, wrong_answers = self.review_evaluation(evaluation,
+        score, answers, suggestions = self.review_evaluation(evaluation,
                                                       relationship_answers, multiple_option_answers,
                                                       multiple_answer_answers, numeric_answers,
                                                       pulldown_list_answers, user.profile)
-        json_response = json.dumps(wrong_answers)
-        return JsonResponse({'score': score, 'data': json_response})
+        json_response = json.dumps(answers)
+        return JsonResponse({'score': score, 'data': json_response, 'suggestions': suggestions})
 
     def review_evaluation(self, evaluation, relationship_answers, multiple_option_answers, multiple_answer_answers,
                           numeric_answers, pulldown_list_answers, learner):
@@ -64,11 +64,13 @@ class EvaluationViewSet(ModelViewSet):
                 if correct_answer:
                     questions_status.append({'type': TYPE_RELATIONSHIP,
                                              'pk': question_instance.pk,
+                                             'uoda_type':question_instance.microoda.name,
                                              'status': 'correct',
                                              'description': question_instance.success_description})
                 else:
                     question_instance = RelationShipQuestion.objects.get(pk=int(question['question_pk']))
                     questions_status.append({'type': TYPE_RELATIONSHIP,
+                                             'uoda_type':question_instance.microoda.name,
                                              'pk': question_instance.pk,
                                              'status': 'incorrect',
                                              'description': question_instance.fail_description})
@@ -93,12 +95,14 @@ class EvaluationViewSet(ModelViewSet):
                         break
                 if correct_answer:
                     questions_status.append({'type': TYPE_PULL_DOWN_LIST,
+                                             'uoda_type':question_instance.microoda.name,
                                              'pk': question_instance.pk,
                                              'status': 'correct',
                                              'description': question_instance.success_description})
                 else:
                     question_instance = PullDownListQuestion.objects.get(pk=int(question['question_pk']))
                     questions_status.append({'type': TYPE_PULL_DOWN_LIST,
+                                             'uoda_type':question_instance.microoda.name,
                                              'pk': question_instance.pk,
                                              'status': 'incorrect',
                                              'description': question_instance.fail_description})
@@ -117,12 +121,14 @@ class EvaluationViewSet(ModelViewSet):
                         break
                 if correct_answer:
                     questions_status.append({'type': TYPE_MULTIPLE_OPTION,
+                                             'uoda_type':question_instance.microoda.name,
                                              'pk': question_instance.pk,
                                              'status': 'correct',
                                              'description': question_instance.success_description})
                 else:
                     question_instance = MultipleOptionQuestion.objects.get(pk=int(question['question_pk']))
                     questions_status.append({'type': TYPE_MULTIPLE_OPTION,
+                                             'uoda_type':question_instance.microoda.name,
                                              'pk': question_instance.pk,
                                              'status': 'incorrect',
                                              'description': question_instance.fail_description})
@@ -145,12 +151,14 @@ class EvaluationViewSet(ModelViewSet):
                         break
                 if correct_answer:
                     questions_status.append({'type': TYPE_MULTIPLE_ANSWER,
+                                             'uoda_type':question_instance.microoda.name,
                                              'pk': question_instance.pk,
                                              'status': 'correct',
                                              'description': question_instance.success_description})
                 else:
                     question_instance = MultipleAnswerQuestion.objects.get(pk=int(question['question_pk']))
                     questions_status.append({'type': TYPE_MULTIPLE_ANSWER,
+                                             'uoda_type':question_instance.microoda.name,
                                              'pk': question_instance.pk,
                                              'status': 'incorrect',
                                              'description': question_instance.fail_description})
@@ -167,20 +175,32 @@ class EvaluationViewSet(ModelViewSet):
                         break
                 if correct_answer:
                     questions_status.append({'type': TYPE_NUMERIC_ANSWER,
+                                             'uoda_type':question_instance.microoda.name,
                                              'pk': question_instance.pk,
                                              'status': 'correct',
                                              'description': question_instance.success_description})
                 else:
                     question_instance = NumericQuestion.objects.get(pk=int(question['question_pk']))
                     questions_status.append({'type': TYPE_NUMERIC_ANSWER,
+                                             'uoda_type':question_instance.microoda.name,
                                              'pk': question_instance.pk,
                                              'status': 'incorrect',
                                              'description': question_instance.fail_description})
 
-
         evaluation_completed = False
         if score >= 7:
+            odas = [tag.odas.all() for tag in question_instance.evaluation.oda.all()[0].tags.all()]
+            suggestions_dict = [[{'oda': oda.name} for oda in odas_array
+                                 if oda.pk != question_instance.evaluation.oda.all()[0].pk]
+                                for odas_array in odas]
             evaluation_completed = True
+        else:
+            var = questions_status[0]
+            suggestions = [question['uoda_type'] for question in questions_status
+                           if question['status'] == 'incorrect']
+            suggestions = set(suggestions)
+            suggestions_dict = [{'uoda': uoda} for uoda in suggestions]
+
         if learner.evaluations_progresses.filter(evaluation=question_instance.evaluation).exists():
             progress = learner.evaluations_progresses.get(evaluation=question_instance.evaluation)
             if not progress.is_complete and evaluation_completed:
@@ -192,4 +212,5 @@ class EvaluationViewSet(ModelViewSet):
                                                                 is_complete=evaluation_completed)
             learner.evaluations_progresses.add(progress)
 
-        return score, questions_status
+
+        return score, questions_status, suggestions_dict
