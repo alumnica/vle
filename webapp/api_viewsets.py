@@ -38,7 +38,7 @@ class EvaluationViewSet(ModelViewSet):
     def review_evaluation(self, evaluation, relationship_answers, multiple_option_answers, multiple_answer_answers,
                           numeric_answers, pulldown_list_answers, learner):
         score = 0
-        wrong_answers = []
+        questions_status = []
         question_instance = None
 
         for question in evaluation:
@@ -61,9 +61,17 @@ class EvaluationViewSet(ModelViewSet):
                             correct_answer = True
                             score += 1
                         break
-                if not correct_answer:
+                if correct_answer:
+                    questions_status.append({'type': TYPE_RELATIONSHIP,
+                                             'pk': question_instance.pk,
+                                             'status': 'correct',
+                                             'description': question_instance.success_description})
+                else:
                     question_instance = RelationShipQuestion.objects.get(pk=int(question['question_pk']))
-                    wrong_answers.append({'type': TYPE_RELATIONSHIP, 'pk': question_instance.pk})
+                    questions_status.append({'type': TYPE_RELATIONSHIP,
+                                             'pk': question_instance.pk,
+                                             'status': 'incorrect',
+                                             'description': question_instance.fail_description})
 
             elif question['question_type'] == TYPE_PULL_DOWN_LIST:
                 local_score = 0
@@ -83,9 +91,17 @@ class EvaluationViewSet(ModelViewSet):
                             correct_answer = True
                             score += 1
                         break
-                if not correct_answer:
+                if correct_answer:
+                    questions_status.append({'type': TYPE_PULL_DOWN_LIST,
+                                             'pk': question_instance.pk,
+                                             'status': 'correct',
+                                             'description': question_instance.success_description})
+                else:
                     question_instance = PullDownListQuestion.objects.get(pk=int(question['question_pk']))
-                    wrong_answers.append({'type': TYPE_PULL_DOWN_LIST, 'pk': question_instance.pk})
+                    questions_status.append({'type': TYPE_PULL_DOWN_LIST,
+                                             'pk': question_instance.pk,
+                                             'status': 'incorrect',
+                                             'description': question_instance.fail_description})
 
             elif question['question_type'] == TYPE_MULTIPLE_OPTION:
                 for answer_data in multiple_option_answers:
@@ -99,9 +115,17 @@ class EvaluationViewSet(ModelViewSet):
                             correct_answer = True
                             score += 1
                         break
-                if not correct_answer:
+                if correct_answer:
+                    questions_status.append({'type': TYPE_MULTIPLE_OPTION,
+                                             'pk': question_instance.pk,
+                                             'status': 'correct',
+                                             'description': question_instance.success_description})
+                else:
                     question_instance = MultipleOptionQuestion.objects.get(pk=int(question['question_pk']))
-                    wrong_answers.append({'type': TYPE_MULTIPLE_OPTION, 'pk': question_instance.pk})
+                    questions_status.append({'type': TYPE_MULTIPLE_OPTION,
+                                             'pk': question_instance.pk,
+                                             'status': 'incorrect',
+                                             'description': question_instance.fail_description})
 
             elif question['question_type'] == TYPE_MULTIPLE_ANSWER:
                 local_score = 0
@@ -119,9 +143,17 @@ class EvaluationViewSet(ModelViewSet):
                             score += 1
                             correct_answer = True
                         break
-                if not correct_answer:
+                if correct_answer:
+                    questions_status.append({'type': TYPE_MULTIPLE_ANSWER,
+                                             'pk': question_instance.pk,
+                                             'status': 'correct',
+                                             'description': question_instance.success_description})
+                else:
                     question_instance = MultipleAnswerQuestion.objects.get(pk=int(question['question_pk']))
-                    wrong_answers.append({'type': TYPE_MULTIPLE_ANSWER, 'pk': question_instance.pk})
+                    questions_status.append({'type': TYPE_MULTIPLE_ANSWER,
+                                             'pk': question_instance.pk,
+                                             'status': 'incorrect',
+                                             'description': question_instance.fail_description})
 
             elif question['question_type'] == TYPE_NUMERIC_ANSWER:
                 for answer_data in numeric_answers:
@@ -133,11 +165,19 @@ class EvaluationViewSet(ModelViewSet):
                             score += 1
                             correct_answer = True
                         break
-                if not correct_answer:
+                if correct_answer:
+                    questions_status.append({'type': TYPE_NUMERIC_ANSWER,
+                                             'pk': question_instance.pk,
+                                             'status': 'correct',
+                                             'description': question_instance.success_description})
+                else:
                     question_instance = NumericQuestion.objects.get(pk=int(question['question_pk']))
-                    wrong_answers.append({'type': TYPE_NUMERIC_ANSWER, 'pk': question_instance.pk})
+                    questions_status.append({'type': TYPE_NUMERIC_ANSWER,
+                                             'pk': question_instance.pk,
+                                             'status': 'incorrect',
+                                             'description': question_instance.fail_description})
 
-        progress = None
+
         evaluation_completed = False
         if score >= 7:
             evaluation_completed = True
@@ -152,4 +192,4 @@ class EvaluationViewSet(ModelViewSet):
                                                                 is_complete=evaluation_completed)
             learner.evaluations_progresses.add(progress)
 
-        return score, wrong_answers
+        return score, questions_status
