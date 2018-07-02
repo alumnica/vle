@@ -67,6 +67,9 @@ $(document).ready(function () {
         $('.answer-text').removeClass('is-hidden');
         $(this).parent().parent().remove();
         $('.the-score').fadeIn(500);
+        $('input').prop('disabled', true);
+        $('select').prop('disabled', true);
+        $('.reset').remove();
     });
 
     var relAnswersLength = $('.question[question-type="relationship"]').length;
