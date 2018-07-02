@@ -11,13 +11,24 @@
                 {% if oda.section == 1 %}
 
                     <div class="block" id="oda-{{ oda.pk }}" data-n="a-{{ oda.zone }}" state="{{ state }}">
-                        <a href="{% url 'oda_view' oda.pk %}" class="oda-image">
+                        <div class="thetip" style="display: none">
+                            <div class="tip-title">
+                                {{ oda.name }}
+                            </div>
+                            <div class="oda-progress">
+                                <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
+                            </div>
+                            <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                <i class="fa fa-play"></i>
+                            </a>
+                        </div>
+                        <div class="oda-image">
                             {% if state != 'finalized' %}
                                 <img src="{{ oda.active_icon.file.url }}" alt="">
                             {% else %}
                                 <img src="{{ oda.completed_icon.file.url }}" alt="">
                             {% endif %}
-                        </a>
+                        </div>
                     </div>
 
                 {% elif oda.section == 2 %}
@@ -100,4 +111,5 @@
 
 {% block scripts %}
 <script src="{% static "webapp/js/materias.js" %}"></script>
+<script src="{% static "webapp/js/touchtip.js" %}"></script>
 {% endblock %}
