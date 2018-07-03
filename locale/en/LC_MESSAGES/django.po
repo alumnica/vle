@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-21 05:26+0000\n"
+"POT-Creation-Date: 2018-07-03 13:29-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,66 +18,158 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: alumnica_model/models/users.py:31
+#: alumnica_model/models/users.py:49
 msgid "Can't get profile for invalid user type: {}"
 msgstr ""
 
-#: alumnica_model/models/users.py:186
+#: alumnica_model/models/users.py:163
 msgid "Invalid user type selected: {}"
 msgstr ""
 
-#: alumnica_model/models/users.py:189
+#: alumnica_model/models/users.py:166
 msgid "There was an error creating the profile for user {}."
 msgstr ""
 
-#: templates/webapp/pages/signup.html:10
+#: alumnica_model/validators.py:9
+msgid "An Ambit with the name \"{}\", already exists"
+msgstr ""
+
+#: alumnica_model/validators.py:22
+msgid "Unsupported file extension"
+msgstr ""
+
+#: alumnica_model/validators.py:29
+msgid "File too large. Size should not exceed 2 MB."
+msgstr ""
+
+#: templates/webapp/pages/ambitos-grid.html:40
+msgid "No existe ningún ámbito publicado"
+msgstr ""
+
+#: templates/webapp/pages/signup.html:11
 msgid "REGISTRO"
 msgstr "SIGN UP"
 
-#: templates/webapp/pages/signup.html:15
+#: templates/webapp/pages/signup.html:14
 msgid "CORREO"
 msgstr "EMAIL"
 
-#: templates/webapp/pages/signup.html:17
+#: templates/webapp/pages/signup.html:15
 msgid "CONTRASEÑA"
 msgstr "PASSWORD"
 
-#: templates/webapp/pages/signup.html:19
+#: templates/webapp/pages/signup.html:16
 msgid "CONFIRMA TU CONTRASEÑA"
 msgstr "CONFIRM YOUR PASSWORD"
 
-#: templates/webapp/pages/signup.html:20
+#: templates/webapp/pages/signup.html:17
 msgid "SIGUIENTE"
 msgstr "NEXT"
 
-#: templates/webapp/pages/signup.html:23
+#: templates/webapp/pages/signup.html:20
 msgid "CONTINUAR CON"
 msgstr "CONTINUE WITH"
 
-#: vle_webapp/settings.py:125
+#: vle_webapp/settings.py:141
 msgid "English"
 msgstr ""
 
-#: vle_webapp/settings.py:126
+#: vle_webapp/settings.py:142
 msgid "Spanish"
 msgstr ""
 
-#: vle_webapp/urls.py:29
+#: vle_webapp/urls.py:38
+msgid "learn/"
+msgstr ""
+
+#: vle_webapp/urls.py:39
 msgid "users/"
 msgstr ""
 
-#: vle_webapp/urls.py:30
+#: vle_webapp/urls.py:40
+msgid "profile/"
+msgstr ""
+
+#: vle_webapp/urls.py:41
+msgid "ambit/"
+msgstr ""
+
+#: vle_webapp/urls.py:42
+msgid "subjects/"
+msgstr ""
+
+#: vle_webapp/urls.py:43
+msgid "odas/"
+msgstr ""
+
+#: vle_webapp/urls.py:44
+msgid "moments/"
+msgstr ""
+
+#: vle_webapp/urls.py:45
+msgid "evaluations/"
+msgstr ""
+
+#: vle_webapp/urls.py:46
 msgid "admin/"
 msgstr ""
 
-#: webapp/forms/user_forms.py:22
+#: vle_webapp/urls.py:47
+msgid "api/"
+msgstr ""
+
+#: vle_webapp/urls.py:48
+msgid "api-auth/"
+msgstr ""
+
+#: vle_webapp/urls.py:49
+msgid "jsi18n/"
+msgstr ""
+
+#: webapp/forms/user_forms.py:23
+msgid "Password must have 6 characters or more."
+msgstr ""
+
+#: webapp/forms/user_forms.py:27
 msgid "The two password fields didn't match."
 msgstr ""
 
-#: webapp/urls.py:7
+#: webapp/forms/user_forms.py:53 webapp/forms/user_forms.py:58
+msgid "Invalid password or email."
+msgstr ""
+
+#: webapp/urls/ambit_urls.py:7
+msgid "ambit_grid/"
+msgstr ""
+
+#: webapp/urls/profile_urls.py:7
+msgid "first-login-info/"
+msgstr ""
+
+#: webapp/urls/profile_urls.py:8
+msgid "first-login-p1/"
+msgstr ""
+
+#: webapp/urls/profile_urls.py:9
+msgid "first-login-p2/"
+msgstr ""
+
+#: webapp/urls/profile_urls.py:10
+msgid "first-login-p3/"
+msgstr ""
+
+#: webapp/urls/users_urls.py:7
 msgid "login/"
 msgstr ""
 
-#: webapp/urls.py:8
+#: webapp/urls/users_urls.py:8
 msgid "signup/"
+msgstr ""
+
+#: webapp/urls/users_urls.py:9
+msgid "dashboard/"
+msgstr ""
+
+#: webapp/urls/users_urls.py:10
+msgid "logout/"
 msgstr ""

@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.i18n import JavaScriptCatalog
 from rest_framework import routers
 
 from webapp import api_viewsets
@@ -45,4 +46,5 @@ urlpatterns += i18n_patterns(
     path(_('admin/'), admin.site.urls),
     path(_('api/'), include(router.urls)),
     path(_('api-auth/'), include('rest_framework.urls', namespace='rest_framework')),
+    path(_('jsi18n/'), JavaScriptCatalog.as_view(), name='javascript-catalog'),
 )

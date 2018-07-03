@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-18 20:53+0000\n"
+"POT-Creation-Date: 2018-07-03 13:29-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,76 +18,112 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: alumnica_model/models/users.py:31
+#: alumnica_model/models/users.py:49
 msgid "Can't get profile for invalid user type: {}"
 msgstr ""
 
-#: alumnica_model/models/users.py:202
+#: alumnica_model/models/users.py:163
 msgid "Invalid user type selected: {}"
 msgstr ""
 
-#: alumnica_model/models/users.py:205
+#: alumnica_model/models/users.py:166
 msgid "There was an error creating the profile for user {}."
 msgstr ""
 
-#: alumnica_model/validators.py:8
+#: alumnica_model/validators.py:9
 msgid "An Ambit with the name \"{}\", already exists"
 msgstr ""
 
-#: templates/webapp/pages/signup.html:10
-msgid "SIGN UP"
+#: alumnica_model/validators.py:22
+msgid "Unsupported file extension"
 msgstr ""
 
-#: templates/webapp/pages/signup.html:13
-msgid "EMAIL"
+#: alumnica_model/validators.py:29
+msgid "File too large. Size should not exceed 2 MB."
+msgstr ""
+
+#: templates/webapp/pages/ambitos-grid.html:40
+msgid "No existe ningún ámbito publicado"
+msgstr ""
+
+#: templates/webapp/pages/signup.html:11
+msgid "REGISTRO"
 msgstr ""
 
 #: templates/webapp/pages/signup.html:14
-msgid "PASSWORD"
+msgid "CORREO"
 msgstr ""
 
 #: templates/webapp/pages/signup.html:15
-msgid "CONFIRM YOUR PASSWORD"
+msgid "CONTRASEÑA"
 msgstr ""
 
 #: templates/webapp/pages/signup.html:16
-msgid "NEXT"
+msgid "CONFIRMA TU CONTRASEÑA"
 msgstr ""
 
-#: templates/webapp/pages/signup.html:19
-msgid "CONTINUE WITH"
+#: templates/webapp/pages/signup.html:17
+msgid "SIGUIENTE"
 msgstr ""
 
-#: vle_webapp/settings.py:135
+#: templates/webapp/pages/signup.html:20
+msgid "CONTINUAR CON"
+msgstr ""
+
+#: vle_webapp/settings.py:141
 msgid "English"
 msgstr ""
 
-#: vle_webapp/settings.py:136
+#: vle_webapp/settings.py:142
 msgid "Spanish"
 msgstr ""
 
-#: vle_webapp/urls.py:31
+#: vle_webapp/urls.py:38
 msgid "learn/"
 msgstr ""
 
-#: vle_webapp/urls.py:32
+#: vle_webapp/urls.py:39
 msgid "users/"
 msgstr ""
 
-#: vle_webapp/urls.py:33
+#: vle_webapp/urls.py:40
 msgid "profile/"
 msgstr ""
 
-#: vle_webapp/urls.py:34
+#: vle_webapp/urls.py:41
 msgid "ambit/"
 msgstr ""
 
-#: vle_webapp/urls.py:35
+#: vle_webapp/urls.py:42
 msgid "subjects/"
 msgstr ""
 
-#: vle_webapp/urls.py:36
+#: vle_webapp/urls.py:43
+msgid "odas/"
+msgstr ""
+
+#: vle_webapp/urls.py:44
+msgid "moments/"
+msgstr ""
+
+#: vle_webapp/urls.py:45
+msgid "evaluations/"
+msgstr ""
+
+#: vle_webapp/urls.py:46
 msgid "admin/"
+msgstr ""
+
+#: vle_webapp/urls.py:47
+msgid "api/"
+msgstr ""
+
+#: vle_webapp/urls.py:48
+msgid "api-auth/"
+msgstr ""
+
+#: vle_webapp/urls.py:49
+msgid "jsi18n/"
 msgstr ""
 
 #: webapp/forms/user_forms.py:23
