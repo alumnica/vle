@@ -189,14 +189,17 @@ class EvaluationViewSet(ModelViewSet):
 
         evaluation_completed = False
         if score >= 7:
-            odas = [tag.odas.filter(temporal=False) for tag in question_instance.evaluation.oda.all()[0].tags.all()]
-            suggestions_dict = [[{'oda': oda.name, 'image':oda.active_icon.file.url, 'pk': oda.pk} for oda in odas_array
-                                 if oda.pk != question_instance.evaluation.oda.all()[0].pk
-                                 and oda.subject.ambit.is_published]
-                                for odas_array in odas]
+            self_oda_pk = question_instance.evaluation.oda.all()[0].pk
+            odas_array = [tag.odas.filter(temporal=False) for tag in question_instance.evaluation.oda.all()[0].tags.all()]
+            suggestions_dict = []
+
+            for odas in odas_array:
+                for oda in odas:
+                    if oda.pk != self_oda_pk and oda.subject.ambit.is_published:
+                        suggestions_dict.append({'oda': oda.name, 'image': oda.active_icon.file.url, 'pk': oda.pk})
+
             evaluation_completed = True
         else:
-            var = questions_status[0]
             suggestions = [question['uoda_type'] for question in questions_status
                            if question['status'] == 'incorrect']
             suggestions = set(suggestions)

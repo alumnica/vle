@@ -67,10 +67,10 @@ $(document).ready(function () {
                     for (let j = 0; j<data.suggestions.length; j++){
                         let suggestion = data.suggestions[j];
                         let rec_div = document.getElementById('suggestions');
-                        for (let k = 0; k<suggestion.length; k++){
-                            $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='"+suggestion[k].image+"' alt='\'></div><div class='oda-text'>"+suggestion[k].oda+"</div></a>");
-                             $(rec_div).find('#rec').attr("href", ("/en/odas/"+suggestion[k].pk+"/"))
-                        }
+
+                        $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='"+suggestion.image+"' alt='\'></div><div class='oda-text'>"+suggestion.oda+"</div></a>");
+                        $(rec_div).find('#rec').attr("href", ("/en/odas/"+suggestion.pk+"/"));
+
 
                     }
                 }
