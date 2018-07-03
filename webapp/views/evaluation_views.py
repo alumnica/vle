@@ -6,14 +6,12 @@ from django.views.generic import FormView
 from alumnica_model.models.content import Evaluation
 from alumnica_model.models.questions import TYPE_RELATIONSHIP, TYPE_PULL_DOWN_LIST, TYPE_MULTIPLE_OPTION, \
     TYPE_MULTIPLE_ANSWER, TYPE_NUMERIC_ANSWER
-from webapp.forms.evaluation_forms import EvaluationForm
 
 
 class EvaluationView(LoginRequiredMixin, FormView):
     login_url = 'login_view'
     template_name = 'webapp/pages/eval.html'
     evaluation = []
-    form_class = EvaluationForm
 
     def dispatch(self, request, *args, **kwargs):
         self.evaluation = []
@@ -52,15 +50,4 @@ class EvaluationView(LoginRequiredMixin, FormView):
                 elif question.type == TYPE_NUMERIC_ANSWER:
                     self.evaluation.append([question, 0])
 
-    def form_valid(self, form):
-        relationship_answers = self.request.POST.get('')
-        multiple_option_answers = self.request.POST.get('')
-        multiple_answer_answers = self.request.POST.get('')
-        numeric_answers = self.request.POST.get('')
-        pulldown_list_answers = self.request.POST.get('')
-
-        score, wrong_answers = form.review_evaluation(self.evaluation,
-                                                      relationship_answers, multiple_option_answers,
-                                                      multiple_answer_answers, numeric_answers,
-                                                      pulldown_list_answers, self.request.user.profile)
 

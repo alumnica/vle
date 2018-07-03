@@ -189,9 +189,10 @@ class EvaluationViewSet(ModelViewSet):
 
         evaluation_completed = False
         if score >= 7:
-            odas = [tag.odas.all() for tag in question_instance.evaluation.oda.all()[0].tags.all()]
-            suggestions_dict = [[{'oda': oda.name} for oda in odas_array
-                                 if oda.pk != question_instance.evaluation.oda.all()[0].pk]
+            odas = [tag.odas.filter(temporal=False) for tag in question_instance.evaluation.oda.all()[0].tags.all()]
+            suggestions_dict = [[{'oda': oda.name, 'image':oda.active_icon.file.url, 'pk': oda.pk} for oda in odas_array
+                                 if oda.pk != question_instance.evaluation.oda.all()[0].pk
+                                 and oda.subject.ambit.is_published]
                                 for odas_array in odas]
             evaluation_completed = True
         else:

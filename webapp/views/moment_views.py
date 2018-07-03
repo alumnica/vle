@@ -18,4 +18,4 @@ class MomentView(LoginRequiredMixin, FormView):
                 progress = LearnerProgressInActivity.objects.create(activity=moment, score=0, is_complete=False)
                 learner.activities_progresses.add(progress)
 
-        return render(request, self.template_name, {'moment_array': moment_array})
+        return render(request, self.template_name, {'moment_array': moment_array}) 
