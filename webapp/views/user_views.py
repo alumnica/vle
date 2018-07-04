@@ -87,8 +87,8 @@ class DashboardView(FormView):
         activities = []
         for activity in user.profile.recent_activities.order_by('pk')[0:3]:
             activities.append([activity, activity.subject])
-
-        context.update({'recent_activities': activities})
+        ambits = Ambit.objects.exclude(is_published=False)
+        context.update({'recent_activities': activities, 'ambits':ambits})
 
         return context
 

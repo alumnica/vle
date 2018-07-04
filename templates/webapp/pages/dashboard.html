@@ -26,31 +26,13 @@
                 <div class=" cell medium-6">
                     <p class="caps">Mapa de Selección de Materias</p>
                     <div id="materias-slider" class="owl-carousel owl-theme">
-                        <div>
-                            <a href="{% url 'ambitos-grid_view' %}">
-                                <img src="https://via.placeholder.com/500x120/ff0000" alt="">
-                            </a>
-                        </div>
-                        <div>
-                            <a href="{% url 'ambitos-grid_view' %}">
-                                <img src="https://via.placeholder.com/500x120/fff000" alt="">
-                            </a>
-                        </div>
-                        <div>
-                            <a href="{% url 'ambitos-grid_view' %}">
-                                <img src="https://via.placeholder.com/500x120/ffe000" alt="">
-                            </a>
-                        </div>
-                        <div>
-                            <a href="{% url 'ambitos-grid_view' %}">
-                                <img src="https://via.placeholder.com/500x120/ffa000" alt="">
-                            </a>
-                        </div>
-                        <div>
-                            <a href="{% url 'ambitos-grid_view' %}">
-                                <img src="https://via.placeholder.com/500x120/5e84c3" alt="">
-                            </a>
-                        </div>
+                        {% for ambit in ambits %}
+                            <div>
+                                <a href="{% url 'ambitos-grid_view' %}">
+                                    <img src="{{ ambit.background_image.file.url }}" alt="">
+                                </a>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="cell medium-6">
