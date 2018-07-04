@@ -11,8 +11,10 @@ class ODAView(LoginRequiredMixin, View):
 
     def dispatch(self, request, *args, **kwargs):
         oda = ODA.objects.get(pk=kwargs['pk'])
+        self.request.user.profile.assign_recent_oda(oda)
         microodas_list = oda.microodas.order_by('default_position')
         moments_list = []
+
         for microoda in microodas_list:
             moments = microoda.activities.order_by('default_position')
             moments_list.append(moments)
