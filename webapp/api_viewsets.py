@@ -227,5 +227,8 @@ class MicroodaViewSet(APIView):
             progress.is_complete = True
             progress.save()
 
-        return JsonResponse({'points': 10})
+        microodas_suggestion = [{'mODA_name': mODA.type.name} for mODA in microoda.oda.microodas.exclude(pk=microoda.pk)]
+
+
+        return JsonResponse({'points': 10, 'suggestions': microodas_suggestion})
 

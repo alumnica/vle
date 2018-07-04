@@ -7,4 +7,15 @@ $(document).ready(function () {
 
  
     });
+
+    $('#end_btn').click(function () {
+
+        $.ajax({
+            url: '/api/microodas/'+learner+","+microoda,
+            success: function(data){
+                swal('success');
+            }
+
+        });
+    });
 });

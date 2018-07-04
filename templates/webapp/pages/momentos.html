@@ -73,7 +73,7 @@
                                     </div>
                             </div>
                             <div class="return-to-oda-btn">
-                                <button class="button end-button"><i class="fas fa-play"></i> &nbsp; Regresar a la ODA</button>
+                                <button class="button end-button" type="button" id="end_btn"><i class="fas fa-play"></i> &nbsp; Regresar a la ODA</button>
                             </div>
                             <div class="return-to-materia-btn">
                                 <button class="button warning end-button"><i class="fa fa-map"></i> &nbsp; Regresar a la Materia</button>
@@ -95,6 +95,10 @@
 <div id="momMenu">
     
 </div>
+<script type="text/javascript">
+    let microoda = {{ moment_array.0.microodas.all.0.pk }};
+    let learner = {{ request.user.profile.pk }};
+    </script>
 
 {% endblock %}
 
