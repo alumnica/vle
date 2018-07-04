@@ -15,7 +15,7 @@
                             <h4>{{ user.first_name }} {{ user.last_name }}</h4>
                             <p class="h5">
                                 <i class="fas fa-star star"></i>
-                                {{ experience_points_field }}</p>
+                                {{ user.profile.experience_points }}</p>
                         </div>
                         <div class="cell shrink">
 
@@ -133,27 +133,15 @@
                 <div class="cell medium-6">
                     <p class="caps">Actividad Reciente</p>
                     <div class="grid-x grid-margin-y">
-                        <div class="cell medium-12">
-                            <div class="actividad-receinte">
+                        {% for activity in recent_activities %}
+                            <div class="cell medium-12">
+                            <div class="actividad-receinte" style=" background-image: url({{ activity.1.background_image.file.url }})">
                                 <div class="oda-reciente">
-                                    Imagen de ODA aqui
+                                    <img src="{{ activity.0.active_icon.file.url }}" alt="">
                                 </div>
                             </div>
                         </div>
-                        <div class="cell medium-12">
-                            <div class="actividad-receinte">
-                                <div class="oda-reciente">
-                                    Imagen de ODA aqui
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cell medium-12">
-                            <div class="actividad-receinte">
-                                <div class="oda-reciente">
-                                    Imagen de ODA aqui
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                         <div class="cell meium-12 text-center">
                             <a href="#" class="">Ver más ODAs incompletas</a>
                         </div>

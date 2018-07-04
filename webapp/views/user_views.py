@@ -7,7 +7,7 @@ from django.views.generic import *
 from django.views.generic.base import TemplateView
 from sweetify import sweetify
 
-from alumnica_model.models import users
+from alumnica_model.models import users, Ambit
 from alumnica_model.models.users import TYPE_LEARNER
 from webapp.forms.user_forms import UserForm, UserLoginForm
 
@@ -71,7 +71,7 @@ class SignUpView(FormView):
         return self.render_to_response(context)
 
 
-class DashboardView(TemplateView):
+class DashboardView(FormView):
     template_name = 'webapp/pages/dashboard.html'
 
     @method_decorator(login_required(login_url='login_view'))
@@ -80,6 +80,17 @@ class DashboardView(TemplateView):
             return super(DashboardView, self).dispatch(*args, **kwargs)
         else:
             return redirect('/admin/')
+
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context = {'user': self.request.user}
+        activities = []
+        for activity in user.profile.recent_activities.order_by('pk')[0:3]:
+            activities.append([activity, activity.subject])
+
+        context.update({'recent_activities': activities})
+
+        return context
 
 
 class LogoutView(RedirectView):
