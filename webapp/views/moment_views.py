@@ -11,6 +11,7 @@ class MomentView(LoginRequiredMixin, FormView):
 
     def dispatch(self, request, *args, **kwargs):
         moment_instance = Moment.objects.get(pk=kwargs['pk'])
+        self.request.user.profile.assign_recent_oda(moment_instance.microodas.all()[0].oda)
         moment_array = moment_instance.microodas.all()[0].activities.all()
         learner = request.user.profile
         for moment in moment_array:

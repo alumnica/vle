@@ -11,13 +11,17 @@ class ODAView(LoginRequiredMixin, View):
 
     def dispatch(self, request, *args, **kwargs):
         oda = ODA.objects.get(pk=kwargs['pk'])
-        self.request.user.profile.assign_recent_oda(oda)
-        microodas_list = oda.microodas.order_by('default_position')
+        microodas = oda.microodas.order_by('default_position')
         moments_list = []
+        microodas_list = []
 
-        for microoda in microodas_list:
+        for microoda in microodas:
             moments = microoda.activities.order_by('default_position')
             moments_list.append(moments)
+            state = 'incomplete'
+            if microoda.get_status_by_learner(request.user.profile):
+                state = 'complete'
+            microodas_list.append([microoda, state])
 
         microodas_moments = zip(microodas_list, moments_list)
 

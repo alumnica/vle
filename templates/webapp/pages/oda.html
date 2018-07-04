@@ -71,10 +71,10 @@
         </div>
 
     {% for microoda, moments in microodas_moments %}
-         <div class="section" id="section{{ forloop.counter }}">
+         <div class="section" id="section{{ forloop.counter }}" state="{{ microoda.1|safe }}">
             <div class="micro-tags">
                 <ul>
-                    {% for tag in microoda.tags.all %}
+                    {% for tag in microoda.0.tags.all %}
                         <li>{{ tag.name }}</li>
                     {% endfor %}
                 </ul>
