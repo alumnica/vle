@@ -1,14 +1,9 @@
 import json
-import random
-from collections import namedtuple
-
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render_to_response
-from rest_framework import status
-from rest_framework.response import Response
+from django.http import JsonResponse
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
-from alumnica_model.models import AuthUser
+from alumnica_model.models import AuthUser, Learner, MicroODA
 from alumnica_model.models.progress import LearnerEvaluationProgress
 from alumnica_model.models.questions import *
 from webapp.serializers import *
@@ -217,3 +212,20 @@ class EvaluationViewSet(ModelViewSet):
             learner.evaluations_progresses.add(progress)
 
         return score, questions_status, suggestions_dict
+
+
+class MicroodaViewSet(APIView):
+    def get(self, request,*args, **kwargs):
+        learner_pk = kwargs['learner']
+        microoda_pk = kwargs['uODA']
+
+        learner = Learner.objects.get(pk=learner_pk)
+        microoda = MicroODA.objects.get(pk=microoda_pk)
+
+        for activity in microoda.activities.all():
+            progress = learner.activities_progresses.get(activity=activity)
+            progress.is_complete = True
+            progress.save()
+
+        return JsonResponse({'points': 10})
+
