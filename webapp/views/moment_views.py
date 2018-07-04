@@ -11,9 +11,13 @@ class MomentView(LoginRequiredMixin, FormView):
 
     def dispatch(self, request, *args, **kwargs):
         moment_instance = Moment.objects.get(pk=kwargs['pk'])
-        self.request.user.profile.assign_recent_oda(moment_instance.microodas.all()[0].oda)
-        moment_array = moment_instance.microodas.all()[0].activities.all()
         learner = request.user.profile
+        learner.assign_recent_oda(moment_instance.microodas.all()[0].oda)
+        learner.microoda_in_progress = moment_instance.microodas.all()[0]
+        learner.save()
+
+        moment_array = moment_instance.microodas.all()[0].activities.all()
+
         for moment in moment_array:
             if not learner.activities_progresses.filter(activity=moment).exists():
                 progress = LearnerProgressInActivity.objects.create(activity=moment, score=0, is_complete=False)

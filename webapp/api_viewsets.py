@@ -215,7 +215,7 @@ class EvaluationViewSet(ModelViewSet):
 
 
 class MicroodaViewSet(APIView):
-    def get(self, request,*args, **kwargs):
+    def get(self, request, *args, **kwargs):
         learner_pk = kwargs['learner']
         microoda_pk = kwargs['uODA']
 
@@ -227,8 +227,8 @@ class MicroodaViewSet(APIView):
             progress.is_complete = True
             progress.save()
 
-        microodas_suggestion = [{'mODA_name': mODA.type.name} for mODA in microoda.oda.microodas.exclude(pk=microoda.pk)]
-
+        microodas_suggestion = [{'mODA_name': mODA.type.name} for mODA in
+                                microoda.oda.microodas.exclude(pk=microoda.pk)]
 
         return JsonResponse({'points': 10, 'suggestions': microodas_suggestion})
 
