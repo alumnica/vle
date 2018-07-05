@@ -119,7 +119,9 @@
                             <div class="cell medium-12">
                             <div class="actividad-receinte" style=" background-image: url({{ activity.1.background_image.file.url }})">
                                 <div class="oda-reciente">
-                                    <img src="{{ activity.0.active_icon.file.url }}" alt="">
+                                    <a href="{% url 'oda_view' activity.0.pk %}">
+                                        <img src="{{ activity.0.active_icon.file.url }}" alt="">
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -45,6 +45,7 @@ class FirstLoginP2(forms.Form):
             elif option_2 == '2':
                 profile.learning_style = LearningStyle.objects.get(name='Convergente')
 
+        profile.experience_points += 1000
         user.save()
 
 
@@ -65,4 +66,5 @@ class FirstLoginP3(forms.Form):
             elif option_2 == '2':
                 profile.learning_style = LearningStyle.objects.get(name='Convergente')
 
+        profile.experience_points += 1000
         user.save()
