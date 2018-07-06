@@ -2,10 +2,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import FormView, TemplateView
 
+from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import Ambit
 
 
-class AmbitGridView(LoginRequiredMixin, FormView):
+class AmbitGridView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
     login_url = 'login_view'
     template_name = 'webapp/pages/ambitos-grid.html'
 

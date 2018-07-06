@@ -3,20 +3,22 @@ import random
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import FormView
+
+from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models.content import Evaluation
 from alumnica_model.models.questions import TYPE_RELATIONSHIP, TYPE_PULL_DOWN_LIST, TYPE_MULTIPLE_OPTION, \
     TYPE_MULTIPLE_ANSWER, TYPE_NUMERIC_ANSWER
 
 
-class EvaluationView(LoginRequiredMixin, FormView):
+class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
     login_url = 'login_view'
     template_name = 'webapp/pages/eval.html'
     evaluation = []
 
-    def dispatch(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         self.evaluation = []
-        self.get_evaluation(kwargs['pk'])
-        return render(request, self.template_name, {'evaluation': self.evaluation})
+        self.get_evaluation(self.kwargs['pk'])
+        return {'evaluation': self.evaluation}
 
     def get_evaluation(self, pk):
         evaluation_instance = Evaluation.objects.get(pk=pk)

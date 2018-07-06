@@ -2,10 +2,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views import View
 
+from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import ODA
 
 
-class ODAView(LoginRequiredMixin, View):
+class ODAView(LoginRequiredMixin, OnlyLearnerMixin, View):
     login_url = 'login_view'
     template_name = 'webapp/pages/oda.html'
 
