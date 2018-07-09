@@ -10,10 +10,9 @@ class AmbitGridView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
     login_url = 'login_view'
     template_name = 'webapp/pages/ambitos-grid.html'
 
-    def get(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         ambits_list= Ambit.objects.all().filter(is_published=True).order_by('position')
-
-        return render(self.request, self.template_name, {'ambits_list': ambits_list})
+        return {'ambits_list': ambits_list}
 
 
 class TestView(TemplateView):

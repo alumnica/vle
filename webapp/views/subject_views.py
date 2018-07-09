@@ -1,17 +1,18 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.views.generic import DetailView
+from django.views.generic import DetailView, FormView
 from django.views.generic.base import View
 
+from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import Subject
 
 
-class SubjectView(LoginRequiredMixin, View):
+class SubjectView(LoginRequiredMixin, OnlyLearnerMixin,  FormView):
     login_url = 'login_view'
     template_name = 'webapp/pages/materia.html'
     model = Subject
 
-    def dispatch(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         subject = Subject.objects.get(pk=self.kwargs['pk'])
         odas_list = []
         odas_states = []
@@ -27,4 +28,4 @@ class SubjectView(LoginRequiredMixin, View):
         odas_zip = zip(odas_list, odas_states)
         subject_zip = zip(subject.sections_images.all(), zones[0:subject.number_of_sections])
 
-        return render(request, self.template_name, {'subject':subject, 'subject_zip': subject_zip, 'odas_zip': odas_zip})
+        return {'subject': subject, 'subject_zip': subject_zip, 'odas_zip': odas_zip}

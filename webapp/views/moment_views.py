@@ -9,9 +9,9 @@ class MomentView(LoginRequiredMixin, FormView):
     login_url = "login_view"
     template_name = "webapp/pages/momentos.html"
 
-    def dispatch(self, request, *args, **kwargs):
-        moment_instance = Moment.objects.get(pk=kwargs['pk'])
-        learner = request.user.profile
+    def get_context_data(self, **kwargs):
+        moment_instance = Moment.objects.get(pk=self.kwargs['pk'])
+        learner = self.request.user.profile
         learner.assign_recent_oda(moment_instance.microodas.all()[0].oda)
         learner.microoda_in_progress = moment_instance.microodas.all()[0]
         learner.save()
@@ -23,4 +23,4 @@ class MomentView(LoginRequiredMixin, FormView):
                 progress = LearnerProgressInActivity.objects.create(activity=moment, score=0, is_complete=False)
                 learner.activities_progresses.add(progress)
 
-        return render(request, self.template_name, {'moment_array': moment_array}) 
+        return {'moment_array': moment_array}
