@@ -1,10 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-from django.views import View
 from django.views.generic import FormView
 
 from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import ODA
+from alumnica_model.models.content import MicroODAByLearningStyle, MicroODAType
 
 
 class ODAView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
@@ -13,7 +12,9 @@ class ODAView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
 
     def get_context_data(self, **kwargs):
         oda = ODA.objects.get(pk=self.kwargs['pk'])
-        microodas = oda.microodas.order_by('default_position')
+        microodas = []
+        for uoda in MicroODAByLearningStyle[self.request.user.profile.learning_style.name]:
+            microodas.append(oda.microodas.get(type=MicroODAType.objects.get(name=uoda)))
         moments_list = []
         microodas_list = []
 
