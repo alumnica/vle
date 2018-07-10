@@ -1,30 +1,32 @@
+{% load static %}
 <button class="close-button" aria-label="Close menu" type="button" data-close>
         <span aria-hidden="true">&times;</span>
 </button>
 <div class="grid-x grid-padding-x grid-margin-y u-margin-top-small">
     <div class="cell medium-12 text-center">
-            <img src="https://via.placeholder.com/200/fffff" alt="">
+            <img src="{% static 'webapp/media/perfil-01-01_100x100.png' %}" alt="">
     </div>
     <div class="cell medium-12 text-center">
         <h3>{{ user.first_name }} {{ user.last_name }}</h3>
 
-        {% comment %} Aqui requerimos la variable USERNAME {% endcomment %}
 
-        <p><i class="fas fa-star star"></i> {{ experience_points_field }}</p>
-        <div class="warning progress">
-                <div class="progress-meter" style="width: 80%"></div>
-        </div>
 
-        {% comment %} Variable de puntos {% endcomment %}
+        <p><i class="fas fa-star star"></i> {{ user.profile.experience_points }}</p>
+
+
+
     </div>
-    <div class="cell medium-12 text-center">
-                Insignias:
-        </div>
-        <div class="cell small-3 text-center"><img src="https://via.placeholder.com/80x80/6a83c0" alt=""></div>
-        <div class="cell small-3 text-center"><img src="https://via.placeholder.com/80x80/6a83c0" alt=""></div>
-        <div class="cell small-3 text-center"><img src="https://via.placeholder.com/80x80/6a83c0" alt=""></div>
-        <div class="cell small-3 text-center"><img src="https://via.placeholder.com/80x80/6a83c0" alt=""></div>
-        <div class="cell small-12 u-margin-top-medium">
-                        <a href="{% url 'logout_view' %}" class="button warning expanded caps">Cerrar Sesión</a>
-        </div>  
+    <div class="cell small-12">
+        <ul class="user-menu">
+            <li>
+                <i class="fas fa-columns"></i> Dashboard Principal
+            </li>
+            <li>
+                <i class="fas fa-user"></i> Profile Settings
+            </li>
+        </ul>
+    </div>
+    <div class="cell small-12 text-center ">
+                        <a href="{% url 'logout_view' %}" class="button warning caps u-margin-top-medium">Cerrar Sesión</a>
+    </div>
 </div>
