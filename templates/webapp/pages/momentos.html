@@ -31,54 +31,29 @@
         <div class="slide">
             <div class="h5p-cont ">
                 <div id="fourth">
-                    
                     <div class="end-of-uoda">
                         <p class="h3 text-center">µODA Completada</p>
-                        <div class="uoda-suggestions">
-                            <div class="score-side">
-                                <div class="uoda-image">
-                                    <img src="https://via.placeholder.com/150x150" alt="">
-                                </div>
-                                <p>
-                                    <i class="fa fa-star"></i> x 5000
-                                </p>
-                            </div>
-                            <div class="suggestion-side">
-                                <p>Te recomendamos las siguientes µODAs:</p>
-                                <div class="the-recs">
-                                        <a class="rec">
-                                            <div class="oda-image">
-                                                <img src="../assets/media/ODAs/semaforo.gif" alt="">
-                                            </div>
-                                            <div class="oda-text">
-                                                titulo de ODA
-                                            </div>
-                                        </a>
-                                        <a class="rec">
-                                            <div class="oda-image">
-                                                <img src="../assets/media/ODAs/semaforo.gif" alt="">
-                                            </div>
-                                            <div class="oda-text">
-                                                titulo de ODA
-                                            </div>
-                                        </a>
-                                        <a class="rec hide-for-small-only">
-                                            <div class="oda-image">
-                                                <img src="../assets/media/ODAs/semaforo.gif" alt="">
-                                            </div>
-                                            <div class="oda-text">
-                                                titulo de ODA
-                                            </div>
-                                        </a>
-                                    </div>
-                            </div>
-                            <div class="return-to-oda-btn">
-                                <button class="button end-button" type="button" id="end_btn"><i class="fas fa-play"></i> &nbsp; Regresar a la ODA</button>
-                            </div>
-                            <div class="return-to-materia-btn">
-                                <button class="button warning end-button"><i class="fa fa-map"></i> &nbsp; Regresar a la Materia</button>
-                            </div>
+                        <div class="uoda-image">
+                          {% if moment_array.0.microodas.all.0.type.name == "application" %}
+
+                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_aplicacion.png"%}" alt="Aplicacion">
+                    {% elif moment_array.0.microodas.all.0.type.name == "formalization" %}
+                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_formalizacion.png" %}" alt="Formalizacion">
+                    {% elif moment_array.0.microodas.all.0.type.name == "activation" %}
+                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_activacion.png" %}" alt="activacion">
+                    {% elif moment_array.0.microodas.all.0.type.name == "exemplification" %}
+                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_ejemplificacion.png" %}" alt="ejemplificacion">
+                    {% elif moment_array.0.microodas.all.0.type.name == "sensitization" %}
+                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_sensibilizacion.png" %}" alt="sensibilizacion">
+                    {% endif %}
                         </div>
+                        <p class="uoda-score">
+                            <i class="fa fa-star"></i> x 5000
+                        </p>
+                        <a href="{% url 'oda_view' moment_array.0.microodas.all.0.oda.pk  %}" class="end-uoda-btn">
+                            <i class="fas fa-play"></i> &nbsp; Regresar a la ODA
+                        </a>
+
                     </div>
                 </div>
             </div>
