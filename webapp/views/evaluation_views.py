@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views.generic import FormView
 
 from alumnica_model.mixins import OnlyLearnerMixin
-from alumnica_model.models.content import Evaluation
+from alumnica_model.models.content import Evaluation, ODA, Subject
 from alumnica_model.models.questions import TYPE_RELATIONSHIP, TYPE_PULL_DOWN_LIST, TYPE_MULTIPLE_OPTION, \
     TYPE_MULTIPLE_ANSWER, TYPE_NUMERIC_ANSWER
 
@@ -18,7 +18,8 @@ class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
     def get_context_data(self, **kwargs):
         self.evaluation = []
         self.get_evaluation(self.kwargs['pk'])
-        return {'evaluation': self.evaluation}
+        oda = ODA.objects.get(evaluation=Evaluation.objects.get(pk=self.kwargs['pk']))
+        return {'evaluation': self.evaluation, 'oda': oda}
 
     def get_evaluation(self, pk):
         evaluation_instance = Evaluation.objects.get(pk=pk)
