@@ -2,56 +2,81 @@
 {% load static %}
 {% block content %}
 
-<div class="grid-container screen-height">
-    <div class="grid-x align-center cont-height">
-        <div class="cell small-11 h5p-cont">
-            <iframe src="{{ moment.file_name }}" class="the-h5p">
-                <!-- aqui va el paquete de h5p -->
+<div id="moments">
+    <div class="section">
+        {% for moment in moment_array %}
+        <div class="slide">
+            <div class="h5p-cont ">
+                <iframe src="{{ moment.file_name }}" class="the-h5p" frameborder="0">
 
+                </iframe>
 
+            </div>
+        </div>
+        {% endfor %}
+        <!-- <div class="slide">
+            <div class="h5p-cont ">
+                <iframe id="second" src="" class="the-h5p" frameborder="0">
 
+                </iframe>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="h5p-cont ">
+                <iframe id="third" src="" class="the-h5p" frameborder="0">
 
+                </iframe>
+            </div>
+        </div> -->
+        <div class="slide">
+            <div class="h5p-cont ">
+                <div id="fourth">
+                    <div class="end-of-uoda">
+                        <p class="h3 text-center">µODA Completada</p>
+                        <div class="uoda-image">
+                          {% if moment_array.0.microodas.all.0.type.name == "application" %}
 
+                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_aplicacion.png"%}" alt="Aplicacion">
+                    {% elif moment_array.0.microodas.all.0.type.name == "formalization" %}
+                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_formalizacion.png" %}" alt="Formalizacion">
+                    {% elif moment_array.0.microodas.all.0.type.name == "activation" %}
+                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_activacion.png" %}" alt="activacion">
+                    {% elif moment_array.0.microodas.all.0.type.name == "exemplification" %}
+                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_ejemplificacion.png" %}" alt="ejemplificacion">
+                    {% elif moment_array.0.microodas.all.0.type.name == "sensitization" %}
+                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_sensibilizacion.png" %}" alt="sensibilizacion">
+                    {% endif %}
+                        </div>
+                        <p class="uoda-score">
+                            <i class="fa fa-star"></i> x 5000
+                        </p>
+                        <a href="{% url 'oda_view' moment_array.0.microodas.all.0.oda.pk  %}" class="end-uoda-btn">
+                            <i class="fas fa-play"></i> &nbsp; Regresar a la ODA
+                        </a>
 
-
-
-
-
-
-
-
-
-                
-            </iframe>
-            <div class="moments">
-                {% comment %}{% for types in types_list %}
-                    <div id="{{ type }}" class="single-mom"></div>
-                {% endfor %}{% endcomment %}
-                <div id="m1" class="single-mom"></div>
-                <div id="m2" class="single-mom active-mom"></div>
-                <div id="m3" class="single-mom"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="nav-items">
-            <button type="button" class="prev-arrow">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button type="button" class="next-arrow">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-    <!-- return buttons -->
-            <a href="{% url 'ambitos-grid_view' %}" class="mom-grid-btn">
-                <i class="fas fa-th"></i>
-            </a>
-            <a href="{% url 'oda_view' moment.microodas.all.0.oda.pk  %}" class="mom-return-btn">
-                <i class="fas fa-undo-alt"></i>
-            </a>
-        </div>
 </div>
+ <!-- return buttons -->
+ <a href="{% url 'ambitos-grid_view' %}" class="mom-grid-btn">
+    <i class="fas fa-th"></i>
+</a>
+<a href="{% url 'oda_view' moment_array.0.microodas.all.0.oda.pk  %}" class="mom-return-btn">
+    <i class="fas fa-undo-alt"></i>
+</a>
+<div id="momMenu">
+    
+</div>
+<script type="text/javascript">
+    let microoda = {{ moment_array.0.microodas.all.0.pk }};
+    let learner = {{ request.user.profile.pk }};
+    </script>
 
 {% endblock %}
 
 {% block scripts %}
-
+<script src="{% static "webapp/js/the-moments.js" %}"></script>
 {% endblock %}

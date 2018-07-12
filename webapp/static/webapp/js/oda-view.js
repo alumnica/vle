@@ -10,4 +10,14 @@ $(document).ready(function () {
     paddingTop: '3rem',
     verticalCentered: false,
   });
+
+
+   $('.section[state]').each(function(){
+        var state = $(this).attr('state'),
+            theId = $(this).attr('menu-ref');
+            theRef = '.e'+theId;
+        if (state == 'complete'){
+           $(theRef).toggleClass(theRef).toggleClass('s'+theId);
+        }
+    })
 });

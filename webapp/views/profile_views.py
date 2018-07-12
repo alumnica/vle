@@ -1,23 +1,17 @@
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, render
-from django.utils.decorators import method_decorator
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.views.generic import FormView
 
+from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import AuthUser
 from webapp.forms.profile_forms import *
 
 
-class FirstLoginInfoView(FormView):
+class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    login_url = 'login_view'
     template_name = 'webapp/pages/first-login-info.html'
     form_class = FirstLoginInfoForm
-
-    @method_decorator(login_required(login_url='login_view'))
-    def dispatch(self, *args, **kwargs):
-        if not self.request.user.is_staff:
-            return super(FirstLoginInfoView, self).dispatch(*args, **kwargs)
-        else:
-            return redirect('/admin/')
 
     def form_valid(self, form):
         user = AuthUser.objects.get(email=self.request.user.email)
@@ -25,7 +19,8 @@ class FirstLoginInfoView(FormView):
         return redirect(to='first-login-p1_view')
 
 
-class FirstLoginP1View(FormView):
+class FirstLoginP1View(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    login_url = 'login_view'
     template_name = 'webapp/pages/first-login-p1.html'
     form_class = FirstLoginP1
 
@@ -37,7 +32,8 @@ class FirstLoginP1View(FormView):
             return redirect(to='first-login-p3_view')
 
 
-class FirstLoginP2View(FormView):
+class FirstLoginP2View(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    login_url = 'login_view'
     template_name = 'webapp/pages/first-login-p2.1.html'
     form_class = FirstLoginP2
     first_selection = '0'
@@ -50,7 +46,8 @@ class FirstLoginP2View(FormView):
         return redirect(to='dashboard_view')
 
 
-class FirstLoginP3View(FormView):
+class FirstLoginP3View(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    login_url = 'login_view'
     template_name = 'webapp/pages/first-login-p3.1.html'
     form_class = FirstLoginP3
     first_selection = '0'

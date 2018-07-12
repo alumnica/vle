@@ -12,6 +12,7 @@
     <title>Alúmnica</title>
     <link rel="stylesheet" href="{% static "/webapp/css/app.css" %}">
     <link rel="icon" href="{% static 'webapp/media/alumnica-favico.png' %}" type="image/png" sizes="16x16">
+    <link rel="manifest" href="{% static 'webapp/PWA/manifest.json' %}">
 </head>
 
 <body>
@@ -32,7 +33,7 @@
         {% endblock %}
 
 
-
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
     <script src="{% static "webapp/js/app.js" %}"></script>
 
 </div>

@@ -34,6 +34,9 @@ class FirstLoginP2(forms.Form):
         option_2 = second_selection
         profile = user.profile
 
+        if profile.learning_style is None:
+            profile.experience_points += 1000
+
         if option_1 == '1':
             if option_2 == '1':
                 profile.learning_style = LearningStyle.objects.get(name='Divergente')
@@ -53,6 +56,9 @@ class FirstLoginP3(forms.Form):
         option_1 = first_selection
         option_2 = second_selection
         profile = user.profile
+
+        if profile.learning_style is None:
+            profile.experience_points += 1000
 
         if option_1 == '1':
             if option_2 == '1':

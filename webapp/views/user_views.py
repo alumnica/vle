@@ -1,5 +1,6 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -7,7 +8,8 @@ from django.views.generic import *
 from django.views.generic.base import TemplateView
 from sweetify import sweetify
 
-from alumnica_model.models import users
+from alumnica_model.mixins import OnlyLearnerMixin
+from alumnica_model.models import users, Ambit
 from alumnica_model.models.users import TYPE_LEARNER
 from webapp.forms.user_forms import UserForm, UserLoginForm
 
@@ -71,15 +73,20 @@ class SignUpView(FormView):
         return self.render_to_response(context)
 
 
-class DashboardView(TemplateView):
+class DashboardView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
     template_name = 'webapp/pages/dashboard.html'
+    login_url = 'login_view'
 
-    @method_decorator(login_required(login_url='login_view'))
-    def dispatch(self, *args, **kwargs):
-        if not self.request.user.is_staff:
-            return super(DashboardView, self).dispatch(*args, **kwargs)
-        else:
-            return redirect('/admin/')
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context = {'user': self.request.user}
+        activities = []
+        for activity in user.profile.recent_activities.order_by('pk')[0:3]:
+            activities.append([activity, activity.subject])
+        ambits = Ambit.objects.exclude(is_published=False)
+        context.update({'recent_activities': activities, 'ambits':ambits})
+
+        return context
 
 
 class LogoutView(RedirectView):

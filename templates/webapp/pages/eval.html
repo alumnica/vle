@@ -15,10 +15,17 @@
         <li data-menuanchor="ninethPage"><a href="#ninethPage"><i class="far fa-circle"></i></a></li>
         <li data-menuanchor="tenthPage"><a href="#tenthPage"><i class="far fa-circle"></i></a></li>
         <li data-menuanchor="eleventhPage"><a href="#eleventhPage"><i class="far fa-circle"></i></a></li>
-        <li data-menuanchor="twelvethPage" ><a href="#" id="score"><i class="fas fa-bookmark"></i></a></li>
+        <li data-menuanchor="twelvethPage" ><a href="#twelvethPage" id="score"><i class="fas fa-bookmark"></i></a></li>
        
     </ul>
 </div>
+ <!-- return buttons -->
+ <a href="{% url 'ambitos-grid_view' %}" class="eval-grid-btn">
+    <i class="fas fa-th"></i>
+</a>
+<a href="{% url 'oda_view' oda.pk %}" class="eval-return-btn">
+    <i class="fas fa-undo-alt"></i>
+</a>
 <div id="evaluate">
     <!-- Primera seccion es la intro de la evaluacion -->
 
@@ -28,7 +35,7 @@
 
                     <!-- titulo de la evaluacion -->
 
-                    <p class="eval-intro_title">Esto es una evaluacions. Avanza con el boton verde de siguiente.
+                    <p class="eval-intro_title">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde?
                     </p>
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequiadipisicing elit. Sequi inventore esse eligendi maxime excepturi enim tenetur sunt, sed expedita quis!</p>
                     <p class="h4">Suerte!</p>
@@ -68,8 +75,8 @@
                     <div class="the-text">
                         {{ question.0.sentence }}
                     </div>
-                    <div class="grid-x grid-margin-x align-center">
-                        <div class="cell small-4 medium-6 left-side">
+                    <div class="match">
+                        <div class="left-side">
                             <ul>
                                 <!-- aqui ponemos la parte izquierda -->
                             {% with  question.0.options|split:"|" as options%}
@@ -79,7 +86,7 @@
                             {% endwith %}
                             </ul>
                         </div>
-                        <div class="cell small-4 medium-6 right-side">
+                        <div class="right-side">
                             <ul>
                                     <!-- aqui ponemos la parte derecha -->
                                 {%  for answer in question.1 %}
@@ -87,30 +94,26 @@
                                 {% endfor %}
                             </ul>
                         </div>
-                        <div class="cell small-4 medium-6 align-self-middle">
-                            <div class="reset">
-                                <i class="fas fa-eraser er-button"></i>
-                            </div>
+                        
+                        <div class="reset">
+                            <i class="fas fa-eraser er-button"></i>
+                        </div>
+                        
+                    </div>               
+
+                
+                </div>
+                <div class="answer-text is-hidden">
+                    <div class="the-tab">
+                        <div class="icon">
+                            
                         </div>
                     </div>
-                    <!-- texto de respuesta correcta, escondido -->
-                    <div class="answer-correct hideit">
-                        {{ question.0.success_description }}
+                    <div class="the-answer-text">
+                        <p>
+
+                        </p>
                     </div>
-                    <!-- texto de respuesta incorrecta, escondido -->
-                    <div class="answer-incorrect hideit">
-                        {{ question.0.fail_description }}
-                    </div>
-                        <!-- boton para avanzar a la siguiente seccion -->
-                {% ifequal evaluation|length forloop.counter %}
-                    <div class="end">
-                        <button class="button success large u-margin-top-small" type="button" data-open="exampleModal1">Terminar Evaluación</button>
-                    </div>
-                    {% else %}
-                        <div class="next">
-                            <button class="button success u-margin-top-small" type="button">Siguiente</button>
-                        </div>
-                    {% endifequal %}
                 </div>
 
             </div>
@@ -141,24 +144,20 @@
                         </div>
                     {% endfor %}
 
-                    <!-- texto de respuesta correcta, escondido -->
-                    <div class="answer-correct hideit">
-                        {{ question.0.success_description }}
-                    </div>
-                    <!-- texto de respuesta incorrecta, escondido -->
-                    <div class="answer-incorrect hideit">
-                        {{ question.0.fail_description }}
-                    </div>
-                        <!-- boton para avanzar a la siguiente seccion -->
-                     {% ifequal evaluation|length forloop.counter %}
-                    <div class="end">
-                        <button class="button success large u-margin-top-small" type="button" data-open="exampleModal1">Terminar Evaluación</button>
-                    </div>
-                    {% else %}
-                        <div class="next">
-                            <button class="button success u-margin-top-small" type="button">Siguiente</button>
+                   
+                   
+                </div>
+                <div class="answer-text is-hidden">
+                    <div class="the-tab">
+                        <div class="icon">
+                            
                         </div>
-                    {% endifequal %}
+                    </div>
+                    <div class="the-answer-text">
+                        <p>
+
+                        </p>
+                    </div>
                 </div>
             </div>
         {% endifequal %}
@@ -166,7 +165,7 @@
         {% ifequal question.0.type 'multiple_answer' %}
             <div class="section">
                 <!-- tipo "multiple_answer" -->
-                <div class="question" question-type="multiple_answers" pk="{{ question.0.pk }}">
+                <div class="question" question-type="multiple_answer" pk="{{ question.0.pk }}">
                     <!-- icono si respondio correcto -->
                     <div class="correct-icon hideit">
                         <i class="far fa-check-circle"></i>
@@ -188,24 +187,20 @@
                         </div>
                     {% endfor %}
 
-                    <!-- texto de respuesta correcta, escondido -->
-                    <div class="answer-correct hideit">
-                         {{ question.0.success_description }}
-                    </div>
-                    <!-- texto de respuesta incorrecta, escondido -->
-                    <div class="answer-incorrect hideit">
-                        {{ question.0.fail_description }}
-                    </div>
-                        <!-- boton para avanzar a la siguiente seccion -->
-                    {% ifequal evaluation|length forloop.counter %}
-                    <div class="end">
-                        <button class="button success large u-margin-top-small" type="button" data-open="exampleModal1">Terminar Evaluación</button>
-                    </div>
-                    {% else %}
-                        <div class="next">
-                            <button class="button success u-margin-top-small" type="button">Siguiente</button>
+                   
+                   
+                </div>
+                <div class="answer-text is-hidden">
+                    <div class="the-tab">
+                        <div class="icon">
+                            
                         </div>
-                    {% endifequal %}
+                    </div>
+                    <div class="the-answer-text">
+                        <p>
+
+                        </p>
+                    </div>
                 </div>
             </div>
         {% endifequal %}
@@ -230,24 +225,20 @@
                         <div class="number-answer">
                             <input type="number">
                         </div>
-                         <!-- texto de respuesta correcta, escondido -->
-                         <div class="answer-correct hideit">
-                            {{ question.0.success_description }}
-                        </div>
-                        <!-- texto de respuesta incorrecta, escondido -->
-                        <div class="answer-incorrect hideit">
-                            {{ question.0.fail_description }}
-                        </div>
-                        <!-- boton para avanzar a la siguiente seccion -->
-                        {% ifequal evaluation|length forloop.counter %}
-                            <div class="end">
-                                <button class="button success large u-margin-top-small" type="button" data-open="exampleModal1">Terminar Evaluación</button>
+                        
+                      
+                    </div>
+                    <div class="answer-text is-hidden">
+                        <div class="the-tab">
+                            <div class="icon">
+                                
                             </div>
-                        {% else %}
-                                <div class="next">
-                                    <button class="button success u-margin-top-small" type="button">Siguiente</button>
-                                </div>
-                        {% endifequal %}
+                        </div>
+                        <div class="the-answer-text">
+                            <p>
+    
+                            </p>
+                        </div>
                     </div>
                 </div>
         {% endifequal %}
@@ -296,49 +287,28 @@
                         </div>
                     </div>  <!-- end desp-secc -->
 
-                     <!-- texto de respuesta correcta, escondido -->
-                     <div class="answer-correct hideit">
-                        {{ question.0.success_description }}
-                    </div>
-                    <!-- texto de respuesta incorrecta, escondido -->
-                    <div class="answer-incorrect hideit">
-                        {{ question.0.fail_description }}
-                    </div>
-                    <!-- boton para avanzar a la siguiente seccion -->
+                    
+                
 
-                    <!-- MUY IMPORTANTE - la ultima pregunta tiene un boton diferente.
-                    Este llama a un modal para terminar la evaluacion y poder bajar
-                     a la siguiente "seccion" donde vendria la calificacion y sugerencias de ODAS -->
-                    {% ifequal evaluation|length forloop.counter %}
-                        <div class="end">
-                            <button class="button success large u-margin-top-small" type="button" data-open="exampleModal1">Terminar Evaluación</button>
+                </div>
+                <div class="answer-text is-hidden">
+                    <div class="the-tab">
+                        <div class="icon">
+                            
                         </div>
-                    {% else %}
-                        <div class="next">
-                            <button class="button success u-margin-top-small" type="button">Siguiente</button>
-                        </div>
-                    {% endifequal %}
+                    </div>
+                    <div class="the-answer-text">
+                        <p>
 
+                        </p>
+                    </div>
                 </div>
             </div>
         {% endifequal %}
     {% endfor %}
     <!-- cada pregunta empieza con un DIV class "section" -->
 
-<script type="text/javascript">
-    let element = null;
-    {% for question in evaluation %}
-            evaluation_object.push({question_type: "{{ question.0.type|safe }}", question_pk: "{{ question.0.pk|safe }}", answers: []});
-            element = evaluation_object[{{ forloop.counter0 }}];
-        {% if question.1|length > 1 %}
-            {% for answer in question.1 %}
-                element.answers.push({answer: "{{ answer }}"});
-            {% endfor %}
-        {% else %}
-            element.answers.push({answer: "{{ question.1 }}"});
-        {% endif %}
-    {% endfor %}
-</script>
+
 
 
 
@@ -346,10 +316,45 @@
 
     <!-- cuando se ponen todas las preguntas, esta "section" sera la #12.  -->
     <div class="section">
-            <!-- Aqui pondermos la calificacion y sugerencias -->
-        <div class="the-answer">
-            The score goes here
+    
+        <div class="final">
+            <div class="eval-intro">
+                <p class="eval-intro_title">Evaluación concluida
+                </p>
+                <p>Presiona el boton para mandar tus respuestas y recibir tu calificacion</p>
+            </div>
+            <div class="end">
+                <button class="button success large" type="button">
+                    Terminar la Evaluación</button>
+            </div>
         </div>
+        <div class="the-score" style="display: none">
+    
+            <div class="half-part">
+                <p class="h4 text-center">Resultado</p>
+                <div class="resultado">#</div>
+                <div class="the-xp">
+                    <i class="fa fa-star"></i> x 500000
+                </div>
+            </div>
+    
+            <div class="half-part text-center u-margin">
+                <p class="h6">Te recomendamos continuar con las siguientes lecciones:</p>
+                <div class="the-recs" id="suggestions">
+
+                </div>
+            </div>
+            <div class="half-part text-center">
+                <a href="{% url 'subject_view' oda.subject.pk %}" class="button end-button">
+                    <i class="fas fa-map"></i> &nbsp; Regresar a Materia</a>
+            </div>
+            <div class="half-part text-center">
+                <a href="{% url 'ambitos-grid_view' %}" class="button warning end-button">
+                    <i class="fa fa-th"></i> &nbsp; Regresar a Ambitos</a>
+            </div>
+    
+        </div>
+    
     </div>
 </div>
 
@@ -369,7 +374,6 @@ un input por tipo de pregunta
 
 </div>
 
-
 <!-- modal de termino de evaluacion -->
 
 <div class="reveal" id="exampleModal1" data-reveal>
@@ -382,6 +386,21 @@ un input por tipo de pregunta
     </button>
 </div>
 
+    <script type="text/javascript">
+    let user_pk = {{ request.user.pk|safe }};
+    let element = null;
+    {% for question in evaluation %}
+            evaluation_object.push({question_type: "{{ question.0.type|safe }}", question_pk: "{{ question.0.pk|safe }}", answers: []});
+            element = evaluation_object[{{ forloop.counter0 }}];
+        {% if question.1|length > 1 %}
+            {% for answer in question.1 %}
+                element.answers.push({answer: "{{ answer }}"});
+            {% endfor %}
+        {% else %}
+            element.answers.push({answer: "{{ question.1 }}"});
+        {% endif %}
+    {% endfor %}
+    </script>
 {% endblock %}
 
 {% block scripts %}

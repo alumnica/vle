@@ -1,0 +1,19 @@
+{
+    "name": "Alumnica EVA",
+   
+    "display": "fullscreen",
+    "start_url": "/",
+    "short_name": "Alumnica",
+    "description": "Alumnica PWA",
+    "orientation": "any",
+    "background_color": "#655dc6",
+    "theme_color": "#655dc6",
+  
+    "icons": [
+        {
+        "src": "assets/media/perfil-01-01_100x100.png",
+        "sizes": "100x100",
+        "type": "image/png"
+        }
+    ]
+}

@@ -6,27 +6,19 @@ $(document).ready(function () {
         anchors: ['firstPage', 'secondPage', 'thirdPage', 'fourthPage', 'fifthPage', 'sixthPage', 'seventhPage', 'eighthPage', 'ninethPage', 'tenthPage', 'eleventhPage', 'twelvethPage'],
         menu: '#evalMenu',
 
-        afterLoad: function(anchorLink, index){
-            var loadedSection = $(this);
-    
-            if(anchorLink == 'eleventhPage' && finished ==false){
-                $.fn.fullpage.setAllowScrolling(false, 'down');
-            } else if (anchorLink != 'eleventhPage' && finished == false) {
-                $.fn.fullpage.setAllowScrolling(true);
-            } else {
-                $.fn.fullpage.setAllowScrolling(true);
-            }
-        }
+        
  
     });
 
-    // $.fn.fullpage.setAllowScrolling(false, 'down');
-    // $.fn.fullpage.setKeyboardScrolling(false);
+
+
 
     $('.next').on('click', '.button', function () {
         $.fn.fullpage.moveSectionDown();
     });
-    $('.reveal').on('click', '#end-eval', function () {
+
+
+    $('.end button').click(function(){
         let relationship_answers = document.getElementById('relationship').value;
         let multiple_option_answers = document.getElementById('multiple_option').value;
         let multiple_answer_answers = document.getElementById('multiple_answer').value;
@@ -40,20 +32,61 @@ $(document).ready(function () {
                     multiple_option_answers: multiple_option_answers,
                     multiple_answer_answers: multiple_answer_answers,
                     numeric_answer_answers: numeric_answer_answers,
-                    pulldown_list_answers: pulldown_list_answers},
-            dataType: "application/json",
+                    pulldown_list_answers: pulldown_list_answers,
+                    pk: user_pk},
             success: function(data){
-                swal('Evaluation received');
+                let questions_array = JSON.parse(data.data);
+                let score = data.score;
+                $('.resultado').html(score);
+                for (i = 0 ; i < questions_array.length ; i++){
+                    $('.question[question-type]').each(function (){
+                        var theQuestion = $(this);
+                        var qType = $(this).attr('question-type'),
+                            qPK = $(this).attr('pk'),
+                            theTab = $(this).parent().find('.the-tab'),
+                            theIcon = $(this).parent().find('.icon'),
+                            answerText = $(this).parent().find('.the-answer-text p'),
+                            dataAnchor = $(this).parent().attr('data-anchor');
+                            
+                            if(questions_array[i].type == qType && questions_array[i].pk == qPK){
+                                if(questions_array[i].status == 'correct'){
+                                    theTab.addClass('correct');
+                                    theIcon.html('<i class="far fa-check-circle"></i>');
+                                    $('#evalMenu li[data-menuanchor="'+dataAnchor+'"] a').css('color', 'green');
+                                } else {
+                                    theTab.addClass('incorrect');
+                                    theIcon.html('<i class="far fa-times-circle"></i>');
+                                    $('#evalMenu li[data-menuanchor="'+dataAnchor+'"] a').css('color', 'red');
+                                }				
+                                answerText.html(questions_array[i].description);
+                            }
+                    });
+                }
+
+                if (score >= 7){
+                    for (let j = 0; j<data.suggestions.length; j++){
+                        let suggestion = data.suggestions[j];
+                        let rec_div = document.getElementById('suggestions');
+
+                        $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='"+suggestion.image+"' alt='\'></div><div class='oda-text'>"+suggestion.oda+"</div></a>");
+                        $(rec_div).find('#rec').attr("href", gettext("/odas/"+suggestion.pk+"/"));
+
+
+                    }
+                }
             }
         });
-       finished = true;
-       $.fn.fullpage.moveSectionDown();
-       $('#score').attr('href', '#twelvethPage');
+        $('.answer-text').removeClass('is-hidden');
+        $(this).parent().parent().remove();
+        $('.the-score').fadeIn(500);
+        $('input').prop('disabled', true);
+        $('select').prop('disabled', true);
+        $('.reset').remove();
     });
 
     var relAnswersLength = $('.question[question-type="relationship"]').length;
     var relMOAnswersLength = $('.question[question-type="multiple_option"]').length;
-    var relMAAnswersLength = $('.question[question-type="multiple_answers"]').length;
+    var relMAAnswersLength = $('.question[question-type="multiple_answer"]').length;
     var relNAAnswersLength = $('.question[question-type="numeric_answer"]').length;
     var relAnswers = new Array(relAnswersLength);
     var relMOAnswers = new Array(relMOAnswersLength);
@@ -207,10 +240,10 @@ $(document).ready(function () {
 
     });
 
-    $('.question[question-type="multiple_answers"').each(function () {
+    $('.question[question-type="multiple_answer"').each(function () {
         var dataAnchor = $(this).parent().attr('data-anchor');
         var thePk = $(this).attr('pk');
-        var qIndex = $('.question[question-type="multiple_answers"]').index(this);
+        var qIndex = $('.question[question-type="multiple_answer"]').index(this);
         var theAnswer = new Array();
         var theQuest = $(this);
 
@@ -298,6 +331,46 @@ $(document).ready(function () {
         
 
     });
+
+    $('.question').each(function () {
+        
+        if ($(window).height() > 450) {
+
+            var element = $(this)
+            var dims = element.height();
+
+            var parentHeight = element.parent().height();
+
+            var newMargin = ((parentHeight - dims) / 3);
+            // console.log(newMargin);
+            element.css('padding-top', newMargin);
+        }
+    });
+    window.onresize = resize;
+
+    function resize() {
+        $('.question').each(function () {
+
+            var element = $(this)
+            var dims = element.height();
+
+            if ($(window).height() > 450) {
+
+                var parentHeight = element.parent().height();
+
+                var newMargin = ((parentHeight - dims) / 3);
+                // console.log(newMargin);
+                element.css('padding-top', newMargin);
+            } else {
+                element.css('padding-top', '0');
+            }
+        });
+
+    }
     
+});
+
+$('.section').on('click', '.the-tab', function(){
+    $(this).parent().toggleClass('closed1');
 });
 

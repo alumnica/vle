@@ -15,7 +15,7 @@
                             <h4>{{ user.first_name }} {{ user.last_name }}</h4>
                             <p class="h5">
                                 <i class="fas fa-star star"></i>
-                                {{ experience_points_field }}</p>
+                                {{ user.profile.experience_points }}</p>
                         </div>
                         <div class="cell shrink">
 
@@ -26,134 +26,59 @@
                 <div class=" cell medium-6">
                     <p class="caps">Mapa de Selección de Materias</p>
                     <div id="materias-slider" class="owl-carousel owl-theme">
-                        <div>
-                            <a href="{% url 'ambitos-grid_view' %}">
-                                <img src="https://via.placeholder.com/500x120/ff0000" alt="">
-                            </a>
-                        </div>
-                        <div>
-                            <a href="{% url 'ambitos-grid_view' %}">
-                                <img src="https://via.placeholder.com/500x120/fff000" alt="">
-                            </a>
-                        </div>
-                        <div>
-                            <a href="{% url 'ambitos-grid_view' %}">
-                                <img src="https://via.placeholder.com/500x120/ffe000" alt="">
-                            </a>
-                        </div>
-                        <div>
-                            <a href="{% url 'ambitos-grid_view' %}">
-                                <img src="https://via.placeholder.com/500x120/ffa000" alt="">
-                            </a>
-                        </div>
-                        <div>
-                            <a href="{% url 'ambitos-grid_view' %}">
-                                <img src="https://via.placeholder.com/500x120/5e84c3" alt="">
-                            </a>
-                        </div>
+                        {% for ambit in ambits %}
+                         <a href="{% url 'ambitos-grid_view' %}" class="dash-ambit">
+                            <div class="dash-card {{ ambit.color }}">
+                                <div class="dash-ambit-image">
+                                    <img src="{{ MEDIA_URL }}{{ ambit.background_image.file.url }}" alt="{{ ambit.name }}">
+                                </div>
+                                <div class="dash-text {{ ambit.color }}_text">
+                                        {{ ambit.name }}
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="cell medium-6">
                     <p class="caps">Insignias</p>
                     <div id="insignias-slider" class="owl-carousel owl-theme">
                         <div class="insignia">
-                            <img src="https://via.placeholder.com/100x100/5e84c3" alt="">
+                            <img src="{% static 'webapp/media/insignias/insignia_ambito.png' %}" alt="">
+                        </div>
+                        <div class="insignia">
+                            <img src="{% static 'webapp/media/insignias/insignia_login.png' %}" alt="">
+                        </div>
+                        <div class="insignia">
+                            <img src="{% static 'webapp/media/insignias/insignia_microODA.png' %}" alt="">
+                        </div>
+                        <div class="insignia">
+                            <img src="{% static 'webapp/media/insignias/insignia_ODA.png' %}" alt="">
                         </div>
 
                     </div>
                 </div>
                 <div class="cell medium-6">
-                    <p>&nbsp;</p>
-                    <div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
-                        <div class="orbit-wrapper">
-                            <div class="orbit-controls">
-                                <button class="orbit-previous">
-                                    <span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;
-                                </button>
-                                <button class="orbit-next">
-                                    <span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;
-                                </button>
-                            </div>
-                            <ul class="orbit-container">
-                                <li class="is-active orbit-slide">
-                                    <figure class="orbit-figure">
-                                        <img class="orbit-image" src="https://placehold.it/500x200/b52067?text=Slide-1"
-                                             alt="Space">
-                                        <p class="text-center">Lorem ipsum dolor sit amet, palabras para ananan
-                                            consectetur adipisicing elit. Pariatur modi
-                                            explicabo libero o!</p>
-                                    </figure>
-                                </li>
-                                <li class="is-active orbit-slide">
-                                    <figure class="orbit-figure">
-                                        <img class="orbit-image" src="https://placehold.it/500x200/b52067?text=Slide-2"
-                                             alt="Space">
-                                        <p class="text-center">Lorem ipsum dolor sit amet, palabras para ananan
-                                            consectetur adipisicing elit. Pariatur modi
-                                            explicabo libero o!</p>
-                                    </figure>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
-                        <div class="orbit-wrapper">
-                            <div class="orbit-controls">
-                                <button class="orbit-previous">
-                                    <span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;
-                                </button>
-                                <button class="orbit-next">
-                                    <span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;
-                                </button>
-                            </div>
-                            <ul class="orbit-container">
-                                <li class="is-active orbit-slide">
-                                    <figure class="orbit-figure">
-                                        <img class="orbit-image" src="https://placehold.it/500x200/b52067?text=Slide-1"
-                                             alt="Space">
-                                        <p class="text-center">Lorem ipsum dolor sit amet, palabras para ananan
-                                            consectetur adipisicing elit. Pariatur modi
-                                            explicabo libero o!</p>
-                                    </figure>
-                                </li>
-                                <li class="is-active orbit-slide">
-                                    <figure class="orbit-figure">
-                                        <img class="orbit-image" src="https://placehold.it/500x200/b52067?text=Slide-2"
-                                             alt="Space">
-                                        <p class="text-center">Lorem ipsum dolor sit amet, palabras para ananan
-                                            consectetur adipisicing elit. Pariatur modi
-                                            explicabo libero o!</p>
-                                    </figure>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="cell medium-6">
                     <p class="caps">Actividad Reciente</p>
                     <div class="grid-x grid-margin-y">
-                        <div class="cell medium-12">
-                            <div class="actividad-receinte">
-                                <div class="oda-reciente">
-                                    Imagen de ODA aqui
+                        {% for activity in recent_activities %}
+                         <div class="cell medium-12">
+                                <div class="actividad-receinte" style="background: url({{ activity.1.background_image.file.url }}); background-size: cover;">
+                                    <a href="{% url 'oda_view' activity.0.pk %}" class="oda-reciente">
+                                        <div class="oda-reciente-image">
+                                            <img src="{{ activity.0.active_icon.file.url }}" alt="camion">
+                                        </div>
+                                        <div class="oda-reciente-text">
+                                                <p>{{ activity.0.name }}</p>
+                                        </div>
+                                    </a>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="cell medium-12">
-                            <div class="actividad-receinte">
-                                <div class="oda-reciente">
-                                    Imagen de ODA aqui
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cell medium-12">
-                            <div class="actividad-receinte">
-                                <div class="oda-reciente">
-                                    Imagen de ODA aqui
-                                </div>
-                            </div>
-                        </div>
+                         </div>
+
+                        {% endfor %}
                         <div class="cell meium-12 text-center">
                             <a href="#" class="">Ver más ODAs incompletas</a>
                         </div>
@@ -166,3 +91,8 @@
     </div>
 
 {% endblock %}
+
+{% block scripts %}
+<script src="{% static "webapp/js/dashboard.js" %}"></script>
+{% endblock %}
+
