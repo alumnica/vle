@@ -23,9 +23,11 @@
                             <div class="oda-progress">
                                 <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
                             </div>
-                            <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
-                                <i class="fa fa-play"></i>
-                            </a>
+                            <div class="play-btn-cont">
+                                <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                    <i class="fa fa-play"></i>
+                                </a>
+                            </div>
                         </div>
                         <div class="oda-image">
                             {% if state != 'finalized' %}
@@ -39,16 +41,18 @@
                 {% elif oda.section == 2 %}
 
                     <div class="block" id="oda-{{ oda.pk }}" data-n="b-{{ oda.zone }}" state="{{ state }}">
-                        <div class="thetip" style="display: none">
+                        div class="thetip" style="display: none">
                             <div class="tip-title">
                                 {{ oda.name }}
                             </div>
                             <div class="oda-progress">
                                 <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
                             </div>
-                            <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
-                                <i class="fa fa-play"></i>
-                            </a>
+                            <div class="play-btn-cont">
+                                <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                    <i class="fa fa-play"></i>
+                                </a>
+                            </div>
                         </div>
                         <div  class="oda-image">
                             {% if state != 'finalized' %}
@@ -62,16 +66,18 @@
                 {% elif oda.section == 3 %}
 
                     <div class="block" id="oda-{{ oda.pk }}" data-n="c-{{ oda.zone }}" state="{{ state }}">
-                        <div class="thetip" style="display: none">
+                       div class="thetip" style="display: none">
                             <div class="tip-title">
                                 {{ oda.name }}
                             </div>
                             <div class="oda-progress">
                                 <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
                             </div>
-                            <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
-                                <i class="fa fa-play"></i>
-                            </a>
+                            <div class="play-btn-cont">
+                                <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                    <i class="fa fa-play"></i>
+                                </a>
+                            </div>
                         </div>
                         <div  class="oda-image">
                             {% if state != 'finalized' %}
@@ -85,16 +91,18 @@
                 {% elif oda.section == 4 %}
 
                     <div class="block" id="oda-{{ oda.pk }}" data-n="d-{{ oda.zone }}" state="{{ state }}">
-                        <div class="thetip" style="display: none">
+                       div class="thetip" style="display: none">
                             <div class="tip-title">
                                 {{ oda.name }}
                             </div>
                             <div class="oda-progress">
                                 <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
                             </div>
-                            <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
-                                <i class="fa fa-play"></i>
-                            </a>
+                            <div class="play-btn-cont">
+                                <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                    <i class="fa fa-play"></i>
+                                </a>
+                            </div>
                         </div>
                         <div href="{% url 'oda_view' oda.pk %}" class="oda-image">
                             {% if state != 'finalized' %}

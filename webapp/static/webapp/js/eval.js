@@ -38,6 +38,7 @@ $(document).ready(function () {
                 let questions_array = JSON.parse(data.data);
                 let score = data.score;
                 $('.resultado').html(score);
+                $('.the-score').fadeIn(500);
                 for (i = 0 ; i < questions_array.length ; i++){
                     $('.question[question-type]').each(function (){
                         var theQuestion = $(this);
@@ -78,7 +79,7 @@ $(document).ready(function () {
         });
         $('.answer-text').removeClass('is-hidden');
         $(this).parent().parent().remove();
-        $('.the-score').fadeIn(500);
+        ;
         $('input').prop('disabled', true);
         $('select').prop('disabled', true);
         $('.reset').remove();
