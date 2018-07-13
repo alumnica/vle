@@ -12,11 +12,11 @@ class MomentView(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         moment_instance = Moment.objects.get(pk=self.kwargs['pk'])
         learner = self.request.user.profile
-        learner.assign_recent_oda(moment_instance.microodas.all()[0].oda)
-        learner.microoda_in_progress = moment_instance.microodas.all()[0]
+        learner.assign_recent_oda(moment_instance.microoda.oda)
+        learner.microoda_in_progress = moment_instance.microoda
         learner.save()
 
-        moment_array = moment_instance.microodas.all()[0].activities.all()
+        moment_array = moment_instance.microoda.activities.all()
 
         for moment in moment_array:
             if not learner.activities_progresses.filter(activity=moment).exists():
