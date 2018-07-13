@@ -37,8 +37,12 @@ $(document).ready(function () {
             success: function(data){
                 let questions_array = JSON.parse(data.data);
                 let score = data.score;
+                let theSugg = data.suggestions;
                 $('.resultado').html(score);
                 $('.the-score').fadeIn(500);
+
+
+
                 for (i = 0 ; i < questions_array.length ; i++){
                     $('.question[question-type]').each(function (){
                         var theQuestion = $(this);
