@@ -76,14 +76,20 @@ class EvaluationViewSet(ModelViewSet):
                     answer = answer_data.split(';')
                     if question['question_pk'] == answer[0]:
                         question_instance = PullDownListQuestion.objects.get(pk=int(answer[0]))
+                        options_instance = question_instance.options.split('|')
                         answer_instance = question_instance.answers.split('|')
+
+                        index = 0
                         for answer_element in answer[1:]:
                             answer_element_array = answer_element.split(',')
-                            answer_expected = answer_instance[int(answer_element_array[0])]
+                            option_instance_index = options_instance.index(question['options'][index]['option'])
+
+                            answer_expected = answer_instance[option_instance_index]
                             answer_obtained = question['answers'][int(answer_element_array[1])]['answer']
 
                             if answer_expected.strip() == answer_obtained.strip():
                                 local_score += 1
+                            index += 1
                         if local_score == len(answer_instance):
                             correct_answer = True
                             score += 1
