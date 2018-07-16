@@ -31,6 +31,7 @@ router.register(r'evaluation', api_viewsets.EvaluationViewSet)
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
+    path('', include('pwa.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += i18n_patterns(
@@ -48,4 +49,5 @@ urlpatterns += i18n_patterns(
     path(_('api-auth/'), include('rest_framework.urls', namespace='rest_framework')),
     path(_('jsi18n/'), JavaScriptCatalog.as_view(), name='javascript-catalog'),
     path('api/microodas/<int:learner>,<int:uODA>/', api_viewsets.MicroodaViewSet.as_view(), name='microoda_view'),
+
 )
