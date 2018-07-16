@@ -6,6 +6,7 @@ django-db-prefix==1.0.5
 django-progressive-web-app==0.1.1
 django-storages==1.6.6
 django-use-email-as-username==1.0.0
+djangorestframework==3.8.2
 docutils==0.14
 gunicorn==19.7.1
 jmespath==0.9.3
