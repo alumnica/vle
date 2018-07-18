@@ -84,3 +84,9 @@ class ProfileSettingsForm(forms.ModelForm):
     class Meta:
         model = AuthUser
         fields = ['email', 'password', 'password_confirmation', 'first_name', 'last_name']
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileSettingsForm, self).__init__(*args, **kwargs)
+        user = AuthUser.objects.get(pk=kwargs['instance'].pk)
+        self.fields['gender_field'].initial = user.profile.gender
+        self.fields['birth_date_field'].initial = user.profile.birth_date
