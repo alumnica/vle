@@ -1,6 +1,6 @@
 from django import forms
 
-from alumnica_model.models import Learner, users
+from alumnica_model.models import Learner, users, AuthUser
 from alumnica_model.models.content import LearningStyle
 
 
@@ -72,3 +72,13 @@ class FirstLoginP3(forms.Form):
                 profile.learning_style = LearningStyle.objects.get(name='Convergente')
 
         user.save()
+
+
+class ProfileSettingsForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    gender_field = forms.CharField(widget=forms.RadioSelect(attrs={'display': 'inline'}, choices=users.GENDER_TYPES))
+    birth_date_field = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = AuthUser
+        fields = ['email', 'password', 'first_name', 'last_name']

@@ -1,6 +1,7 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import FormView
 
 from alumnica_model.mixins import OnlyLearnerMixin
@@ -58,3 +59,14 @@ class FirstLoginP3View(LoginRequiredMixin, OnlyLearnerMixin, FormView):
         self.second_selection = self.request.POST.get('pregunta-3set')
         form.save_form(self.request.user, self.first_selection, self.second_selection)
         return redirect(to='dashboard_view')
+
+
+class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    login_url = 'login_view'
+    template_name = ''
+    form_class = ProfileSettingsForm
+    success_url = reverse_lazy('profile_settings_view')
+
+    def form_valid(self, form):
+        form.save()
+        return super(ProfileSettingsView, self).form_valid(form)
