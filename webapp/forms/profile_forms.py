@@ -76,9 +76,11 @@ class FirstLoginP3(forms.Form):
 
 class ProfileSettingsForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
+    password_confirmation = forms.CharField(widget=forms.PasswordInput())
     gender_field = forms.CharField(widget=forms.RadioSelect(attrs={'display': 'inline'}, choices=users.GENDER_TYPES))
     birth_date_field = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    avatar = forms.ImageField()
 
     class Meta:
         model = AuthUser
-        fields = ['email', 'password', 'first_name', 'last_name']
+        fields = ['email', 'password', 'password_confirmation', 'first_name', 'last_name']
