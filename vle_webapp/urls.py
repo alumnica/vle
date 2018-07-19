@@ -48,6 +48,7 @@ urlpatterns += i18n_patterns(
     path(_('api/'), include(router.urls)),
     path(_('api-auth/'), include('rest_framework.urls', namespace='rest_framework')),
     path(_('jsi18n/'), JavaScriptCatalog.as_view(), name='javascript-catalog'),
+    path(_('^'), include('django.contrib.auth.urls')),
     path('api/microodas/<int:learner>,<int:uODA>/', api_viewsets.MicroodaViewSet.as_view(), name='microoda_view'),
 
 )
