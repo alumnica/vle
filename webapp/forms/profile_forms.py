@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 
 from alumnica_model.models import Learner, users, AuthUser
 from alumnica_model.models.content import LearningStyle
+from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
 
 
 class FirstLoginInfoForm(forms.ModelForm):
@@ -36,7 +37,7 @@ class FirstLoginP2(forms.Form):
         profile = user.profile
 
         if profile.learning_style is None:
-            profile.experience_points += 1000
+            profile.experience_points += EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz']
 
         if option_1 == '1':
             if option_2 == '1':
@@ -59,7 +60,7 @@ class FirstLoginP3(forms.Form):
         profile = user.profile
 
         if profile.learning_style is None:
-            profile.experience_points += 1000
+            profile.experience_points += EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz']
 
         if option_1 == '1':
             if option_2 == '1':
