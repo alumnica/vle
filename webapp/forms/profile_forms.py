@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
 from alumnica_model.models import Learner, users, AuthUser
 from alumnica_model.models.content import LearningStyle
@@ -77,7 +78,10 @@ class FirstLoginP3(forms.Form):
 class ProfileSettingsForm(forms.ModelForm):
     gender_field = forms.CharField(widget=forms.RadioSelect(attrs={'display': 'inline'}, choices=users.GENDER_TYPES))
     birth_date_field = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
-    avatar = forms.ImageField()
+    previous_password = forms.CharField(required=False, widget=forms.PasswordInput())
+    new_password = forms.CharField(required=False, widget=forms.PasswordInput())
+    new_password_confirmation = forms.CharField(required=False, widget=forms.PasswordInput())
+
 
     class Meta:
         model = AuthUser
@@ -88,3 +92,39 @@ class ProfileSettingsForm(forms.ModelForm):
         user = AuthUser.objects.get(pk=kwargs['instance'].pk)
         self.fields['gender_field'].initial = user.profile.gender
         self.fields['birth_date_field'].initial = user.profile.birth_date
+
+    def clean(self):
+        cleaned_data = super(ProfileSettingsForm, self).clean()
+        user = super(ProfileSettingsForm, self).save(commit=False)
+        previous_password = cleaned_data.get('previous_password')
+        new_password = cleaned_data.get('new_password')
+        new_password_confirmation = cleaned_data.get('new_password_confirmation')
+
+        if previous_password is not None or new_password is not None or new_password_confirmation is not None:
+            if new_password is None:
+                error = ValidationError(_("Write a new password"), code='password_error')
+                self.add_error('new_password', error)
+            else:
+                if len(new_password) < 6:
+                    error = ValidationError(_("Password must have 6 characters or more."), code='password_length_error')
+                    self.add_error('new_password', error)
+                else:
+                    if new_password_confirmation is None:
+                        error = ValidationError(_("Please write the password confirmation."),
+                                                code='password_confirmation_error')
+                        self.add_error('new_password_confirmation', error)
+                    else:
+                        if new_password != new_password_confirmation:
+                            error = ValidationError(_("Passwords do not match."),
+                                                    code='password_confirmation_error')
+                            self.add_error('new_password', error)
+                        else:
+                            if previous_password is None or user.check_password(previous_password):
+                                error = ValidationError(_("Invalid password."), code='credentials_error')
+                                self.add_error('password', error)
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super(ProfileSettingsForm, self).save()
+
