@@ -1,5 +1,5 @@
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
@@ -241,4 +241,10 @@ class MicroodaViewSet(APIView):
                                 microoda.oda.microodas.exclude(pk=microoda.pk)]
 
         return JsonResponse({'points': 10, 'suggestions': microodas_suggestion})
+
+
+class SearchViewSet(APIView):
+    def get(self, request, *args, **kwargs):
+        text = kwargs['text']
+        return HttpResponseRedirect(redirect_to='search_view', text=text)
 

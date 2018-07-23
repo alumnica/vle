@@ -23,17 +23,20 @@
         </div>
     </div>
     <div class="the-search" id="search-box" style="display: none">
-        <form action="">
+{#        <form method="POST">#}
+{#            {% csrf_token %}#}
             <div class="search-group">
                 <span>
                     <i class="fa fa-search"></i>
                 </span>
                 <input type="text" name="searcher" id="searcher" placeholder="Busqueda" class="placechange" autocomplete="off">
             </div>
-        </form>
+{#        </form>#}
     </div>
 </div>
         <div class="search-cover" style="display: none">
             <!-- nothing here -->
         </div>
+<script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+<script src="{% static "webapp/js/search.js" %}"></script>
 {% include "webapp/partials/menu.html" %}

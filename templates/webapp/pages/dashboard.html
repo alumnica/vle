@@ -56,7 +56,7 @@
 
                 {% for activity in recent_activities %}
                 <!-- start recent activity item -->
-                <a title="Ir a ODA"  href="#" class="recent-activity-item" style="background: urlurl({{ activity.1.background_image.file.url }}); background-size: cover;">
+                <a title="Ir a ODA"  href="#" class="recent-activity-item" style="background: url({{ activity.1.background_image.file.url }}); background-size: cover;">
                     <div class="recent-activity-oda">
                         <img src="{{ activity.0.active_icon.file.url }}" alt="{{ activity.0.name }}">
                     </div>
