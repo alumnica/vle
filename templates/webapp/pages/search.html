@@ -1,0 +1,38 @@
+{% extends "logged-in.html" %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container">
+    <div class="grid-x ">
+        <div class="cell medium-12">
+            <p class="search-result">14 Resultados
+                <strong>"term of search"</strong>
+            </p>
+            <hr>
+            <!-- start search item loop -->
+            <div class="search-item">
+                <a href="#" class="search-item-oda-image">
+                    <img src="../assets/media/ODAs/camion.gif" alt="">
+                </a>
+                <div class="search-item-text">
+                    <div class="oda-title-link">
+                        <a href="">Titulo de ODA</a>
+                    </div>
+                    <div class="materia-link">
+                        MATERIA:
+                        <a href=""> COSAS DE MATEMATICAS</a>
+                    </div>
+                    <div class="ambito-link">
+                        ÁMBTIO:
+                        <a href="">PROPEDEUTICO DE MATEMATICAS</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- end search item loop -->
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

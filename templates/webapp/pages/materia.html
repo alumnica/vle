@@ -1,14 +1,35 @@
 {% extends "logged-in.html" %}
 {% load static %}
 {% block content %}
-<a href="{% url 'dashboard_view' %}" class="mat-grid-btn">
-    <i class="fas fa-th"></i>
-</a>
+
+
+<div class='container' id="preloader">
+        <div class='loader'>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--text'></div>
+        </div>
+    </div>
+    
+    <script>
+        setTimeout(function(){
+            document.getElementById("preloader").classList.add("is-load");
+        }, 1000);
+    </script>
+<!-- end preloader -->
+
 <a href="{% url 'ambitos-grid_view' %}" class="mat-return-btn">
     <i class="fas fa-undo-alt"></i>
 </a>
 <div class="grid-container">
-    <h4>{{ subject.name }}</h4>
+    <div class="materia-inst">
+        <h3>{{ subject.name }}</h3>
+        <p>Instrucciones: Lorem ipsum dolor sit, amet consectetur adipisicing.</p>
+    </div>   
     <div class="grid-x align-center">
         <div id="the-odas">
 
@@ -21,7 +42,7 @@
                                 {{ oda.name }}
                             </div>
                             <div class="oda-progress">
-                                <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
+                                <i class="fa fa-star gold"></i>x3
                             </div>
                             <div class="play-btn-cont">
                                 <a href="{% url 'oda_view' oda.pk %}" class="play-btn">

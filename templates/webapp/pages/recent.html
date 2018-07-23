@@ -1,0 +1,25 @@
+{% extends "logged-in.html" %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container">
+        <p class="recent-title">Actividad receinte</p>
+    
+        <div class="recent-container">
+    
+            <!-- start recent activity item loop -->
+            <a href="#" class="recent-activity-item" style="background: url(../assets/media/portadas/01.jpg); background-size: cover;">
+                <div class="recent-activity-oda">
+                    <img src="../assets/media/ODAs/camion.gif" alt="camion">
+                </div>
+                <div class="recent-activity-oda-text">
+                    Nombre largo de ODA
+                </div>
+            </a>
+            <!-- end recent ativity item loop -->
+    
+        </div>
+    </div>
+
+
+{% endblock %}

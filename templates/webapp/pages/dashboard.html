@@ -3,96 +3,83 @@
 
 {% block content %}
 
-    <div class="grid-container dash-top-margin">
-        <div class="user-info">
-            <div class="grid-x grid-margin-x grid-margin-y">
-                <div class="cell medium-12">
-                    <div class="grid-x align-middle grid-margin-x">
-                        <div class="cell shrink">
-                            <img src="{% static 'webapp/media/perfil-01-01_100x100.png' %}" alt="Avatar Picture">
-                        </div>
-                        <div class="cell shrink">
-                            <h4>{{ user.first_name }} {{ user.last_name }}</h4>
-                            <p class="h5">
-                                <i class="fas fa-star star"></i>
-                                {{ user.profile.experience_points }}</p>
-                        </div>
-                        <div class="cell shrink">
+<div class='container' id="preloader">
+    <div class='loader'>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--text'></div>
+    </div>
+</div>
 
+<script>
+    setTimeout(function(){
+        document.getElementById("preloader").classList.add("is-load");
+    }, 1000);
+</script>
 
-                        </div>
-                    </div>
+<!-- end preloader -->
+
+<div class="grid-container">
+        <div class="dashboard-grid">
+            <div class="profile-picture">
+                <a href="#">   <!-- link to user profile page -->
+                    <img src="{% static 'webapp/media/perfil-01-01_100x100.png' %}" alt="profile picture">
+                </a>
+            </div>
+            <div class="user-info">
+                <a class="user-info-name">
+                    {{ user.first_name }} {{ user.last_name }}
+                </a>
+                <div class="user-info-score">
+                    <i class="fa fa-star"></i> {{ user.profile.experience_points }}
                 </div>
-                <div class=" cell medium-6">
-                    <p class="caps">Mapa de Selección de Materias</p>
-                    <div id="materias-slider" class="owl-carousel owl-theme">
-                        {% for ambit in ambits %}
-                         <a href="{% url 'ambitos-grid_view' %}" class="dash-ambit">
-                            <div class="dash-card {{ ambit.color }}">
-                                <div class="dash-ambit-image">
-                                    <img src="{{ MEDIA_URL }}{{ ambit.background_image.file.url }}" alt="{{ ambit.name }}">
-                                </div>
-                                <div class="dash-text {{ ambit.color }}_text">
-                                        {{ ambit.name }}
-                                </div>
-                            </div>
+                <div class="user-info-test">
+                    <a href="#" class="dashboard-test-button"> <!-- link a test -->
+                        <i class="fas fa-vial"></i> Test
+                    </a>
+                </div>
+            </div>
+            <div class="recent-activity">
+                <div class="recent-activity-heading">
+                    <span class="title">Actividad Receinte</span>
+                    <span class="recent-activity-link">
+                        <a href="#" title="Ver toda actividad reciente"> <!-- link a recent-activity-->
+                            <i class="fa fa-calendar-alt"></i>
                         </a>
-                        {% endfor %}
+                    </span>
+                </div>
+
+
+                {% for activity in recent_activities %}
+                <!-- start recent activity item -->
+                <a title="Ir a ODA"  href="#" class="recent-activity-item" style="background: urlurl({{ activity.1.background_image.file.url }}); background-size: cover;">
+                    <div class="recent-activity-oda">
+                        <img src="{{ activity.0.active_icon.file.url }}" alt="{{ activity.0.name }}">
                     </div>
-                </div>
-                <div class="cell medium-6">
-                    <p class="caps">Insignias</p>
-                    <div id="insignias-slider" class="owl-carousel owl-theme">
-                        <div class="insignia">
-                            <img src="{% static 'webapp/media/insignias/insignia_ambito.png' %}" alt="">
-                        </div>
-                        <div class="insignia">
-                            <img src="{% static 'webapp/media/insignias/insignia_login.png' %}" alt="">
-                        </div>
-                        <div class="insignia">
-                            <img src="{% static 'webapp/media/insignias/insignia_microODA.png' %}" alt="">
-                        </div>
-                        <div class="insignia">
-                            <img src="{% static 'webapp/media/insignias/insignia_ODA.png' %}" alt="">
-                        </div>
-
+                    <div class="recent-activity-oda-text">
+                            {{ activity.0.name }}
                     </div>
+                </a>
+                <!-- end recent ativity item -->
+                {% endfor %}                          
+            </div>
+            <!-- end recent activity -->
+
+            <div class="dashboard-test">
+                <a href="#" class="dashboard-test-button">
+                    <i class="fas fa-vial"></i> Test
+                </a>
+            </div>
+            <div class="blog">
+                <div class="blog-content">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus sint exercitationem numquam. Soluta cupiditate alias consequatur dolor fugit, quo expedita velit, earum iure fuga tenetur?
                 </div>
-                <div class="cell medium-6">
-
-                </div>
-                <div class="cell medium-6">
-                    <p class="caps">Actividad Reciente</p>
-                    <div class="grid-x grid-margin-y">
-                        {% for activity in recent_activities %}
-                         <div class="cell medium-12">
-                                <div class="actividad-receinte" style="background: url({{ activity.1.background_image.file.url }}); background-size: cover;">
-                                    <a href="{% url 'oda_view' activity.0.pk %}" class="oda-reciente">
-                                        <div class="oda-reciente-image">
-                                            <img src="{{ activity.0.active_icon.file.url }}" alt="camion">
-                                        </div>
-                                        <div class="oda-reciente-text">
-                                                <p>{{ activity.0.name }}</p>
-                                        </div>
-                                    </a>
-                                </div>
-                         </div>
-
-                        {% endfor %}
-                        <div class="cell meium-12 text-center">
-                            <a href="#" class="">Ver más ODAs incompletas</a>
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
         </div>
     </div>
 
 {% endblock %}
-
-{% block scripts %}
-<script src="{% static "webapp/js/dashboard.js" %}"></script>
-{% endblock %}
-
