@@ -17,7 +17,15 @@
                 <i class="fa fa-th"></i>
             </a>
             <a href="{% url 'profile_view' %}" class="top-menu-btn" id="top-menu-icon" title="{{ user.first_name }} {{ user.last_name }}">
-                <img src="{% static "/webapp/media/perfil-smallest.png"%}" alt="profile icon">
+                {% if request.user.profile.avatar == "A" %}
+                    <img src="{% static 'webapp/media/profile-pic.png' %}" alt="profile icon">
+                {% elif  request.user.profile.avatar == "B"%}
+                    <img src="{% static 'webapp/media/rated.png' %}" alt="profile icon">
+                {% elif  request.user.profile.avatar == "C"%}
+                    <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="profile icon">
+                {% elif  request.user.profile.avatar == "D"%}
+                    <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="profile icon">
+                {% endif %}
             </a>
             
         </div>
