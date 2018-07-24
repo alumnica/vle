@@ -1,8 +1,9 @@
-
+from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import FormView, UpdateView
+from sweetify import sweetify
 
 from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import AuthUser
@@ -63,13 +64,24 @@ class FirstLoginP3View(LoginRequiredMixin, OnlyLearnerMixin, FormView):
 
 class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
     login_url = 'login_view'
-    template_name = 'webapp/pages/test.html'
+    template_name = 'webapp/pages/user-profile.html'
     form_class = ProfileSettingsForm
-    success_url = reverse_lazy('profile_settings_view')
 
     def get_object(self, queryset=None):
         return self.request.user
 
+    def form_invalid(self, form):
+        if form['new_password'].errors:
+            sweetify.error(self.request, form.errors['new_password'][0], persistent='Ok')
+        elif form['new_password_confirmation'].errors:
+            sweetify.error(self.request, form.errors['new_password_confirmation'][0], persistent='Ok')
+        elif form['previous_password'].errors:
+            sweetify.error(self.request, form.errors['previous_password'][0], persistent='Ok')
+
+        context = self.get_context_data()
+        return render(self.request, self.template_name, context=context)
+
     def form_valid(self, form):
-        form.save()
-        return super(ProfileSettingsView, self).form_valid(form)
+        user = form.save()
+        login(self.request, user)
+        return redirect('profile_view')

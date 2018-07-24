@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-
+from django.utils.translation import gettext_lazy as _
 from alumnica_model.models import Learner, users, AuthUser
 from alumnica_model.models.content import LearningStyle
 from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
@@ -86,7 +86,7 @@ class ProfileSettingsForm(forms.ModelForm):
 
     class Meta:
         model = AuthUser
-        fields = ['email', 'first_name', 'last_name']
+        fields = ['first_name', 'last_name']
 
     def __init__(self, *args, **kwargs):
         super(ProfileSettingsForm, self).__init__(*args, **kwargs)
@@ -96,13 +96,13 @@ class ProfileSettingsForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(ProfileSettingsForm, self).clean()
-        user = super(ProfileSettingsForm, self).save(commit=False)
+
         previous_password = cleaned_data.get('previous_password')
         new_password = cleaned_data.get('new_password')
         new_password_confirmation = cleaned_data.get('new_password_confirmation')
 
-        if previous_password is not None or new_password is not None or new_password_confirmation is not None:
-            if new_password is None:
+        if previous_password is not '' or new_password is not '' or new_password_confirmation is not '':
+            if new_password is '':
                 error = ValidationError(_("Write a new password"), code='password_error')
                 self.add_error('new_password', error)
             else:
@@ -110,7 +110,7 @@ class ProfileSettingsForm(forms.ModelForm):
                     error = ValidationError(_("Password must have 6 characters or more."), code='password_length_error')
                     self.add_error('new_password', error)
                 else:
-                    if new_password_confirmation is None:
+                    if new_password_confirmation is '':
                         error = ValidationError(_("Please write the password confirmation."),
                                                 code='password_confirmation_error')
                         self.add_error('new_password_confirmation', error)
@@ -120,12 +120,22 @@ class ProfileSettingsForm(forms.ModelForm):
                                                     code='password_confirmation_error')
                             self.add_error('new_password', error)
                         else:
-                            if previous_password is None or user.check_password(previous_password):
-                                error = ValidationError(_("Invalid password."), code='credentials_error')
-                                self.add_error('password', error)
+                            if previous_password is not '':
+                                user = self.instance
+                                if not user.check_password(previous_password):
+                                    error = ValidationError(_("Invalid password."), code='credentials_error')
+                                    self.add_error('previous_password', error)
+                            else:
+                                error = ValidationError(_("Previous password must be written."), code='credentials_error')
+                                self.add_error('previous_password', error)
 
         return cleaned_data
 
     def save(self, commit=True):
-        user = super(ProfileSettingsForm, self).save()
+        user = super(ProfileSettingsForm, self).save(commit=False)
+        new_password = self.cleaned_data.get('new_password')
+        if new_password != '':
+            user.set_password(self.cleaned_data.get('new_password'))
+        user.save()
+        return user
 

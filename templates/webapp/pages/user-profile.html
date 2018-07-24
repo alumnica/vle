@@ -86,14 +86,14 @@
             </div>
         </div>
         <div class="learning-style">
-            <strong>ESTILO DE APRENDIZAGE: </strong> &nbsp; Amet consectetur adipisicing elit.
+            <strong>ESTILO DE APRENDIZAJE: </strong> &nbsp; {{ request.user.profile.learning_style }}
         </div>
         <div class="profile-information">
             <p class="name">
-                Juan Escutia
+                {{ request.user.first_name }}
             </p>
             <p class="email">
-                juan@gmail.com
+                {{ request.user.email }}
             </p>
             <div class="profile-information-edit" data-open="user-details-modal">
                 <i class="fa fa-pencil-alt"></i>
@@ -150,33 +150,30 @@
 </div>
 <div class="reveal" id="user-details-modal" data-reveal>
     <h3 class="text-center">Cambiar detalles de usuario</h3>
-    <form class="user-details-form" action="">
+    <form class="user-details-form" method="post">
+        {% csrf_token %}
         <label for="user-name">Nombre</label>
-        <input type="text" name="user-name">
+        {{ form.first_name }}
 
         <label for="user-last-name">Apellidos</label>
-        <input type="text" name="user-last-name">
+        {{ form.last_name }}
 
         <label for="birth-date">Fecha de nacimiento</label>
-        <input type="date">
+        {{ form.birth_date_field }}
 
         <label for="gender">Sexo</label>
-        <input type="radio" name="gender" value="male" checked> Masculino
-        <br>
-        <input type="radio" name="gender" value="female"> Femenuno
-        <br>
-        <input type="radio" name="gender" value="other"> Otro
+        {{ form.gender_field }}
 
         <label for="new-pass">Nueva contraseña</label>
-        <input type="password" name="new-pass">
+        {{ form.new_password }}
 
         <label for="new-pass-confirm">confirmar nueva contraseña</label>
-        <input type="password" name="new-pass-confirm">
+        {{ form.new_password_confirmation }}
 
         <label for="current-pass"> Contraseña Actual</label>
-        <input type="password" name="current-pass">
+        {{ form.previous_password }}
 
-        <button type="button" class="button"> Guardar Cambios</button>
+        <button type="submit" class="button"> Guardar Cambios</button>
 
     </form>
 

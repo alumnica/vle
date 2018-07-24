@@ -16,7 +16,7 @@
             <a href="{% url 'ambitos-grid_view' %}" class="top-menu-btn" id="top-menu-grid" title="Grid de Ambitos">
                 <i class="fa fa-th"></i>
             </a>
-            <a href="user-profile.html" class="top-menu-btn" id="top-menu-icon" title="{{ user.first_name }} {{ user.last_name }}">
+            <a href="{% url 'profile_view' %}" class="top-menu-btn" id="top-menu-icon" title="{{ user.first_name }} {{ user.last_name }}">
                 <img src="{% static "/webapp/media/perfil-smallest.png"%}" alt="profile icon">
             </a>
             
