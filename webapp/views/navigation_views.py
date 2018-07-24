@@ -35,3 +35,4 @@ class SearchView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
                     odas_list.append(oda)
 
         return {'odas_list': odas_list, 'text_to_search': text_to_search}
+

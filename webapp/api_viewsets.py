@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
-from alumnica_model.models import AuthUser, Learner, MicroODA
+from alumnica_model.models import AuthUser, Learner, MicroODA, Ambit
 from alumnica_model.models.progress import LearnerEvaluationProgress
 from alumnica_model.models.questions import *
 from webapp.serializers import *
@@ -243,8 +243,14 @@ class MicroodaViewSet(APIView):
         return JsonResponse({'points': 10, 'suggestions': microodas_suggestion})
 
 
-class SearchViewSet(APIView):
+class MenuViewSet(APIView):
     def get(self, request, *args, **kwargs):
-        text = kwargs['text']
-        return HttpResponseRedirect(redirect_to='search_view', text=text)
+        ambitos_list = Ambit.objects.filter(is_published=True)
+        menu_list = [{'ambito_pk': ambito.pk,
+                      'ambito_name': ambito.name,
+                      'materias': [{'materia_pk': materia.pk,
+                                    'materia_name': materia.name} for materia in ambito.subjects.all()]}
+                     for ambito in ambitos_list]
+        request.session['menu_list'] = menu_list
+        return JsonResponse({'menu_list': menu_list})
 

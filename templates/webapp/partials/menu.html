@@ -8,34 +8,16 @@
 
                 <!-- Accordion tab content: it would start in the open state due to using the `is-active` state class. -->
                 <div class="accordion-content" data-tab-content>
-                    <ul class="accordion" data-accordion>
+
 
                         <!-- start ambito loop -->
+                    {% load vle_extras %}
+                    {% get_menu %}
 
 
-                        <li class="accordion-item" data-accordion-item>
-                            <!-- ambito title -->
-                            <a href="#" class="accordion-title">Ambito 1</a>
-
-                            <div class="accordion-content" data-tab-content>
-
-                                <ul>
-                                    <!-- start materia loop -->
-                                    
-                                    <li>
-                                        <a href="#">Materia</a>
-                                    </li>
-                                    <!-- end materia loop -->
-                                </ul>
-                                
-                            </div>
-                        </li>
-                      <!-- end ambito loop -->
-
-                    </ul>
                 </div>
             </li>
-           
+
         </ul>
         <div class="menu-test">
             <a href="#" class="dashboard-test-button">

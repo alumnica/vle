@@ -1,0 +1,23 @@
+ <ul class="accordion" data-accordion>
+{% for item in menu_list %}
+    <li class="accordion-item" data-accordion-item>
+        <!-- ambito title -->
+        <a href="#" class="accordion-title">{{ item.ambito.name }}</a>
+
+        <div class="accordion-content" data-tab-content>
+
+            <ul>
+                <!-- start materia loop -->
+                {% for materia in item.materias %}
+                <li>
+                    <a href="{% url 'subject_view' materia.pk %}">{{ materia.name}}</a>
+                </li>
+                    {% endfor %}
+                <!-- end materia loop -->
+            </ul>
+
+        </div>
+    </li>
+  <!-- end ambito loop -->
+{% endfor %}
+</ul>
