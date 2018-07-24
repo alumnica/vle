@@ -33,7 +33,7 @@
     <div class="grid-x align-center">
         <div id="the-odas">
 
-            {% for oda, state in odas_zip %}
+            {% for oda, state, odas_microodas_completed in odas_zip %}
                 {% if oda.section == 1 %}
 
                     <div class="block" id="oda-{{ oda.pk }}" data-n="a-{{ oda.zone }}" state="{{ state }}">
@@ -42,7 +42,7 @@
                                 {{ oda.name }}
                             </div>
                             <div class="oda-progress">
-                                <i class="fa fa-star gold"></i>x3
+                                <i class="fa fa-star gold"></i>x{{ odas_microodas_completed }}
                             </div>
                             <div class="play-btn-cont">
                                 <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
