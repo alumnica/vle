@@ -6,4 +6,10 @@ $('.avatar-options').on('click', 'img', function(){
     clicked.parent().html(main);
     $('.avatar-main').html(clicked);
     $('#selected-avatar').val(clicked.attr('id'));
+
+    $.ajax({
+        url: '/api/avatar',
+        data:{'avatar': clicked.attr('id'),
+              'pk': pk}
+    });
 });

@@ -243,14 +243,13 @@ class MicroodaViewSet(APIView):
         return JsonResponse({'points': 10, 'suggestions': microodas_suggestion})
 
 
-class MenuViewSet(APIView):
+class ChangeUserAvatar(APIView):
     def get(self, request, *args, **kwargs):
-        ambitos_list = Ambit.objects.filter(is_published=True)
-        menu_list = [{'ambito_pk': ambito.pk,
-                      'ambito_name': ambito.name,
-                      'materias': [{'materia_pk': materia.pk,
-                                    'materia_name': materia.name} for materia in ambito.subjects.all()]}
-                     for ambito in ambitos_list]
-        request.session['menu_list'] = menu_list
-        return JsonResponse({'menu_list': menu_list})
+        learner_pk = request.GET['pk']
+        avatar_id = request.GET['avatar']
+        learner = AuthUser.objects.get(pk=learner_pk)
+
+        learner.profile.avatar = avatar_id
+        learner.profile.save()
+        return JsonResponse({'ok': 'ok'})
 

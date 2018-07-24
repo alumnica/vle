@@ -51,6 +51,6 @@ urlpatterns += i18n_patterns(
     path(_('search/'), include('webapp.urls.navigation_urls')),
     path(_('registration'), include('django.contrib.auth.urls')),
     path('api/microodas/<int:learner>,<int:uODA>/', api_viewsets.MicroodaViewSet.as_view(), name='microoda_view'),
-    path('api/menu/', api_viewsets.MenuViewSet.as_view(), name='menu_view'),
+    path('api/avatar/', api_viewsets.ChangeUserAvatar.as_view(), name='avatar_change_view'),
 
 )

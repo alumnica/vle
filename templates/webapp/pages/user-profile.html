@@ -15,6 +15,7 @@
     </div>
 </div>
 <script>
+    let pk = {{ request.user.pk }};
     setTimeout(function () {
         document.getElementById("preloader").classList.add("is-load");
     }, 1000);
@@ -24,18 +25,39 @@
     <div class="profile-grid">
         <div class="avatar">
             <div class="avatar-main">
-                <img src="../assets/media/profile-pic.png" alt="" id="A">
+                {% if request.user.profile.avatar == "A" %}
+                    <img src="{% static 'webapp/media/profile-pic.png' %}" alt="" id="A">
+                {% elif  request.user.profile.avatar == "B"%}
+                    <img src="{% static 'webapp/media/rated.png' %}" alt="" id="B">
+                {% elif  request.user.profile.avatar == "C"%}
+                    <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="" id="C">
+                {% elif  request.user.profile.avatar == "D"%}
+                    <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="" id="D">
+                {% endif %}
             </div>
             <div class="avatar-options">
-                <div class="avatar-options-individual">
-                    <img src="../assets/media/rated.png" alt="" id="B">
-                </div>
-                <div class="avatar-options-individual">
-                    <img src="../assets/media/tuerca-01.png" alt="" id="C">
-                </div>
-                <div class="avatar-options-individual">
-                    <img src="../assets/media/Iconos/Escenario_dinamico.png" alt="" id="D">
-                </div>
+                {% if request.user.profile.avatar != "A" %}
+                    <div class="avatar-options-individual">
+                        <img src="{% static 'webapp/media/profile-pic.png' %}" alt="" id="A">
+                    </div>
+                {% endif %}
+                {% if request.user.profile.avatar != "B" %}
+                    <div class="avatar-options-individual">
+                        <img src="{% static 'webapp/media/rated.png' %}" alt="" id="B">
+                    </div>
+                {% endif %}
+                {% if request.user.profile.avatar != "C" %}
+                    <div class="avatar-options-individual">
+                        <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="" id="C">
+                    </div>
+                {% endif %}
+                {% if request.user.profile.avatar != "D" %}
+                    <div class="avatar-options-individual">
+                        <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="" id="D">
+                    </div>
+                {% endif %}
+
+
             </div>
             <input type="hidden" id="selected-avatar">
         </div>
