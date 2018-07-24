@@ -6,18 +6,18 @@
         <p class="recent-title">Actividad receinte</p>
     
         <div class="recent-container">
-    
+        {% for oda in odas_list %}
             <!-- start recent activity item loop -->
-            <a href="#" class="recent-activity-item" style="background: url(../assets/media/portadas/01.jpg); background-size: cover;">
+            <a href="{%  url 'oda_view' oda.pk %}" class="recent-activity-item" style="background: url({{ oda.subject.background_image.file.url }}); background-size: cover;">
                 <div class="recent-activity-oda">
-                    <img src="../assets/media/ODAs/camion.gif" alt="camion">
+                    <img src=" {{ oda.active_icon.file.url }}" alt="{{ oda.name }}">
                 </div>
                 <div class="recent-activity-oda-text">
-                    Nombre largo de ODA
+                   {{ oda.name }}
                 </div>
             </a>
             <!-- end recent ativity item loop -->
-    
+        {% endfor %}
         </div>
     </div>
 
