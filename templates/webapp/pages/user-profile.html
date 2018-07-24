@@ -18,7 +18,7 @@
     let pk = {{ request.user.pk }};
     setTimeout(function () {
         document.getElementById("preloader").classList.add("is-load");
-    }, 1000);
+    }, 500);
 </script>
 <!-- end preloader -->
 <div class="grid-container">
@@ -163,11 +163,13 @@
 
             </ul>
         </div>
+    {% if not request.user.profile.large_quiz_completed %}
         <div class="profile-test">
-            <a href="#" class="dashboard-test-button">
+            <a href="{% url 'large_learning_quiz_view' %}" class="dashboard-test-button">
                 <i class="fas fa-vial"></i> Test
             </a>
         </div>
+    {% endif %}
     </div>
 </div>
 <div class="reveal" id="user-details-modal" data-reveal>

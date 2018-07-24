@@ -62,6 +62,33 @@ class FirstLoginP3View(LoginRequiredMixin, OnlyLearnerMixin, FormView):
         return redirect(to='dashboard_view')
 
 
+class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    login_url = 'login_view'
+    form_class = LargeLeraningStyleQuizForm
+    template_name = 'webapp/pages/user-test.html'
+
+    def form_valid(self, form):
+        answers = self.request.POST['test-answers'].split(',')
+        letters = {'a': 0, 'b': 1, 'c': 2, 'd': 3}
+        answers_numbers = [0, 0, 0, 0]
+        for answer in answers:
+            answers_numbers[letters[answer]] += 1
+
+        if answers_numbers[0] > answers_numbers[1] and answers_numbers[3] > answers_numbers[2]:
+            self.request.user.profile.learning_style = LearningStyle.objects.get(name='Acomodador')
+        elif answers_numbers[1] > answers_numbers[0] and answers_numbers[2] > answers_numbers[3]:
+            self.request.user.profile.learning_style = LearningStyle.objects.get(name='Asimilador')
+        elif answers_numbers[0] > answers_numbers[1] and answers_numbers[2] > answers_numbers[3]:
+            self.request.user.profile.learning_style = LearningStyle.objects.get(name='Divergente')
+        elif answers_numbers[1] > answers_numbers[2] and answers_numbers[3] > answers_numbers[2]:
+            self.request.user.profile.learning_style = LearningStyle.objects.get(name='Convergente')
+
+        self.request.user.profile.large_quiz_completed = True
+        self.request.user.profile.save()
+
+        return redirect(to='dashboard_view')
+
+
 class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
     login_url = 'login_view'
     template_name = 'webapp/pages/user-profile.html'

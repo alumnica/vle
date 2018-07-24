@@ -8,5 +8,6 @@ urlpatterns = [
     path(_('first-login-p1/'), FirstLoginP1View.as_view(), name='first-login-p1_view'),
     path(_('first-login-p2/'), FirstLoginP2View.as_view(), name='first-login-p2_view'),
     path(_('first-login-p3/'), FirstLoginP3View.as_view(), name='first-login-p3_view'),
+    path(_('learning_quiz/'), LargeLearningStyleQuizView.as_view(), name='large_learning_quiz_view'),
     path('', ProfileSettingsView.as_view(), name='profile_view')
 ]

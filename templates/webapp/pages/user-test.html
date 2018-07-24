@@ -2,7 +2,6 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-{% endblock %}
 
 <div class="grid-container">
     <div class="grid-x">
@@ -192,13 +191,14 @@
             <!-- this is what actually submits the answeres -->
 
             <form method="POST" id="test-post">
-                <input type="hidden" id="test-answers">
+                {% csrf_token %}
+                <input type="hidden" id="test-answers" name="test-answers">
                 <input type="submit" id="answer-submit" class="is-hidden">
             </form>
         </div>
     </div>
 </div>
-
+{% endblock %}
 {% block scripts %}
     <script src="{% static "webapp/js/user-test.js" %}"></script>
 {% endblock %}

@@ -18,7 +18,7 @@
 <script>
     setTimeout(function(){
         document.getElementById("preloader").classList.add("is-load");
-    }, 1000);
+    }, 500);
 </script>
 
 <!-- end preloader -->
@@ -45,11 +45,13 @@
                 <div class="user-info-score">
                     <i class="fa fa-star"></i> {{ user.profile.experience_points }}
                 </div>
-                <div class="user-info-test">
-                    <a href="#" class="dashboard-test-button"> <!-- link a test -->
-                        <i class="fas fa-vial"></i> Test
-                    </a>
-                </div>
+                {% if not request.user.profile.large_quiz_completed %}
+                    <div class="user-info-test">
+                        <a href="{% url 'large_learning_quiz_view' %}" class="dashboard-test-button"> <!-- link a test -->
+                            <i class="fas fa-vial"></i> Test
+                        </a>
+                    </div>
+                {% endif %}
             </div>
             <div class="recent-activity">
                 <div class="recent-activity-heading">
@@ -76,12 +78,13 @@
                 {% endfor %}                          
             </div>
             <!-- end recent activity -->
-
-            <div class="dashboard-test">
-                <a href="#" class="dashboard-test-button">
-                    <i class="fas fa-vial"></i> Test
-                </a>
-            </div>
+            {% if not request.user.profile.large_quiz_completed %}
+                <div class="dashboard-test">
+                    <a href="{% url 'large_learning_quiz_view' %}" class="dashboard-test-button">
+                        <i class="fas fa-vial"></i> Test
+                    </a>
+                </div>
+            {% endif %}
             <div class="blog">
                 <div class="blog-content">
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus sint exercitationem numquam. Soluta cupiditate alias consequatur dolor fugit, quo expedita velit, earum iure fuga tenetur?

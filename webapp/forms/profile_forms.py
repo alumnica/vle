@@ -139,3 +139,8 @@ class ProfileSettingsForm(forms.ModelForm):
         user.save()
         return user
 
+
+class LargeLeraningStyleQuizForm(forms.Form):
+    def save_form(self):
+        pass
+

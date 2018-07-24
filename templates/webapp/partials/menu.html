@@ -19,11 +19,13 @@
             </li>
 
         </ul>
+        {% if not request.user.profile.large_quiz_completed %}
         <div class="menu-test">
-            <a href="#" class="dashboard-test-button">
+            <a href="{% url 'large_learning_quiz_view' %}" class="dashboard-test-button">
                 <i class="fas fa-vial"></i> Test
             </a>
         </div>
+        {% endif %}
         <hr>
         <div class="end-sesh">
             <a href="{% url 'logout_view' %}" class="end-sesh-btn"> <i class="fa fa-sign-out-alt "></i> Cerrar sesión</a>
