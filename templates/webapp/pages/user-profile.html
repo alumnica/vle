@@ -163,13 +163,15 @@
 
             </ul>
         </div>
-    {% if not request.user.profile.large_quiz_completed %}
+
         <div class="profile-test">
+            {% if not request.user.profile.large_quiz_completed %}
             <a href="{% url 'large_learning_quiz_view' %}" class="dashboard-test-button">
                 <i class="fas fa-vial"></i> Test
             </a>
+            {% endif %}
         </div>
-    {% endif %}
+
     </div>
 </div>
 <div class="reveal" id="user-details-modal" data-reveal>
