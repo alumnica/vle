@@ -14,7 +14,11 @@ self.addEventListener('install', function(event) {
       // And add resources to it
       return cache.addAll([
         '/static/webapp/css/app.css',
-          '/static/webapp/js/app.js',
+         '/static/webapp/js/app.js',
+         '/static/webapp/fonts/BryantPro-Bold.otf',
+         '/static/webapp/fonts/BryantPro-Light.otf',
+         '/static/webapp/fonts/BryantPro-Medium.otf',
+         '/static/webapp/fonts/BryantPro-Regular.otf',
       ]);
     })
   );
