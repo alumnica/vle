@@ -2,6 +2,26 @@
 {% load static %}
 {% load vle_extras %}
 {% block content %}
+
+<div class='container' id="preloader">
+        <div class='loader'>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--text'></div>
+        </div>
+    </div>
+
+    <script>
+        setTimeout(function(){
+            document.getElementById("preloader").classList.add("is-load");
+        }, 1000);
+    </script>
+<!-- end preloader -->
+
 <div class="scroll-menu">
     <ul id="evalMenu">
         <li data-menuanchor="firstPage" class="active"><a href="#firstPage"><i class="far fa-bookmark"></i></a></li>

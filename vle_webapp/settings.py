@@ -17,7 +17,7 @@ import sys
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 
-VERSION_NUMBER = 'v0.9.0'
+VERSION_NUMBER = 'v0.10.0'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'pwa',
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

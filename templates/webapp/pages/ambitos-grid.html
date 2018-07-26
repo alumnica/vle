@@ -2,14 +2,31 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-<a href="{% url 'dashboard_view' %}" class="mat-grid-btn">
-    <i class="fas fa-columns"></i>
-</a>
+
+<div class='container' id="preloader">
+        <div class='loader'>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--text'></div>
+        </div>
+    </div>
+    
+    <script>
+        setTimeout(function(){
+            document.getElementById("preloader").classList.add("is-load");
+        }, 1000);
+    </script>
+<!-- end preloader -->
+
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="grid-container u-margin-top-small">
+        <div class="grid-container">
 
-            <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "gutter": 15, "isFitWidth": true}'>
+            <div class="grid">
                 {% for ambit in ambits_list %}
                         <div class="grid-item">
                             <div class="card">
@@ -48,11 +65,16 @@
         </div>
     </form>
 
+    
+<!-- makes  menu active -->
+<script>
+        document.querySelector('#top-menu-grid').classList.add("top-active");
+</script>
 
 
 {% endblock %}
 
 {% block scripts %}
-    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    
     <script src="{% static "webapp/js/ambitos-grid.js" %}"></script>
 {% endblock %}

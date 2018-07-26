@@ -2,6 +2,25 @@
 {% load static %}
 {% block content %}
 
+<div class='container' id="preloader">
+        <div class='loader'>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--text'></div>
+        </div>
+    </div>
+    
+    <script>
+        setTimeout(function(){
+            document.getElementById("preloader").classList.add("is-load");
+        }, 1000);
+    </script>
+<!-- end preloader -->
+
 <div id="moments">
     <div class="section">
         {% for moment in moment_array %}
@@ -61,9 +80,7 @@
     </div>
 </div>
  <!-- return buttons -->
- <a href="{% url 'ambitos-grid_view' %}" class="mom-grid-btn">
-    <i class="fas fa-th"></i>
-</a>
+
 <a href="{% url 'oda_view' moment_array.0.microoda.oda.pk  %}" class="mom-return-btn">
     <i class="fas fa-undo-alt"></i>
 </a>
@@ -73,7 +90,7 @@
 <script type="text/javascript">
     let microoda = {{ moment_array.0.microoda.pk }};
     let learner = {{ request.user.profile.pk }};
-    </script>
+</script>
 
 {% endblock %}
 

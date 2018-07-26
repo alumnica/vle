@@ -1,0 +1,224 @@
+{% extends "logged-in.html" %}
+{% load static %}
+{% block content %}
+
+<!-- preloader -->
+<div class='container' id="preloader">
+    <div class='loader'>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--text'></div>
+    </div>
+</div>
+<script>
+    let pk = {{ request.user.pk }};
+    setTimeout(function () {
+        document.getElementById("preloader").classList.add("is-load");
+    }, 1000);
+</script>
+<!-- end preloader -->
+<div class="grid-container">
+    <div class="profile-grid">
+        <div class="avatar">
+            <div class="avatar-main">
+                {% if request.user.profile.avatar == "A" %}
+                    <img src="{% static 'webapp/media/profile-pic.png' %}" alt="" id="A">
+                {% elif  request.user.profile.avatar == "B"%}
+                    <img src="{% static 'webapp/media/rated.png' %}" alt="" id="B">
+                {% elif  request.user.profile.avatar == "C"%}
+                    <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="" id="C">
+                {% elif  request.user.profile.avatar == "D"%}
+                    <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="" id="D">
+                {% endif %}
+            </div>
+            <div class="avatar-options">
+                {% if request.user.profile.avatar != "A" %}
+                    <div class="avatar-options-individual">
+                        <img src="{% static 'webapp/media/profile-pic.png' %}" alt="" id="A">
+                    </div>
+                {% endif %}
+                {% if request.user.profile.avatar != "B" %}
+                    <div class="avatar-options-individual">
+                        <img src="{% static 'webapp/media/rated.png' %}" alt="" id="B">
+                    </div>
+                {% endif %}
+                {% if request.user.profile.avatar != "C" %}
+                    <div class="avatar-options-individual">
+                        <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="" id="C">
+                    </div>
+                {% endif %}
+                {% if request.user.profile.avatar != "D" %}
+                    <div class="avatar-options-individual">
+                        <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="" id="D">
+                    </div>
+                {% endif %}
+
+
+            </div>
+            <input type="hidden" id="selected-avatar">
+        </div>
+        <div class="exp-points">
+            <i class="fa fa-star"></i> {{ request.user.profile.experience_points }}
+        </div>
+        <div class="badges">
+            <div class="badges-grid">
+                <div class="badges-item">
+                    <div class="badges-item-image">
+                        <img src="../assets/media/Insignias/insignia_microODA.png" alt="">
+                    </div>
+                    <div class="badges-item-text">
+                        Lorem ipsum dolor sit amet consectetur.
+                    </div>
+                </div>
+                <!-- end badge -->
+                <div class="badges-item">
+                    <div class="badges-item-image">
+                        <img src="../assets/media/Insignias/insignia_ambito.png" alt="">
+                    </div>
+                    <div class="badges-item-text">
+                        Lorem ipsum dolor sit amet consectetur.
+                    </div>
+                </div>
+                <!-- end badge -->
+                <div class="badges-item">
+                    <div class="badges-item-image">
+                        <img src="../assets/media/Insignias/insignia_login.png" alt="">
+                    </div>
+                    <div class="badges-item-text">
+                        Lorem ipsum dolor sit amet consectetur.
+                    </div>
+                </div>
+                <!-- end badge -->
+                <div class="badges-item">
+                    <div class="badges-item-image">
+                        <img src="../assets/media/Insignias/insignia_ODA.png" alt="">
+                    </div>
+                    <div class="badges-item-text">
+                        Lorem ipsum dolor sit amet consectetur.
+                    </div>
+                </div>
+                <!-- end badge -->
+              
+
+
+            </div>
+        </div>
+        <div class="learning-style">
+            <strong>ESTILO DE APRENDIZAJE: </strong> &nbsp; {{ request.user.profile.learning_style }}
+        </div>
+        <div class="profile-information">
+            <p class="name">
+                {{ request.user.first_name }}
+            </p>
+            <p class="email">
+                {{ request.user.email }}
+            </p>
+            <div class="profile-information-edit" data-open="user-details-modal">
+                <i class="fa fa-pencil-alt"></i>
+            </div>
+        </div>
+        <div class="extra-info">
+            <ul class="accordion" data-multi-expand="true" data-responsive-accordion-tabs="accordion medium-tabs small-accordion">
+                <li class="accordion-item is-active" data-accordion-item>
+                    <a href="#" class="accordion-title">ESCUELA</a>
+                    <div class="accordion-content" data-tab-content>
+                        <form action="">
+                            <label for="school">Actualmente atiendo:</label>
+                            <input type="text" name="school" class="extra-info-input" placeholder="Tu escuela">
+                        
+                            <label for="year">En el año:</label>
+                            <input type="text" name="year" class="extra-info-input" placeholder="El año que cursas">
+                        
+                            <label for="teach">Mi maestra se llama:</label>
+                            <input type="text" name="teach" class="extra-info-input" placeholder="Su nombre o apodo">
+                           
+                            <label for="friend">Mi mejor amigo es:</label>
+                            <input type="text" name="friend" class="extra-info-input" placeholder="Su nombre o apodo">
+
+                            
+                        </form>
+                    </div>
+                </li>
+                <li class="accordion-item" data-accordion-item>
+                    <a href="#" class="accordion-title">TRABAJO</a>
+                    <div class="accordion-content" data-tab-content>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, maiores.</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, maiores.</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, maiores.</p>
+                    </div>
+                </li>
+                <li class="accordion-item" data-accordion-item>
+                    <a href="#" class="accordion-title">VIDA SOCIAL</a>
+                    <div class="accordion-content" data-tab-content>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, maiores.</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, maiores.</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, maiores.</p>
+                        
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="profile-test">
+            {% if not request.user.profile.large_quiz_completed %}
+            <a href="{% url 'large_learning_quiz_view' %}" class="dashboard-test-button">
+                <i class="fas fa-vial"></i> Test
+            </a>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+<div class="reveal" id="user-details-modal" data-reveal>
+    <h3 class="text-center">Cambiar detalles de usuario</h3>
+    <form class="user-details-form" method="post">
+        {% csrf_token %}
+        <label for="user-name">Nombre</label>
+        {{ form.first_name }}
+
+        <label for="user-last-name">Apellidos</label>
+        {{ form.last_name }}
+
+        <label for="birth-date">Fecha de nacimiento</label>
+        {{ form.birth_date_field }}
+
+        <label for="gender">Sexo</label>
+        {{ form.gender_field }}
+
+        <label for="new-pass">Nueva contraseña</label>
+        {{ form.new_password }}
+
+        <label for="new-pass-confirm">confirmar nueva contraseña</label>
+        {{ form.new_password_confirmation }}
+
+        <label for="current-pass"> Contraseña Actual</label>
+        {{ form.previous_password }}
+
+        <button type="submit" class="button"> Guardar Cambios</button>
+
+    </form>
+
+
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+
+<!-- makes  menu active -->
+<script>
+        document.querySelector('#top-menu-icon').classList.add("top-active");
+</script>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static "webapp/js/user-profile.js" %}"></script>
+{% endblock %}
