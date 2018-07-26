@@ -5,5 +5,4 @@ from webapp.views.ambit_views import *
 
 urlpatterns = [
     path(_('ambit_grid/'), AmbitGridView.as_view(), name='ambitos-grid_view'),
-    path('test/', TestView.as_view(), name='test_view')
 ]

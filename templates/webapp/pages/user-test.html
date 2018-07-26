@@ -1,0 +1,204 @@
+{% extends "logged-in.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+<div class="grid-container">
+    <div class="grid-x">
+        <div class="cell small-12">
+            <p class="h3">Lorem ipsum dolor sit.</p>
+            <p class="h5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo, voluptates.</p>
+        </div>
+        <div class="cell medium-12">
+            <ol id="test-form" class="u-margin-top-small">
+                <li>
+                    <p class="h6">Cuando inicio el estudio de alguna temática:</p>
+                    <div>
+                        <input type="radio" id="q1-1" name="first-q" value="a">
+                        <label for="q1-1">Principalmente involucro mis sentidos, mi imaginación y recuerdos</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q1-2" name="first-q" value="b">
+                        <label for="q1-2">Me guío mucho más por razonamientos lógicos</label>
+                    </div>
+                </li>
+                <!-- question -->
+                <li>
+                    <p class="h6">
+                        Cuando inicio el estudio de alguna temática:
+                    </p>
+                    <div>
+                        <input type="radio" id="q2-1" name="second-q" value="c">
+                        <label for="q2-1">
+                            Prefiero observar y entender lo que sucede
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q2-2" name="second-q" value="d">
+                        <label for="q2-2">
+                            Tiendo a querer interactuar de inmediato
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <p class="h6">
+                        Es común que cuando resuelvo un problema:
+                    </p>
+                    <div>
+                        <input type="radio" id="q3-1" name="third-q" value="a">
+                        <label for="q3-1">
+                            Analizo la situación de forma global, viendo la totalidad
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q3-2" name="third-q" value="b">
+                        <label for="q3-2">
+                            Prefiero analizar las cosas dividiéndolas en sus partes y componentes
+                        </label>
+                    </div>
+                </li>
+                <!-- question -->
+                <li>
+                    <p class="h6">
+                        Es común que cuando resuelvo un problema:
+                    </p>
+                    <div>
+                        <input type="radio" id="q4-1" name="fourth-q" value="c">
+                        <label for="q4-1">
+                            Me es indispensable tener un diálogo interior, que me aclare
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q4-2" name="fourth-q" value="d">
+                        <label for="q4-2">
+                            Necesito conversar con otros las posibles soluciones
+                        </label>
+                    </div>
+                </li>
+                <!-- question -->
+                <!-- question -->
+                <li>
+                    <p class="h6">
+                        Considero que lo que me guía más es:
+                    </p>
+                    <div>
+                        <input type="radio" id="q5-1" name="fifth-q" value="a">
+                        <label for="q5-1">
+                            Mi intuición, usar mi sentido común
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q5-2" name="fifth-q" value="b">
+                        <label for="q5-2">
+                            Mi lógica, utilizar mis razonamientos
+                        </label>
+                    </div>
+                </li>
+                <!-- question -->
+                <li>
+                    <p class="h6">
+                        Considero que lo que me guía más es:
+                    </p>
+                    <div>
+                        <input type="radio" id="q6-1" name="sixth-q" value="c">
+                        <label for="q6-1">
+                            Observar, hacerme de mis ideas y después actuar
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q6-2" name="sixth-q" value="d">
+                        <label for="q6-2">
+                            Actuar siguiendo recomendaciones
+                        </label>
+                    </div>
+                </li>
+                <!-- question -->
+                <li>
+                    <p class="h6">
+                        Aprendo mejor a través de:
+                    </p>
+                    <div>
+                        <input type="radio" id="q7-1" name="seventh-q" value="a">
+                        <label for="q7-1">
+                            Ejemplos
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q7-2" name="seventh-q" value="b">
+                        <label for="q7-2">
+                            Definiciones
+                        </label>
+                    </div>
+                </li>
+                <!-- question -->
+                <li>
+                    <p class="h6">
+                        Aprendo mejor a través de:
+                    </p>
+                    <div>
+                        <input type="radio" id="q8-1" name="eighth-q" value="c">
+                        <label for="q8-1">
+                            Hacer suposiciones previas a ejercitar
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q8-2" name="eighth-q" value="d">
+                        <label for="q8-2">
+                            Ejercitar primero y luego llegar a conclusiones
+                        </label>
+                    </div>
+                </li>
+                <!-- question -->
+                <li>
+                    <p class="h6">
+                        Cuando alguien comparte aprendizaje en un grupo:
+                    </p>
+                    <div>
+                        <input type="radio" id="q9-1" name="nineth-q" value="a">
+                        <label for="q9-1">
+                            Aunque me cueste trabajo entenderle, me mantengo abierto a una posible explicación
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q9-2" name="nineth-q" value="b">
+                        <label for="q9-2">
+                            Me cuesta trabajo aceptar una explicación cuando no tiene lógica
+                        </label>
+                    </div>
+                </li>
+                <!-- question -->
+                <li>
+                    <p class="h6">
+                        Cuando comparto aprendizaje en un grupo:
+                    </p>
+                    <div>
+                        <input type="radio" id="q10-1" name="tenth-q" value="c">
+                        <label for="q10-1">
+                            Pienso mucho mis aportaciones, antes de hablar
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q10-2" name="tenth-q" value="d">
+                        <label for="q10-2">
+                            Me siento libre de decir mis opiniones en voz alta
+                        </label>
+                    </div>
+                </li>
+                <!-- question -->
+            </ol>
+            <label for="answer-submit" class="button large" id="test-end">Terminar</label>
+
+            <!-- this is what actually submits the answeres -->
+
+            <form method="POST" id="test-post" onsubmit="return valid_form()">
+                {% csrf_token %}
+                <input type="hidden" id="test-answers" name="test-answers">
+                <input type="submit" id="answer-submit" class="is-hidden">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+    <script src="{% static "webapp/js/user-test.js" %}"></script>
+{% endblock %}

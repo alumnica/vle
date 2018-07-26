@@ -1,31 +1,55 @@
 {% extends "logged-in.html" %}
 {% load static %}
 {% block content %}
-<a href="{% url 'dashboard_view' %}" class="mat-grid-btn">
-    <i class="fas fa-th"></i>
-</a>
+
+
+<div class='container' id="preloader">
+        <div class='loader'>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--text'></div>
+        </div>
+    </div>
+    
+    <script>
+        setTimeout(function(){
+            document.getElementById("preloader").classList.add("is-load");
+        }, 500);
+    </script>
+<!-- end preloader -->
+
 <a href="{% url 'ambitos-grid_view' %}" class="mat-return-btn">
     <i class="fas fa-undo-alt"></i>
 </a>
 <div class="grid-container">
-    <h4>{{ subject.name }}</h4>
+    <div class="materia-inst">
+        <h3>{{ subject.name }}</h3>
+        <p>Instrucciones: Lorem ipsum dolor sit, amet consectetur adipisicing.</p>
+    </div>   
     <div class="grid-x align-center">
         <div id="the-odas">
 
-            {% for oda, state in odas_zip %}
+            {% for oda, state, odas_microodas_completed in odas_zip %}
                 {% if oda.section == 1 %}
 
                     <div class="block" id="oda-{{ oda.pk }}" data-n="a-{{ oda.zone }}" state="{{ state }}">
+                        
                         <div class="thetip" style="display: none">
                             <div class="tip-title">
                                 {{ oda.name }}
                             </div>
                             <div class="oda-progress">
-                                <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
+                                <i class="fa fa-star gold"></i>x{{ odas_microodas_completed }}
                             </div>
-                            <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
-                                <i class="fa fa-play"></i>
-                            </a>
+                            <div class="play-btn-cont">
+                                <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                    <i class="fa fa-play"></i>
+                                </a>
+                            </div>
                         </div>
                         <div class="oda-image">
                             {% if state != 'finalized' %}
@@ -44,11 +68,13 @@
                                 {{ oda.name }}
                             </div>
                             <div class="oda-progress">
-                                <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
+                                <i class="fa fa-star gold"></i>x{{ odas_microodas_completed }}
                             </div>
-                            <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
-                                <i class="fa fa-play"></i>
-                            </a>
+                            <div class="play-btn-cont">
+                                <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                    <i class="fa fa-play"></i>
+                                </a>
+                            </div>
                         </div>
                         <div  class="oda-image">
                             {% if state != 'finalized' %}
@@ -62,16 +88,18 @@
                 {% elif oda.section == 3 %}
 
                     <div class="block" id="oda-{{ oda.pk }}" data-n="c-{{ oda.zone }}" state="{{ state }}">
-                        <div class="thetip" style="display: none">
+                       <div class="thetip" style="display: none">
                             <div class="tip-title">
                                 {{ oda.name }}
                             </div>
                             <div class="oda-progress">
-                                <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
+                                <i class="fa fa-star gold"></i>x{{ odas_microodas_completed }}
                             </div>
-                            <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
-                                <i class="fa fa-play"></i>
-                            </a>
+                            <div class="play-btn-cont">
+                                <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                    <i class="fa fa-play"></i>
+                                </a>
+                            </div>
                         </div>
                         <div  class="oda-image">
                             {% if state != 'finalized' %}
@@ -85,16 +113,18 @@
                 {% elif oda.section == 4 %}
 
                     <div class="block" id="oda-{{ oda.pk }}" data-n="d-{{ oda.zone }}" state="{{ state }}">
-                        <div class="thetip" style="display: none">
+                       <div class="thetip" style="display: none">
                             <div class="tip-title">
                                 {{ oda.name }}
                             </div>
                             <div class="oda-progress">
-                                <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
+                                <i class="fa fa-star gold"></i>x{{ odas_microodas_completed }}
                             </div>
-                            <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
-                                <i class="fa fa-play"></i>
-                            </a>
+                            <div class="play-btn-cont">
+                                <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                    <i class="fa fa-play"></i>
+                                </a>
+                            </div>
                         </div>
                         <div href="{% url 'oda_view' oda.pk %}" class="oda-image">
                             {% if state != 'finalized' %}

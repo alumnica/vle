@@ -1,3 +1,6 @@
+// to be deleted
+
+
 $('#materias-slider').owlCarousel({
     loop: true,
     margin: 0,

@@ -36,10 +36,16 @@ class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
             random_questions = random.sample(microoda_questions, 2)
 
             for question in random_questions:
-                if question.type == TYPE_RELATIONSHIP or question.type == TYPE_PULL_DOWN_LIST:
+                if question.type == TYPE_RELATIONSHIP:
                     answers = question.answers.split('|')
                     random.shuffle(answers)
                     self.evaluation.append([question, answers])
+                elif question.type == TYPE_PULL_DOWN_LIST:
+                    answers = question.answers.split('|')
+                    questions = question.options.split('|')
+                    random.shuffle(answers)
+                    random.shuffle(questions)
+                    self.evaluation.append([question, answers, questions])
                 elif question.type == TYPE_MULTIPLE_OPTION:
                     answers = question.incorrect_answers.split('|')
                     answers.append(question.correct_answer)

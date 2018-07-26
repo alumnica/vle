@@ -17,9 +17,11 @@ import sys
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 
-VERSION_NUMBER = 'v0.9.0'
+VERSION_NUMBER = 'v0.10.0'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'webapp/static/webapp/PWA/', 'serviceWorker.js')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -30,7 +32,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'm792=#*_(5x5c80&z+i0u80rj+0kn!f94i!*z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get('ON_HEROKU', False)
 
-ALLOWED_HOSTS = ['.herokuapp.com', 'learn.alumnica.org', 'www.alumnica.org', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.herokuapp.com', 'learn.alumnica.org', 'www.alumnica.org', 'localhost', '127.0.0.1', '10.29.107.68']
 
 # Application definition
 
@@ -48,7 +50,10 @@ INSTALLED_APPS = [
     'sweetify',
     'storages',
     'rest_framework',
+    'pwa',
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -220,3 +225,54 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
 }
+
+
+# PWA stuff
+
+PWA_APP_NAME = 'Alumnica'
+PWA_APP_DESCRIPTION = "Alumnica EVA"
+PWA_APP_THEME_COLOR = '#655dc6'
+PWA_APP_DISPLAY = 'fullscreen'
+PWA_APP_START_URL = '/learn'
+PWA_APP_ICONS = [
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-72x72.png",
+        "sizes": "72x72",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-96x96.png",
+        "sizes": "96x96",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-128x128.png",
+        "sizes": "128x128",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-152x152.png",
+        "sizes": "152x152",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-384x384.png",
+        "sizes": "384x384",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }
+]

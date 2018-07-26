@@ -5,7 +5,7 @@
 
 <!doctype html>
 <html class="no-js" lang="es">
-
+{% load pwa %}
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -16,21 +16,15 @@
 
   <link rel="stylesheet" href="{% static "/webapp/css/app.css" %}">
   <link rel="icon" href="{% static 'webapp/media/alumnica-favico.png' %}" type="image/png" sizes="16x16">
-  <link rel="manifest" href="{% static 'webapp/PWA/manifest.json' %}">
+  <!--<link rel="manifest" href="{% static 'webapp/PWA/manifest.json' %}">-->
+
+  {% progressive_web_app_meta %}
+
 </head>
 
 <body>
 
-  <div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
-
-    {% include "webapp/partials/menu.html" %}
-
-  </div>
-  <div class="off-canvas position-right" id="offCanvasRight" data-off-canvas data-transition="overlap">
-    {% include "webapp/partials/profile-menu.html" %}
-  </div>
-
-  <div class="off-canvas-content" data-off-canvas-content>
+  
 
     
       {% include "webapp/partials/nav-logged-in.html" %}
@@ -38,7 +32,7 @@
         {% block content %}
         {% endblock %}
     
-  </div>
+ 
   <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
   <script src="{% static "webapp/js/app.js" %}"></script>
 

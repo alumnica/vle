@@ -1,9 +1,9 @@
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
-from alumnica_model.models import AuthUser, Learner, MicroODA
+from alumnica_model.models import AuthUser, Learner, MicroODA, Ambit
 from alumnica_model.models.progress import LearnerEvaluationProgress
 from alumnica_model.models.questions import *
 from webapp.serializers import *
@@ -76,14 +76,20 @@ class EvaluationViewSet(ModelViewSet):
                     answer = answer_data.split(';')
                     if question['question_pk'] == answer[0]:
                         question_instance = PullDownListQuestion.objects.get(pk=int(answer[0]))
+                        options_instance = question_instance.options.split('|')
                         answer_instance = question_instance.answers.split('|')
+
+                        index = 0
                         for answer_element in answer[1:]:
                             answer_element_array = answer_element.split(',')
-                            answer_expected = answer_instance[int(answer_element_array[0])]
+                            option_instance_index = options_instance.index(question['options'][index]['option'])
+
+                            answer_expected = answer_instance[option_instance_index]
                             answer_obtained = question['answers'][int(answer_element_array[1])]['answer']
 
                             if answer_expected.strip() == answer_obtained.strip():
                                 local_score += 1
+                            index += 1
                         if local_score == len(answer_instance):
                             correct_answer = True
                             score += 1
@@ -205,11 +211,14 @@ class EvaluationViewSet(ModelViewSet):
             if not progress.is_complete and evaluation_completed:
                 # To do. Give more points or stars or something
                 progress.is_complete = evaluation_completed
-                progress.save()
+            progress.evaluation_completed_counter += 1
+            progress.save_progress()
         else:
             progress = LearnerEvaluationProgress.objects.create(evaluation=question_instance.evaluation,
                                                                 is_complete=evaluation_completed)
             learner.evaluations_progresses.add(progress)
+            progress.evaluation_completed_counter += 1
+            progress.save_progress()
 
         return score, questions_status, suggestions_dict
 
@@ -224,11 +233,23 @@ class MicroodaViewSet(APIView):
 
         for activity in microoda.activities.all():
             progress = learner.activities_progresses.get(activity=activity)
+            progress.activity_completed_counter += 1
             progress.is_complete = True
-            progress.save()
+            progress.save_progress()
 
         microodas_suggestion = [{'mODA_name': mODA.type.name} for mODA in
                                 microoda.oda.microodas.exclude(pk=microoda.pk)]
 
         return JsonResponse({'points': 10, 'suggestions': microodas_suggestion})
+
+
+class ChangeUserAvatar(APIView):
+    def get(self, request, *args, **kwargs):
+        learner_pk = request.GET['pk']
+        avatar_id = request.GET['avatar']
+        learner = AuthUser.objects.get(pk=learner_pk)
+
+        learner.profile.avatar = avatar_id
+        learner.profile.save()
+        return JsonResponse({'ok': 'ok'})
 

@@ -4,6 +4,7 @@
 
 <!doctype html>
 <html class="no-js" lang="es">
+{% load pwa %}
 
 <head>
     <meta charset="utf-8"/>
@@ -12,7 +13,10 @@
     <title>Alúmnica</title>
     <link rel="stylesheet" href="{% static "/webapp/css/app.css" %}">
     <link rel="icon" href="{% static 'webapp/media/alumnica-favico.png' %}" type="image/png" sizes="16x16">
-    <link rel="manifest" href="{% static 'webapp/PWA/manifest.json' %}">
+    <!--<link rel="manifest" href="{% static 'webapp/PWA/manifest.json' %}">-->
+
+    {% progressive_web_app_meta %}
+
 </head>
 
 <body>
