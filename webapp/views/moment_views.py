@@ -11,6 +11,7 @@ from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
 from webapp.statement_builders import access_statement_with_parent
 
 
+
 class MomentView(LoginRequiredMixin, FormView):
     login_url = "login_view"
     template_name = "webapp/pages/momentos.html"
