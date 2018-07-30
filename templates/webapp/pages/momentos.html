@@ -17,93 +17,59 @@
     <script>
         setTimeout(function(){
             document.getElementById("preloader").classList.add("is-load");
-        }, 1000);
+        }, 6000);
     </script>
 <!-- end preloader -->
 
 <div id="moments">
     <div class="section">
-        {% for moment, dependency, package in moment_zip %}
+        {% for moment in moment_array %}
+        <div class="slide">
+            <div class="h5p-cont ">
+                <iframe src="{% url 'package_view' job_id=moment.h5p_package.job_id %}" class="the-h5p" frameborder="0">
 
-            <link rel="stylesheet" type="text/css" href="{% static 'h5p-php-library/styles/h5p.css' %}">
-                {% for css in dependency.stylesheets %}
-                    <link rel="stylesheet" type="text/css" href="{{ css }}">
-                {% endfor %}
-            <link rel="stylesheet" type="text/css" href="{% static 'django_h5p/css/package-view.css' %}">
-                <div class="slide">
-                        <div class="h5p-cont">
-                            <div class="h5p-content" data-content-id="{{ package.main_library.pk }}"></div>
-                        </div>
-                    <script>
-                        {#var BASE_URL = "https://s3.amazonaws.com";#}
-                        {#var H5P_CONTENT = "/alumnica-studio-dev";#}
-                        let BASE_URL = "https://alumnica-studio-dev";
-                        let H5P_CONTENT = ".s3.amazonaws.com";
-                    </script>
-                    <script src="{% static 'django_h5p/js/h5p_integration.js' %}"></script>
-                    <script>
-                        window.H5PIntegration.contents['cid-{{ package.main_library.pk }}'] = {
-                            "library": "{{ package.main_library.full_name }}", // Library name + major version.minor version
-                            "jsonContent": {{ dependency.content_json|safe }},
-                            "fullScreen": false, // No fullscreen support
-                            "exportUrl": "",
-                            "embedCode": "",
-                            "resizeCode": "",
-                            "mainId": "{{ package.main_library.pk }}",
-                            "url": "",
-                            "title": "{{ package.title }}",
-                            "contentUrl": BASE_URL + H5P_CONTENT + "/content/" + {{ package.pk }},
-                            "contentUserData": [{
-                                'state': false // Data ID
-                            }],
-                            "displayOptions": {
-                                "frame": false, // Show frame and buttons below H5P
-                                "export": false, // Display download button
-                                "embed": false, // Display embed button
-                                "copyright": false, // Display copyright button
-                                "icon": false // Display H5P icon
-                            },
-                            "styles": {{ dependency.stylesheets|safe }},
-                            "scripts": {{ dependency.scripts|safe }}
-                        };
-                    </script>
+                </iframe>
 
-                    <script src="{% static 'h5p-php-library/js/jquery.js' %}"></script>
-                    <script src="{% static 'h5p-php-library/js/h5p.js' %}"></script>
-                    <script src="{% static 'h5p-php-library/js/h5p-event-dispatcher.js' %}"></script>
-                    <script src="{% static 'h5p-php-library/js/h5p-x-api-event.js' %}"></script>
-                    <script src="{% static 'h5p-php-library/js/h5p-x-api.js' %}"></script>
-                    <script src="{% static 'h5p-php-library/js/h5p-content-type.js' %}"></script>
-
-                    {% for script in dependency.scripts %}
-                        <script type="application/javascript" src="{{ script }}"></script>
-                    {% endfor %}
-                </div>
+            </div>
+        </div>
         {% endfor %}
+        <!-- <div class="slide">
+            <div class="h5p-cont ">
+                <iframe id="second" src="" class="the-h5p" frameborder="0">
 
+                </iframe>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="h5p-cont ">
+                <iframe id="third" src="" class="the-h5p" frameborder="0">
+
+                </iframe>
+            </div>
+        </div> -->
         <div class="slide">
             <div class="h5p-cont ">
                 <div id="fourth">
                     <div class="end-of-uoda">
                         <p class="h3 text-center">µODA Completada</p>
                         <div class="uoda-image">
-                          {% if microoda.type.name == "application" %}
+                          {% if moment_array.0.microoda.type.name == "application" %}
 
                         <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_aplicacion.png"%}" alt="Aplicacion">
-                    {% elif microoda.type.name == "formalization" %}
+                    {% elif moment_array.0.microoda.type.name == "formalization" %}
                         <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_formalizacion.png" %}" alt="Formalizacion">
-                    {% elif microoda.type.name == "activation" %}
+                    {% elif moment_array.0.microoda.type.name == "activation" %}
                         <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_activacion.png" %}" alt="activacion">
-                    {% elif microoda.type.name == "exemplification" %}
+                    {% elif moment_array.0.microoda.type.name == "exemplification" %}
                         <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_ejemplificacion.png" %}" alt="ejemplificacion">
-                    {% elif microoda.type.name == "sensitization" %}
+                    {% elif moment_array.0.microoda.type.name == "sensitization" %}
                         <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_sensibilizacion.png" %}" alt="sensibilizacion">
                     {% endif %}
                         </div>
                         <p class="uoda-score">
                             <i class="fa fa-star"></i> x 5000
                         </p>
-                        <a href="{% url 'oda_view' microoda.oda.pk  %}" class="end-uoda-btn">
+                        <a href="{% url 'oda_view' moment_array.0.microoda.oda.pk  %}" class="end-uoda-btn">
                             <i class="fas fa-play"></i> &nbsp; Regresar a la ODA
                         </a>
 
@@ -115,14 +81,14 @@
 </div>
  <!-- return buttons -->
 
-<a href="{% url 'oda_view' microoda.oda.pk  %}" class="mom-return-btn">
+<a href="{% url 'oda_view' moment_array.0.microoda.oda.pk  %}" class="mom-return-btn">
     <i class="fas fa-undo-alt"></i>
 </a>
 <div id="momMenu">
     
 </div>
 <script type="text/javascript">
-    let microoda = {{ microoda.pk }};
+    let microoda = {{ moment_array.0.microoda.pk }};
     let learner = {{ request.user.profile.pk }};
 </script>
 
