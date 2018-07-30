@@ -9,6 +9,7 @@ $(document).ready(function () {
     paddingBottom: '3rem',
     paddingTop: '3rem',
     verticalCentered: false,
+    menu: '#menu',
   });
 
 

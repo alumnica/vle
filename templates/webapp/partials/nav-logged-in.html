@@ -1,34 +1,31 @@
 {% load static %}
 <div class="top-nav">
-    <div class="top-nav-container">
-        <div class="top-nav-container-left">
-            <button class="menu-open" type="button" id="ham-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <a href="{% url 'dashboard_view'%}" class="top-nav-title" title="Dashboard">
-                <img src="{% static "/webapp/media/alumnica-logo-100.png"%}" alt="Alumnica Dashboard">
-            </a>
-        </div>
-        <div class="top-nav-container-right">
-            <button type="button" class="top-menu-btn" id="search-btn" title="Busqueda">
-                <i class="fa fa-search"></i>
-            </button>
-            <a href="{% url 'ambitos-grid_view' %}" class="top-menu-btn" id="top-menu-grid" title="Grid de Ambitos">
-                <i class="fa fa-th"></i>
-            </a>
-            <a href="{% url 'profile_view' %}" class="top-menu-btn" id="top-menu-icon" title="{{ user.first_name }} {{ user.last_name }}">
-                {% if request.user.profile.avatar == "A" %}
-                    <img src="{% static 'webapp/media/profile-pic.png' %}" alt="profile icon">
-                {% elif  request.user.profile.avatar == "B"%}
-                    <img src="{% static 'webapp/media/rated.png' %}" alt="profile icon">
-                {% elif  request.user.profile.avatar == "C"%}
-                    <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="profile icon">
-                {% elif  request.user.profile.avatar == "D"%}
-                    <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="profile icon">
-                {% endif %}
-            </a>
-            
-        </div>
+    <div class="top-nav-container">        
+        <button class="menu-open" type="button" id="ham-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <a href="{% url 'dashboard_view'%}" class="top-nav-title" title="Dashboard">
+            <img src="{% static "/webapp/media/alumnica-logo-100.png"%}" alt="Alumnica Dashboard">
+        </a>
+    
+        <button type="button" class="top-menu-btn" id="search-btn" title="Busqueda">
+            <i class="fa fa-search"></i>
+        </button>
+        <a href="{% url 'ambitos-grid_view' %}" class="top-menu-btn" id="top-menu-grid" title="Grid de Ambitos">
+            <i class="fa fa-th"></i>
+        </a>
+        <a href="{% url 'profile_view' %}" class="top-menu-btn" id="top-menu-icon" title="{{ user.first_name }} {{ user.last_name }}">
+            {% if request.user.profile.avatar == "A" %}
+                <img src="{% static 'webapp/media/profile-pic.png' %}" alt="profile icon">
+            {% elif  request.user.profile.avatar == "B"%}
+                <img src="{% static 'webapp/media/rated.png' %}" alt="profile icon">
+            {% elif  request.user.profile.avatar == "C"%}
+                <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="profile icon">
+            {% elif  request.user.profile.avatar == "D"%}
+                <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="profile icon">
+            {% endif %}
+        </a>        
+        
     </div>
     <div class="the-search" id="search-box" style="display: none">
 {#        <form method="POST">#}
