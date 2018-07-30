@@ -7,6 +7,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.generic import FormView, DetailView
 from alumnica_model.models import Moment, LearnerProgressInActivity
 from alumnica_model.models.h5p import H5Package
+from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
 
 
 class MomentView(LoginRequiredMixin, FormView):
@@ -19,6 +20,7 @@ class MomentView(LoginRequiredMixin, FormView):
         learner.assign_recent_oda(moment_instance.microoda.oda)
         learner.microoda_in_progress = moment_instance.microoda
         learner.save()
+        points = EXPERIENCE_POINTS_CONSTANTS['uODA_completed']
 
         moment_array = moment_instance.microoda.activities.all()
 
@@ -27,7 +29,7 @@ class MomentView(LoginRequiredMixin, FormView):
                 progress = LearnerProgressInActivity.objects.create(activity=moment, score=0, is_complete=False)
                 learner.activities_progresses.add(progress)
 
-        return {'moment_array': moment_array}
+        return {'moment_array': moment_array, 'points': points}
 
 
 @method_decorator(xframe_options_exempt, name='dispatch')

@@ -1,3 +1,4 @@
+/*
 var lrs;
 
 try {
@@ -12,7 +13,7 @@ try {
 }
 catch (ex) {
     console.log("Failed to setup LRS object: ", ex);
-    // TODO: do something with error, can't communicate with LRS
+
 }
 
 
@@ -54,12 +55,12 @@ lrs.saveStatement(
             if (err !== null) {
                 if (xhr !== null) {
                     console.log("Failed to save statement: " + xhr.responseText + " (" + xhr.status + ")");
-                    // TODO: do something with error, didn't save statement
+
                     return;
                 }
 
                 console.log("Failed to save statement: " + err);
-                // TODO: do something with error, didn't save statement
+
                 return;
             }
 
@@ -70,3 +71,4 @@ lrs.saveStatement(
 );
 
 })
+*/

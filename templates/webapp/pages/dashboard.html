@@ -45,13 +45,15 @@
                 <div class="user-info-score">
                     <i class="fa fa-star"></i> {{ user.profile.experience_points }}
                 </div>
-                {% if not request.user.profile.large_quiz_completed %}
+
                     <div class="user-info-test">
+                        {% if not request.user.profile.large_quiz_completed %}
                         <a href="{% url 'large_learning_quiz_view' %}" class="dashboard-test-button"> <!-- link a test -->
                             <i class="fas fa-vial"></i> Test
                         </a>
+                        {% endif %}
                     </div>
-                {% endif %}
+
             </div>
             <div class="recent-activity">
                 <div class="recent-activity-heading">
@@ -97,5 +99,5 @@
 
 
 {% block scripts %}
-<script src="{% static "webapp/js/xapi.js" %}"></script>
+
 {% endblock %}
