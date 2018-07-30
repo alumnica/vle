@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Package View</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'h5p-php-library/styles/h5p.css' %}">
+    {% for css in stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ css }}">
+    {% endfor %}
+    <link rel="stylesheet" type="text/css" href="{% static 'django_h5p/css/package-view.css' %}">
+</head>
+<body>
+
+    <div class="h5p-content" data-content-id="{{ package.main_library.pk }}"></div>
+<script>
+    {#var BASE_URL = "https://s3.amazonaws.com";#}
+    {#var H5P_CONTENT = "/alumnica-studio-dev";#}
+    var BASE_URL = "https://alumnica-studio-dev";
+    var H5P_CONTENT = ".s3.amazonaws.com";
+</script>
+<script src="{% static 'django_h5p/js/h5p_integration.js' %}"></script>
+<script>
+    window.H5PIntegration.contents['cid-{{ package.main_library.pk }}'] = {
+        "library": "{{ package.main_library.full_name }}", // Library name + major version.minor version
+        "jsonContent": {{ content_json|safe }},
+        "fullScreen": false, // No fullscreen support
+        "exportUrl": "",
+        "embedCode": "",
+        "resizeCode": "",
+        "mainId": "{{ package.main_library.pk }}",
+        "url": "",
+        "title": "{{ package.title }}",
+        "contentUrl": BASE_URL + H5P_CONTENT + "/content/" + {{ package.pk }},
+        "contentUserData": [{
+            'state': false // Data ID
+        }],
+        "displayOptions": {
+            "frame": false, // Show frame and buttons below H5P
+            "export": false, // Display download button
+            "embed": false, // Display embed button
+            "copyright": false, // Display copyright button
+            "icon": false // Display H5P icon
+        },
+        "styles": {{ stylesheets|safe }},
+        "scripts": {{ scripts|safe }}
+    };
+</script>
+
+<script src="{% static 'h5p-php-library/js/jquery.js' %}"></script>
+<script src="{% static 'h5p-php-library/js/h5p.js' %}"></script>
+<script src="{% static 'h5p-php-library/js/h5p-event-dispatcher.js' %}"></script>
+<script src="{% static 'h5p-php-library/js/h5p-x-api-event.js' %}"></script>
+<script src="{% static 'h5p-php-library/js/h5p-x-api.js' %}"></script>
+<script src="{% static 'h5p-php-library/js/h5p-content-type.js' %}"></script>
+
+{% for script in scripts %}
+    <script type="application/javascript" src="{{ script }}"></script>
+{% endfor %}
+</body>
+</html>
