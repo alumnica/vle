@@ -64,11 +64,11 @@
         <a href="{% url 'subject_view' oda.subject.pk  %}" class="return-btn">
             <i class="fas fa-undo-alt"></i>
         </a>
+        <div class="oda-title">
+            {{ oda.name }}
+        </div>
     <div id="fullpage">
         <div class="section " id="section0">
-            <div class="oda-title">
-                {{ oda.name }}
-            </div>
             <div class="oda-desc">
                 {{ oda.description }}
             </div>
