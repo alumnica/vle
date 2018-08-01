@@ -1,13 +1,14 @@
+import datetime
+
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
 from django.views.generic import FormView, UpdateView
 from sweetify import sweetify
 
 from alumnica_model.mixins import OnlyLearnerMixin
-from alumnica_model.models import AuthUser
 from webapp.forms.profile_forms import *
+from webapp.statement_builders import register_statement
 
 
 class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
@@ -18,6 +19,8 @@ class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
     def form_valid(self, form):
         user = AuthUser.objects.get(email=self.request.user.email)
         form.save_form(user)
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        register_statement(request=self.request, timestamp=timestamp, user=user)
         return redirect(to='first-login-p1_view')
 
 

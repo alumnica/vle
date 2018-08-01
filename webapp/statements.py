@@ -1,6 +1,6 @@
 import json
 
-theVerbs = {
+xapi_verbs = {
     "registered": "http://adlnet.gov/expapi/verbs/registered",
     "accessed": "https://w3id.org/xapi/dod-isd/verbs/accessed",
     "selected": "https://w3id.org/xapi/dod-isd/verbs/selected",
@@ -44,7 +44,7 @@ class Display:
 
 class Verb:
     def __init__(self, action):
-        self.id = theVerbs[action]
+        self.id = xapi_verbs[action]
         self.display = Display(action=action)
 
     def toJSON(self):
