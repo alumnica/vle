@@ -1,3 +1,5 @@
+import json
+
 theVerbs = {
     "registered": "http://adlnet.gov/expapi/verbs/registered",
     "accessed": "https://w3id.org/xapi/dod-isd/verbs/accessed",
@@ -15,10 +17,17 @@ theVerbs = {
 }
 
 
+def ComplexHandler(Obj):
+    if hasattr(Obj, 'toJSON'):
+        return Obj.toJSON()
+    else:
+        raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(Obj), repr(Obj)))
+
+
 class Actor:
     def __init__(self, name, email):
         self.name = name
-        self.mbox = email
+        self.mbox = 'mailto:'+email
 
     def toJSON(self):
         return self.__dict__
@@ -43,7 +52,7 @@ class Verb:
 
 class Definition:
     def __init__(self, name):
-        self.name = name
+        self.name = Display(name)
 
     def toJSON(self):
         return self.__dict__
@@ -58,17 +67,29 @@ class Object:
         return self.__dict__
 
 
-class ContextActivities:
-    def __init__(self, parent):
-        self.parent = parent
+class Parent:
+    def __init__(self, id):
+        self.id = id
 
     def toJSON(self):
         return self.__dict__
 
 
+class ContextActivities:
+    parent = []
+
+    def __init__(self, parents):
+        for id in parents:
+            self.parent.append(Parent(id))
+
+    def toJSON(self):
+        parent = json.loads(json.dumps(self.parent, default=ComplexHandler))
+        return {'parent': parent}
+
+
 class Context:
-    def __init__(self, parent):
-        self.contextActivities = ContextActivities(parent=parent)
+    def __init__(self, parents):
+        self.contextActivities = ContextActivities(parents=parents)
 
     def toJSON(self):
         return self.__dict__
@@ -96,15 +117,10 @@ class Result:
         return self.__dict__
 
 
-def ComplexHandler(Obj):
-    if hasattr(Obj, 'toJSON'):
-        return Obj.toJSON()
-    else:
-        raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(Obj), repr(Obj)))
-
 
 class Statement:
-    def __init__(self, actor, verb, object, context=None, result=None):
+    def __init__(self, timestamp, actor, verb, object, context=None, result=None):
+        self.timestamp = timestamp
         self.actor = actor
         self.verb = verb
         self.object = object
