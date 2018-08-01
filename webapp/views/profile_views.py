@@ -1,4 +1,5 @@
 import datetime
+from inspect import getmodule, stack
 
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,7 +9,7 @@ from sweetify import sweetify
 
 from alumnica_model.mixins import OnlyLearnerMixin
 from webapp.forms.profile_forms import *
-from webapp.statement_builders import register_statement
+from webapp.statement_builders import register_statement, access_statement
 
 
 class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
@@ -70,6 +71,12 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView)
     form_class = LargeLeraningStyleQuizForm
     template_name = 'webapp/pages/user-test.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == 'GET':
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            access_statement(request, 'Large Learning Style Quiz', timestamp)
+        return super(LargeLearningStyleQuizView, self).dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         answers = self.request.POST['test-answers'].split(',')
         letters = {'a': 0, 'b': 1, 'c': 2, 'd': 3}
@@ -96,6 +103,12 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
     login_url = 'login_view'
     template_name = 'webapp/pages/user-profile.html'
     form_class = ProfileSettingsForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == 'GET':
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            access_statement(request, 'Profile', timestamp)
+        return super(ProfileSettingsView, self).dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
         return self.request.user

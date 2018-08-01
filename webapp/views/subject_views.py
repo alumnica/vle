@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import DetailView, FormView
@@ -5,12 +7,20 @@ from django.views.generic.base import View
 
 from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import Subject
+from webapp.statement_builders import access_statement_with_parent
 
 
 class SubjectView(LoginRequiredMixin, OnlyLearnerMixin,  FormView):
     login_url = 'login_view'
     template_name = 'webapp/pages/materia.html'
     model = Subject
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == 'GET':
+            subject = Subject.objects.get(pk=self.kwargs['pk'])
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            access_statement_with_parent(request, 'materia', subject.name, 'ambito', subject.ambit.name, timestamp)
+        return super(SubjectView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         subject = Subject.objects.get(pk=self.kwargs['pk'])
