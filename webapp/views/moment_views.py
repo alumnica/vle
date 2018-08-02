@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,11 +9,19 @@ from django.views.generic import FormView, DetailView
 from alumnica_model.models import Moment, LearnerProgressInActivity
 from alumnica_model.models.h5p import H5Package
 from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
+from webapp.statement_builders import access_statement_with_parent
 
 
 class MomentView(LoginRequiredMixin, FormView):
     login_url = "login_view"
     template_name = "webapp/pages/momentos.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == 'GET':
+            moment = Moment.objects.get(pk=self.kwargs['pk'])
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            access_statement_with_parent(request, 'uoda', moment.microoda.name, 'oda', moment.microoda.oda.name, timestamp)
+        return super(MomentView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         moment_instance = Moment.objects.get(pk=self.kwargs['pk'])

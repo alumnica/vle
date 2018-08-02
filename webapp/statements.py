@@ -80,6 +80,7 @@ class ContextActivities:
     parent = []
 
     def __init__(self, parents):
+        self.parent = []
         for id in parents:
             self.parent.append(Parent(id))
 
