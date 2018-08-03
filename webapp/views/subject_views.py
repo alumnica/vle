@@ -19,7 +19,13 @@ class SubjectView(LoginRequiredMixin, OnlyLearnerMixin,  FormView):
         if request.method == 'GET':
             subject = Subject.objects.get(pk=self.kwargs['pk'])
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            access_statement_with_parent(request, 'materia', subject.name, 'ambito', subject.ambit.name, timestamp)
+            access_statement_with_parent(request=request,
+                                         object_type='materia',
+                                         object_name=subject.name,
+                                         parent_type='ambito',
+                                         parent_name=subject.ambit.name,
+                                         tags_array=subject.tags.all(),
+                                         timestamp=timestamp)
         return super(SubjectView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

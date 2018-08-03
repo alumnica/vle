@@ -20,7 +20,13 @@ class MomentView(LoginRequiredMixin, FormView):
         if request.method == 'GET':
             moment = Moment.objects.get(pk=self.kwargs['pk'])
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            access_statement_with_parent(request, 'uoda', moment.microoda.name, 'oda', moment.microoda.oda.name, timestamp)
+            access_statement_with_parent(request=request,
+                                         object_type='uoda',
+                                         object_name=moment.microoda.name,
+                                         parent_type='oda',
+                                         parent_name=moment.microoda.oda.name,
+                                         tags_array=moment.tags.all(),
+                                         timestamp=timestamp)
         return super(MomentView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

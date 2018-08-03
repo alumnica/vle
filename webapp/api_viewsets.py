@@ -1,3 +1,4 @@
+import datetime
 import json
 from django.http import JsonResponse, HttpResponseRedirect
 from rest_framework.views import APIView
@@ -7,6 +8,7 @@ from alumnica_model.models import AuthUser, Learner, MicroODA, Ambit
 from alumnica_model.models.progress import LearnerEvaluationProgress
 from alumnica_model.models.questions import *
 from webapp.serializers import *
+from webapp.statement_builders import task_completed
 
 
 class EvaluationViewSet(ModelViewSet):
@@ -209,6 +211,7 @@ class EvaluationViewSet(ModelViewSet):
         if learner.evaluations_progresses.filter(evaluation=question_instance.evaluation).exists():
             progress = learner.evaluations_progresses.get(evaluation=question_instance.evaluation)
             if not progress.is_complete and evaluation_completed:
+
                 # To do. Give more points or stars or something
                 progress.is_complete = evaluation_completed
             progress.evaluation_completed_counter += 1
@@ -219,6 +222,11 @@ class EvaluationViewSet(ModelViewSet):
             learner.evaluations_progresses.add(progress)
             progress.evaluation_completed_counter += 1
             progress.save_progress()
+
+        evaluation_instance = question_instance.evaluation
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        task_completed(learner.auth_user, 'evaluation', evaluation_instance.name, 'oda', evaluation_instance.oda.all()[0].name,
+                       timestamp=timestamp, score=score)
 
         return score, questions_status, suggestions_dict
 
@@ -236,6 +244,9 @@ class MicroodaViewSet(APIView):
             progress.activity_completed_counter += 1
             progress.is_complete = True
             progress.save_progress()
+
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        task_completed(learner.auth_user, 'uoda', microoda.name, 'oda', microoda.oda.name, timestamp)
 
         microodas_suggestion = [{'mODA_name': mODA.type.name} for mODA in
                                 microoda.oda.microodas.exclude(pk=microoda.pk)]

@@ -20,7 +20,13 @@ class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
         if request.method == 'GET':
             evaluation = Evaluation.objects.get(pk=self.kwargs['pk'])
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            access_statement_with_parent(request, 'evaluation', evaluation.name, 'oda', evaluation.oda.all()[0].name, timestamp)
+            access_statement_with_parent(request=request,
+                                         object_type='evaluation',
+                                         object_name=evaluation.name,
+                                         parent_type='oda',
+                                         parent_name=evaluation.oda.all()[0].name,
+                                         tags_array=evaluation.oda.all()[0].tags.all(),
+                                         timestamp=timestamp)
         return super(EvaluationView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

@@ -68,7 +68,7 @@ class Object:
         return self.__dict__
 
 
-class Parent:
+class ContextID:
     def __init__(self, id):
         self.id = id
 
@@ -78,20 +78,25 @@ class Parent:
 
 class ContextActivities:
     parent = []
+    other = []
 
-    def __init__(self, parents):
+    def __init__(self, parents, tags):
         self.parent = []
+        self.other = []
         for id in parents:
-            self.parent.append(Parent(id))
+            self.parent.append(ContextID(id))
+        for id in tags:
+            self.other.append((ContextID(id)))
 
     def toJSON(self):
+        other = json.loads(json.dumps(self.other, default=ComplexHandler))
         parent = json.loads(json.dumps(self.parent, default=ComplexHandler))
-        return {'parent': parent}
+        return {'parent': parent, 'other': other}
 
 
 class Context:
-    def __init__(self, parents):
-        self.contextActivities = ContextActivities(parents=parents)
+    def __init__(self, parents, tags):
+        self.contextActivities = ContextActivities(parents=parents, tags=tags)
 
     def toJSON(self):
         return self.__dict__
