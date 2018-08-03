@@ -5,10 +5,10 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from alumnica_model.models import AuthUser, Learner, MicroODA, Ambit
-from alumnica_model.models.progress import LearnerEvaluationProgress
+from alumnica_model.models.progress import LearnerEvaluationProgress, EXPERIENCE_POINTS_CONSTANTS
 from alumnica_model.models.questions import *
 from webapp.serializers import *
-from webapp.statement_builders import task_completed
+from webapp.statement_builders import task_completed, task_experience_received
 
 
 class EvaluationViewSet(ModelViewSet):
@@ -208,12 +208,21 @@ class EvaluationViewSet(ModelViewSet):
             suggestions = set(suggestions)
             suggestions_dict = [{'uoda': uoda} for uoda in suggestions]
 
+        evaluation_instance = question_instance.evaluation
+
         if learner.evaluations_progresses.filter(evaluation=question_instance.evaluation).exists():
             progress = learner.evaluations_progresses.get(evaluation=question_instance.evaluation)
             if not progress.is_complete and evaluation_completed:
-
-                # To do. Give more points or stars or something
                 progress.is_complete = evaluation_completed
+                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+                task_experience_received(user=learner.auth_user,
+                                         object_type='evaluation',
+                                         object_name=evaluation_instance.name,
+                                         parent_type='oda',
+                                         parent_name=evaluation_instance.oda.all()[0].name,
+                                         tags_array=evaluation_instance.oda.all()[0].tags.all(),
+                                         timestamp=timestamp,
+                                         gained_xp=EXPERIENCE_POINTS_CONSTANTS['evaluation_completed'])
             progress.evaluation_completed_counter += 1
             progress.save_progress()
         else:
@@ -223,10 +232,14 @@ class EvaluationViewSet(ModelViewSet):
             progress.evaluation_completed_counter += 1
             progress.save_progress()
 
-        evaluation_instance = question_instance.evaluation
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        task_completed(learner.auth_user, 'evaluation', evaluation_instance.name, 'oda', evaluation_instance.oda.all()[0].name,
-                       timestamp=timestamp, score=score)
+        task_completed(learner.auth_user,
+                       'evaluation',
+                       evaluation_instance.name,
+                       'oda', evaluation_instance.oda.all()[0].name,
+                       tags_array=evaluation_instance.oda.all()[0].tags.all(),
+                       timestamp=timestamp,
+                       score=score)
 
         return score, questions_status, suggestions_dict
 
@@ -245,8 +258,24 @@ class MicroodaViewSet(APIView):
             progress.is_complete = True
             progress.save_progress()
 
+            if progress.activity_completed_counter == 1:
+                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+                task_experience_received(user=learner.auth_user,
+                                         object_type='uoda',
+                                         object_name=microoda.name,
+                                         parent_type='oda',
+                                         parent_name=microoda.oda.name,
+                                         tags_array=microoda.tags.all(),
+                                         timestamp=timestamp,
+                                         gained_xp=EXPERIENCE_POINTS_CONSTANTS['uODA_completed'])
+
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        task_completed(learner.auth_user, 'uoda', microoda.name, 'oda', microoda.oda.name, timestamp)
+        task_completed(user=learner.auth_user,
+                       object_type='uoda',
+                       object_name=microoda.name,
+                       parent_type='oda', parent_name=microoda.oda.name,
+                       tags_array = microoda.tags.all(),
+                       timestamp=timestamp)
 
         microodas_suggestion = [{'mODA_name': mODA.type.name} for mODA in
                                 microoda.oda.microodas.exclude(pk=microoda.pk)]

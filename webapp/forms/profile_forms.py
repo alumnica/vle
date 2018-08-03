@@ -1,9 +1,12 @@
+import datetime
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from alumnica_model.models import Learner, users, AuthUser
 from alumnica_model.models.content import LearningStyle
 from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
+from webapp.statement_builders import learning_experience_received
 
 
 class FirstLoginInfoForm(forms.ModelForm):
@@ -35,9 +38,11 @@ class FirstLoginP2(forms.Form):
         option_1 = first_selection
         option_2 = second_selection
         profile = user.profile
+        xp_received = False
 
         if profile.learning_style is None:
             profile.experience_points += EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz']
+            xp_received = True
 
         if option_1 == '1':
             if option_2 == '1':
@@ -49,6 +54,18 @@ class FirstLoginP2(forms.Form):
                 profile.learning_style = LearningStyle.objects.get(name='Asimilador')
             elif option_2 == '2':
                 profile.learning_style = LearningStyle.objects.get(name='Convergente')
+
+        if xp_received:
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            learning_experience_received(user=user,
+                                         object_type='Learning Style Quiz',
+                                         object_name= profile.learning_style.name,
+                                         parent_type='Learning Style Quiz',
+                                         parent_name='Short Learning Style Quiz',
+                                         tags_array=[],
+                                         timestamp=timestamp,
+                                         gained_xp=EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz'])
+
 
         user.save()
 
@@ -58,9 +75,11 @@ class FirstLoginP3(forms.Form):
         option_1 = first_selection
         option_2 = second_selection
         profile = user.profile
+        xp_received = False
 
         if profile.learning_style is None:
             profile.experience_points += EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz']
+            xp_received = True
 
         if option_1 == '1':
             if option_2 == '1':
@@ -72,6 +91,17 @@ class FirstLoginP3(forms.Form):
                 profile.learning_style = LearningStyle.objects.get(name='Asimilador')
             elif option_2 == '2':
                 profile.learning_style = LearningStyle.objects.get(name='Convergente')
+
+        if xp_received:
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            learning_experience_received(user=user,
+                                         object_type='Learning Style Quiz',
+                                         object_name=profile.learning_style.name,
+                                         parent_type='Learning Style Quiz',
+                                         parent_name='Short Learning Style Quiz',
+                                         tags_array=[],
+                                         timestamp=timestamp,
+                                         gained_xp=EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz'])
 
         user.save()
 

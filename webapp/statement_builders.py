@@ -87,3 +87,32 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
         result = Result(response='{} completed'.format(object_type), completion=True, success=score >= 7, raw_score=score)
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
     response = services.send(statement)
+
+
+def learning_experience_received(user, object_type, object_name, timestamp, gained_xp):
+    user_complete_name = user.first_name + ' ' + user.last_name
+    actor = Actor(name=user_complete_name, email=user.email)
+    verb = Verb(action='received')
+    object_id = '{}{}/{}'.format(xapi_url, object_type, object_name)
+    object = Object(id=object_id, name=object_name)
+    result = Result(response='{} completed'.format(object_type), completion=True, success=True, raw_score=gained_xp)
+    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, result=result)
+    response = services.send(statement)
+
+
+def task_experience_received(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, gained_xp):
+    user_complete_name = user.first_name + ' ' + user.last_name
+    actor = Actor(name=user_complete_name, email=user.email)
+    verb = Verb(action='received')
+    object_id = '{}{}/{}'.format(xapi_url, object_type, object_name)
+    object = Object(id=object_id, name=object_name)
+    parent_id = '{}{}/{}'.format(xapi_url, parent_type, parent_name)
+
+    tags = []
+    for tag in tags_array:
+        tags.append('{}/tag/{}'.format(xapi_url, tag))
+
+    context = Context([parent_id], tags)
+    result = Result(response='{} completed'.format(object_type), completion=True, success=True, raw_score=gained_xp)
+    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
+    response = services.send(statement)

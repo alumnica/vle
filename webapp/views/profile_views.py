@@ -93,7 +93,20 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView)
         elif answers_numbers[1] > answers_numbers[2] and answers_numbers[3] > answers_numbers[2]:
             self.request.user.profile.learning_style = LearningStyle.objects.get(name='Convergente')
 
-        self.request.user.profile.large_quiz_completed = True
+        if not self.request.user.profile.large_quiz_completed:
+            self.request.user.profile.large_quiz_completed = True
+            self.request.user.profile.experience_points += EXPERIENCE_POINTS_CONSTANTS['learning_large_quiz']
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            learning_experience_received(user=self.request.user,
+                                         object_type='Learning Style Quiz',
+                                         object_name=self.request.user.profile.learning_style.name,
+                                         parent_type='Learning Style Quiz',
+                                         parent_name='Large Learning Style Quiz',
+                                         tags_array=[],
+                                         timestamp=timestamp,
+                                         gained_xp=EXPERIENCE_POINTS_CONSTANTS['learning_large_quiz'])
+
+
         self.request.user.profile.save()
 
         return redirect(to='dashboard_view')
