@@ -159,6 +159,10 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
+XAPI_URL = os.environ.get('XAPI_URL')
+XAPI_VERSION = os.environ.get('XAPI_VERSION')
+XAPI_KEY = os.environ.get('XAPI_KEY')
+
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')

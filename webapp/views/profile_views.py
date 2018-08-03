@@ -1,13 +1,15 @@
+import datetime
+from inspect import getmodule, stack
+
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
 from django.views.generic import FormView, UpdateView
 from sweetify import sweetify
 
 from alumnica_model.mixins import OnlyLearnerMixin
-from alumnica_model.models import AuthUser
 from webapp.forms.profile_forms import *
+from webapp.statement_builders import register_statement, access_statement
 
 
 class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
@@ -18,6 +20,8 @@ class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
     def form_valid(self, form):
         user = AuthUser.objects.get(email=self.request.user.email)
         form.save_form(user)
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        register_statement(request=self.request, timestamp=timestamp, user=user)
         return redirect(to='first-login-p1_view')
 
 
@@ -67,6 +71,12 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView)
     form_class = LargeLeraningStyleQuizForm
     template_name = 'webapp/pages/user-test.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == 'GET':
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            access_statement(request, 'Large Learning Style Quiz', timestamp)
+        return super(LargeLearningStyleQuizView, self).dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         answers = self.request.POST['test-answers'].split(',')
         letters = {'a': 0, 'b': 1, 'c': 2, 'd': 3}
@@ -83,7 +93,20 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView)
         elif answers_numbers[1] > answers_numbers[2] and answers_numbers[3] > answers_numbers[2]:
             self.request.user.profile.learning_style = LearningStyle.objects.get(name='Convergente')
 
-        self.request.user.profile.large_quiz_completed = True
+        if not self.request.user.profile.large_quiz_completed:
+            self.request.user.profile.large_quiz_completed = True
+            self.request.user.profile.experience_points += EXPERIENCE_POINTS_CONSTANTS['learning_large_quiz']
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            learning_experience_received(user=self.request.user,
+                                         object_type='Learning Style Quiz',
+                                         object_name=self.request.user.profile.learning_style.name,
+                                         parent_type='Learning Style Quiz',
+                                         parent_name='Large Learning Style Quiz',
+                                         tags_array=[],
+                                         timestamp=timestamp,
+                                         gained_xp=EXPERIENCE_POINTS_CONSTANTS['learning_large_quiz'])
+
+
         self.request.user.profile.save()
 
         return redirect(to='dashboard_view')
@@ -93,6 +116,12 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
     login_url = 'login_view'
     template_name = 'webapp/pages/user-profile.html'
     form_class = ProfileSettingsForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == 'GET':
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            access_statement(request, 'Profile', timestamp)
+        return super(ProfileSettingsView, self).dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
         return self.request.user

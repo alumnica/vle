@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -12,6 +14,7 @@ from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import users, Ambit
 from alumnica_model.models.users import TYPE_LEARNER
 from webapp.forms.user_forms import UserForm, UserLoginForm
+from webapp.statement_builders import login_statement, logout_statement
 
 
 class LandingPageView(TemplateView):
@@ -39,6 +42,10 @@ class LoginView(FormView):
     def form_valid(self, form):
         user = form.get_user()
         login(self.request, user)
+
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        login_statement(request=self.request, timestamp=timestamp, user=user)
+
         if user.first_name == "":
             return redirect(to='first-login-info_view')
         if self.request.user.profile.learning_style is None:
@@ -93,5 +100,7 @@ class LogoutView(RedirectView):
     pattern_name = 'login_view'
 
     def get(self, request, *args, **kwargs):
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        logout_statement(request=self.request, timestamp=timestamp, user=request.user)
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
