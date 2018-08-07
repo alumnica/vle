@@ -60,6 +60,18 @@ def logout_statement(request, user, timestamp):
     response = services.send(statement)
 
 
+def search_statement(user, string_searched, timestamp):
+    user_complete_name = user.first_name + ' ' + user.last_name
+    actor = Actor(name=user_complete_name, email=user.email)
+    verb = Verb(action='searched')
+    object_id = xapi_url + 'search'
+    object = Object(id=object_id, name='Alumnica')
+    result = Result(response=string_searched)
+
+    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, result=result)
+    response = services.send(statement)
+
+
 def access_statement(request, object_name, timestamp):
     user_complete_name = request.user.first_name + ' ' + request.user.last_name
     actor = Actor(name=user_complete_name, email=request.user.email)
