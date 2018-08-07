@@ -1,6 +1,6 @@
 {% extends "logged-in.html" %}
 {% load static %}
-
+{% load vle_extras %}
 {% block content %}
 
 <div class='container' id="preloader">
@@ -27,15 +27,8 @@
         <div class="dashboard-grid">
             <div class="profile-picture">
                 <a href="#">
-                    {% if request.user.profile.avatar == "A" %}
-                        <img src="{% static 'webapp/media/profile-pic.png' %}" alt="profile picture">
-                    {% elif  request.user.profile.avatar == "B"%}
-                        <img src="{% static 'webapp/media/rated.png' %}" alt="profile picture">
-                    {% elif  request.user.profile.avatar == "C"%}
-                        <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="profile picture">
-                    {% elif  request.user.profile.avatar == "D"%}
-                        <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="profile picture">
-                    {% endif %}<!-- link to user profile page -->
+                    <img src="{% static '' %}webapp/media/{{ request.user.profile.avatar }}0{{ request.user.profile.experience_points|learner_level }}.png" alt="profile picture">
+                    !-- link to user profile page -->
                 </a>
             </div>
             <div class="user-info">

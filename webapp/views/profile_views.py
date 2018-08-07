@@ -119,6 +119,17 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
     def get_object(self, queryset=None):
         return self.request.user
 
+    def get_context_data(self, **kwargs):
+        context = super(ProfileSettingsView, self).get_context_data(**kwargs)
+        experience_pts = self.object.profile.experience_points
+        learner_level = int(experience_pts/5000)
+
+        if learner_level > 4:
+            learner_level = 4
+
+        context.update({'learner_level': learner_level})
+        return context
+
     def form_invalid(self, form):
         if form['new_password'].errors:
             sweetify.error(self.request, form.errors['new_password'][0], persistent='Ok')

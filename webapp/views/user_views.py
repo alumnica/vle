@@ -14,7 +14,7 @@ from django.views.generic import *
 from django.views.generic.base import TemplateView
 from sweetify import sweetify
 
-from alumnica_model.mixins import OnlyLearnerMixin, OnlyAdminMixin
+from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import users, Ambit
 from alumnica_model.models.users import TYPE_LEARNER, Learner
 from webapp.forms.user_forms import UserForm, UserLoginForm

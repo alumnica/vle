@@ -1,4 +1,5 @@
 {% load static %}
+{% load vle_extras %}
 <div class="top-nav">
     <div class="top-nav-container">        
         <button class="menu-open" type="button" id="ham-btn">
@@ -15,15 +16,9 @@
             <i class="fa fa-th"></i>
         </a>
         <a href="{% url 'profile_view' %}" class="top-menu-btn" id="top-menu-icon" title="{{ user.first_name }} {{ user.last_name }}">
-            {% if request.user.profile.avatar == "A" %}
-                <img src="{% static 'webapp/media/profile-pic.png' %}" alt="profile icon">
-            {% elif  request.user.profile.avatar == "B"%}
-                <img src="{% static 'webapp/media/rated.png' %}" alt="profile icon">
-            {% elif  request.user.profile.avatar == "C"%}
-                <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="profile icon">
-            {% elif  request.user.profile.avatar == "D"%}
-                <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="profile icon">
-            {% endif %}
+
+            <img src="{% static '' %}webapp/media/{{ request.user.profile.avatar }}0{{ request.user.profile.experience_points|learner_level }}.png" alt="" id="{{ request.user.profile.avatar }}">
+
         </a>        
         
     </div>

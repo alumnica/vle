@@ -1,5 +1,6 @@
 {% extends "logged-in.html" %}
 {% load static %}
+{% load vle_extras %}
 {% block content %}
 
 <!-- preloader -->
@@ -25,35 +26,27 @@
     <div class="profile-grid">
         <div class="avatar">
             <div class="avatar-main">
-                {% if request.user.profile.avatar == "A" %}
-                    <img src="{% static 'webapp/media/profile-pic.png' %}" alt="" id="A">
-                {% elif  request.user.profile.avatar == "B"%}
-                    <img src="{% static 'webapp/media/rated.png' %}" alt="" id="B">
-                {% elif  request.user.profile.avatar == "C"%}
-                    <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="" id="C">
-                {% elif  request.user.profile.avatar == "D"%}
-                    <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="" id="D">
-                {% endif %}
+                <img src="{% static '' %}webapp/media/{{ request.user.profile.avatar }}0{{ request.user.profile.experience_points|learner_level }}.png" alt="" id="{{ request.user.profile.avatar }}">
             </div>
             <div class="avatar-options">
                 {% if request.user.profile.avatar != "A" %}
                     <div class="avatar-options-individual">
-                        <img src="{% static 'webapp/media/profile-pic.png' %}" alt="" id="A">
+                        <img src="{% static '' %}webapp/media/A0{{ learner_level }}.png" alt="" id="A">
                     </div>
                 {% endif %}
                 {% if request.user.profile.avatar != "B" %}
                     <div class="avatar-options-individual">
-                        <img src="{% static 'webapp/media/rated.png' %}" alt="" id="B">
+                        <img src="{% static '' %}webapp/media/B0{{ learner_level }}.png" alt="" id="B">
                     </div>
                 {% endif %}
                 {% if request.user.profile.avatar != "C" %}
                     <div class="avatar-options-individual">
-                        <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="" id="C">
+                        <img src="{% static '' %}webapp/media/C0{{ learner_level }}.png" alt="" id="C">
                     </div>
                 {% endif %}
                 {% if request.user.profile.avatar != "D" %}
                     <div class="avatar-options-individual">
-                        <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="" id="D">
+                        <img src="{% static '' %}webapp/media/D0{{ learner_level }}.png" alt="" id="D">
                     </div>
                 {% endif %}
 
