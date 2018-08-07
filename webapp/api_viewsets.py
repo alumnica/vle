@@ -8,7 +8,7 @@ from alumnica_model.models import AuthUser, Learner, MicroODA, Ambit
 from alumnica_model.models.progress import LearnerEvaluationProgress, EXPERIENCE_POINTS_CONSTANTS
 from alumnica_model.models.questions import *
 from webapp.serializers import *
-from webapp.statement_builders import task_completed, task_experience_received
+from webapp.statement_builders import task_completed, task_experience_received, avatar_statement
 
 
 class EvaluationViewSet(ModelViewSet):
@@ -291,5 +291,8 @@ class ChangeUserAvatar(APIView):
 
         learner.profile.avatar = avatar_id
         learner.profile.save()
+
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        avatar_statement(user=learner, avatar=avatar_id, timestamp=timestamp)
         return JsonResponse({'ok': 'ok'})
 

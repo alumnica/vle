@@ -39,8 +39,14 @@ def edited_profile(user, timestamp):
 
 
 def avatar_statement(user, avatar, timestamp):
-    #To do. Mandar el nombre de la imagen del avatar escogido desde api_viewsets
-    pass
+    user_complete_name = user.first_name + ' ' + user.last_name
+    actor = Actor(name=user_complete_name, email=user.email)
+    verb = Verb(action='modified')
+    object_id = xapi_url + 'avatar/' + avatar
+    object = Object(id=object_id, name='avatar')
+
+    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
+    response = services.send(statement)
 
 
 def logout_statement(request, user, timestamp):
