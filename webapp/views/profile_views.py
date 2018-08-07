@@ -124,6 +124,9 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
         experience_pts = self.object.profile.experience_points
         learner_level = int(experience_pts/5000)
 
+        if learner_level < 1:
+            learner_level = 1
+
         if learner_level > 4:
             learner_level = 4
 

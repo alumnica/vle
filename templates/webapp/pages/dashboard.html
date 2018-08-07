@@ -26,9 +26,9 @@
 <div class="grid-container">
         <div class="dashboard-grid">
             <div class="profile-picture">
-                <a href="#">
+                <a href="{% url 'profile_view' %}">
                     <img src="{% static '' %}webapp/media/{{ request.user.profile.avatar }}0{{ request.user.profile.experience_points|learner_level }}.png" alt="profile picture">
-                    !-- link to user profile page -->
+
                 </a>
             </div>
             <div class="user-info">
