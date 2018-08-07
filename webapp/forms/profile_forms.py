@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from alumnica_model.models import Learner, users, AuthUser
 from alumnica_model.models.content import LearningStyle
 from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
-from webapp.statement_builders import learning_experience_received
+from webapp.statement_builders import learning_experience_received, edited_profile
 
 
 class FirstLoginInfoForm(forms.ModelForm):
@@ -59,10 +59,7 @@ class FirstLoginP2(forms.Form):
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
             learning_experience_received(user=user,
                                          object_type='Learning Style Quiz',
-                                         object_name= profile.learning_style.name,
-                                         parent_type='Learning Style Quiz',
-                                         parent_name='Short Learning Style Quiz',
-                                         tags_array=[],
+                                         object_name=profile.learning_style.name,
                                          timestamp=timestamp,
                                          gained_xp=EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz'])
 
@@ -97,9 +94,6 @@ class FirstLoginP3(forms.Form):
             learning_experience_received(user=user,
                                          object_type='Learning Style Quiz',
                                          object_name=profile.learning_style.name,
-                                         parent_type='Learning Style Quiz',
-                                         parent_name='Short Learning Style Quiz',
-                                         tags_array=[],
                                          timestamp=timestamp,
                                          gained_xp=EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz'])
 
@@ -167,6 +161,8 @@ class ProfileSettingsForm(forms.ModelForm):
         if new_password != '':
             user.set_password(self.cleaned_data.get('new_password'))
         user.save()
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        edited_profile(user=user, timestamp=timestamp)
         return user
 
 

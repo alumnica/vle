@@ -1,6 +1,3 @@
-import datetime
-from inspect import getmodule, stack
-
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
@@ -100,12 +97,8 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView)
             learning_experience_received(user=self.request.user,
                                          object_type='Learning Style Quiz',
                                          object_name=self.request.user.profile.learning_style.name,
-                                         parent_type='Learning Style Quiz',
-                                         parent_name='Large Learning Style Quiz',
-                                         tags_array=[],
                                          timestamp=timestamp,
                                          gained_xp=EXPERIENCE_POINTS_CONSTANTS['learning_large_quiz'])
-
 
         self.request.user.profile.save()
 

@@ -12,6 +12,5 @@ def send(statement):
         'Content-Type': 'application/json',
         'Authorization': XAPI_KEY
     }
-    print(data)
     response = requests.post(url=url, data=data, headers=headers)
     return response

@@ -1,4 +1,3 @@
-from django.urls import reverse_lazy
 
 from webapp import services
 from webapp.statements import Actor, Verb, Object, Statement, Context, Result
@@ -26,6 +25,22 @@ def register_statement(request, user, timestamp):
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
     response = services.send(statement)
+
+
+def edited_profile(user, timestamp):
+    user_complete_name = user.first_name + ' ' + user.last_name
+    actor = Actor(name=user_complete_name, email=user.email)
+    verb = Verb(action='edited')
+    object_id = xapi_url + 'edit_profile'
+    object = Object(id=object_id, name='user_profile')
+
+    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
+    response = services.send(statement)
+
+
+def avatar_statement(user, avatar, timestamp):
+    #To do. Mandar el nombre de la imagen del avatar escogido desde api_viewsets
+    pass
 
 
 def logout_statement(request, user, timestamp):
