@@ -104,15 +104,6 @@ class CustomUserAdmin(UserAdmin):
     filter_horizontal = ()
 
 
-class LearnersToExport(forms.ModelForm):
-    birth_day = forms.DateField()
-    learning_style = forms.CharField()
-
-    class Meta:
-        model = AuthUser
-        fields = ['first_name', 'last_name', 'email']
-
-
 def DownloadLearnerUsers(modeladmin, request, queryset):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=learners.csv'
