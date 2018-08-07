@@ -93,7 +93,6 @@ TEMPLATES = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
@@ -177,6 +176,16 @@ XAPI_KEY = os.environ.get('XAPI_KEY')
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
+SOCIAL_AUTH_FACEBOOK_KEY = 'update me'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'update me'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'update me'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'update me'
+
+LOGIN_URL = 'login_view'
+LOGIN_REDIRECT_URL = 'first-login-info_view'
+LOGOUT_REDIRECT_URL = LOGIN_URL
 
 if all([AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME]):
     # Use S3 from Amazon Web Services to store uploaded files
