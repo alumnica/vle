@@ -45,6 +45,7 @@ urlpatterns += i18n_patterns(
     path(_('moments/'), include('webapp.urls.moment_urls')),
     path(_('evaluations/'), include('webapp.urls.evaluation_urls')),
     path(_('admin/'), admin.site.urls),
+    path(_('oauth/'), include('social_django.urls'), namespace='social'),
     path(_('api/'), include(router.urls)),
     path(_('api-auth/'), include('rest_framework.urls', namespace='rest_framework')),
     path(_('jsi18n/'), JavaScriptCatalog.as_view(), name='javascript-catalog'),
