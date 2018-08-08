@@ -94,36 +94,35 @@
             <div class="uoda-container">
                  <a href="{% url 'moment_view' moments.0.pk %}" class="micro-image">
                     {% if microoda.0.type.name == "application" %}
-
-                        <img    srcset="{% static "/webapp/media/uodas/Mobile/uODA_mobile_Aplicacion.png" %} 480w,
-                                        {% static "/webapp/media/uodas/Desktop/uODA_desktop_aplicacion.png" %} 800w"
-                                sizes="(max-width: 480px) 440px,
-                                        800px"
-                                src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_aplicacion.png"%}" alt="Aplicacion">
+                    <video muted id="apli" data-autoplay loop class="fillWidth">
+                        <source class="mp4" src="{% static "/webapp/media/uODAs/apli/apli_desktop.mp4" %}" type="video/mp4" />
+                        <source class="webm" src="{% static "/webapp/media/uODAs/apli/apli_desktop.webm" %}" type="video/webm" />
+                        <source class="png" src="{% static "/webapp/media/uODAs/apli/apli_desktop.png" %}" title="Your browser does not support the video tag. I suggest you upgrade your browser"/>
+                    </video> 
                     {% elif microoda.0.type.name == "formalization" %}
-                        <img    srcset="{% static "/webapp/media/uodas/Mobile/uODA_mobile_formalizacion.png" %} 480w,
-                                        {% static "/webapp/media/uodas/Desktop/uODA_desktop_formalizacion.png" %} 800w"
-                                sizes="(max-width: 480px) 440px,
-                                   800px"
-                                src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_formalizacion.png" %}" alt="Formalizacion">
+                    <video muted id="forma" data-autoplay loop class="fillWidth">
+                        <source class="mp4" src="{% static "/webapp/media/uODAs/forma/forma_desktop.mp4" %}" type="video/mp4" />
+                        <source class="webm" src="{% static "/webapp/media/uODAs/forma/forma_desktop.webm" %}" type="video/webm" />
+                        <source class="png" src="{% static "/webapp/media/uODAs/forma/forma_desktop.png" %}" title="Your browser does not support the video tag. I suggest you upgrade your browser"/>
+                    </video> 
                     {% elif microoda.0.type.name == "activation" %}
-                        <img    srcset="{% static "/webapp/media/uodas/Mobile/uODA_mobile_Activacion.png" %} 480w,
-                                        {% static "/webapp/media/uodas/Desktop/uODA_desktop_activacion.png" %} 800w"
-                                sizes="(max-width: 480px) 440px,
-                                   800px"
-                                src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_activacion.png" %}" alt="activacion">
+                    <video muted id="activ" data-autoplay loop class="fillWidth">
+                        <source class="mp4" src="{% static "/webapp/media/uODAs/activ/activ_desktop.mp4" %}" type="video/mp4" />
+                        <source class="webm" src="{% static "/webapp/media/uODAs/activ/activ_desktop.webm" %}" type="video/webm" />
+                        <source class="png" src="{% static "/webapp/media/uODAs/activ/activ_desktop.png" %}" title="Your browser does not support the video tag. I suggest you upgrade your browser"/>
+                    </video>                        
                     {% elif microoda.0.type.name == "exemplification" %}
-                            <img    srcset="{% static "/webapp/media/uodas/Mobile/uODA_mobile_Ejemplificacion.png" %} 480w,
-                                        {% static "/webapp/media/uodas/Desktop/uODA_desktop_ejemplificacion.png" %} 800w"
-                                sizes="(max-width: 480px) 440px,
-                                   800px"
-                                src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_ejemplificacion.png" %}" alt="ejemplificacion">
+                    <video muted id="ejemp" data-autoplay loop class="fillWidth">
+                        <source class="mp4" src="{% static "/webapp/media/uODAs/ejemp/ejemp_desktop.mp4" %}" type="video/mp4" />
+                        <source class="webm" src="{% static "/webapp/media/uODAs/ejemp/ejemp_desktop.webm" %}" type="video/webm" />
+                        <source class="png" src="{% static "/webapp/media/uODAs/ejemp/ejemp_desktop.png" %}" title="Your browser does not support the video tag. I suggest you upgrade your browser"/>
+                    </video> 
                     {% elif microoda.0.type.name == "sensitization" %}
-                            <img    srcset="{% static "/webapp/media/uodas/Mobile/uODA_mobile_sensibilizacion.png" %} 480w,
-                                        {% static "/webapp/media/uodas/Desktop/uODA_desktop_sensibilizacion.png" %} 800w"
-                                sizes="(max-width: 480px) 440px,
-                                   800px"
-                                src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_sensibilizacion.png" %}" alt="sensibilizacion">
+                    <video muted id="sens" data-autoplay loop class="fillWidth">
+                        <source class="mp4" src="{% static "/webapp/media/uODAs/sens/sens_desktop.mp4" %}" type="video/mp4" />
+                        <source class="webm" src="{% static "/webapp/media/uODAs/sens/sens_desktop.webm" %}" type="video/webm" />
+                        <source class="png" src="{% static "/webapp/media/uODAs/sens/sens_desktop.png" %}" title="Your browser does not support the video tag. I suggest you upgrade your browser"/>
+                    </video> 
                     {% endif %}
                 </a>
                 <div class="micro-momentos">
