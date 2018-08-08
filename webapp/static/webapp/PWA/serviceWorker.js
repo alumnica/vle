@@ -5,6 +5,7 @@
 // Here comes the install event!
 // This only happens once, when the browser sees this
 // version of the ServiceWorker for the first time.
+/*
 self.addEventListener('install', function(event) {
   // We pass a promise to event.waitUntil to signal how
   // long install takes, and if it failed
@@ -41,4 +42,4 @@ self.addEventListener('fetch', function(event) {
       return response || fetch(event.request);
     })
   );
-});
+});*/
