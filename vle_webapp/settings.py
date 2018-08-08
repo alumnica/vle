@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'pwa',
     'corsheaders',
+    'social_django',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -67,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'vle_webapp.urls'
@@ -83,10 +85,18 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 WSGI_APPLICATION = 'vle_webapp.wsgi.application'
 
@@ -166,6 +176,16 @@ XAPI_KEY = os.environ.get('XAPI_KEY')
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
+SOCIAL_AUTH_FACEBOOK_KEY = 'update me'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'update me'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'update me'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'update me'
+
+LOGIN_URL = 'login_view'
+LOGIN_REDIRECT_URL = 'first-login-info_view'
+LOGOUT_URL = 'logout_view'
 
 if all([AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME]):
     # Use S3 from Amazon Web Services to store uploaded files
