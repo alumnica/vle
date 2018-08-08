@@ -45,7 +45,7 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         user = form.get_user()
-        login(self.request, user)
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         login_statement(request=self.request, timestamp=timestamp, user=user)
@@ -71,7 +71,7 @@ class SignUpView(FormView):
         user = form.save(commit=False)
         user.user_type = users.TYPE_LEARNER
         user.save()
-        login(self.request, user)
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
 
         return redirect(to='first-login-info_view')
 
