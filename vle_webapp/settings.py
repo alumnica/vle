@@ -185,7 +185,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'update me'
 
 LOGIN_URL = 'login_view'
 LOGIN_REDIRECT_URL = 'first-login-info_view'
-LOGOUT_REDIRECT_URL = LOGIN_URL
+LOGOUT_URL = 'logout_view'
 
 if all([AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME]):
     # Use S3 from Amazon Web Services to store uploaded files
