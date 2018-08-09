@@ -23,16 +23,16 @@
 
 <div id="moments">
     <div class="section">
-{#        {% for moment in moment_array %}#}
-{#        <div class="slide">#}
-{#            <div class="h5p-cont ">#}
-{#                <iframe src="{% url 'package_view' job_id=moment.h5p_package.job_id %}" class="the-h5p" frameborder="0">#}
-{##}
-{#                </iframe>#}
-{##}
-{#            </div>#}
-{#        </div>#}
-{#        {% endfor %}#}
+        {% for moment in moment_array %}
+        <div class="slide">
+            <div class="h5p-cont ">
+                <iframe src="{% url 'package_view' job_id=moment.h5p_package.job_id %}" class="the-h5p" frameborder="0">
+
+                </iframe>
+
+            </div>
+        </div>
+        {% endfor %}
         <!-- <div class="slide">
             <div class="h5p-cont ">
                 <iframe id="second" src="" class="the-h5p" frameborder="0">
