@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'sweetify',
     'storages',
     'rest_framework',
-    'pwa',
     'corsheaders',
     'social_django',
 ]
