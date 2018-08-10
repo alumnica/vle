@@ -1,5 +1,6 @@
 import csv
 import datetime
+import random
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -68,9 +69,12 @@ class SignUpView(FormView):
     success_url = reverse_lazy('index_view')
 
     def form_valid(self, form):
+        avatar_options = ['A', 'B', 'C', 'D']
         user = form.save(commit=False)
         user.user_type = users.TYPE_LEARNER
         user.save()
+        user.profile.avatar = random.choice(avatar_options)
+        user.profile.save()
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
 
         return redirect(to='first-login-info_view')
