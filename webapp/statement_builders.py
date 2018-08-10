@@ -122,7 +122,7 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
     response = services.send(statement)
 
 
-def answered_question_statement(user, question_instance, timestamp, success):
+def answered_question_statement(user, question_instance, tags_array, timestamp, success):
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='completed')
@@ -130,7 +130,7 @@ def answered_question_statement(user, question_instance, timestamp, success):
     object = Object(id=object_id, name='question_answer')
     parent_id = '{}{}/{}'.format(xapi_url, 'evaluation', question_instance.evaluation.name)
     tags = []
-    for tag in question_instance.microoda.tags.all():
+    for tag in tags_array:
         tags.append('{}/tag/{}'.format(xapi_url, tag))
 
     context = Context([parent_id], tags)

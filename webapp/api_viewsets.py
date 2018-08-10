@@ -192,8 +192,9 @@ class EvaluationViewSet(ModelViewSet):
                                              'description': question_instance.fail_description})
 
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            tags = question_instance.evaluation.oda.all()[0].microodas.get(type=question_instance.microoda).tags.all()
             answered_question_statement(user=learner.auth_user, question_instance=question_instance,
-                                        success=correct_answer, timestamp=timestamp)
+                                        success=correct_answer, timestamp=timestamp, tags_array=tags)
 
         evaluation_completed = False
         if score >= 7:
