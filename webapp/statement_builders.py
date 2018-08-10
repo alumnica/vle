@@ -122,6 +122,23 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
     response = services.send(statement)
 
 
+def answered_question_statement(user, question_instance, timestamp, success):
+    user_complete_name = user.first_name + ' ' + user.last_name
+    actor = Actor(name=user_complete_name, email=user.email)
+    verb = Verb(action='completed')
+    object_id = '{}{}/{}'.format(xapi_url, 'question_answer', question_instance.type)
+    object = Object(id=object_id, name='question_answer')
+    parent_id = '{}{}/{}'.format(xapi_url, 'evaluation', question_instance.evaluation.name)
+    tags = []
+    for tag in question_instance.microoda.tags.all():
+        tags.append('{}/tag/{}'.format(xapi_url, tag))
+
+    context = Context([parent_id], tags)
+    result = Result(response='Question: {}'.format(question_instance.sentence), success=success)
+    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
+    response = services.send(statement)
+
+
 def learning_experience_received(user, object_type, object_name, timestamp, gained_xp):
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
