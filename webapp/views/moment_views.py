@@ -1,6 +1,5 @@
 import datetime
 import json
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.datastructures import OrderedSet
 from django.utils.decorators import method_decorator
