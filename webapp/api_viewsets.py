@@ -8,7 +8,8 @@ from alumnica_model.models import AuthUser, Learner, MicroODA, Ambit
 from alumnica_model.models.progress import LearnerEvaluationProgress, EXPERIENCE_POINTS_CONSTANTS
 from alumnica_model.models.questions import *
 from webapp.serializers import *
-from webapp.statement_builders import task_completed, task_experience_received, avatar_statement
+from webapp.statement_builders import task_completed, task_experience_received, avatar_statement, \
+    answered_question_statement
 
 
 class EvaluationViewSet(ModelViewSet):
@@ -189,6 +190,10 @@ class EvaluationViewSet(ModelViewSet):
                                              'pk': question_instance.pk,
                                              'status': 'incorrect',
                                              'description': question_instance.fail_description})
+
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            answered_question_statement(user=learner.auth_user, question_instance=question_instance,
+                                        success=correct_answer, timestamp=timestamp)
 
         evaluation_completed = False
         if score >= 7:
