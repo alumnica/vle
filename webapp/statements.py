@@ -28,7 +28,7 @@ def ComplexHandler(Obj):
 class Actor:
     def __init__(self, name, email):
         self.name = name
-        self.mbox = 'mailto:'+email
+        self.mbox = 'mailto:' + email
 
     def toJSON(self):
         return self.__dict__
@@ -124,7 +124,6 @@ class Result:
 
     def toJSON(self):
         return self.__dict__
-
 
 
 class Statement:

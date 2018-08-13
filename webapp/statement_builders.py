@@ -1,4 +1,3 @@
-
 from webapp import services
 from webapp.statements import Actor, Verb, Object, Statement, Context, Result
 
@@ -101,7 +100,8 @@ def access_statement_with_parent(request, object_type, object_name, parent_type,
     response = services.send(statement)
 
 
-def task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None, duration=None):
+def task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None,
+                   duration=None):
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='completed')
@@ -117,8 +117,8 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
     if score is None:
         result = Result(response='{} completed'.format(object_type), completion=True, duration=duration)
     else:
-        result = Result(response='{} completed'.format(object_type), completion=True, success=score >= 7, raw_score=score, duration=duration)
-
+        result = Result(response='{} completed'.format(object_type), completion=True, success=score >= 7,
+                        raw_score=score, duration=duration)
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
     response = services.send(statement)
@@ -152,7 +152,8 @@ def learning_experience_received(user, object_type, object_name, timestamp, gain
     response = services.send(statement)
 
 
-def task_experience_received(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, gained_xp):
+def task_experience_received(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp,
+                             gained_xp):
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='received')
