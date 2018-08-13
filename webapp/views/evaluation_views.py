@@ -1,11 +1,11 @@
 import datetime
 import random
+
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
 from django.views.generic import FormView
 
 from alumnica_model.mixins import OnlyLearnerMixin
-from alumnica_model.models.content import Evaluation, ODA, Subject
+from alumnica_model.models.content import Evaluation, ODA
 from alumnica_model.models.questions import TYPE_RELATIONSHIP, TYPE_PULL_DOWN_LIST, TYPE_MULTIPLE_OPTION, \
     TYPE_MULTIPLE_ANSWER, TYPE_NUMERIC_ANSWER
 from webapp.statement_builders import access_statement_with_parent
@@ -72,5 +72,3 @@ class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
                     self.evaluation.append([question, answers])
                 elif question.type == TYPE_NUMERIC_ANSWER:
                     self.evaluation.append([question, 0])
-
-

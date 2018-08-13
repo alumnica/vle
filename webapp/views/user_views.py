@@ -1,23 +1,16 @@
-import csv
 import datetime
 import random
 
 from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
 from django.shortcuts import redirect
-from django.template import loader
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
-from django.utils.encoding import smart_str
 from django.views.generic import *
 from django.views.generic.base import TemplateView
 from sweetify import sweetify
 
 from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import users, Ambit
-from alumnica_model.models.users import TYPE_LEARNER, Learner
 from webapp.forms.user_forms import UserForm, UserLoginForm
 from webapp.statement_builders import login_statement, logout_statement
 
@@ -106,7 +99,7 @@ class DashboardView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
         for activity in user.profile.recent_activities.order_by('pk')[0:3]:
             activities.append([activity, activity.subject])
         ambits = Ambit.objects.exclude(is_published=False)
-        context.update({'recent_activities': activities, 'ambits':ambits})
+        context.update({'recent_activities': activities, 'ambits': ambits})
 
         return context
 
@@ -119,5 +112,3 @@ class LogoutView(RedirectView):
         logout_statement(request=self.request, timestamp=timestamp, user=request.user)
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
-
-

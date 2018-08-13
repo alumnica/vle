@@ -1,15 +1,16 @@
 import datetime
 import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.datastructures import OrderedSet
 from django.utils.decorators import method_decorator
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.generic import FormView, DetailView
+
 from alumnica_model.models import Moment, LearnerProgressInActivity
 from alumnica_model.models.h5p import H5Package
 from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
 from webapp.statement_builders import access_statement_with_parent
-
 
 
 class MomentView(LoginRequiredMixin, FormView):
@@ -78,4 +79,3 @@ class H5PackageView(LoginRequiredMixin, DetailView):
         })
 
         return context
-

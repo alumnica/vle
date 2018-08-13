@@ -1,9 +1,7 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
-from django.views import View
-from django.views.generic import RedirectView, FormView
+from django.views.generic import FormView
 
 from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import ODA, Tag
@@ -44,4 +42,3 @@ class SearchView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
         search_statement(user=self.request.user, string_searched=text_to_search, timestamp=timestamp)
 
         return {'odas_list': odas_list, 'text_to_search': text_to_search}
-

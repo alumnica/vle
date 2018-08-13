@@ -1,7 +1,6 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
 from django.views.generic import FormView, TemplateView
 
 from alumnica_model.mixins import OnlyLearnerMixin
@@ -20,7 +19,7 @@ class AmbitGridView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
         return super(AmbitGridView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        ambits_list= Ambit.objects.all().filter(is_published=True).order_by('position')
+        ambits_list = Ambit.objects.all().filter(is_published=True).order_by('position')
         return {'ambits_list': ambits_list}
 
 
