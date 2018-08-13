@@ -1,9 +1,8 @@
-
 var input = document.getElementById("searcher");
-input.addEventListener("keyup", function(event) {
-   event.preventDefault();
-   if (event.keyCode === 13) {
-       let text = this.value;
-       window.location.href =gettext("/search/search_odas/"+text+"/");
-   }
+input.addEventListener("keyup", function (event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        let text = this.value;
+        window.location.href = gettext("/search/search_odas/" + text + "/");
+    }
 });

@@ -10,13 +10,13 @@ $('#materias-slider').owlCarousel({
     autoplay: true,
     autoplayTimeout: 3500,
     autoplayHoverPause: true,
-  });
+});
 
 
-  $('#insignias-slider').owlCarousel({
+$('#insignias-slider').owlCarousel({
     loop: true,
     margin: 10,
     nav: false,
     items: 4,
     dots: false,
-  });
+});

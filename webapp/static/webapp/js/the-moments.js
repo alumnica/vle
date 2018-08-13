@@ -17,10 +17,8 @@ $(document).ready(function () {
         console.log(duration);
 
 
-
         $.ajax({
             url: '/api/microodas/' + learner + "," + microoda + "," + duration,
-
 
 
         });
