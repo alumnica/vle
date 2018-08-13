@@ -3,6 +3,7 @@ import datetime
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+
 from alumnica_model.models import Learner, users, AuthUser
 from alumnica_model.models.content import LearningStyle
 from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
@@ -69,7 +70,6 @@ class ProfileSettingsForm(forms.ModelForm):
     new_password = forms.CharField(required=False, widget=forms.PasswordInput())
     new_password_confirmation = forms.CharField(required=False, widget=forms.PasswordInput())
 
-
     class Meta:
         model = AuthUser
         fields = ['first_name', 'last_name']
@@ -112,7 +112,8 @@ class ProfileSettingsForm(forms.ModelForm):
                                     error = ValidationError(_("Invalid password."), code='credentials_error')
                                     self.add_error('previous_password', error)
                             else:
-                                error = ValidationError(_("Previous password must be written."), code='credentials_error')
+                                error = ValidationError(_("Previous password must be written."),
+                                                        code='credentials_error')
                                 self.add_error('previous_password', error)
 
         return cleaned_data
@@ -131,4 +132,3 @@ class ProfileSettingsForm(forms.ModelForm):
 class LargeLeraningStyleQuizForm(forms.Form):
     def save_form(self):
         pass
-

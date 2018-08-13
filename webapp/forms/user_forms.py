@@ -1,13 +1,14 @@
 import csv
 
 from django import forms
+from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
 from django.utils.translation import gettext_lazy as _
+
 from alumnica_model.models import AuthUser, Learner
-from django.contrib import admin
 
 
 class UserForm(forms.ModelForm):
@@ -104,7 +105,7 @@ class CustomUserAdmin(UserAdmin):
     filter_horizontal = ()
 
 
-def DownloadLearnerUsers(modeladmin, request, queryset):
+def download_learner_file(modeladmin, request, queryset):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=learners.csv'
     writer = csv.writer(response, csv.excel)
@@ -117,7 +118,7 @@ def DownloadLearnerUsers(modeladmin, request, queryset):
     ])
     for obj in queryset:
         writer.writerow([
-            smart_str('{} {}'.format(obj.auth_user.first_name,obj.auth_user.last_name)),
+            smart_str('{} {}'.format(obj.auth_user.first_name, obj.auth_user.last_name)),
             smart_str(obj.auth_user.email),
             smart_str(obj.birth_date),
             smart_str(obj.learning_style),
@@ -125,11 +126,11 @@ def DownloadLearnerUsers(modeladmin, request, queryset):
     return response
 
 
-DownloadLearnerUsers.short_description = u"Export CSV"
+download_learner_file.short_description = u"Export CSV"
 
 
 class DownloadLearnerFile(admin.ModelAdmin):
-    actions = [DownloadLearnerUsers]
+    actions = [download_learner_file]
 
 
 admin.site.unregister(AuthUser)
