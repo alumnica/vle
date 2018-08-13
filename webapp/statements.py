@@ -111,7 +111,7 @@ class Score:
 
 
 class Result:
-    def __init__(self, response, completion=None, success=None, raw_score=None):
+    def __init__(self, response, completion=None, success=None, raw_score=None, duration=None):
         self.response = response
         if completion is not None:
             self.completion = completion
@@ -119,6 +119,8 @@ class Result:
             self.success = success
         if raw_score is not None:
             self.score = Score(raw_score=raw_score)
+        if duration is not None:
+            self.duration = duration
 
     def toJSON(self):
         return self.__dict__

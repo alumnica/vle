@@ -254,6 +254,7 @@ class MicroodaViewSet(APIView):
     def get(self, request, *args, **kwargs):
         learner_pk = kwargs['learner']
         microoda_pk = kwargs['uODA']
+        duration = kwargs['duration']
 
         learner = Learner.objects.get(pk=learner_pk)
         microoda = MicroODA.objects.get(pk=microoda_pk)
@@ -280,8 +281,9 @@ class MicroodaViewSet(APIView):
                        object_type='uoda',
                        object_name=microoda.name,
                        parent_type='oda', parent_name=microoda.oda.name,
-                       tags_array = microoda.tags.all(),
-                       timestamp=timestamp)
+                       tags_array=microoda.tags.all(),
+                       timestamp=timestamp,
+                       duration=duration)
 
         microodas_suggestion = [{'mODA_name': mODA.type.name} for mODA in
                                 microoda.oda.microodas.exclude(pk=microoda.pk)]

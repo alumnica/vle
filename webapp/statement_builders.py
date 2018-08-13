@@ -101,7 +101,7 @@ def access_statement_with_parent(request, object_type, object_name, parent_type,
     response = services.send(statement)
 
 
-def task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None):
+def task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None, duration=None):
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='completed')
@@ -115,9 +115,11 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
 
     context = Context([parent_id], tags)
     if score is None:
-        result = Result(response='{} completed'.format(object_type), completion=True)
+        result = Result(response='{} completed'.format(object_type), completion=True, duration=duration)
     else:
-        result = Result(response='{} completed'.format(object_type), completion=True, success=score >= 7, raw_score=score)
+        result = Result(response='{} completed'.format(object_type), completion=True, success=score >= 7, raw_score=score, duration=duration)
+
+
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
     response = services.send(statement)
 
