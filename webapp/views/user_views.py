@@ -92,6 +92,13 @@ class DashboardView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
     template_name = 'webapp/pages/dashboard.html'
     login_url = 'login_view'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.first_name == "" or request.user.last_name == "" or request.user.profile.birth_date is None or request.user.profile.gender == "":
+            return redirect(to='first-login-info_view')
+        if request.user.profile.learning_style is None:
+            return redirect(to='first-login-p1_view')
+        return super(DashboardView, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         user = self.request.user
         context = {'user': self.request.user}
