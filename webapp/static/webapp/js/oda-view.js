@@ -10,6 +10,17 @@ $(document).ready(function () {
         paddingTop: '3rem',
         verticalCentered: false,
         menu: '#menu',
+        onLeave: function (origin, destination, direction) {
+            var leavingSection = this;
+            var indState = $('.indication').css('display');
+
+            if (origin == 1 && indState == 'none') {
+                $('.indication').fadeIn(1500);
+            }
+            else if (origin == 2 && direction == 'up') {
+                $('.indication').fadeOut(500);
+            }
+        }
     });
 
 

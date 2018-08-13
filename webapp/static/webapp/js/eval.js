@@ -25,6 +25,13 @@ $(document).ready(function () {
         let numeric_answer_answers = document.getElementById('numeric_answer').value;
         let pulldown_list_answers = document.getElementById('pulldown_list').value;
 
+        let timeSpentOnPage = TimeMe.getTimeOnCurrentPageInSeconds();
+        let duration = timeSpentOnPage.toString().slice(0,-1);
+            duration = `P${duration}S`;
+            console.log(duration);
+          
+        
+
         $.ajax({
             url: '/api/evaluation/',
             data: {evaluation: JSON.stringify(evaluation_object),
@@ -33,7 +40,9 @@ $(document).ready(function () {
                     multiple_answer_answers: multiple_answer_answers,
                     numeric_answer_answers: numeric_answer_answers,
                     pulldown_list_answers: pulldown_list_answers,
-                    pk: user_pk},
+                    pk: user_pk,
+                    duration: duration    
+                },
             success: function(data){
                 let questions_array = JSON.parse(data.data);
                 let score = data.score;
@@ -378,4 +387,7 @@ $(document).ready(function () {
 $('.section').on('click', '.the-tab', function(){
     $(this).parent().toggleClass('closed1');
 });
+
+
+
 
