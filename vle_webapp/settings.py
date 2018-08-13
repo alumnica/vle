@@ -28,6 +28,7 @@ PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'webapp/static/webapp/PWA/', 's
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'm792=#*_(5x5c80&z+i0u80rj+0kn!f94i!*z^xwiy5zb#6a&1')
+SECURE_SSL_REDIRECT = bool(os.environ.get('FORCE_SSL', False))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get('ON_HEROKU', False)
