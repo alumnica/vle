@@ -78,7 +78,8 @@ $(document).ready(function () {
                 }
 
                 if (score >= 7){
-                    for (let j = 0; j<data.suggestions.length; j++){
+                       $('.the-xp').append('+ 100')
+                    for (let j = 0; j<2; j++){
                         let suggestion = data.suggestions[j];
                         let rec_div = document.getElementById('suggestions');
 
@@ -86,6 +87,24 @@ $(document).ready(function () {
                         $(rec_div).find('#rec').attr("href", gettext("/odas/"+suggestion.pk+"/"));
 
 
+                    }
+                } else if (score <= 6){
+                 $('.the-xp').append('+ 0')
+                    for (let h = 0; h <= 2; h++){
+                        let suggestion = data.suggestions[h];
+                        let rec_div = document.getElementById('suggestions');
+                        if(suggestion.uoda == "exemplification") {
+                           $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/sens.png' alt='Ejemplificacion'></div><div class='oda-text'>Ejemplificación</div></a>")
+
+                        } else if(suggestion.uoda == "formalization" ){
+                           $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/forma.png' alt='Formalizacion'></div><div class='oda-text'>Formalización</div></a>")
+                        } else if(suggestion.uoda == "application" ){
+                           $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/apli.png' alt='Aplicacion'></div><div class='oda-text'>Aplicación</div></a>")
+                        } else if(suggestion.uoda == "sensitization" ){
+                           $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/sens.png' alt='Sensibilizacion'></div><div class='oda-text'>Sensibilzación</div></a>")
+                        } else if(suggestion.uoda == "activation" ){
+                            $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/activ.png' alt='Activacion'></div><div class='oda-text'>Activación</div></a>")
+                        }
                     }
                 }
             }
