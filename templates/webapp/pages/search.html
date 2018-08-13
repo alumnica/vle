@@ -19,6 +19,12 @@
                         <div class="oda-title-link">
                             <a href="{%  url 'oda_view' oda.pk %}">{{ oda.name }}</a>
                         </div>
+                    <!-- oda.tags.all para acceder a los tags-->
+                        <div class="tags">
+                            {% for tag in oda.tags.all %}
+                                <a href="#">{{ tag.name }}</a>
+                            {% endfor %}
+                        </div>
                         <div class="materia-link">
                             MATERIA:
                             <a href="{% url 'subject_view' oda.subject.pk %}"> {{ oda.subject.name }}</a>
