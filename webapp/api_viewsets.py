@@ -18,6 +18,7 @@ class EvaluationViewSet(ModelViewSet):
     queryset = Evaluation.objects.all()
 
     def list(self, request, *args, **kwargs):
+        duration = request.GET['duration']
         evaluation_data = request.GET['evaluation']
         evaluation = json.loads(evaluation_data)
         relationship_answers = request.GET['relationship_answers'].split('|')
@@ -30,12 +31,12 @@ class EvaluationViewSet(ModelViewSet):
         score, answers, suggestions = self.review_evaluation(evaluation,
                                                              relationship_answers, multiple_option_answers,
                                                              multiple_answer_answers, numeric_answers,
-                                                             pulldown_list_answers, user.profile)
+                                                             pulldown_list_answers, user.profile, duration)
         json_response = json.dumps(answers)
         return JsonResponse({'score': score, 'data': json_response, 'suggestions': suggestions})
 
     def review_evaluation(self, evaluation, relationship_answers, multiple_option_answers, multiple_answer_answers,
-                          numeric_answers, pulldown_list_answers, learner):
+                          numeric_answers, pulldown_list_answers, learner, duration):
         score = 0
         questions_status = []
         question_instance = None
@@ -247,7 +248,8 @@ class EvaluationViewSet(ModelViewSet):
                        'oda', evaluation_instance.oda.all()[0].name,
                        tags_array=evaluation_instance.oda.all()[0].tags.all(),
                        timestamp=timestamp,
-                       score=score)
+                       score=score,
+                       duration=duration)
 
         return score, questions_status, suggestions_dict
 
