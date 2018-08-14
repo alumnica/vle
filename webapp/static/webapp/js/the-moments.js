@@ -11,8 +11,8 @@ $(document).ready(function () {
 
     $('.end-uoda-btn').click(function () {
 
-        var timeSpentOnPage = TimeMe.getTimeOnCurrentPageInSeconds();
-        var duration = timeSpentOnPage.toString().slice(0, -1);
+        let timeSpentOnPage = TimeMe.getTimeOnCurrentPageInSeconds();
+        let duration = timeSpentOnPage.toString().slice(0, -1);
         duration = `P${duration}S`;
         console.log(duration);
 

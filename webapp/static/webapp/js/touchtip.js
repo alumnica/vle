@@ -5,7 +5,7 @@ $(document).ready(function () {
         $('.thetip', this).fadeToggle('150');
     });
     $(document).click(function () { // you don't need the else part to fadeout
-        var $el = $(".thetip");
+        let $el = $(".thetip");
         if ($el.is(":visible")) {
             $el.fadeOut(200);
         }

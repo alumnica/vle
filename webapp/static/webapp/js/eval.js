@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var finished = false;
+    let finished = false;
 
     $('#evaluate').fullpage({
         verticalCentered: false,
@@ -48,10 +48,10 @@ $(document).ready(function () {
                 $('.the-score').fadeIn(500);
 
 
-                for (i = 0; i < questions_array.length; i++) {
+                for (let i = 0; i < questions_array.length; i++) {
                     $('.question[question-type]').each(function () {
-                        var theQuestion = $(this);
-                        var qType = $(this).attr('question-type'),
+                        let theQuestion = $(this);
+                        let qType = $(this).attr('question-type'),
                             qPK = $(this).attr('pk'),
                             theTab = $(this).parent().find('.the-tab'),
                             theIcon = $(this).parent().find('.icon'),
@@ -74,7 +74,7 @@ $(document).ready(function () {
                 }
 
                 if (score >= 7) {
-                    $('.the-xp').append('+ 100')
+                    $('.the-xp').append('+ 100');
                     for (let j = 0; j < 2; j++) {
                         let suggestion = data.suggestions[j];
                         let rec_div = document.getElementById('suggestions');
@@ -85,7 +85,7 @@ $(document).ready(function () {
 
                     }
                 } else if (score <= 6) {
-                    $('.the-xp').append('+ 0')
+                    $('.the-xp').append('+ 0');
                     for (let h = 0; h <= 2; h++) {
                         let suggestion = data.suggestions[h];
                         let rec_div = document.getElementById('suggestions');
@@ -107,30 +107,30 @@ $(document).ready(function () {
         });
         $('.answer-text').removeClass('is-hidden');
         $(this).parent().parent().remove();
-        ;
+
         $('input').prop('disabled', true);
         $('select').prop('disabled', true);
         $('.reset').remove();
     });
 
-    var relAnswersLength = $('.question[question-type="relationship"]').length;
-    var relMOAnswersLength = $('.question[question-type="multiple_option"]').length;
-    var relMAAnswersLength = $('.question[question-type="multiple_answer"]').length;
-    var relNAAnswersLength = $('.question[question-type="numeric_answer"]').length;
-    var relAnswers = new Array(relAnswersLength);
-    var relMOAnswers = new Array(relMOAnswersLength);
-    var relMAAnswers = new Array(relMAAnswersLength);
-    var relNAAnswers = new Array(relNAAnswersLength);
-    var relPLAnswers = new Array();
+    let relAnswersLength = $('.question[question-type="relationship"]').length;
+    let relMOAnswersLength = $('.question[question-type="multiple_option"]').length;
+    let relMAAnswersLength = $('.question[question-type="multiple_answer"]').length;
+    let relNAAnswersLength = $('.question[question-type="numeric_answer"]').length;
+    let relAnswers = new Array(relAnswersLength);
+    let relMOAnswers = new Array(relMOAnswersLength);
+    let relMAAnswers = new Array(relMAAnswersLength);
+    let relNAAnswers = new Array(relNAAnswersLength);
+    let relPLAnswers = new Array();
 
     $('.question[question-type="relationship"]').each(function () {
-        var dataAnchor = $(this).parent().attr('data-anchor');
-        var thePk = $(this).attr('pk');
-        var qIndex = $('.question[question-type="relationship"]').index(this);
-        var colors = ["red", "orange", "yellow", "green", "blue", "purple"];
-        var theQuest = $(this);
-        var theAnswersLength = $(this).find(".left-side ul li").length;
-        var theAnswers = new Array($(this).find(".left-side ul li").length);
+        let dataAnchor = $(this).parent().attr('data-anchor');
+        let thePk = $(this).attr('pk');
+        let qIndex = $('.question[question-type="relationship"]').index(this);
+        let colors = ["red", "orange", "yellow", "green", "blue", "purple"];
+        let theQuest = $(this);
+        let theAnswersLength = $(this).find(".left-side ul li").length;
+        let theAnswers = new Array($(this).find(".left-side ul li").length);
 
         $(this).on("click", "li", function () {
 
@@ -145,10 +145,10 @@ $(document).ready(function () {
 
             }
 
-            var selected = $(this);
+            let selected = $(this);
 
             if (selected.hasClass("ls")) {
-                var indexLeft = theQuest.find(".left-side li").index(this);
+                let indexLeft = theQuest.find(".left-side li").index(this);
                 $(".ls").each(function () {
                     $(this).removeAttr("style");
                 });
@@ -158,8 +158,8 @@ $(document).ready(function () {
                 $(".right-side ul").selectable({
                     filter: "li.rs",
                     stop: function () {
-                        var matched = $(".ui-selected", this);
-                        var indexRight = '';
+                        let matched = $(".ui-selected", this);
+                        let indexRight = '';
                         matched.css("background-color", colors[0]);
                         matched.each(function () {
                             indexRight = theQuest.find(".right-side li").index(this);
@@ -179,7 +179,7 @@ $(document).ready(function () {
                     }
                 });
             } else if (selected.hasClass("rs")) {
-                var indexRight = theQuest.find(".right-side li").index(this);
+                let indexRight = theQuest.find(".right-side li").index(this);
                 $(".rs").each(function () {
                     $(this).removeAttr("style");
                 });
@@ -190,8 +190,8 @@ $(document).ready(function () {
                 $(".left-side ul").selectable({
                     filter: "li.ls",
                     stop: function () {
-                        var matched = $(".ui-selected", this);
-                        var indexLeft = '';
+                        let matched = $(".ui-selected", this);
+                        let indexLeft = '';
                         matched.css("background-color", colors[0]);
                         matched.each(function () {
                             indexLeft = theQuest.find(".left-side li").index(this);
@@ -241,10 +241,10 @@ $(document).ready(function () {
     });
 
     $('.question[question-type="multiple_option"]').each(function () {
-        var dataAnchor = $(this).parent().attr('data-anchor');
-        var thePk = $(this).attr('pk');
-        var qIndex = $('.question[question-type="multiple_option"]').index(this);
-        var theAnswer = new Array(2);
+        let dataAnchor = $(this).parent().attr('data-anchor');
+        let thePk = $(this).attr('pk');
+        let qIndex = $('.question[question-type="multiple_option"]').index(this);
+        let theAnswer = new Array(2);
 
         $("input", this).on("click", function () {
             $('#evalMenu li[data-menuanchor="' + dataAnchor + '"] a').html('<i class="fa fa-circle"></i>');
@@ -267,15 +267,15 @@ $(document).ready(function () {
     });
 
     $('.question[question-type="multiple_answer"').each(function () {
-        var dataAnchor = $(this).parent().attr('data-anchor');
-        var thePk = $(this).attr('pk');
-        var qIndex = $('.question[question-type="multiple_answer"]').index(this);
-        var theAnswer = new Array();
-        var theQuest = $(this);
+        let dataAnchor = $(this).parent().attr('data-anchor');
+        let thePk = $(this).attr('pk');
+        let qIndex = $('.question[question-type="multiple_answer"]').index(this);
+        let theAnswer = new Array();
+        let theQuest = $(this);
 
         $('input', this).on('click', function () {
 
-            var allVals = [];
+            let allVals = [];
             theQuest.find(':checked').each(function () {
                 allVals.push($(this).val());
                 console.log(allVals);
@@ -295,10 +295,10 @@ $(document).ready(function () {
     });
 
     $('.question[question-type="numeric_answer"').each(function () {
-        var dataAnchor = $(this).parent().attr('data-anchor');
-        var thePk = $(this).attr('pk');
-        var qIndex = $('.question[question-type="numeric_answer"]').index(this);
-        var theAnswer = [];
+        let dataAnchor = $(this).parent().attr('data-anchor');
+        let thePk = $(this).attr('pk');
+        let qIndex = $('.question[question-type="numeric_answer"]').index(this);
+        let theAnswer = [];
 
         $('input', this).change(function () {
 
@@ -325,18 +325,18 @@ $(document).ready(function () {
     });
 
     $('.question[question-type="pulldown_list"').each(function () {
-        var dataAnchor = $(this).parent().attr('data-anchor');
-        var thePk = $(this).attr('pk');
-        var qIndex = $('.question[question-type="pulldown_list"]').index(this);
-        var theAnswersLength = $(this).find("select").length;
-        var theAnswer = new Array(theAnswersLength);
-        var theQuest = $(this);
+        let dataAnchor = $(this).parent().attr('data-anchor');
+        let thePk = $(this).attr('pk');
+        let qIndex = $('.question[question-type="pulldown_list"]').index(this);
+        let theAnswersLength = $(this).find("select").length;
+        let theAnswer = new Array(theAnswersLength);
+        let theQuest = $(this);
 
 
         $('select', this).change(function () {
 
-            var thisAnswer = [];
-            var selIndex = theQuest.find("select").index(this);
+            let thisAnswer = [];
+            let selIndex = theQuest.find("select").index(this);
             thisAnswer = ([selIndex, $(this).val()]);
             theAnswer.splice(selIndex, 1, thisAnswer);
             console.log(theAnswer);
@@ -360,12 +360,12 @@ $(document).ready(function () {
 
         if ($(window).height() > 450) {
 
-            var element = $(this)
-            var dims = element.height();
+            let element = $(this);
+            let dims = element.height();
 
-            var parentHeight = element.parent().height();
+            let parentHeight = element.parent().height();
 
-            var newMargin = ((parentHeight - dims) / 3);
+            let newMargin = ((parentHeight - dims) / 3);
             // console.log(newMargin);
             element.css('padding-top', newMargin);
         }
@@ -375,14 +375,14 @@ $(document).ready(function () {
     function resize() {
         $('.question').each(function () {
 
-            var element = $(this)
-            var dims = element.height();
+            let element = $(this);
+            let dims = element.height();
 
             if ($(window).height() > 450) {
 
-                var parentHeight = element.parent().height();
+                let parentHeight = element.parent().height();
 
-                var newMargin = ((parentHeight - dims) / 3);
+                let newMargin = ((parentHeight - dims) / 3);
                 // console.log(newMargin);
                 element.css('padding-top', newMargin);
             } else {

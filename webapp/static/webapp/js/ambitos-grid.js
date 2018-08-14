@@ -6,7 +6,7 @@ $(document).ready(function () {
     });
 
 
-    var msnry = createMasonry();
+    let msnry = createMasonry();
 
 });
 

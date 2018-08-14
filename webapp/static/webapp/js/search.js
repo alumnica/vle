@@ -1,4 +1,4 @@
-var input = document.getElementById("searcher");
+let input = document.getElementById("searcher");
 input.addEventListener("keyup", function (event) {
     event.preventDefault();
     if (event.keyCode === 13) {

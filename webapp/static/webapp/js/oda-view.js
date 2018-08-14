@@ -10,8 +10,8 @@ $(document).ready(function () {
         verticalCentered: false,
         menu: '#menu',
         onLeave: function (origin, destination, direction) {
-            var leavingSection = this;
-            var indState = $('.indication').css('display');
+            let leavingSection = this;
+            let indState = $('.indication').css('display');
 
             if (origin == 1 && indState == 'none') {
                 $('.indication').fadeIn(1500);
@@ -24,15 +24,15 @@ $(document).ready(function () {
 
 
     $('.section[state]').each(function () {
-        var state = $(this).attr('state'),
+        let state = $(this).attr('state'),
             theId = $(this).attr('menu-ref');
-        theRef = '.e' + theId;
+        let theRef = '.e' + theId;
         if (state == 'complete') {
             $(theRef).toggleClass(theRef).toggleClass('s' + theId);
         }
     });
 
-    var w = window,
+    let w = window,
         d = document,
         e = d.documentElement,
         g = d.getElementsByTagName('body')[0],
@@ -42,7 +42,7 @@ $(document).ready(function () {
     fileLoader(x);
 
     window.addEventListener("orientationchange", function () {
-        var w = window,
+        let w = window,
             d = document,
             e = d.documentElement,
             g = d.getElementsByTagName('body')[0],
@@ -58,13 +58,13 @@ $(document).ready(function () {
 
 function fileLoader(x) {
 
-    var activ = document.getElementById('activ'),
+    let activ = document.getElementById('activ'),
         apli = document.getElementById('apli'),
         ejemp = document.getElementById('ejemp'),
         forma = document.getElementById('forma'),
         sens = document.getElementById('sens');
 
-    var activMp4H = '/static/webapp/media/uODAs/activ/activ_m_h.mp4',
+    let activMp4H = '/static/webapp/media/uODAs/activ/activ_m_h.mp4',
         activWebmH = '/static/webapp/media/uODAs/activ/activ_m_h.webm',
         activPngH = '/static/webapp/media/uODAs/activ/activ_m_h.png',
         activMp4V = '/static/webapp/media/uODAs/activ/activ_m_v.mp4',
