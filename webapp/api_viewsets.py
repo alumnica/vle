@@ -306,3 +306,28 @@ class ChangeUserAvatar(APIView):
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         avatar_statement(user=learner, avatar=avatar_id, timestamp=timestamp)
         return JsonResponse({'ok': 'ok'})
+
+
+class SaveExtraProfileInfo(APIView):
+    def get(self):
+        learner_pk = self.request.GET['learner']
+        learner = AuthUser.objects.get(pk=learner_pk)
+        return JsonResponse({'favourite_subject': learner.profile.favourite_subject,
+                             'working_time': learner.profile.working_time,
+                             'university_studies': learner.profile.university_studies})
+
+    def post(self):
+        learner_pk = self.request.GET['learner']
+        favourite_subject = self.request.GET['favourite_subject']
+        working_time = self.request.GET['working_time']
+        university_studies = self.request.GET['university_studies']
+
+        learner = AuthUser.objects.get(pk=learner_pk)
+
+        learner.profile.favourite_subject = favourite_subject
+        learner.profile.working_time = working_time
+        learner.profile.university_studies = university_studies
+
+        learner.profile.save()
+        return JsonResponse({'ok': 'ok'})
+
