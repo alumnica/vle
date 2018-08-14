@@ -51,7 +51,7 @@ urlpatterns += i18n_patterns(
     path(_('jsi18n/'), JavaScriptCatalog.as_view(), name='javascript-catalog'),
     path(_('search/'), include('webapp.urls.navigation_urls')),
     path(_('registration'), include('django.contrib.auth.urls')),
-    path('api/microodas/<int:learner>,<int:uODA>/', api_viewsets.MicroodaViewSet.as_view(), name='microoda_view'),
+    path('api/microodas/<int:learner>,<int:uODA>,<str:duration>/', api_viewsets.MicroodaViewSet.as_view(), name='microoda_view'),
     path('api/avatar/', api_viewsets.ChangeUserAvatar.as_view(), name='avatar_change_view'),
 
 )

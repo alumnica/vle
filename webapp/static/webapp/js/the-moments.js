@@ -13,7 +13,7 @@ $(document).ready(function () {
 
         let timeSpentOnPage = TimeMe.getTimeOnCurrentPageInSeconds();
         let duration = timeSpentOnPage.toString().slice(0, -1);
-        duration = `P${duration}S`;
+        duration = `PT${duration}S`;
         console.log(duration);
 
 
