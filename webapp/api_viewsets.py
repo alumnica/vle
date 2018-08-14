@@ -199,6 +199,7 @@ class EvaluationViewSet(ModelViewSet):
                                         success=correct_answer, timestamp=timestamp, tags_array=tags)
 
         evaluation_completed = False
+        evaluation_instance = question_instance.evaluation
         if score >= 7:
             self_oda_pk = question_instance.evaluation.oda.all()[0].pk
             odas_array = [tag.odas.filter(temporal=False) for tag in
@@ -215,9 +216,7 @@ class EvaluationViewSet(ModelViewSet):
             suggestions = [question['uoda_type'] for question in questions_status
                            if question['status'] == 'incorrect']
             suggestions = set(suggestions)
-            suggestions_dict = [{'uoda': uoda} for uoda in suggestions]
-
-        evaluation_instance = question_instance.evaluation
+            suggestions_dict = [{'uoda': uoda, 'pk': evaluation_instance.oda.all()[0].microodas.get(type=MicroODAType.objects.get(name=uoda)).activities.first().pk} for uoda in suggestions]
 
         if learner.evaluations_progresses.filter(evaluation=question_instance.evaluation).exists():
             progress = learner.evaluations_progresses.get(evaluation=question_instance.evaluation)

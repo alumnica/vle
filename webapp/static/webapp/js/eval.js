@@ -101,6 +101,7 @@ $(document).ready(function () {
                         } else if (suggestion.uoda == "activation") {
                             $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/activ.png' alt='Activacion'></div><div class='oda-text'>Activación</div></a>")
                         }
+                        $(rec_div).find('#rec').attr("href", gettext("/moments/" + suggestion.pk + "/"));
                     }
                 }
             }
