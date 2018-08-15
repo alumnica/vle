@@ -4,7 +4,7 @@
 
 <section class="login-bg">
 </section>
-<div class="grid-container">
+<div class="grid-container login-padding">
     <div class="grid-x grid-padding-x">
         <div class="cell medium-4 large-3">
             <div class="login-content">
@@ -25,9 +25,18 @@
                 </form>
                 <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
                 <div class="social-login">
-                    <h4>CONTINUAR CON</h4>
-                    <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
-                    <img src="https://via.placeholder.com/100x100.png" alt="">
+                    <div class="goog">
+                            <a  href="{% url 'social:begin' 'google-oauth2' %}" class="goog-button">
+                                <i class="fab fa-google"></i>
+                                <span>Entra con Google</span>
+                            </a>
+                        </div>
+                        <div class="face">
+                            <a class="face-button">
+                                <i class="fab fa-facebook"></i>
+                                <span>Entra con Facebook</span>
+                            </a>
+                        </div>
                 </div>
             </div>
         </div>
