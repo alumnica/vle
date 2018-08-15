@@ -21,9 +21,12 @@ $('#user-info-btn').on('click', function(){
         hora = $('#horario').val(),
         uni = $('#univ').val();
 
+    let url = gettext('/api/profile_info/');
+
     $.ajax({
+        method: 'POST',
         type: 'POST',
-        url: '/api/profile_info',
+        url: url,
         data: {
             'favourite_subject': matFav,
             'working_time': hora,
@@ -41,12 +44,13 @@ $(document).ready(function () {
     $.ajax({
         type: 'GET',
         url: '/api/profile_info',
-        data: function(data){
+        data: {
+            'learner': pk
+        },
+        success: function(data){
             $('#materia-fav').val(data.favourite_subject);
             $('#horario').val(data.working_time);
             $('#univ').val(data.university_studies);
-        },
-        success: function(){
             alert('recieved');
         }
     })

@@ -309,18 +309,18 @@ class ChangeUserAvatar(APIView):
 
 
 class SaveExtraProfileInfo(APIView):
-    def get(self):
-        learner_pk = self.request.GET['learner']
+    def get(self, request):
+        learner_pk = request.GET['learner']
         learner = AuthUser.objects.get(pk=learner_pk)
         return JsonResponse({'favourite_subject': learner.profile.favourite_subject,
                              'working_time': learner.profile.working_time,
                              'university_studies': learner.profile.university_studies})
 
-    def post(self):
-        learner_pk = self.request.GET['learner']
-        favourite_subject = self.request.GET['favourite_subject']
-        working_time = self.request.GET['working_time']
-        university_studies = self.request.GET['university_studies']
+    def post(self, request):
+        learner_pk = request.POST['learner']
+        favourite_subject = request.POST['favourite_subject']
+        working_time = request.POST['working_time']
+        university_studies = request.POST['university_studies']
 
         learner = AuthUser.objects.get(pk=learner_pk)
 

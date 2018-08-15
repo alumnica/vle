@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-03 13:29-0500\n"
+"POT-Creation-Date: 2018-08-14 20:03-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "Can't get profile for invalid user type: {}"
 msgstr ""
 
-#: alumnica_model/models/users.py:163
+#: alumnica_model/models/users.py:178
 msgid "Invalid user type selected: {}"
 msgstr ""
 
-#: alumnica_model/models/users.py:166
+#: alumnica_model/models/users.py:181
 msgid "There was an error creating the profile for user {}."
 msgstr ""
 
@@ -42,7 +42,7 @@ msgstr ""
 msgid "File too large. Size should not exceed 2 MB."
 msgstr ""
 
-#: templates/webapp/pages/ambitos-grid.html:40
+#: templates/webapp/pages/ambitos-grid.html:59
 msgid "No existe ningún ámbito publicado"
 msgstr ""
 
@@ -70,71 +70,107 @@ msgstr ""
 msgid "CONTINUAR CON"
 msgstr ""
 
-#: vle_webapp/settings.py:141
+#: vle_webapp/settings.py:159
 msgid "English"
 msgstr ""
 
-#: vle_webapp/settings.py:142
+#: vle_webapp/settings.py:160
 msgid "Spanish"
 msgstr ""
 
-#: vle_webapp/urls.py:38
+#: vle_webapp/urls.py:39
 msgid "learn/"
 msgstr ""
 
-#: vle_webapp/urls.py:39
+#: vle_webapp/urls.py:40
 msgid "users/"
 msgstr "usuarios/"
 
-#: vle_webapp/urls.py:40
+#: vle_webapp/urls.py:41
 msgid "profile/"
 msgstr ""
 
-#: vle_webapp/urls.py:41
+#: vle_webapp/urls.py:42
 msgid "ambit/"
 msgstr ""
 
-#: vle_webapp/urls.py:42
+#: vle_webapp/urls.py:43
 msgid "subjects/"
 msgstr ""
 
-#: vle_webapp/urls.py:43
+#: vle_webapp/urls.py:44
 msgid "odas/"
 msgstr ""
 
-#: vle_webapp/urls.py:44
+#: vle_webapp/urls.py:45
 msgid "moments/"
 msgstr ""
 
-#: vle_webapp/urls.py:45
+#: vle_webapp/urls.py:46
 msgid "evaluations/"
 msgstr ""
 
-#: vle_webapp/urls.py:46
+#: vle_webapp/urls.py:47
 msgid "admin/"
 msgstr ""
 
-#: vle_webapp/urls.py:47
-msgid "api/"
-msgstr ""
-
 #: vle_webapp/urls.py:48
-msgid "api-auth/"
+msgid "oauth/"
 msgstr ""
 
 #: vle_webapp/urls.py:49
+msgid "api/"
+msgstr ""
+
+#: vle_webapp/urls.py:50
+msgid "api-auth/"
+msgstr ""
+
+#: vle_webapp/urls.py:51
 msgid "jsi18n/"
 msgstr ""
 
-#: webapp/forms/user_forms.py:23
+#: vle_webapp/urls.py:52
+msgid "search/"
+msgstr ""
+
+#: vle_webapp/urls.py:53
+msgid "registration"
+msgstr ""
+
+#: vle_webapp/urls.py:56
+msgid "api/profile_info/"
+msgstr ""
+
+#: webapp/forms/profile_forms.py:92
+msgid "Write a new password"
+msgstr ""
+
+#: webapp/forms/profile_forms.py:96 webapp/forms/user_forms.py:28
 msgid "Password must have 6 characters or more."
 msgstr ""
 
-#: webapp/forms/user_forms.py:27
+#: webapp/forms/profile_forms.py:100
+msgid "Please write the password confirmation."
+msgstr ""
+
+#: webapp/forms/profile_forms.py:105
+msgid "Passwords do not match."
+msgstr ""
+
+#: webapp/forms/profile_forms.py:112
+msgid "Invalid password."
+msgstr ""
+
+#: webapp/forms/profile_forms.py:115
+msgid "Previous password must be written."
+msgstr ""
+
+#: webapp/forms/user_forms.py:32
 msgid "The two password fields didn't match."
 msgstr ""
 
-#: webapp/forms/user_forms.py:53 webapp/forms/user_forms.py:58
+#: webapp/forms/user_forms.py:58 webapp/forms/user_forms.py:63
 msgid "Invalid password or email."
 msgstr ""
 
@@ -151,11 +187,7 @@ msgid "first-login-p1/"
 msgstr ""
 
 #: webapp/urls/profile_urls.py:9
-msgid "first-login-p2/"
-msgstr ""
-
-#: webapp/urls/profile_urls.py:10
-msgid "first-login-p3/"
+msgid "learning_quiz/"
 msgstr ""
 
 #: webapp/urls/users_urls.py:7
