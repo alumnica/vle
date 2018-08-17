@@ -32,9 +32,6 @@ $('#user-info-btn').on('click', function(){
             'working_time': hora,
             'university_studies': uni,
             'learner': pk
-        },
-        success: function(){
-            alert('saved');
         }
     })
 });
@@ -51,7 +48,7 @@ $(document).ready(function () {
             $('#materia-fav').val(data.favourite_subject);
             $('#horario').val(data.working_time);
             $('#univ').val(data.university_studies);
-            alert('recieved');
+
         }
     })
 });
