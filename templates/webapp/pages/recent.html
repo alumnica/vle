@@ -18,6 +18,9 @@
             </a>
             <!-- end recent ativity item loop -->
         {% endfor %}
+            {% if odas_list|length == 0 %}
+                No hay actividad receinte
+            {% endif %}
         </div>
     </div>
 
