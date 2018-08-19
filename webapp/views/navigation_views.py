@@ -9,6 +9,9 @@ from webapp.statement_builders import search_statement
 
 
 class RecentActivitiesView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    """
+    ODAs objects with at least one MicroODA visualized view
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/recent.html'
 
@@ -23,6 +26,9 @@ class RecentActivitiesView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
 
 
 class SearchView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    """
+    Searches string in Tags and ODAs names
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/search.html'
 

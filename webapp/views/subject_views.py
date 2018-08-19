@@ -9,6 +9,9 @@ from webapp.statement_builders import access_statement_with_parent
 
 
 class SubjectView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    """
+    ODAs per sections in subject view
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/materia.html'
     model = Subject

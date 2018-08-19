@@ -12,6 +12,9 @@ from webapp.statement_builders import access_statement_with_parent
 
 
 class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    """
+    Random Evaluation questions view
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/eval.html'
     evaluation = []

@@ -14,6 +14,9 @@ from webapp.statement_builders import access_statement_with_parent
 
 
 class MomentView(LoginRequiredMixin, FormView):
+    """
+    MicroODA activities obtained by Momento pk view
+    """
     login_url = "login_view"
     template_name = "webapp/pages/momentos.html"
 
@@ -50,6 +53,9 @@ class MomentView(LoginRequiredMixin, FormView):
 
 @method_decorator(xframe_options_exempt, name='dispatch')
 class H5PackageView(LoginRequiredMixin, DetailView):
+    """
+    H5P packages iframe view
+    """
     template_name = 'webapp/partials/h5p_package_view.html'
     model = H5Package
     context_object_name = 'package'

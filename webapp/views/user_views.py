@@ -16,14 +16,23 @@ from webapp.statement_builders import login_statement, logout_statement
 
 
 class LandingPageView(TemplateView):
+    """
+    Landing view
+    """
     template_name = 'webapp/pages/landing.html'
 
 
 class IndexView(TemplateView):
+    """
+    Home view
+    """
     template_name = 'webapp/pages/index.html'
 
 
 class LoginView(FormView):
+    """
+    Login view
+    """
     form_class = UserLoginForm
     template_name = 'webapp/pages/login.html'
 
@@ -57,6 +66,9 @@ class LoginView(FormView):
 
 
 class SignUpView(FormView):
+    """
+    Create new AuthUser view
+    """
     form_class = UserForm
     template_name = 'webapp/pages/signup.html'
     success_url = reverse_lazy('index_view')
@@ -82,6 +94,9 @@ class SignUpView(FormView):
 
 
 class DashboardView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    """
+    User dashboard view
+    """
     template_name = 'webapp/pages/dashboard.html'
     login_url = 'login_view'
 
@@ -105,6 +120,9 @@ class DashboardView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
 
 
 class LogoutView(RedirectView):
+    """
+    Logout redirecting view
+    """
     pattern_name = 'login_view'
 
     def get(self, request, *args, **kwargs):
