@@ -11,6 +11,9 @@ from webapp.statement_builders import learning_experience_received, edited_profi
 
 
 class FirstLoginInfoForm(forms.ModelForm):
+    """
+    Personal information form
+    """
     first_name = forms.CharField()
     last_name = forms.CharField()
     gender_field = forms.CharField(widget=forms.RadioSelect(attrs={'display': 'inline'}, choices=users.GENDER_TYPES))
@@ -31,6 +34,9 @@ class FirstLoginInfoForm(forms.ModelForm):
 
 
 class FirstLoginP1(forms.Form):
+    """
+    Short learning style quiz
+    """
     def save_form(self, user, first_selection, second_selection):
         option_1 = first_selection
         option_2 = second_selection
@@ -64,6 +70,9 @@ class FirstLoginP1(forms.Form):
 
 
 class ProfileSettingsForm(forms.ModelForm):
+    """
+    Edit personal information form
+    """
     gender_field = forms.CharField(widget=forms.RadioSelect(attrs={'display': 'inline'}, choices=users.GENDER_TYPES))
     birth_date_field = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     previous_password = forms.CharField(required=False, widget=forms.PasswordInput())
@@ -130,5 +139,8 @@ class ProfileSettingsForm(forms.ModelForm):
 
 
 class LargeLeraningStyleQuizForm(forms.Form):
+    """
+    Large learning style quiz form
+    """
     def save_form(self):
         pass
