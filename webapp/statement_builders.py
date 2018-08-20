@@ -199,7 +199,7 @@ def answered_question_statement(user, question_instance, tags_array, timestamp, 
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='answered')
     object_id = '{}{}/{}'.format(xapi_url, 'question_answer', question_instance.type)
-    object = Object(id=object_id, name='question_answer')
+    object = Object(id=object_id, name=question_instance.type)
     parent_id = '{}{}/{}'.format(xapi_url, 'evaluation', question_instance.evaluation.name)
     tags = []
     for tag in tags_array:
