@@ -1,7 +1,7 @@
 from webapp import services
 from webapp.statements import Actor, Verb, Object, Statement, Context, Result
 
-xapi_url = 'http://alumnica.org/'
+xapi_url = 'https://alumnica.org/'
 
 
 def login_statement(request, user, timestamp):
