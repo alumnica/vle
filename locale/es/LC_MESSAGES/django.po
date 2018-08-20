@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-14 20:03-0500\n"
+"POT-Creation-Date: 2018-08-20 17:38-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,11 +70,11 @@ msgstr ""
 msgid "CONTINUAR CON"
 msgstr ""
 
-#: vle_webapp/settings.py:159
+#: vle_webapp/settings.py:168
 msgid "English"
 msgstr ""
 
-#: vle_webapp/settings.py:160
+#: vle_webapp/settings.py:169
 msgid "Spanish"
 msgstr ""
 
@@ -142,35 +142,35 @@ msgstr ""
 msgid "api/profile_info/"
 msgstr ""
 
-#: webapp/forms/profile_forms.py:92
+#: webapp/forms/profile_forms.py:101
 msgid "Write a new password"
 msgstr ""
 
-#: webapp/forms/profile_forms.py:96 webapp/forms/user_forms.py:28
+#: webapp/forms/profile_forms.py:105 webapp/forms/user_forms.py:31
 msgid "Password must have 6 characters or more."
 msgstr ""
 
-#: webapp/forms/profile_forms.py:100
+#: webapp/forms/profile_forms.py:109
 msgid "Please write the password confirmation."
 msgstr ""
 
-#: webapp/forms/profile_forms.py:105
+#: webapp/forms/profile_forms.py:114
 msgid "Passwords do not match."
 msgstr ""
 
-#: webapp/forms/profile_forms.py:112
+#: webapp/forms/profile_forms.py:121
 msgid "Invalid password."
 msgstr ""
 
-#: webapp/forms/profile_forms.py:115
+#: webapp/forms/profile_forms.py:124
 msgid "Previous password must be written."
 msgstr ""
 
-#: webapp/forms/user_forms.py:32
+#: webapp/forms/user_forms.py:35
 msgid "The two password fields didn't match."
 msgstr ""
 
-#: webapp/forms/user_forms.py:58 webapp/forms/user_forms.py:63
+#: webapp/forms/user_forms.py:64 webapp/forms/user_forms.py:69
 msgid "Invalid password or email."
 msgstr ""
 
