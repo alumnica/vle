@@ -5,6 +5,11 @@ from webapp.statements import ComplexHandler
 
 
 def send(statement):
+    """
+    Sends Xapi statement
+    :param statement: object to send
+    :return: Xapi server response
+    """
     try:
         url = XAPI_URL
         data = json.dumps(statement, default=ComplexHandler)

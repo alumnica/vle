@@ -14,10 +14,18 @@ from webapp.statement_builders import task_completed, task_experience_received, 
 
 
 class EvaluationViewSet(ModelViewSet):
+    """
+    Review evaluation ViewSet
+    """
     serializer_class = EvaluationSerializer
     queryset = Evaluation.objects.all()
 
     def list(self, request, *args, **kwargs):
+        """
+        Obtains original Evaluation questions and user answers
+        :param request: Contains all evaluation data
+        :return: score, answer statuses and suggestions
+        """
         duration = request.GET['duration']
         evaluation_data = request.GET['evaluation']
         evaluation = json.loads(evaluation_data)
@@ -37,6 +45,18 @@ class EvaluationViewSet(ModelViewSet):
 
     def review_evaluation(self, evaluation, relationship_answers, multiple_option_answers, multiple_answer_answers,
                           numeric_answers, pulldown_list_answers, learner, duration):
+        """
+        Compares user answers with correct and incorrect answers stored in database
+        :param evaluation: original answers order by randomly chosen question
+        :param relationship_answers: Index answers to all relationship questions type, separated by pipes
+        :param multiple_option_answers: Index answers to all multiple option questions type, separated by pipes
+        :param multiple_answer_answers: Index answers to all multiple answer questions type, separated by pipes
+        :param numeric_answers: Index answers to all numeric questions type, separated by pipes
+        :param pulldown_list_answers: Index answers to all pull down questions type, separated by pipes
+        :param learner: Current AuthUser Learner profile
+        :param duration: Time spent by the user answering the evaluation
+        :return: Score obtained, answers statuses and suggestions (ODAs or MicroODAs)
+        """
         score = 0
         questions_status = []
         question_instance = None
@@ -254,6 +274,9 @@ class EvaluationViewSet(ModelViewSet):
 
 
 class MicroodaViewSet(APIView):
+    """
+    Set Activities completed status by MicroODA
+    """
     def get(self, request, *args, **kwargs):
         learner_pk = kwargs['learner']
         microoda_pk = kwargs['uODA']
@@ -295,6 +318,9 @@ class MicroodaViewSet(APIView):
 
 
 class ChangeUserAvatar(APIView):
+    """
+    Learner changed avatar selection saver
+    """
     def get(self, request, *args, **kwargs):
         learner_pk = request.GET['pk']
         avatar_id = request.GET['avatar']
@@ -309,6 +335,9 @@ class ChangeUserAvatar(APIView):
 
 
 class SaveExtraProfileInfo(APIView):
+    """
+    Edit Learner extra info
+    """
     def get(self, request):
         learner_pk = request.GET['learner']
         learner = AuthUser.objects.get(pk=learner_pk)

@@ -5,6 +5,11 @@ xapi_url = 'https://alumnica.org/'
 
 
 def login_statement(request, user, timestamp):
+    """
+    Xapi login statement constructor
+    :param user: Current AuthUser
+    :param timestamp: login timestamp
+    """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='logged-in')
@@ -16,6 +21,11 @@ def login_statement(request, user, timestamp):
 
 
 def register_statement(request, user, timestamp):
+    """
+    Xapi account register statement constructor
+    :param user: Current AuthUser
+    :param timestamp: register timestamp
+    """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='registered')
@@ -27,6 +37,11 @@ def register_statement(request, user, timestamp):
 
 
 def edited_profile(user, timestamp):
+    """
+    Xapi edit profile statement constructor
+    :param user: Current AuthUser
+    :param timestamp: activity timestamp
+    """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='edited')
@@ -38,6 +53,13 @@ def edited_profile(user, timestamp):
 
 
 def avatar_statement(user, avatar, timestamp):
+    """
+    Xapi change avatar statement constructor
+    :param user: Current AuthUser
+    :param avatar: Avatar image selected
+    :param timestamp: activity timestamp
+    :return:
+    """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='modified')
@@ -49,6 +71,11 @@ def avatar_statement(user, avatar, timestamp):
 
 
 def logout_statement(request, user, timestamp):
+    """
+    Xapi logout statement constructor
+    :param user: Current AuthUser
+    :param timestamp: Logout timestamp
+    """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='logged-out')
@@ -60,6 +87,12 @@ def logout_statement(request, user, timestamp):
 
 
 def search_statement(user, string_searched, timestamp):
+    """
+    Xapi search statement constructor
+    :param user: Current AuthUser
+    :param string_searched: string
+    :param timestamp: activity timestamp
+    """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='searched')
@@ -72,6 +105,12 @@ def search_statement(user, string_searched, timestamp):
 
 
 def access_statement(request, object_name, timestamp):
+    """
+    Xapi page access statement constructor
+    :param request: Containing current AuthUser
+    :param object_name: Object type
+    :param timestamp: activity timestamp
+    """
     user_complete_name = request.user.first_name + ' ' + request.user.last_name
     actor = Actor(name=user_complete_name, email=request.user.email)
     verb = Verb(action='accessed')
@@ -83,6 +122,16 @@ def access_statement(request, object_name, timestamp):
 
 
 def access_statement_with_parent(request, object_type, object_name, parent_type, parent_name, tags_array, timestamp):
+    """
+    Xapi access to page with parent object
+    :param request: Containing current AuthUser
+    :param object_type: object type
+    :param object_name: object name
+    :param parent_type: parent object type
+    :param parent_name: parent object name
+    :param tags_array: object tags
+    :param timestamp: activity timestamp
+    """
     user_complete_name = request.user.first_name + ' ' + request.user.last_name
     actor = Actor(name=user_complete_name, email=request.user.email)
     verb = Verb(action='accessed')
@@ -102,6 +151,18 @@ def access_statement_with_parent(request, object_type, object_name, parent_type,
 
 def task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None,
                    duration=None):
+    """
+    Xapi completed task statement constructor
+    :param user: Current AuthUser
+    :param object_type: object type
+    :param object_name: object name
+    :param parent_type: parent object type
+    :param parent_name: parent object name
+    :param tags_array: object tags
+    :param timestamp: activity timpestamp
+    :param score: score obtained
+    :param duration: duration
+    """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='completed')
@@ -125,6 +186,14 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
 
 
 def answered_question_statement(user, question_instance, tags_array, timestamp, success):
+    """
+    Xapi answered question statement constructor
+    :param user: Current AuthUser
+    :param question_instance: question object
+    :param tags_array: ODA tags
+    :param timestamp: Evaluation submitted timestamp
+    :param success: answer status
+    """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='completed')
@@ -142,6 +211,14 @@ def answered_question_statement(user, question_instance, tags_array, timestamp, 
 
 
 def learning_experience_received(user, object_type, object_name, timestamp, gained_xp):
+    """
+    Xapi experience received for learning quiz statement constructor
+    :param user: Current AuthUser
+    :param object_type: object type
+    :param object_name: object name
+    :param timestamp: activity timestamp
+    :param gained_xp: experience gained points
+    """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='received')
@@ -154,6 +231,17 @@ def learning_experience_received(user, object_type, object_name, timestamp, gain
 
 def task_experience_received(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp,
                              gained_xp):
+    """
+    Xapi task experience received statement constructor
+    :param user: Current AuthUser
+    :param object_type: object type
+    :param object_name: object name
+    :param parent_type: parent object type
+    :param parent_name: parent  object name
+    :param tags_array: object tags array
+    :param timestamp: activity timestamp
+    :param gained_xp: gained experience points
+    """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='received')

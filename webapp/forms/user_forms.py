@@ -12,6 +12,9 @@ from alumnica_model.models import AuthUser, Learner
 
 
 class UserForm(forms.ModelForm):
+    """
+    Create new AuthUser form
+    """
     password = forms.CharField(widget=forms.PasswordInput())
     password_confirmation = forms.CharField(widget=forms.PasswordInput())
 
@@ -45,6 +48,9 @@ class UserForm(forms.ModelForm):
 
 
 class UserLoginForm(forms.Form):
+    """
+    Login form
+    """
     email = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput())
 
@@ -73,6 +79,9 @@ class UserLoginForm(forms.Form):
 
 
 class AuthUserCreateForm(forms.ModelForm):
+    """
+    Create new AuthUser form for Django Administration
+    """
     class Meta:
         model = AuthUser
         fields = ['email']
@@ -86,6 +95,9 @@ class AuthUserCreateForm(forms.ModelForm):
 
 
 class CustomUserAdmin(UserAdmin):
+    """
+    Adds files to AuthUserCreateForm form
+    """
     # The forms to add and change user instances
     add_form = AuthUserCreateForm
     list_display = ("email",)
@@ -106,6 +118,11 @@ class CustomUserAdmin(UserAdmin):
 
 
 def download_learner_file(modeladmin, request, queryset):
+    """
+    Downloads CSV file containing Learner profiles selected in Django Administration page by selecting Export CSV
+    :param queryset: Selected Learner objects
+    :return: CSV file
+    """
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=learners.csv'
     writer = csv.writer(response, csv.excel)
@@ -130,6 +147,9 @@ download_learner_file.short_description = u"Export CSV"
 
 
 class DownloadLearnerFile(admin.ModelAdmin):
+    """
+    Displays the action in the Learner model page
+    """
     actions = [download_learner_file]
 
 

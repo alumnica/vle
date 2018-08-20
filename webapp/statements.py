@@ -19,6 +19,9 @@ xapi_verbs = {
 
 
 def ComplexHandler(Obj):
+    """
+    Object toJSON method caller
+    """
     if hasattr(Obj, 'toJSON'):
         return Obj.toJSON()
     else:
@@ -26,6 +29,9 @@ def ComplexHandler(Obj):
 
 
 class Actor:
+    """
+    Actor object
+    """
     def __init__(self, name, email):
         self.name = name
         self.mbox = 'mailto:' + email
@@ -35,6 +41,9 @@ class Actor:
 
 
 class Display:
+    """
+    Display object containing language
+    """
     def __init__(self, action):
         self.en = action
 
@@ -43,6 +52,9 @@ class Display:
 
 
 class Verb:
+    """
+    Verb object
+    """
     def __init__(self, action):
         self.id = xapi_verbs[action]
         self.display = Display(action=action)
@@ -52,6 +64,9 @@ class Verb:
 
 
 class Definition:
+    """
+    Definition object
+    """
     def __init__(self, name):
         self.name = Display(name)
 
@@ -69,6 +84,9 @@ class Object:
 
 
 class ContextID:
+    """
+    Context url id object
+    """
     def __init__(self, id):
         self.id = id
 
@@ -77,6 +95,9 @@ class ContextID:
 
 
 class ContextActivities:
+    """
+    Context activities array object
+    """
     parent = []
     other = []
 
@@ -95,6 +116,9 @@ class ContextActivities:
 
 
 class Context:
+    """
+    Context object
+    """
     def __init__(self, parents, tags):
         self.contextActivities = ContextActivities(parents=parents, tags=tags)
 
@@ -103,6 +127,9 @@ class Context:
 
 
 class Score:
+    """
+    Score object containing raw score
+    """
     def __init__(self, raw_score):
         self.raw = raw_score
 
@@ -111,6 +138,9 @@ class Score:
 
 
 class Result:
+    """
+    Result object
+    """
     def __init__(self, response, completion=None, success=None, raw_score=None, duration=None):
         self.response = response
         if completion is not None:
@@ -127,6 +157,9 @@ class Result:
 
 
 class Statement:
+    """
+    Statement object
+    """
     def __init__(self, timestamp, actor, verb, object, context=None, result=None):
         self.timestamp = timestamp
         self.actor = actor

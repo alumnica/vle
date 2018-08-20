@@ -10,6 +10,9 @@ from webapp.statement_builders import register_statement, access_statement
 
 
 class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    """
+    Personal information quiz view
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/first-login-info.html'
     form_class = FirstLoginInfoForm
@@ -23,6 +26,9 @@ class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
 
 
 class FirstLoginP1View(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    """
+    Short Learning style quiz view
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/first-login-p1.html'
     form_class = FirstLoginP1
@@ -37,6 +43,9 @@ class FirstLoginP1View(LoginRequiredMixin, OnlyLearnerMixin, FormView):
 
 
 class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    """
+    Large Learning style quiz view
+    """
     login_url = 'login_view'
     form_class = LargeLeraningStyleQuizForm
     template_name = 'webapp/pages/user-test.html'
@@ -79,6 +88,9 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView)
 
 
 class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
+    """
+    Edit personal information view
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/user-profile.html'
     form_class = ProfileSettingsForm
@@ -119,5 +131,5 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
 
     def form_valid(self, form):
         user = form.save()
-        login(self.request, user)
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('profile_view')

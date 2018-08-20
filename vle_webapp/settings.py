@@ -35,8 +35,17 @@ DEBUG = not os.environ.get('ON_HEROKU', False)
 
 ALLOWED_HOSTS = ['.herokuapp.com', 'learn.alumnica.org', 'www.alumnica.org', 'localhost', '127.0.0.1', '10.29.107.68']
 CORS_ORIGIN_ALLOW_ALL = True
-# Application definition
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-relay.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'alumnica@fundacionmanuelmoreno.org'
+EMAIL_HOST_PASSWORD = 'Alumnica1234'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'alumnica@fundacionmanuelmoreno.org'
+
+
+# Application definition
 INSTALLED_APPS = [
     'django_db_prefix',
     'django.contrib.admin',
@@ -56,7 +65,7 @@ INSTALLED_APPS = [
     'social_django',
 ]
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

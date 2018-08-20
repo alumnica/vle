@@ -9,6 +9,9 @@ from webapp.statement_builders import access_statement
 
 
 class AmbitGridView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    """
+    Published Ambitos Grid view
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/ambitos-grid.html'
 
