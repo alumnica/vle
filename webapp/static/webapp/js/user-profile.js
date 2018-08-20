@@ -21,7 +21,7 @@ $('#user-info-btn').on('click', function(){
         hora = $('#horario').val(),
         uni = $('#univ').val();
 
-    let url = gettext('/api/profile_info/');
+    let url = gettext('/en/api/profile_info/');
 
     $.ajax({
         method: 'POST',
