@@ -45,12 +45,14 @@ urlpatterns += i18n_patterns(
     path(_('moments/'), include('webapp.urls.moment_urls')),
     path(_('evaluations/'), include('webapp.urls.evaluation_urls')),
     path(_('admin/'), admin.site.urls),
+    path(_('oauth/'), include('social_django.urls', namespace='social')),
     path(_('api/'), include(router.urls)),
     path(_('api-auth/'), include('rest_framework.urls', namespace='rest_framework')),
     path(_('jsi18n/'), JavaScriptCatalog.as_view(), name='javascript-catalog'),
     path(_('search/'), include('webapp.urls.navigation_urls')),
     path(_('registration'), include('django.contrib.auth.urls')),
-    path('api/microodas/<int:learner>,<int:uODA>/', api_viewsets.MicroodaViewSet.as_view(), name='microoda_view'),
+    path('api/microodas/<int:learner>,<int:uODA>,<str:duration>/', api_viewsets.MicroodaViewSet.as_view(), name='microoda_view'),
     path('api/avatar/', api_viewsets.ChangeUserAvatar.as_view(), name='avatar_change_view'),
+    path(_('api/profile_info/'), api_viewsets.SaveExtraProfileInfo.as_view(), name='profile_extr_info_view'),
 
 )

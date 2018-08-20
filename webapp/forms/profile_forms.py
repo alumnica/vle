@@ -1,12 +1,19 @@
+import datetime
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+
 from alumnica_model.models import Learner, users, AuthUser
 from alumnica_model.models.content import LearningStyle
 from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
+from webapp.statement_builders import learning_experience_received, edited_profile
 
 
 class FirstLoginInfoForm(forms.ModelForm):
+    """
+    Personal information form
+    """
     first_name = forms.CharField()
     last_name = forms.CharField()
     gender_field = forms.CharField(widget=forms.RadioSelect(attrs={'display': 'inline'}, choices=users.GENDER_TYPES))
@@ -27,17 +34,18 @@ class FirstLoginInfoForm(forms.ModelForm):
 
 
 class FirstLoginP1(forms.Form):
-    pass
-
-
-class FirstLoginP2(forms.Form):
+    """
+    Short learning style quiz
+    """
     def save_form(self, user, first_selection, second_selection):
         option_1 = first_selection
         option_2 = second_selection
         profile = user.profile
+        xp_received = False
 
         if profile.learning_style is None:
             profile.experience_points += EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz']
+            xp_received = True
 
         if option_1 == '1':
             if option_2 == '1':
@@ -50,39 +58,26 @@ class FirstLoginP2(forms.Form):
             elif option_2 == '2':
                 profile.learning_style = LearningStyle.objects.get(name='Convergente')
 
-        user.save()
-
-
-class FirstLoginP3(forms.Form):
-    def save_form(self, user, first_selection, second_selection):
-        option_1 = first_selection
-        option_2 = second_selection
-        profile = user.profile
-
-        if profile.learning_style is None:
-            profile.experience_points += EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz']
-
-        if option_1 == '1':
-            if option_2 == '1':
-                profile.learning_style = LearningStyle.objects.get(name='Divergente')
-            elif option_2 == '2':
-                profile.learning_style = LearningStyle.objects.get(name='Acomodador')
-        elif option_1 == '2':
-            if option_2 == '1':
-                profile.learning_style = LearningStyle.objects.get(name='Asimilador')
-            elif option_2 == '2':
-                profile.learning_style = LearningStyle.objects.get(name='Convergente')
+        if xp_received:
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            learning_experience_received(user=user,
+                                         object_type='Learning Style Quiz',
+                                         object_name=profile.learning_style.name,
+                                         timestamp=timestamp,
+                                         gained_xp=EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz'])
 
         user.save()
 
 
 class ProfileSettingsForm(forms.ModelForm):
+    """
+    Edit personal information form
+    """
     gender_field = forms.CharField(widget=forms.RadioSelect(attrs={'display': 'inline'}, choices=users.GENDER_TYPES))
     birth_date_field = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     previous_password = forms.CharField(required=False, widget=forms.PasswordInput())
     new_password = forms.CharField(required=False, widget=forms.PasswordInput())
     new_password_confirmation = forms.CharField(required=False, widget=forms.PasswordInput())
-
 
     class Meta:
         model = AuthUser
@@ -126,7 +121,8 @@ class ProfileSettingsForm(forms.ModelForm):
                                     error = ValidationError(_("Invalid password."), code='credentials_error')
                                     self.add_error('previous_password', error)
                             else:
-                                error = ValidationError(_("Previous password must be written."), code='credentials_error')
+                                error = ValidationError(_("Previous password must be written."),
+                                                        code='credentials_error')
                                 self.add_error('previous_password', error)
 
         return cleaned_data
@@ -137,10 +133,14 @@ class ProfileSettingsForm(forms.ModelForm):
         if new_password != '':
             user.set_password(self.cleaned_data.get('new_password'))
         user.save()
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        edited_profile(user=user, timestamp=timestamp)
         return user
 
 
 class LargeLeraningStyleQuizForm(forms.Form):
+    """
+    Large learning style quiz form
+    """
     def save_form(self):
         pass
-

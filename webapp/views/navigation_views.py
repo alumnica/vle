@@ -1,13 +1,17 @@
+import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
-from django.views import View
-from django.views.generic import RedirectView, FormView
+from django.views.generic import FormView
 
 from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import ODA, Tag
+from webapp.statement_builders import search_statement
 
 
 class RecentActivitiesView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    """
+    ODAs objects with at least one MicroODA visualized view
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/recent.html'
 
@@ -22,6 +26,9 @@ class RecentActivitiesView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
 
 
 class SearchView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    """
+    Searches string in Tags and ODAs names
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/search.html'
 
@@ -37,5 +44,7 @@ class SearchView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
                 if oda not in odas_list and not oda.temporal and oda.subject.ambit.is_published:
                     odas_list.append(oda)
 
-        return {'odas_list': odas_list, 'text_to_search': text_to_search}
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        search_statement(user=self.request.user, string_searched=text_to_search, timestamp=timestamp)
 
+        return {'odas_list': odas_list, 'text_to_search': text_to_search}

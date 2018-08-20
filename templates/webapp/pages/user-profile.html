@@ -1,5 +1,6 @@
 {% extends "logged-in.html" %}
 {% load static %}
+{% load vle_extras %}
 {% block content %}
 
 <!-- preloader -->
@@ -25,35 +26,27 @@
     <div class="profile-grid">
         <div class="avatar">
             <div class="avatar-main">
-                {% if request.user.profile.avatar == "A" %}
-                    <img src="{% static 'webapp/media/profile-pic.png' %}" alt="" id="A">
-                {% elif  request.user.profile.avatar == "B"%}
-                    <img src="{% static 'webapp/media/rated.png' %}" alt="" id="B">
-                {% elif  request.user.profile.avatar == "C"%}
-                    <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="" id="C">
-                {% elif  request.user.profile.avatar == "D"%}
-                    <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="" id="D">
-                {% endif %}
+                <img src="{% static '' %}webapp/media/{{ request.user.profile.avatar }}0{{ request.user.profile.experience_points|learner_level }}.png" alt="" id="{{ request.user.profile.avatar }}">
             </div>
             <div class="avatar-options">
                 {% if request.user.profile.avatar != "A" %}
                     <div class="avatar-options-individual">
-                        <img src="{% static 'webapp/media/profile-pic.png' %}" alt="" id="A">
+                        <img src="{% static '' %}webapp/media/A0{{ learner_level }}.png" alt="" id="A">
                     </div>
                 {% endif %}
                 {% if request.user.profile.avatar != "B" %}
                     <div class="avatar-options-individual">
-                        <img src="{% static 'webapp/media/rated.png' %}" alt="" id="B">
+                        <img src="{% static '' %}webapp/media/B0{{ learner_level }}.png" alt="" id="B">
                     </div>
                 {% endif %}
                 {% if request.user.profile.avatar != "C" %}
                     <div class="avatar-options-individual">
-                        <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="" id="C">
+                        <img src="{% static '' %}webapp/media/C0{{ learner_level }}.png" alt="" id="C">
                     </div>
                 {% endif %}
                 {% if request.user.profile.avatar != "D" %}
                     <div class="avatar-options-individual">
-                        <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="" id="D">
+                        <img src="{% static '' %}webapp/media/D0{{ learner_level }}.png" alt="" id="D">
                     </div>
                 {% endif %}
 
@@ -66,42 +59,51 @@
         </div>
         <div class="badges">
             <div class="badges-grid">
-                <div class="badges-item">
+
+                {% if request.user.profile.experience_points >= 5000 %}
+                    <div class="badges-item">
                     <div class="badges-item-image">
-                        <img src="../assets/media/Insignias/insignia_microODA.png" alt="">
+                        <img src="{% static 'webapp/media/insignias/insignia_ambito.png' %}" alt="">
                     </div>
                     <div class="badges-item-text">
-                        Lorem ipsum dolor sit amet consectetur.
+                       5,000 Puntos
                     </div>
                 </div>
-                <!-- end badge -->
-                <div class="badges-item">
-                    <div class="badges-item-image">
-                        <img src="../assets/media/Insignias/insignia_ambito.png" alt="">
+                    <!-- end badge -->
+                {% endif %}
+                {% if request.user.profile.experience_points >= 10000 %}
+                    <div class="badges-item">
+                        <div class="badges-item-image">
+                            <img src="{% static 'webapp/media/insignias/insignia_login.png' %}" alt="">
+                        </div>
+                        <div class="badges-item-text">
+                            10,000 Puntos
+                        </div>
                     </div>
-                    <div class="badges-item-text">
-                        Lorem ipsum dolor sit amet consectetur.
+                    <!-- end badge -->
+                {% endif %}
+                {% if request.user.profile.experience_points >= 15000 %}
+                    <div class="badges-item">
+                        <div class="badges-item-image">
+                            <img src="{% static 'webapp/media/insignias/insignia_microODA.png' %}" alt="">
+                        </div>
+                        <div class="badges-item-text">
+                            15,000 Puntos
+                        </div>
                     </div>
-                </div>
-                <!-- end badge -->
-                <div class="badges-item">
-                    <div class="badges-item-image">
-                        <img src="../assets/media/Insignias/insignia_login.png" alt="">
+                    <!-- end badge -->
+                {% endif %}
+                {% if request.user.profile.experience_points >= 20000 %}
+                    <div class="badges-item">
+                        <div class="badges-item-image">
+                            <img src="{% static 'webapp/media/insignias/insignia_ODA.png' %}" alt="">
+                        </div>
+                        <div class="badges-item-text">
+                            20,000 Puntos
+                        </div>
                     </div>
-                    <div class="badges-item-text">
-                        Lorem ipsum dolor sit amet consectetur.
-                    </div>
-                </div>
-                <!-- end badge -->
-                <div class="badges-item">
-                    <div class="badges-item-image">
-                        <img src="../assets/media/Insignias/insignia_ODA.png" alt="">
-                    </div>
-                    <div class="badges-item-text">
-                        Lorem ipsum dolor sit amet consectetur.
-                    </div>
-                </div>
-                <!-- end badge -->
+                    <!-- end badge -->
+                {% endif %}
               
 
 
@@ -121,47 +123,19 @@
                 <i class="fa fa-pencil-alt"></i>
             </div>
         </div>
-        <div class="extra-info">
-            <ul class="accordion" data-multi-expand="true" data-responsive-accordion-tabs="accordion medium-tabs small-accordion">
-                <li class="accordion-item is-active" data-accordion-item>
-                    <a href="#" class="accordion-title">ESCUELA</a>
-                    <div class="accordion-content" data-tab-content>
-                        <form action="">
-                            <label for="school">Actualmente atiendo:</label>
-                            <input type="text" name="school" class="extra-info-input" placeholder="Tu escuela">
-                        
-                            <label for="year">En el año:</label>
-                            <input type="text" name="year" class="extra-info-input" placeholder="El año que cursas">
-                        
-                            <label for="teach">Mi maestra se llama:</label>
-                            <input type="text" name="teach" class="extra-info-input" placeholder="Su nombre o apodo">
-                           
-                            <label for="friend">Mi mejor amigo es:</label>
-                            <input type="text" name="friend" class="extra-info-input" placeholder="Su nombre o apodo">
+        <div class="extra-info" style="box-shadow: 0 0 3px rgba(94, 133, 195, 0.5); padding: 1rem 2rem;">
+            <h4>Queremos saber más de ti.</h4>
+            <label for="materia-fav"> ¿Cuál es tu materia favorita?</label>
+            <input type="text" id="materia-fav" class="extra-info-input" placeholder="ej. Historia">
 
-                            
-                        </form>
-                    </div>
-                </li>
-                <li class="accordion-item" data-accordion-item>
-                    <a href="#" class="accordion-title">TRABAJO</a>
-                    <div class="accordion-content" data-tab-content>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, maiores.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, maiores.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, maiores.</p>
-                    </div>
-                </li>
-                <li class="accordion-item" data-accordion-item>
-                    <a href="#" class="accordion-title">VIDA SOCIAL</a>
-                    <div class="accordion-content" data-tab-content>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, maiores.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, maiores.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, maiores.</p>
-                        
-                    </div>
-                </li>
+            <label for="horario"> ¿En qué horario te gusta estudiar (mañana, tarde, noche)?</label>
+            <input type="text" id="horario" class="extra-info-input" placeholder="mañana, tarde o noche">
 
-            </ul>
+            <label for="univ"> ¿Qué te gustaría estudiar en la universidad?</label>
+            <input type="text" id="univ" class="extra-info-input" placeholder="ej. Literatura">
+
+            <button type="button" class="button small" id="user-info-btn">Guardar</button>
+
         </div>
 
         <div class="profile-test">

@@ -1,6 +1,6 @@
 {% extends "logged-in.html" %}
 {% load static %}
-
+{% load vle_extras %}
 {% block content %}
 
 <div class='container' id="preloader">
@@ -26,16 +26,9 @@
 <div class="grid-container">
         <div class="dashboard-grid">
             <div class="profile-picture">
-                <a href="#">
-                    {% if request.user.profile.avatar == "A" %}
-                        <img src="{% static 'webapp/media/profile-pic.png' %}" alt="profile picture">
-                    {% elif  request.user.profile.avatar == "B"%}
-                        <img src="{% static 'webapp/media/rated.png' %}" alt="profile picture">
-                    {% elif  request.user.profile.avatar == "C"%}
-                        <img src="{% static 'webapp/media/tuerca-01.png' %}" alt="profile picture">
-                    {% elif  request.user.profile.avatar == "D"%}
-                        <img src="{% static 'webapp/media/ambitos-11.png' %}" alt="profile picture">
-                    {% endif %}<!-- link to user profile page -->
+                <a href="{% url 'profile_view' %}">
+                    <img src="{% static '' %}webapp/media/{{ request.user.profile.avatar }}0{{ request.user.profile.experience_points|learner_level }}.png" alt="profile picture">
+
                 </a>
             </div>
             <div class="user-info">
@@ -45,13 +38,15 @@
                 <div class="user-info-score">
                     <i class="fa fa-star"></i> {{ user.profile.experience_points }}
                 </div>
-                {% if not request.user.profile.large_quiz_completed %}
+
                     <div class="user-info-test">
+                        {% if not request.user.profile.large_quiz_completed %}
                         <a href="{% url 'large_learning_quiz_view' %}" class="dashboard-test-button"> <!-- link a test -->
                             <i class="fas fa-vial"></i> Test
                         </a>
+                        {% endif %}
                     </div>
-                {% endif %}
+
             </div>
             <div class="recent-activity">
                 <div class="recent-activity-heading">
@@ -87,10 +82,15 @@
             {% endif %}
             <div class="blog">
                 <div class="blog-content">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus sint exercitationem numquam. Soluta cupiditate alias consequatur dolor fugit, quo expedita velit, earum iure fuga tenetur?
+                    <script src="//rss.bloople.net/?url=http%3A%2F%2Fkbdreams.com%2Ffeed&limit=3&showtitle=false&type=js"></script>
                 </div>
             </div>
         </div>
     </div>
+
+{% endblock %}
+
+
+{% block scripts %}
 
 {% endblock %}

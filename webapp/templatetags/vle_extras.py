@@ -23,3 +23,14 @@ def get_menu():
                   'materias': ambito.subjects.all()}
                  for ambito in ambitos_list]
     return {'menu_list': menu_list}
+
+
+@register.filter(name='learner_level')
+def learner_level(value):
+    level = int(value/5000)
+    if level < 1:
+        level = 1
+
+    if level > 4:
+        level = 4
+    return level

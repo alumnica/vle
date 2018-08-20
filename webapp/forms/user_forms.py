@@ -1,12 +1,20 @@
+import csv
+
 from django import forms
+from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.core.exceptions import ValidationError
+from django.http import HttpResponse
+from django.utils.encoding import smart_str
 from django.utils.translation import gettext_lazy as _
-from alumnica_model.models import AuthUser
-from django.contrib import admin
+
+from alumnica_model.models import AuthUser, Learner
 
 
 class UserForm(forms.ModelForm):
+    """
+    Create new AuthUser form
+    """
     password = forms.CharField(widget=forms.PasswordInput())
     password_confirmation = forms.CharField(widget=forms.PasswordInput())
 
@@ -40,6 +48,9 @@ class UserForm(forms.ModelForm):
 
 
 class UserLoginForm(forms.Form):
+    """
+    Login form
+    """
     email = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput())
 
@@ -68,6 +79,9 @@ class UserLoginForm(forms.Form):
 
 
 class AuthUserCreateForm(forms.ModelForm):
+    """
+    Create new AuthUser form for Django Administration
+    """
     class Meta:
         model = AuthUser
         fields = ['email']
@@ -81,6 +95,9 @@ class AuthUserCreateForm(forms.ModelForm):
 
 
 class CustomUserAdmin(UserAdmin):
+    """
+    Adds files to AuthUserCreateForm form
+    """
     # The forms to add and change user instances
     add_form = AuthUserCreateForm
     list_display = ("email",)
@@ -100,5 +117,43 @@ class CustomUserAdmin(UserAdmin):
     filter_horizontal = ()
 
 
+def download_learner_file(modeladmin, request, queryset):
+    """
+    Downloads CSV file containing Learner profiles selected in Django Administration page by selecting Export CSV
+    :param queryset: Selected Learner objects
+    :return: CSV file
+    """
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=learners.csv'
+    writer = csv.writer(response, csv.excel)
+    response.write(u'\ufeff'.encode('utf8'))  # BOM (optional...Excel needs it to open UTF-8 file properly)
+    writer.writerow([
+        smart_str(u"Name"),
+        smart_str(u"Email"),
+        smart_str(u"Birthday"),
+        smart_str(u"Learning Style"),
+    ])
+    for obj in queryset:
+        writer.writerow([
+            smart_str('{} {}'.format(obj.auth_user.first_name, obj.auth_user.last_name)),
+            smart_str(obj.auth_user.email),
+            smart_str(obj.birth_date),
+            smart_str(obj.learning_style),
+        ])
+    return response
+
+
+download_learner_file.short_description = u"Export CSV"
+
+
+class DownloadLearnerFile(admin.ModelAdmin):
+    """
+    Displays the action in the Learner model page
+    """
+    actions = [download_learner_file]
+
+
 admin.site.unregister(AuthUser)
+admin.site.unregister(Learner)
+admin.site.register(Learner, DownloadLearnerFile)
 admin.site.register(AuthUser, CustomUserAdmin)

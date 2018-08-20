@@ -5,15 +5,23 @@ $(document).ready(function () {
         slidesNavPosition: 'bottom',
         loopHorizontal: false,
 
- 
+
     });
+
 
     $('.end-uoda-btn').click(function () {
 
+        let timeSpentOnPage = TimeMe.getTimeOnCurrentPageInSeconds();
+        let duration = timeSpentOnPage.toString().slice(0, -1);
+        duration = `PT${duration}S`;
+        console.log(duration);
+
+
         $.ajax({
-            url: '/api/microodas/'+learner+","+microoda,
+            url: '/api/microodas/' + learner + "," + microoda + "," + duration,
 
 
         });
     });
 });
+

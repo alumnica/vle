@@ -17,7 +17,7 @@
     <script>
         setTimeout(function(){
             document.getElementById("preloader").classList.add("is-load");
-        }, 1000);
+        }, 6000);
     </script>
 <!-- end preloader -->
 
@@ -26,7 +26,7 @@
         {% for moment in moment_array %}
         <div class="slide">
             <div class="h5p-cont ">
-                <iframe src="{{ moment.file_name }}" class="the-h5p" frameborder="0">
+                <iframe src="{% url 'package_view' job_id=moment.h5p_package.job_id %}" class="the-h5p" frameborder="0">
 
                 </iframe>
 
@@ -55,19 +55,19 @@
                         <div class="uoda-image">
                           {% if moment_array.0.microoda.type.name == "application" %}
 
-                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_aplicacion.png"%}" alt="Aplicacion">
+                        <img src="{% static "/webapp/media/uODAs/iconos/apli.png"%}" alt="Aplicacion">
                     {% elif moment_array.0.microoda.type.name == "formalization" %}
-                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_formalizacion.png" %}" alt="Formalizacion">
+                        <img src="{% static "/webapp/media/uODAs/iconos/forma.png" %}" alt="Formalizacion">
                     {% elif moment_array.0.microoda.type.name == "activation" %}
-                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_activacion.png" %}" alt="activacion">
+                        <img src="{% static "/webapp/media/uODAs/iconos/activ.png" %}" alt="activacion">
                     {% elif moment_array.0.microoda.type.name == "exemplification" %}
-                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_ejemplificacion.png" %}" alt="ejemplificacion">
+                        <img src="{% static "/webapp/media/uODAs/iconos/ejem.png" %}" alt="ejemplificacion">
                     {% elif moment_array.0.microoda.type.name == "sensitization" %}
-                        <img src="{% static "/webapp/media/uodas/Desktop/uODA_desktop_sensibilizacion.png" %}" alt="sensibilizacion">
+                        <img src="{% static "/webapp/media/uODAs/iconos/sens.png" %}" alt="sensibilizacion">
                     {% endif %}
                         </div>
                         <p class="uoda-score">
-                            <i class="fa fa-star"></i> x 5000
+                            <i class="fa fa-star"></i> + {{ points }}
                         </p>
                         <a href="{% url 'oda_view' moment_array.0.microoda.oda.pk  %}" class="end-uoda-btn">
                             <i class="fas fa-play"></i> &nbsp; Regresar a la ODA

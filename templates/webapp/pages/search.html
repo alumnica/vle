@@ -1,5 +1,5 @@
 {% extends "logged-in.html" %}
-{% load static %}
+{% load static %} 
 {% block content %}
 
 <div class="grid-container">
@@ -8,27 +8,37 @@
             <p class="search-result">{{ odas_list|length }} Resultados
                 <strong>"{{ text_to_search }}"</strong>
             </p>
-            <hr>
+        </div>
+        <div class="cell medium-12">
             <!-- start search item loop -->
             {% for oda in odas_list %}
-                <div class="search-item">
-                    <a href="{%  url 'oda_view' oda.pk %}" class="search-item-oda-image">
-                        <img src="{{ oda.active_icon.file.url }}" alt="">
-                    </a>
-                    <div class="search-item-text">
-                        <div class="oda-title-link">
-                            <a href="{%  url 'oda_view' oda.pk %}">{{ oda.name }}</a>
-                        </div>
-                        <div class="materia-link">
-                            MATERIA:
-                            <a href="{% url 'subject_view' oda.subject.pk %}"> {{ oda.subject.name }}</a>
-                        </div>
-                        <div class="ambito-link">
-                            ÁMBITO:
-                            {{ oda.subject.ambit.name }}
-                        </div>
+            <div class="search-item">
+                <a href="{%  url 'oda_view' oda.pk %}" class="search-item-oda-image">
+                    <img src="{{ oda.active_icon.file.url }}" alt="">
+                </a>
+                <div class="search-item-text">
+                    <div class="oda-title-link">
+                        <a href="{%  url 'oda_view' oda.pk %}">{{ oda.name }}</a>
+                    </div>
+
+
+                    <div class="materia-link">
+                        MATERIA:
+                        <a href="{% url 'subject_view' oda.subject.pk %}"> {{ oda.subject.name }}</a>
+                    </div>
+                    <div class="ambito-link">
+                        ÁMBITO: {{ oda.subject.ambit.name }}
                     </div>
                 </div>
+                <div class="search-item-tags">
+                    <ul>
+                        <!-- oda.tags.all para acceder a los tags-->
+                        {% for tag in oda.tags.all %}
+                        <li>{{ tag.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
             {% endfor %}
 
             <!-- end search item loop -->

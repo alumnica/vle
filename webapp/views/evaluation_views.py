@@ -1,19 +1,36 @@
-
+import datetime
 import random
+
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
 from django.views.generic import FormView
 
 from alumnica_model.mixins import OnlyLearnerMixin
-from alumnica_model.models.content import Evaluation, ODA, Subject
+from alumnica_model.models.content import Evaluation, ODA
 from alumnica_model.models.questions import TYPE_RELATIONSHIP, TYPE_PULL_DOWN_LIST, TYPE_MULTIPLE_OPTION, \
     TYPE_MULTIPLE_ANSWER, TYPE_NUMERIC_ANSWER
+from webapp.statement_builders import access_statement_with_parent
 
 
 class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+    """
+    Random Evaluation questions view
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/eval.html'
     evaluation = []
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == 'GET':
+            evaluation = Evaluation.objects.get(pk=self.kwargs['pk'])
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            access_statement_with_parent(request=request,
+                                         object_type='evaluation',
+                                         object_name=evaluation.name,
+                                         parent_type='oda',
+                                         parent_name=evaluation.oda.all()[0].name,
+                                         tags_array=evaluation.oda.all()[0].tags.all(),
+                                         timestamp=timestamp)
+        return super(EvaluationView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         self.evaluation = []
@@ -58,5 +75,3 @@ class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
                     self.evaluation.append([question, answers])
                 elif question.type == TYPE_NUMERIC_ANSWER:
                     self.evaluation.append([question, 0])
-
-

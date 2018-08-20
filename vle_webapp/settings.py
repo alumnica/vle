@@ -17,7 +17,7 @@ import sys
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 
-VERSION_NUMBER = 'v0.10.0'
+VERSION_NUMBER = 'v0.11.0'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,14 +28,24 @@ PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'webapp/static/webapp/PWA/', 's
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'm792=#*_(5x5c80&z+i0u80rj+0kn!f94i!*z^xwiy5zb#6a&1')
+SECURE_SSL_REDIRECT = bool(os.environ.get('FORCE_SSL', False))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get('ON_HEROKU', False)
 
 ALLOWED_HOSTS = ['.herokuapp.com', 'learn.alumnica.org', 'www.alumnica.org', 'localhost', '127.0.0.1', '10.29.107.68']
+CORS_ORIGIN_ALLOW_ALL = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-relay.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'alumnica@fundacionmanuelmoreno.org'
+EMAIL_HOST_PASSWORD = 'Alumnica1234'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'alumnica@fundacionmanuelmoreno.org'
+
 
 # Application definition
-
 INSTALLED_APPS = [
     'django_db_prefix',
     'django.contrib.admin',
@@ -51,12 +61,15 @@ INSTALLED_APPS = [
     'storages',
     'rest_framework',
     'pwa',
+    'corsheaders',
+    'social_django',
 ]
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -65,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'vle_webapp.urls'
@@ -81,10 +95,18 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 WSGI_APPLICATION = 'vle_webapp.wsgi.application'
 
@@ -157,13 +179,31 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
+SOCIAL_AUTH_USER_FIELDS = ['email']
+
+XAPI_URL = os.environ.get('XAPI_URL')
+XAPI_VERSION = os.environ.get('XAPI_VERSION')
+XAPI_KEY = os.environ.get('XAPI_KEY')
+
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
+SOCIAL_AUTH_FACEBOOK_KEY = '216563479203361'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'b1270062222bc3c887426b6540a65ebe'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '112616299974-bv1sf5k9p438e9h3l3c3eqlefjvggpjf.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'bdzsxMKIT1OE3xEMeE3WvY7R'
+
+LOGIN_URL = 'login_view'
+LOGIN_REDIRECT_URL = 'dashboard_view'
+LOGOUT_URL = 'logout_view'
+
 if all([AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME]):
     # Use S3 from Amazon Web Services to store uploaded files
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    AWS_AUTO_CREATE_BUCKET = True
+    AWS_S3_FILE_OVERWRITE = True
     AWS_S3_OBJECT_PARAMETERS = {
         'CacheControl': 'max-age=86400',
     }
