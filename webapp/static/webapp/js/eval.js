@@ -109,7 +109,7 @@ $(document).ready(function () {
         $('.answer-text').removeClass('is-hidden');
         $(this).parent().parent().remove();
 
-        $('input').prop('disabled', true);
+        $('#evaluate input').prop('disabled', true);
         $('select').prop('disabled', true);
         $('.reset').remove();
     });
