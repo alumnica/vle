@@ -15,6 +15,7 @@ xapi_verbs = {
     "searched": "https://w3id.org/xapi/dod-isd/verbs/searched",
     "logged-in": "https://w3id.org/xapi/adl/verbs/logged-in",
     "logged-out": "https://w3id.org/xapi/adl/verbs/logged-out",
+    "answered": "http://adlnet.gov/expapi/verbs/answered",
 }
 
 
