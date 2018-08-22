@@ -9,6 +9,7 @@ from django.views.generic import FormView, DetailView
 from alumnica_model.models import Moment, LearnerProgressInActivity
 from alumnica_model.models.h5p import H5Package
 from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
+from vle_webapp.settings import AWS_INSTANCE_URL
 from webapp.statement_builders import access_statement_with_parent
 
 
@@ -80,7 +81,8 @@ class H5PackageView(LoginRequiredMixin, DetailView):
             'scripts': list(OrderedSet([
                 script for lib in self.object.preloaded_dependencies.all()
                 for script in lib.get_all_javascripts()
-            ]))
+            ])),
+            "aws_url": AWS_INSTANCE_URL,
         })
 
         return context
