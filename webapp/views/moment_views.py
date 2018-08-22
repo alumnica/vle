@@ -76,11 +76,11 @@ class H5PackageView(LoginRequiredMixin, DetailView):
             'content_json': json.dumps(self.object.content, ensure_ascii=False),
             'stylesheets': list(OrderedSet({
                 css for lib in self.object.preloaded_dependencies.all()
-                for css in lib.get_all_stylesheets()
+                for css in lib.get_all_stylesheets(aws_url=AWS_INSTANCE_URL)
             })),
             'scripts': list(OrderedSet([
                 script for lib in self.object.preloaded_dependencies.all()
-                for script in lib.get_all_javascripts()
+                for script in lib.get_all_javascripts(aws_url=AWS_INSTANCE_URL)
             ])),
             "aws_url": AWS_INSTANCE_URL,
         })
