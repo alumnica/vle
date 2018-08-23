@@ -173,7 +173,7 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
 
     tags = []
     for tag in tags_array:
-        tags.append('{}/tag/{}'.format(xapi_url, tag))
+        tags.append('{}tag/{}'.format(xapi_url, tag))
 
     context = Context([parent_id], tags)
     if score is None:
@@ -203,7 +203,7 @@ def answered_question_statement(user, question_instance, tags_array, timestamp, 
     parent_id = '{}{}/{}'.format(xapi_url, 'evaluation', question_instance.evaluation.name)
     tags = []
     for tag in tags_array:
-        tags.append('{}/tag/{}'.format(xapi_url, tag))
+        tags.append('{}tag/{}'.format(xapi_url, tag))
 
     context = Context([parent_id], tags)
     result = Result(response='Question: {}'.format(question_instance.sentence), success=success)
@@ -252,7 +252,7 @@ def task_experience_received(user, object_type, object_name, parent_type, parent
 
     tags = []
     for tag in tags_array:
-        tags.append('{}/tag/{}'.format(xapi_url, tag))
+        tags.append('{}tag/{}'.format(xapi_url, tag))
 
     context = Context([parent_id], tags)
     result = Result(response='{} completed'.format(object_type), completion=True, success=True, raw_score=gained_xp)
