@@ -98,30 +98,30 @@ class ProfileSettingsForm(forms.ModelForm):
 
         if previous_password is not '' or new_password is not '' or new_password_confirmation is not '':
             if new_password is '':
-                error = ValidationError(_("Write a new password"), code='password_error')
+                error = ValidationError(_("Escribe una nueva contraseña"), code='password_error')
                 self.add_error('new_password', error)
             else:
                 if len(new_password) < 6:
-                    error = ValidationError(_("Password must have 6 characters or more."), code='password_length_error')
+                    error = ValidationError(_("La contraseña debe tener al menos 6 caracteres"), code='password_length_error')
                     self.add_error('new_password', error)
                 else:
                     if new_password_confirmation is '':
-                        error = ValidationError(_("Please write the password confirmation."),
+                        error = ValidationError(_("Por favor confirma tu contraseña."),
                                                 code='password_confirmation_error')
                         self.add_error('new_password_confirmation', error)
                     else:
                         if new_password != new_password_confirmation:
-                            error = ValidationError(_("Passwords do not match."),
+                            error = ValidationError(_("Las contraseñas no coinciden."),
                                                     code='password_confirmation_error')
                             self.add_error('new_password', error)
                         else:
                             if previous_password is not '':
                                 user = self.instance
                                 if not user.check_password(previous_password):
-                                    error = ValidationError(_("Invalid password."), code='credentials_error')
+                                    error = ValidationError(_("Contraseña incorrecta."), code='credentials_error')
                                     self.add_error('previous_password', error)
                             else:
-                                error = ValidationError(_("Previous password must be written."),
+                                error = ValidationError(_("Debes escribir tu contraseña anterior."),
                                                         code='credentials_error')
                                 self.add_error('previous_password', error)
 
