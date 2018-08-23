@@ -1,7 +1,9 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import FormView
+from django.shortcuts import render_to_response, render
+from django.template import RequestContext
+from django.views.generic import FormView, TemplateView
 
 from alumnica_model.mixins import OnlyLearnerMixin
 from alumnica_model.models import ODA, Tag
@@ -48,3 +50,7 @@ class SearchView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
         search_statement(user=self.request.user, string_searched=text_to_search, timestamp=timestamp)
 
         return {'odas_list': odas_list, 'text_to_search': text_to_search}
+
+
+def Error404(request):
+    return render(request, 'webapp/pages/404.html', status=404)

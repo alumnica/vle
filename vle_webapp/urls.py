@@ -23,6 +23,7 @@ from django.views.i18n import JavaScriptCatalog
 from rest_framework import routers
 
 from webapp import api_viewsets
+from webapp.views import navigation_views
 from webapp.views.user_views import IndexView, LandingPageView
 
 router = routers.DefaultRouter()
@@ -50,3 +51,5 @@ urlpatterns = [
     path('api/avatar/', api_viewsets.ChangeUserAvatar.as_view(), name='avatar_change_view'),
     path('api/profile_info/', api_viewsets.SaveExtraProfileInfo.as_view(), name='profile_extr_info_view'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = navigation_views.Error404
