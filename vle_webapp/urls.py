@@ -28,31 +28,25 @@ from webapp.views.user_views import IndexView, LandingPageView
 router = routers.DefaultRouter()
 router.register(r'evaluation', api_viewsets.EvaluationViewSet)
 
-
 urlpatterns = [
-    path('i18n/', include('django.conf.urls.i18n')),
     path('', include('pwa.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-urlpatterns += i18n_patterns(
     path('', LandingPageView.as_view(), name='index_view'),
-    path(_('learn/'), IndexView.as_view(), name='index_view'),
-    path(_('users/'), include('webapp.urls.users_urls')),
-    path(_('profile/'), include('webapp.urls.profile_urls')),
-    path(_('ambit/'), include('webapp.urls.ambit_urls')),
-    path(_('subjects/'), include('webapp.urls.subject_urls')),
-    path(_('odas/'), include('webapp.urls.oda_urls')),
-    path(_('moments/'), include('webapp.urls.moment_urls')),
-    path(_('evaluations/'), include('webapp.urls.evaluation_urls')),
-    path(_('admin/'), admin.site.urls),
-    path(_('oauth/'), include('social_django.urls', namespace='social')),
-    path(_('api/'), include(router.urls)),
-    path(_('api-auth/'), include('rest_framework.urls', namespace='rest_framework')),
-    path(_('jsi18n/'), JavaScriptCatalog.as_view(), name='javascript-catalog'),
-    path(_('search/'), include('webapp.urls.navigation_urls')),
-    path(_('registration'), include('django.contrib.auth.urls')),
+    path('learn/', IndexView.as_view(), name='index_view'),
+    path('users/', include('webapp.urls.users_urls')),
+    path('profile/', include('webapp.urls.profile_urls')),
+    path('ambit/', include('webapp.urls.ambit_urls')),
+    path('subjects/', include('webapp.urls.subject_urls')),
+    path('odas/', include('webapp.urls.oda_urls')),
+    path('moments/', include('webapp.urls.moment_urls')),
+    path('evaluations/', include('webapp.urls.evaluation_urls')),
+    path('admin/', admin.site.urls),
+    path('oauth/', include('social_django.urls', namespace='social')),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+    path('search/', include('webapp.urls.navigation_urls')),
+    path('registration', include('django.contrib.auth.urls')),
     path('api/microodas/<int:learner>,<int:uODA>,<str:duration>/', api_viewsets.MicroodaViewSet.as_view(), name='microoda_view'),
     path('api/avatar/', api_viewsets.ChangeUserAvatar.as_view(), name='avatar_change_view'),
-    path(_('api/profile_info/'), api_viewsets.SaveExtraProfileInfo.as_view(), name='profile_extr_info_view'),
-
-)
+    path('api/profile_info/', api_viewsets.SaveExtraProfileInfo.as_view(), name='profile_extr_info_view'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
