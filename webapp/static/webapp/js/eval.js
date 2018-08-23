@@ -80,7 +80,7 @@ $(document).ready(function () {
                         let rec_div = document.getElementById('suggestions');
 
                         $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='" + suggestion.image + "' alt='\'></div><div class='oda-text'>" + suggestion.oda + "</div></a>");
-                        $(rec_div).find('#rec').attr("href", gettext("/odas/" + suggestion.pk + "/"));
+                        $(rec_div).find('#rec').attr("href", "/odas/" + suggestion.pk + "/");
 
 
                     }
@@ -101,7 +101,7 @@ $(document).ready(function () {
                         } else if (suggestion.uoda == "activation") {
                             $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/activ.png' alt='Activacion'></div><div class='oda-text'>Activación</div></a>")
                         }
-                        $(rec_div).find('#rec').attr("href", gettext("/moments/" + suggestion.pk + "/"));
+                        $(rec_div).find('#rec').attr("href", "/moments/" + suggestion.pk + "/");
                     }
                 }
             }
