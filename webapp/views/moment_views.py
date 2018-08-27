@@ -72,7 +72,7 @@ class H5PackageView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(H5PackageView, self).get_context_data(**kwargs)
-
+        momento_pk = Moment.objects.get(h5p_package=self.object).pk
         context.update({
             'library_directory_name': self.object.main_library.full_name,
             'content_json': json.dumps(self.object.content, ensure_ascii=False),
@@ -85,6 +85,7 @@ class H5PackageView(LoginRequiredMixin, DetailView):
                 for script in lib.get_all_javascripts(aws_url=AWS_INSTANCE_URL)
             ])),
             "aws_url": AWS_INSTANCE_URL,
+            "mom": momento_pk,
         })
 
         return context

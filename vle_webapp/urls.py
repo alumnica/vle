@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path, include
@@ -50,8 +51,9 @@ urlpatterns = [
     path('api/microodas/<int:learner>,<int:uODA>,<str:duration>/', api_viewsets.MicroodaViewSet.as_view(), name='microoda_view'),
     path('api/avatar/', api_viewsets.ChangeUserAvatar.as_view(), name='avatar_change_view'),
     path('api/profile_info/', api_viewsets.SaveExtraProfileInfo.as_view(), name='profile_extr_info_view'),
+    url(r'^api/h5p_finished/(?P<user>\d+)/(?P<momento>\d+)/$', api_viewsets.H5PFinished.as_view(), name='h5p_finished_view'),
+    url(r'^api/h5p_data/(?P<subContentId>\d+)/$', api_viewsets.H5PToXapi.as_view(), name='h5p_data_view'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 handler404 = navigation_views.Error404
 handler400 = navigation_views.Error404
 handler500 = navigation_views.Error404

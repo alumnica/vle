@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from alumnica_model.models import AuthUser, Learner, MicroODA
+from alumnica_model.models import AuthUser, Learner, MicroODA, Moment
 from alumnica_model.models.progress import LearnerEvaluationProgress, EXPERIENCE_POINTS_CONSTANTS
 from alumnica_model.models.questions import *
 from webapp.serializers import *
@@ -359,4 +359,16 @@ class SaveExtraProfileInfo(APIView):
 
         learner.profile.save()
         return JsonResponse({'ok': 'ok'})
+
+
+class H5PToXapi(APIView):
+    def post(self, request, subContentId):
+        pass
+
+
+class H5PFinished(APIView):
+    def post(self, request, user, momento):
+        momento_instance = Moment.objects.get(pk=momento)
+        auth_user = AuthUser.objects.get(pk=user)
+
 
