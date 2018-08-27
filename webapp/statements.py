@@ -68,17 +68,19 @@ class Definition:
     """
     Definition object
     """
-    def __init__(self, name):
+    def __init__(self, name, type):
         self.name = Display(name)
+        if type is not None:
+            self.type = type
 
     def toJSON(self):
         return self.__dict__
 
 
 class Object:
-    def __init__(self, id, name):
+    def __init__(self, id, name, type=None):
         self.id = id
-        self.definition = Definition(name=name)
+        self.definition = Definition(name=name, type=type)
 
     def toJSON(self):
         return self.__dict__
