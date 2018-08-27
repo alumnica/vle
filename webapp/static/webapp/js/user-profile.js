@@ -33,7 +33,18 @@ $('#user-info-btn').on('click', function(){
             'university_studies': uni,
             'learner': pk
         }
-    })
+    });
+     // Create div
+    const span = document.createElement('span');
+    // Add classes
+    span.className = 'saved';
+    span.innerHTML = 'GUARDADO';
+
+    $('.extra-info').append(span);
+//     Timeout after 3 sec
+    setTimeout(function(){
+      document.querySelector('.saved').remove();
+    }, 3000);
 });
 
 
