@@ -131,8 +131,10 @@ class Score:
     """
     Score object containing raw score
     """
-    def __init__(self, raw_score):
+    def __init__(self, raw_score, max_score=None):
         self.raw = raw_score
+        if max_score is not None:
+            self.max = max_score
 
     def toJSON(self):
         return self.__dict__
@@ -142,14 +144,17 @@ class Result:
     """
     Result object
     """
-    def __init__(self, response, completion=None, success=None, raw_score=None, duration=None):
+    def __init__(self, response, completion=None, success=None, raw_score=None, max_score=None, duration=None):
         self.response = response
         if completion is not None:
             self.completion = completion
         if success is not None:
             self.success = success
         if raw_score is not None:
-            self.score = Score(raw_score=raw_score)
+            if max_score is not None:
+                self.score = Score(raw_score=raw_score, max_score=max_score)
+            else:
+                self.score = Score(raw_score=raw_score)
         if duration is not None:
             self.duration = duration
 

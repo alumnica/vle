@@ -10,7 +10,7 @@ from alumnica_model.models.progress import LearnerEvaluationProgress, EXPERIENCE
 from alumnica_model.models.questions import *
 from webapp.serializers import *
 from webapp.statement_builders import task_completed, task_experience_received, avatar_statement, \
-    answered_question_statement
+    answered_question_statement, h5p_task_completed
 
 
 class EvaluationViewSet(ModelViewSet):
@@ -373,9 +373,10 @@ class H5PFinished(APIView):
         score = int(request.POST.get('score'))
         max_score = int(request.POST.get('maxScore'))
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        task_completed(user=auth_user, object_type='Momento', object_name=momento_instance.name,
+        h5p_task_completed(user=auth_user, object_type='Momento', object_name=momento_instance.name,
                        parent_type="uoda", parent_name=momento_instance.microoda.name, tags_array=momento_instance.tags.all(),
-                       timestamp=timestamp, score=(score*10/max_score))
+                       timestamp=timestamp, score=score, max_score=max_score)
+        return JsonResponse({'ok': 'ok'})
 
 
 

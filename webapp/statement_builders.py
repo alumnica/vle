@@ -150,7 +150,7 @@ def access_statement_with_parent(request, object_type, object_name, parent_type,
     response = services.send(statement)
 
 
-def task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None,
+def task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None, max_score=None,
                    duration=None):
     """
     Xapi completed task statement constructor
@@ -180,7 +180,43 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
         result = Result(response='{} completed'.format(object_type), completion=True, duration=duration)
     else:
         result = Result(response='{} completed'.format(object_type), completion=True, success=score >= 7,
-                        raw_score=score, duration=duration)
+                        raw_score=score, max_score=max_score, duration=duration)
+
+    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
+    response = services.send(statement)
+
+
+def h5p_task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None, max_score=None,
+                   duration=None):
+    """
+    Xapi completed task statement constructor
+    :param user: Current AuthUser
+    :param object_type: object type
+    :param object_name: object name
+    :param parent_type: parent object type
+    :param parent_name: parent object name
+    :param tags_array: object tags
+    :param timestamp: activity timpestamp
+    :param score: score obtained
+    :param duration: duration
+    """
+    user_complete_name = user.first_name + ' ' + user.last_name
+    actor = Actor(name=user_complete_name, email=user.email)
+    verb = Verb(action='completed')
+    object_id = '{}{}/{}'.format(xapi_url, object_type, object_name)
+    object = Object(id=object_id, name=object_name)
+    parent_id = '{}{}/{}'.format(xapi_url, parent_type, parent_name)
+
+    tags = []
+    for tag in tags_array:
+        tags.append('{}tag/{}'.format(xapi_url, tag))
+
+    context = Context([parent_id], tags)
+    if score is None:
+        result = Result(response='{} completed'.format(object_type), completion=True, duration=duration)
+    else:
+        result = Result(response='{} completed'.format(object_type), completion=True, success=score == max_score,
+                        raw_score=score, max_score=max_score, duration=duration)
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
     response = services.send(statement)
