@@ -370,5 +370,12 @@ class H5PFinished(APIView):
     def post(self, request, user, momento):
         momento_instance = Moment.objects.get(pk=momento)
         auth_user = AuthUser.objects.get(pk=user)
+        score = int(request.POST.get('score'))
+        max_score = int(request.POST.get('maxScore'))
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        task_completed(user=auth_user, object_type='Momento', object_name=momento_instance.name,
+                       parent_type="uoda", parent_name=momento_instance.microoda.name, tags_array=momento_instance.tags.all(),
+                       timestamp=timestamp, score=(score*10/max_score))
+
 
 

@@ -2,7 +2,7 @@ window.H5PIntegration = {
     "baseUrl": BASE_URL, // No trailing slash
     "url": BASE_URL + H5P_CONTENT,          // Relative to web root
     "postUserStatistics": true,         // Only if user is logged in
-    "ajaxPath": "/path/to/h5p-ajax",    // Only used by older Content Types
+    "ajaxPath": "/api/h5p_finished/"+auth_us+"/"+mom+"/",    // Only used by older Content Types
     "ajax": {
         // Where to post user results
         "setFinished": "/api/h5p_finished/"+auth_us+"/"+mom+"/",
