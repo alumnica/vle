@@ -168,7 +168,7 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='completed')
     object_id = '{}{}/{}'.format(xapi_url, object_type, object_name)
-    object_type_url = '{}/{}'.format(xapi_url, object_type)
+    object_type_url = '{}{}'.format(xapi_url, object_type)
     object = Object(id=object_id, name=object_name, type=object_type_url)
     parent_id = '{}{}/{}'.format(xapi_url, parent_type, parent_name)
 
@@ -205,7 +205,7 @@ def h5p_task_completed(user, object_type, object_name, parent_type, parent_name,
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='completed')
     object_id = '{}{}/{}'.format(xapi_url, object_type, object_name)
-    object_type_url = '{}/{}'.format(xapi_url, object_type)
+    object_type_url = '{}{}'.format(xapi_url, object_type)
     object = Object(id=object_id, name=object_name, type=object_type_url)
     parent_id = '{}{}/{}'.format(xapi_url, parent_type, parent_name)
 
