@@ -151,7 +151,7 @@ def access_statement_with_parent(request, object_type, object_name, parent_type,
 
 
 def task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None, max_score=None,
-                   duration=None):
+                   duration=None, completion=False):
     """
     Xapi completed task statement constructor
     :param user: Current AuthUser
@@ -177,9 +177,9 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
 
     context = Context([parent_id], tags)
     if score is None:
-        result = Result(response='{} completed'.format(object_type), completion=True, duration=duration)
+        result = Result(response='{} completed'.format(object_type), completion=completion, duration=duration)
     else:
-        result = Result(response='{} completed'.format(object_type), completion=True, success=score >= 7,
+        result = Result(response='{} completed'.format(object_type), completion=completion, success=score >= 7,
                         raw_score=score, max_score=max_score, duration=duration)
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)

@@ -251,6 +251,26 @@ class EvaluationViewSet(ModelViewSet):
                                          tags_array=evaluation_instance.oda.all()[0].tags.all(),
                                          timestamp=timestamp,
                                          gained_xp=EXPERIENCE_POINTS_CONSTANTS['evaluation_completed'])
+                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+                task_completed(learner.auth_user,
+                               'evaluation',
+                               evaluation_instance.name,
+                               'oda', evaluation_instance.oda.all()[0].name,
+                               tags_array=evaluation_instance.oda.all()[0].tags.all(),
+                               timestamp=timestamp,
+                               score=score,
+                               duration=duration,
+                               completion=True)
+            else:
+                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+                task_completed(learner.auth_user,
+                               'evaluation',
+                               evaluation_instance.name,
+                               'oda', evaluation_instance.oda.all()[0].name,
+                               tags_array=evaluation_instance.oda.all()[0].tags.all(),
+                               timestamp=timestamp,
+                               score=score,
+                               duration=duration)
             progress.evaluation_completed_counter += 1
             progress.save_progress()
         else:
@@ -260,15 +280,16 @@ class EvaluationViewSet(ModelViewSet):
             progress.evaluation_completed_counter += 1
             progress.save_progress()
 
-        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        task_completed(learner.auth_user,
-                       'evaluation',
-                       evaluation_instance.name,
-                       'oda', evaluation_instance.oda.all()[0].name,
-                       tags_array=evaluation_instance.oda.all()[0].tags.all(),
-                       timestamp=timestamp,
-                       score=score,
-                       duration=duration)
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            task_completed(learner.auth_user,
+                           'evaluation',
+                           evaluation_instance.name,
+                           'oda', evaluation_instance.oda.all()[0].name,
+                           tags_array=evaluation_instance.oda.all()[0].tags.all(),
+                           timestamp=timestamp,
+                           score=score,
+                           duration=duration,
+                           completion=True)
 
         return score, questions_status, suggestions_dict
 
@@ -302,14 +323,24 @@ class MicroodaViewSet(APIView):
                                          timestamp=timestamp,
                                          gained_xp=EXPERIENCE_POINTS_CONSTANTS['uODA_completed'])
 
-        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        task_completed(user=learner.auth_user,
-                       object_type='uoda',
-                       object_name=microoda.name,
-                       parent_type='oda', parent_name=microoda.oda.name,
-                       tags_array=microoda.tags.all(),
-                       timestamp=timestamp,
-                       duration=duration)
+                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+                task_completed(user=learner.auth_user,
+                               object_type='uoda',
+                               object_name=microoda.name,
+                               parent_type='oda', parent_name=microoda.oda.name,
+                               tags_array=microoda.tags.all(),
+                               timestamp=timestamp,
+                               duration=duration,
+                               completion=True)
+            else:
+                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+                task_completed(user=learner.auth_user,
+                               object_type='uoda',
+                               object_name=microoda.name,
+                               parent_type='oda', parent_name=microoda.oda.name,
+                               tags_array=microoda.tags.all(),
+                               timestamp=timestamp,
+                               duration=duration)
 
         microodas_suggestion = [{'mODA_name': mODA.type.name} for mODA in
                                 microoda.oda.microodas.exclude(pk=microoda.pk)]
