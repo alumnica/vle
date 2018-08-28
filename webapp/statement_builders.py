@@ -260,11 +260,11 @@ def learning_experience_received(user, object_type, object_name, timestamp, gain
     """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
-    verb = Verb(action='received')
+    verb = Verb(action='earned')
     object_id = '{}{}/{}'.format(xapi_url, object_type, object_name)
     object = Object(id=object_id, name=object_name)
-    result = Result(response='{} completed'.format(object_type), completion=True, success=True, raw_score=gained_xp)
-    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, result=result)
+    # result = Result(response='{} completed'.format(object_type), completion=True, success=True, raw_score=gained_xp)
+    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
     response = services.send(statement)
 
 
@@ -283,7 +283,7 @@ def task_experience_received(user, object_type, object_name, parent_type, parent
     """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
-    verb = Verb(action='received')
+    verb = Verb(action='earned')
     object_id = '{}{}/{}'.format(xapi_url, object_type, object_name)
     object = Object(id=object_id, name=object_name)
     parent_id = '{}{}/{}'.format(xapi_url, parent_type, parent_name)
@@ -293,6 +293,8 @@ def task_experience_received(user, object_type, object_name, parent_type, parent
         tags.append('{}tag/{}'.format(xapi_url, tag))
 
     context = Context([parent_id], tags)
-    result = Result(response='{} completed'.format(object_type), completion=True, success=True, raw_score=gained_xp)
-    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
+
+    # result = Result(response='{} completed'.format(object_type), completion=True, success=True, raw_score=gained_xp)
+
+    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context)
     response = services.send(statement)

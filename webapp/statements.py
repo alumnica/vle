@@ -16,6 +16,7 @@ xapi_verbs = {
     "logged-in": "https://w3id.org/xapi/adl/verbs/logged-in",
     "logged-out": "https://w3id.org/xapi/adl/verbs/logged-out",
     "answered": "http://adlnet.gov/expapi/verbs/answered",
+    "earned": "https://registry.tincanapi.com/#uri/verb/441",
 }
 
 
