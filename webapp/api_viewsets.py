@@ -312,35 +312,36 @@ class MicroodaViewSet(APIView):
             progress.is_complete = True
             progress.save_progress()
 
-            if progress.activity_completed_counter == 1:
-                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-                task_experience_received(user=learner.auth_user,
-                                         object_type='uoda',
-                                         object_name=microoda.name,
-                                         parent_type='oda',
-                                         parent_name=microoda.oda.name,
-                                         tags_array=microoda.tags.all(),
-                                         timestamp=timestamp,
-                                         gained_xp=EXPERIENCE_POINTS_CONSTANTS['uODA_completed'])
+        progress = learner.activities_progresses.get(activity=microoda.activities.first())
+        if progress.activity_completed_counter == 1:
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            task_experience_received(user=learner.auth_user,
+                                     object_type='uoda',
+                                     object_name=microoda.name,
+                                     parent_type='oda',
+                                     parent_name=microoda.oda.name,
+                                     tags_array=microoda.tags.all(),
+                                     timestamp=timestamp,
+                                     gained_xp=EXPERIENCE_POINTS_CONSTANTS['uODA_completed'])
 
-                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-                task_completed(user=learner.auth_user,
-                               object_type='uoda',
-                               object_name=microoda.name,
-                               parent_type='oda', parent_name=microoda.oda.name,
-                               tags_array=microoda.tags.all(),
-                               timestamp=timestamp,
-                               duration=duration,
-                               completion=True)
-            else:
-                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-                task_completed(user=learner.auth_user,
-                               object_type='uoda',
-                               object_name=microoda.name,
-                               parent_type='oda', parent_name=microoda.oda.name,
-                               tags_array=microoda.tags.all(),
-                               timestamp=timestamp,
-                               duration=duration)
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            task_completed(user=learner.auth_user,
+                           object_type='uoda',
+                           object_name=microoda.name,
+                           parent_type='oda', parent_name=microoda.oda.name,
+                           tags_array=microoda.tags.all(),
+                           timestamp=timestamp,
+                           duration=duration,
+                           completion=True)
+        else:
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            task_completed(user=learner.auth_user,
+                           object_type='uoda',
+                           object_name=microoda.name,
+                           parent_type='oda', parent_name=microoda.oda.name,
+                           tags_array=microoda.tags.all(),
+                           timestamp=timestamp,
+                           duration=duration)
 
         microodas_suggestion = [{'mODA_name': mODA.type.name} for mODA in
                                 microoda.oda.microodas.exclude(pk=microoda.pk)]
