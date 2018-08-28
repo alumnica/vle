@@ -28,7 +28,6 @@ from webapp.views import navigation_views
 from webapp.views.user_views import IndexView, LandingPageView
 
 router = routers.DefaultRouter()
-router.register(r'evaluation', api_viewsets.EvaluationViewSet)
 
 urlpatterns = [
     path('', include('pwa.urls')),
@@ -49,6 +48,7 @@ urlpatterns = [
     path('search/', include('webapp.urls.navigation_urls')),
     path('registration', include('django.contrib.auth.urls')),
     path('api/microodas/<int:learner>,<int:uODA>,<str:duration>/', api_viewsets.MicroodaViewSet.as_view(), name='microoda_view'),
+    path('api/evaluation/', api_viewsets.EvaluationViewSet.as_view(), name='evaluation_review_view'),
     path('api/avatar/', api_viewsets.ChangeUserAvatar.as_view(), name='avatar_change_view'),
     path('api/profile_info/', api_viewsets.SaveExtraProfileInfo.as_view(), name='profile_extr_info_view'),
     url(r'^api/h5p_finished/(?P<user>\d+)/(?P<momento>\d+)/$', api_viewsets.H5PFinished.as_view(), name='h5p_finished_view'),

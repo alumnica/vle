@@ -13,28 +13,28 @@ from webapp.statement_builders import task_completed, task_experience_received, 
     answered_question_statement, h5p_task_completed
 
 
-class EvaluationViewSet(ModelViewSet):
+class EvaluationViewSet(APIView):
     """
     Review evaluation ViewSet
     """
     serializer_class = EvaluationSerializer
     queryset = Evaluation.objects.all()
 
-    def list(self, request, *args, **kwargs):
+    def post(self, request):
         """
         Obtains original Evaluation questions and user answers
         :param request: Contains all evaluation data
         :return: score, answer statuses and suggestions
         """
-        duration = request.GET['duration']
-        evaluation_data = request.GET['evaluation']
+        duration = request.POST['duration']
+        evaluation_data = request.POST['evaluation']
         evaluation = json.loads(evaluation_data)
-        relationship_answers = request.GET['relationship_answers'].split('|')
-        multiple_option_answers = request.GET['multiple_option_answers'].split('|')
-        multiple_answer_answers = request.GET['multiple_answer_answers'].split('|')
-        numeric_answers = request.GET['numeric_answer_answers'].split('|')
-        pulldown_list_answers = request.GET['pulldown_list_answers'].split('|')
-        user_pk = request.GET['pk']
+        relationship_answers = request.POST['relationship_answers'].split('|')
+        multiple_option_answers = request.POST['multiple_option_answers'].split('|')
+        multiple_answer_answers = request.POST['multiple_answer_answers'].split('|')
+        numeric_answers = request.POST['numeric_answer_answers'].split('|')
+        pulldown_list_answers = request.POST['pulldown_list_answers'].split('|')
+        user_pk = request.POST['pk']
         user = AuthUser.objects.get(pk=user_pk)
         score, answers, suggestions = self.review_evaluation(evaluation,
                                                              relationship_answers, multiple_option_answers,

@@ -30,6 +30,8 @@ $(document).ready(function () {
 
         $.ajax({
             url: '/api/evaluation/',
+            method: 'POST',
+            type: 'POST',
             data: {
                 evaluation: JSON.stringify(evaluation_object),
                 relationship_answers: relationship_answers,
