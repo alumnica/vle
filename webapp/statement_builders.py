@@ -63,9 +63,9 @@ def avatar_statement(user, avatar, timestamp):
     """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
-    verb = Verb(action='modified')
+    verb = Verb(action='selected')
     object_id = xapi_url + 'avatar/' + avatar
-    object = Object(id=object_id, name='avatar')
+    object = Object(id=object_id, name='avatar_'+avatar)
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
     response = services.send(statement)
