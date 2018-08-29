@@ -20,7 +20,7 @@ def login_statement(request, user, timestamp):
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
 
 
 def register_statement(request, user, timestamp):
@@ -37,7 +37,7 @@ def register_statement(request, user, timestamp):
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
 
 
 def edited_profile(user, timestamp):
@@ -54,7 +54,7 @@ def edited_profile(user, timestamp):
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
 
 
 def avatar_statement(user, avatar, timestamp):
@@ -73,7 +73,7 @@ def avatar_statement(user, avatar, timestamp):
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
 
 
 def logout_statement(request, user, timestamp):
@@ -90,7 +90,7 @@ def logout_statement(request, user, timestamp):
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
 
 
 def search_statement(user, string_searched, timestamp):
@@ -109,7 +109,7 @@ def search_statement(user, string_searched, timestamp):
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, result=result)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
 
 
 def access_statement(request, object_name, timestamp):
@@ -127,7 +127,7 @@ def access_statement(request, object_name, timestamp):
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
 
 
 def access_statement_with_parent(request, object_type, object_name, parent_type, parent_name, tags_array, timestamp):
@@ -156,7 +156,7 @@ def access_statement_with_parent(request, object_type, object_name, parent_type,
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
 
 
 def task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None, max_score=None,
@@ -194,7 +194,7 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
 
 
 def h5p_task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None, max_score=None,
@@ -232,7 +232,7 @@ def h5p_task_completed(user, object_type, object_name, parent_type, parent_name,
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
 
 
 def answered_question_statement(user, question_instance, tags_array, timestamp, success):
@@ -258,7 +258,7 @@ def answered_question_statement(user, question_instance, tags_array, timestamp, 
     result = Result(response='Question: {}'.format(question_instance.sentence), success=success)
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
 
 
 def learning_experience_received(user, object_type, object_name, timestamp, gained_xp):
@@ -278,7 +278,7 @@ def learning_experience_received(user, object_type, object_name, timestamp, gain
     # result = Result(response='{} completed'.format(object_type), completion=True, success=True, raw_score=gained_xp)
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
 
 
 def task_experience_received(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp,
@@ -311,4 +311,4 @@ def task_experience_received(user, object_type, object_name, parent_type, parent
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context)
     q = Queue(connection=worker.conn)
-    q.enqueue(services.send, statement, timeout=100)
+    q.enqueue(services.send, statement, timeout=200)
