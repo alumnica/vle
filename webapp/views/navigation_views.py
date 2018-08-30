@@ -36,15 +36,16 @@ class SearchView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
 
     def get_context_data(self, **kwargs):
         text_to_search = self.kwargs['text']
-        odas_list = [oda for oda in ODA.objects.filter(name__contains=text_to_search, temporal=False)
+        odas_list = [oda for oda in ODA.objects.filter(name__icontains=text_to_search, temporal=False)
                      if oda.subject.ambit.is_published]
-        tags = Tag.objects.filter(name__contains=text_to_search)
+        tags = Tag.objects.filter(name__icontains=text_to_search)
 
         for tag in tags:
-            odas = tag.odas.all()
+            odas = tag.odas.filter(temporal=False)
             for oda in tag.odas.all():
-                if oda not in odas_list and not oda.temporal and oda.subject.ambit.is_published:
-                    odas_list.append(oda)
+                if oda not in odas_list and oda.subject is not None:
+                    if oda.subject.ambit is not None and oda.subject.ambit.is_published:
+                        odas_list.append(oda)
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         search_statement(user=self.request.user, string_searched=text_to_search, timestamp=timestamp)
