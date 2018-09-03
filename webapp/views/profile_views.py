@@ -112,8 +112,8 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
         if learner_level < 1:
             learner_level = 1
 
-        if learner_level > 4:
-            learner_level = 4
+        if learner_level > 3:
+            learner_level = 3
 
         context.update({'learner_level': learner_level})
         return context
