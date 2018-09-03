@@ -87,7 +87,7 @@ class ProfileSettingsForm(forms.ModelForm):
         super(ProfileSettingsForm, self).__init__(*args, **kwargs)
         user = AuthUser.objects.get(pk=kwargs['instance'].pk)
         self.fields['gender_field'].initial = user.profile.gender
-        self.fields['birth_date_field'].initial = user.profile.birth_date
+        self.fields['birth_date_field'].initial = user.profile.birth_date.strftime("%Y-%m-%d")
 
     def clean(self):
         cleaned_data = super(ProfileSettingsForm, self).clean()
@@ -129,10 +129,18 @@ class ProfileSettingsForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super(ProfileSettingsForm, self).save(commit=False)
+        cleaned_data = super(ProfileSettingsForm, self).clean()
+        birth_date = cleaned_data.get('birth_date_field')
+        gender = cleaned_data.get('gender_field')
         new_password = self.cleaned_data.get('new_password')
         if new_password != '':
             user.set_password(self.cleaned_data.get('new_password'))
         user.save()
+        if birth_date != '':
+            user.profile.birth_date = birth_date
+        if gender != '' and gender is not None:
+            user.profile.gender = gender
+        user.profile.save()
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         edited_profile(user=user, timestamp=timestamp)
         return user
