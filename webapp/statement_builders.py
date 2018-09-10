@@ -67,7 +67,7 @@ def avatar_statement(user, avatar, timestamp):
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='selected')
     object_id = xapi_url + 'avatar/' + avatar
-    object = Object(id=object_id, name='avatar_'+avatar)
+    object = Object(id=object_id, name='avatar_' + avatar)
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
     q.enqueue(services.send, statement, timeout=600)
@@ -152,7 +152,8 @@ def access_statement_with_parent(request, object_type, object_name, parent_type,
     q.enqueue(services.send, statement, timeout=600)
 
 
-def task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None, max_score=None,
+def task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None,
+                   max_score=None,
                    duration=None, completion=False):
     """
     Xapi completed task statement constructor
@@ -189,8 +190,9 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
     q.enqueue(services.send, statement, timeout=600)
 
 
-def h5p_task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None, max_score=None,
-                   duration=None):
+def h5p_task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None,
+                       max_score=None,
+                       duration=None):
     """
     Xapi completed task statement constructor
     :param user: Current AuthUser

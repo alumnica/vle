@@ -37,6 +37,7 @@ class FirstLoginP1(forms.Form):
     """
     Short learning style quiz
     """
+
     def save_form(self, user, first_selection, second_selection):
         option_1 = first_selection
         option_2 = second_selection
@@ -102,7 +103,8 @@ class ProfileSettingsForm(forms.ModelForm):
                 self.add_error('new_password', error)
             else:
                 if len(new_password) < 6:
-                    error = ValidationError(_("La contraseña debe tener al menos 6 caracteres"), code='password_length_error')
+                    error = ValidationError(_("La contraseña debe tener al menos 6 caracteres"),
+                                            code='password_length_error')
                     self.add_error('new_password', error)
                 else:
                     if new_password_confirmation is '':
@@ -150,5 +152,6 @@ class LargeLeraningStyleQuizForm(forms.Form):
     """
     Large learning style quiz form
     """
+
     def save_form(self):
         pass

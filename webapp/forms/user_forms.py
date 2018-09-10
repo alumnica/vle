@@ -28,7 +28,8 @@ class UserForm(forms.ModelForm):
         password_confirmation = cleaned_data.get('password_confirmation')
 
         if len(password) < 6:
-            error = ValidationError(_("La contraseña debe tener al menos seis caracteres"), code='password_length_error')
+            error = ValidationError(_("La contraseña debe tener al menos seis caracteres"),
+                                    code='password_length_error')
             self.add_error('password', error)
         else:
             if password != password_confirmation:
@@ -82,6 +83,7 @@ class AuthUserCreateForm(forms.ModelForm):
     """
     Create new AuthUser form for Django Administration
     """
+
     class Meta:
         model = AuthUser
         fields = ['email']

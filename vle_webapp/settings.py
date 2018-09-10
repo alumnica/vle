@@ -44,7 +44,6 @@ EMAIL_HOST_PASSWORD = 'Alumnica1234'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'alumnica@fundacionmanuelmoreno.org'
 
-
 # Application definition
 INSTALLED_APPS = [
     'django_db_prefix',
@@ -64,8 +63,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'social_django',
 ]
-
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -265,7 +262,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
 }
-
 
 # PWA stuff
 

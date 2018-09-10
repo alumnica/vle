@@ -107,7 +107,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ProfileSettingsView, self).get_context_data(**kwargs)
         experience_pts = self.object.profile.experience_points
-        learner_level = int(experience_pts/5000)
+        learner_level = int(experience_pts / 5000)
 
         if learner_level < 1:
             learner_level = 1

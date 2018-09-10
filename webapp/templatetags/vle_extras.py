@@ -27,7 +27,7 @@ def get_menu():
 
 @register.filter(name='learner_level')
 def learner_level(value):
-    level = int(value/5000)
+    level = int(value / 5000)
     if level < 1:
         level = 1
 

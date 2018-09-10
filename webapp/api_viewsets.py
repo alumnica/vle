@@ -236,7 +236,8 @@ class EvaluationViewSet(APIView):
             suggestions = [question['uoda_type'] for question in questions_status
                            if question['status'] == 'incorrect']
             suggestions = set(suggestions)
-            suggestions_dict = [{'uoda': uoda, 'pk': evaluation_instance.oda.all()[0].microodas.get(type=MicroODAType.objects.get(name=uoda)).activities.first().pk} for uoda in suggestions]
+            suggestions_dict = [{'uoda': uoda, 'pk': evaluation_instance.oda.all()[0].microodas.get(
+                type=MicroODAType.objects.get(name=uoda)).activities.first().pk} for uoda in suggestions]
 
         if learner.evaluations_progresses.filter(evaluation=question_instance.evaluation).exists():
             progress = learner.evaluations_progresses.get(evaluation=question_instance.evaluation)
@@ -298,6 +299,7 @@ class MicroodaViewSet(APIView):
     """
     Set Activities completed status by MicroODA
     """
+
     def get(self, request, *args, **kwargs):
         learner_pk = kwargs['learner']
         microoda_pk = kwargs['uODA']
@@ -353,6 +355,7 @@ class ChangeUserAvatar(APIView):
     """
     Learner changed avatar selection saver
     """
+
     def get(self, request, *args, **kwargs):
         learner_pk = request.GET['pk']
         avatar_id = request.GET['avatar']
@@ -370,6 +373,7 @@ class SaveExtraProfileInfo(APIView):
     """
     Edit Learner extra info
     """
+
     def get(self, request):
         learner_pk = request.GET['learner']
         learner = AuthUser.objects.get(pk=learner_pk)
@@ -406,9 +410,7 @@ class H5PFinished(APIView):
         max_score = int(request.POST.get('maxScore'))
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         h5p_task_completed(user=auth_user, object_type='Momento', object_name=momento_instance.name,
-                       parent_type="uoda", parent_name=momento_instance.microoda.name, tags_array=momento_instance.tags.all(),
-                       timestamp=timestamp, score=score, max_score=max_score)
+                           parent_type="uoda", parent_name=momento_instance.microoda.name,
+                           tags_array=momento_instance.tags.all(),
+                           timestamp=timestamp, score=score, max_score=max_score)
         return JsonResponse({'ok': 'ok'})
-
-
-

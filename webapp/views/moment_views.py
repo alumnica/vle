@@ -13,8 +13,6 @@ from vle_webapp.settings import AWS_INSTANCE_URL
 from webapp.statement_builders import access_statement_with_parent
 
 
-
-
 class MomentView(LoginRequiredMixin, FormView):
     """
     MicroODA activities obtained by Momento pk view

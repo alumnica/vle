@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    let finished = false;
 
     $('#evaluate').fullpage({
         verticalCentered: false,
@@ -269,7 +268,7 @@ $(document).ready(function () {
 
     });
 
-    $('.question[question-type="multiple_answer"').each(function () {
+    $('.question[question-type="multiple_answer"]').each(function () {
         let dataAnchor = $(this).parent().attr('data-anchor');
         let thePk = $(this).attr('pk');
         let qIndex = $('.question[question-type="multiple_answer"]').index(this);
@@ -297,7 +296,7 @@ $(document).ready(function () {
 
     });
 
-    $('.question[question-type="numeric_answer"').each(function () {
+    $('.question[question-type="numeric_answer"]').each(function () {
         let dataAnchor = $(this).parent().attr('data-anchor');
         let thePk = $(this).attr('pk');
         let qIndex = $('.question[question-type="numeric_answer"]').index(this);
@@ -327,7 +326,7 @@ $(document).ready(function () {
 
     });
 
-    $('.question[question-type="pulldown_list"').each(function () {
+    $('.question[question-type="pulldown_list"]').each(function () {
         let dataAnchor = $(this).parent().attr('data-anchor');
         let thePk = $(this).attr('pk');
         let qIndex = $('.question[question-type="pulldown_list"]').index(this);
