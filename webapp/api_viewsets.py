@@ -402,6 +402,9 @@ class H5PToXapi(APIView):
 
 
 class H5PFinished(APIView):
+    """
+    Extracts score and sends h5p activity completion statement
+    """
     def post(self, request, user, momento):
         momento_instance = Moment.objects.get(pk=momento)
         auth_user = AuthUser.objects.get(pk=user)

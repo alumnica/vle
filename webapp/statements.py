@@ -79,6 +79,9 @@ class Definition:
 
 
 class Object:
+    """
+    Xapi object
+    """
     def __init__(self, id, name, type=None):
         self.id = id
         self.definition = Definition(name=name, type=type)

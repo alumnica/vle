@@ -52,4 +52,7 @@ class SearchView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
 
 
 def error404(request):
+    """
+    Handles custom 404 error page
+    """
     return render(request, 'webapp/pages/404.html', status=404)
