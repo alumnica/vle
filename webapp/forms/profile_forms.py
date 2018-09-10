@@ -148,7 +148,7 @@ class ProfileSettingsForm(forms.ModelForm):
         return user
 
 
-class LargeLeraningStyleQuizForm(forms.Form):
+class LargeLearningStyleQuizForm(forms.Form):
     """
     Large learning style quiz form
     """

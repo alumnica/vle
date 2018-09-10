@@ -3,7 +3,6 @@ import json
 
 from django.http import JsonResponse
 from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
 
 from alumnica_model.models import AuthUser, Learner, MicroODA, Moment
 from alumnica_model.models.progress import LearnerEvaluationProgress, EXPERIENCE_POINTS_CONSTANTS

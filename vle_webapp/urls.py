@@ -13,13 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls import url
-from django.conf.urls.i18n import i18n_patterns
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from django.utils.translation import gettext_lazy as _
-from django.conf import settings
-from django.conf.urls.static import static
 from django.views.i18n import JavaScriptCatalog
 from rest_framework import routers
 
@@ -56,6 +54,6 @@ urlpatterns = [
                       name='h5p_finished_view'),
                   url(r'^api/h5p_data/(?P<subContentId>\d+)/$', api_viewsets.H5PToXapi.as_view(), name='h5p_data_view'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-handler404 = navigation_views.Error404
-handler400 = navigation_views.Error404
-handler500 = navigation_views.Error404
+handler404 = navigation_views.error404
+handler400 = navigation_views.error404
+handler500 = navigation_views.error404

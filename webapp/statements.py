@@ -20,14 +20,14 @@ xapi_verbs = {
 }
 
 
-def ComplexHandler(Obj):
+def ComplexHandler(obj):
     """
-    Object toJSON method caller
+    Object to_json method caller
     """
-    if hasattr(Obj, 'toJSON'):
-        return Obj.toJSON()
+    if hasattr(obj, 'to_json'):
+        return obj.to_json()
     else:
-        raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(Obj), repr(Obj)))
+        raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
 
 
 class Actor:
@@ -38,7 +38,7 @@ class Actor:
         self.name = name
         self.mbox = 'mailto:' + email
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -49,7 +49,7 @@ class Display:
     def __init__(self, action):
         self.en = action
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -61,7 +61,7 @@ class Verb:
         self.id = xapi_verbs[action]
         self.display = Display(action=action)
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -74,7 +74,7 @@ class Definition:
         if type is not None:
             self.type = type
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -83,7 +83,7 @@ class Object:
         self.id = id
         self.definition = Definition(name=name, type=type)
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -94,7 +94,7 @@ class ContextID:
     def __init__(self, id):
         self.id = id
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -113,7 +113,7 @@ class ContextActivities:
         for id in tags:
             self.other.append((ContextID(id)))
 
-    def toJSON(self):
+    def to_json(self):
         other = json.loads(json.dumps(self.other, default=ComplexHandler))
         parent = json.loads(json.dumps(self.parent, default=ComplexHandler))
         return {'parent': parent, 'other': other}
@@ -126,7 +126,7 @@ class Context:
     def __init__(self, parents, tags):
         self.contextActivities = ContextActivities(parents=parents, tags=tags)
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -139,7 +139,7 @@ class Score:
         if max_score is not None:
             self.max = max_score
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -161,7 +161,7 @@ class Result:
         if duration is not None:
             self.duration = duration
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -179,5 +179,5 @@ class Statement:
         if result is not None:
             self.result = result
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__

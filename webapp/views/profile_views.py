@@ -47,7 +47,7 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView)
     Large Learning style quiz view
     """
     login_url = 'login_view'
-    form_class = LargeLeraningStyleQuizForm
+    form_class = LargeLearningStyleQuizForm
     template_name = 'webapp/pages/user-test.html'
 
     def dispatch(self, request, *args, **kwargs):

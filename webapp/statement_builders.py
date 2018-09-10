@@ -163,7 +163,7 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
     :param parent_type: parent object type
     :param parent_name: parent object name
     :param tags_array: object tags
-    :param timestamp: activity timpestamp
+    :param timestamp: activity timestamp
     :param score: score obtained
     :param duration: duration
     """
@@ -201,7 +201,7 @@ def h5p_task_completed(user, object_type, object_name, parent_type, parent_name,
     :param parent_type: parent object type
     :param parent_name: parent object name
     :param tags_array: object tags
-    :param timestamp: activity timpestamp
+    :param timestamp: activity timestamp
     :param score: score obtained
     :param duration: duration
     """
