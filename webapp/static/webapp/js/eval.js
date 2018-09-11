@@ -13,7 +13,9 @@ $(document).ready(function () {
         $.fn.fullpage.moveSectionDown();
     });
 
-
+    /**
+     * Sends original questions distribution and answers
+     */
     $('.end button').click(function () {
         let relationship_answers = document.getElementById('relationship').value;
         let multiple_option_answers = document.getElementById('multiple_option').value;

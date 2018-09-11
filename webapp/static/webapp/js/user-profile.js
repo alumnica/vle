@@ -1,5 +1,7 @@
 $('#selected-avatar').val($('.avatar-main img').attr('id'));
-
+/**
+ * Sends avatar changed event
+ */
 $('.avatar-options').on('click', 'img', function () {
     let clicked = $(this);
     let main = $('.avatar-main img');
@@ -16,6 +18,9 @@ $('.avatar-options').on('click', 'img', function () {
     });
 });
 
+/**
+ * Sends profile extra information
+ */
 $('#user-info-btn').on('click', function(){
     let matFav = $('#materia-fav').val(),
         hora = $('#horario').val(),
@@ -47,7 +52,9 @@ $('#user-info-btn').on('click', function(){
     }, 3000);
 });
 
-
+/**
+ *
+ */
 $(document).ready(function () {
     $.ajax({
         type: 'GET',

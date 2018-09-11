@@ -1,4 +1,7 @@
 let input = document.getElementById("searcher");
+/**
+ * Redirects to search view passing text to search as parameter
+ */
 input.addEventListener("keyup", function (event) {
     event.preventDefault();
     if (event.keyCode === 13) {
