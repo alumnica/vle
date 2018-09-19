@@ -47,7 +47,7 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView)
     Large Learning style quiz view
     """
     login_url = 'login_view'
-    form_class = LargeLeraningStyleQuizForm
+    form_class = LargeLearningStyleQuizForm
     template_name = 'webapp/pages/user-test.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -107,13 +107,13 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ProfileSettingsView, self).get_context_data(**kwargs)
         experience_pts = self.object.profile.experience_points
-        learner_level = int(experience_pts/5000)
+        learner_level = int(experience_pts / 5000)
 
         if learner_level < 1:
             learner_level = 1
 
-        if learner_level > 4:
-            learner_level = 4
+        if learner_level > 3:
+            learner_level = 3
 
         context.update({'learner_level': learner_level})
         return context

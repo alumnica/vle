@@ -1,15 +1,16 @@
 window.H5PIntegration = {
     "baseUrl": BASE_URL, // No trailing slash
     "url": BASE_URL + H5P_CONTENT,          // Relative to web root
-    "postUserStatistics": false,         // Only if user is logged in
-    "ajaxPath": "/path/to/h5p-ajax",    // Only used by older Content Types
+    "postUserStatistics": true,         // Only if user is logged in
+    "ajaxPath": "/api/h5p_finished/"+auth_us+"/"+mom+"/",    // Only used by older Content Types
     "ajax": {
         // Where to post user results
-        "setFinished": "/interactive-contents/123/results/new",
+        "setFinished": "/api/h5p_finished/"+auth_us+"/"+mom+"/",
         // Words beginning with : are placeholders
-        "contentUserData": "/interactive-contents/:contentId/user-data?data_type=:dataType&subContentId=:subContentId"
+        //"contentUserData": "/api/h5p_data/?data_type=:dataType&subContentId=:subContentId"
+        "contentUserData": "/api/h5p_data/:subContentId/"
     },
-    "saveFreq": 30, // How often current content state should be saved. false to disable.
+    "saveFreq": false, // How often current content state should be saved. false to disable.
     "user": { // Only if logged in !
         "name": "User Name",
         "mail": "user@mysite.com"

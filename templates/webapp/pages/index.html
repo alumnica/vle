@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}`
 {% block content %}
 
 <section class="home-bg">
@@ -8,7 +8,9 @@
   <div class="grid-x align-right align-bottom">
     <div class="cell medium-5 text-center">
             <div class="index-content">
-                <h2 class="u-margin-bottom-small">alumnica</h2>
+                <div style="margin-bottom: 1rem;">
+                     <img src="{% static "/webapp/media/alumnica-200.png"%}" alt="Alumnica">
+                </div>
                 <a href="{% url 'login_view' %}" class="button large login-btn">Iniciar Sesión</a>
                 <p class="login-p">¿Aún no tienes cuenta?</p>
                 <a href="{% url 'signup_view' %}">REGÍSTRATE AHORA</a>

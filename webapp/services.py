@@ -1,5 +1,7 @@
 import json
 import requests
+from requests import RequestException
+
 from vle_webapp.settings import XAPI_URL, XAPI_VERSION, XAPI_KEY
 from webapp.statements import ComplexHandler
 
@@ -19,7 +21,7 @@ def send(statement):
             'Authorization': XAPI_KEY
         }
         response = requests.post(url=url, data=data, headers=headers)
-    except:
+    except RequestException:
         response = "Xapi connection Error"
 
     return response

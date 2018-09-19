@@ -28,11 +28,12 @@ class UserForm(forms.ModelForm):
         password_confirmation = cleaned_data.get('password_confirmation')
 
         if len(password) < 6:
-            error = ValidationError(_("Password must have 6 characters or more."), code='password_length_error')
+            error = ValidationError(_("La contraseña debe tener al menos seis caracteres"),
+                                    code='password_length_error')
             self.add_error('password', error)
         else:
             if password != password_confirmation:
-                error = ValidationError(_("The two password fields didn't match."), code='password_mismatch')
+                error = ValidationError(_("Las contraseñas no coinciden"), code='password_mismatch')
                 self.add_error('password', error)
                 self.add_error('password_confirmation', error)
         return cleaned_data
@@ -61,12 +62,12 @@ class UserLoginForm(forms.Form):
         try:
             user = AuthUser.objects.get(email=email)
             if not user.check_password(password):
-                error = ValidationError(_("Invalid password or email."), code='credentials_error')
+                error = ValidationError(_("Contraseña o correo incorrecto"), code='credentials_error')
                 self.add_error('password', error)
                 self.add_error('email', error)
 
         except AuthUser.DoesNotExist:
-            error = ValidationError(_("Invalid password or email."), code='credentials_error')
+            error = ValidationError(_("Contraseña o correo incorrecto"), code='credentials_error')
             self.add_error('password', error)
             self.add_error('email', error)
         return cleaned_data
@@ -82,6 +83,7 @@ class AuthUserCreateForm(forms.ModelForm):
     """
     Create new AuthUser form for Django Administration
     """
+
     class Meta:
         model = AuthUser
         fields = ['email']

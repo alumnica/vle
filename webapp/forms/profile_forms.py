@@ -37,6 +37,7 @@ class FirstLoginP1(forms.Form):
     """
     Short learning style quiz
     """
+
     def save_form(self, user, first_selection, second_selection):
         option_1 = first_selection
         option_2 = second_selection
@@ -87,7 +88,7 @@ class ProfileSettingsForm(forms.ModelForm):
         super(ProfileSettingsForm, self).__init__(*args, **kwargs)
         user = AuthUser.objects.get(pk=kwargs['instance'].pk)
         self.fields['gender_field'].initial = user.profile.gender
-        self.fields['birth_date_field'].initial = user.profile.birth_date
+        self.fields['birth_date_field'].initial = user.profile.birth_date.strftime("%Y-%m-%d")
 
     def clean(self):
         cleaned_data = super(ProfileSettingsForm, self).clean()
@@ -98,30 +99,31 @@ class ProfileSettingsForm(forms.ModelForm):
 
         if previous_password is not '' or new_password is not '' or new_password_confirmation is not '':
             if new_password is '':
-                error = ValidationError(_("Write a new password"), code='password_error')
+                error = ValidationError(_("Escribe una nueva contraseña"), code='password_error')
                 self.add_error('new_password', error)
             else:
                 if len(new_password) < 6:
-                    error = ValidationError(_("Password must have 6 characters or more."), code='password_length_error')
+                    error = ValidationError(_("La contraseña debe tener al menos 6 caracteres"),
+                                            code='password_length_error')
                     self.add_error('new_password', error)
                 else:
                     if new_password_confirmation is '':
-                        error = ValidationError(_("Please write the password confirmation."),
+                        error = ValidationError(_("Por favor confirma tu contraseña."),
                                                 code='password_confirmation_error')
                         self.add_error('new_password_confirmation', error)
                     else:
                         if new_password != new_password_confirmation:
-                            error = ValidationError(_("Passwords do not match."),
+                            error = ValidationError(_("Las contraseñas no coinciden."),
                                                     code='password_confirmation_error')
                             self.add_error('new_password', error)
                         else:
                             if previous_password is not '':
                                 user = self.instance
                                 if not user.check_password(previous_password):
-                                    error = ValidationError(_("Invalid password."), code='credentials_error')
+                                    error = ValidationError(_("Contraseña incorrecta."), code='credentials_error')
                                     self.add_error('previous_password', error)
                             else:
-                                error = ValidationError(_("Previous password must be written."),
+                                error = ValidationError(_("Debes escribir tu contraseña anterior."),
                                                         code='credentials_error')
                                 self.add_error('previous_password', error)
 
@@ -129,18 +131,27 @@ class ProfileSettingsForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super(ProfileSettingsForm, self).save(commit=False)
+        cleaned_data = super(ProfileSettingsForm, self).clean()
+        birth_date = cleaned_data.get('birth_date_field')
+        gender = cleaned_data.get('gender_field')
         new_password = self.cleaned_data.get('new_password')
         if new_password != '':
             user.set_password(self.cleaned_data.get('new_password'))
         user.save()
+        if birth_date != '':
+            user.profile.birth_date = birth_date
+        if gender != '' and gender is not None:
+            user.profile.gender = gender
+        user.profile.save()
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         edited_profile(user=user, timestamp=timestamp)
         return user
 
 
-class LargeLeraningStyleQuizForm(forms.Form):
+class LargeLearningStyleQuizForm(forms.Form):
     """
     Large learning style quiz form
     """
+
     def save_form(self):
         pass

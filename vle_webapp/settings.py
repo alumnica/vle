@@ -17,7 +17,7 @@ import sys
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 
-VERSION_NUMBER = 'v0.11.2'
+VERSION_NUMBER = 'v0.12.0'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -44,7 +44,6 @@ EMAIL_HOST_PASSWORD = 'Alumnica1234'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'alumnica@fundacionmanuelmoreno.org'
 
-
 # Application definition
 INSTALLED_APPS = [
     'django_db_prefix',
@@ -64,8 +63,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'social_django',
 ]
-
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -150,11 +147,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'America/Mexico_City'
 
-USE_I18N = True
+USE_I18N = False
 
 USE_L10N = True
 
@@ -165,7 +162,6 @@ LOCALE_PATHS = (
 )
 
 LANGUAGES = [
-    ('en', _('English')),
     ('es', _('Spanish')),
 ]
 
@@ -188,6 +184,7 @@ XAPI_KEY = os.environ.get('XAPI_KEY')
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_INSTANCE_URL = os.environ.get('AWS_INSTANCE_URL')
 
 SOCIAL_AUTH_FACEBOOK_KEY = '216563479203361'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'b1270062222bc3c887426b6540a65ebe'
@@ -265,7 +262,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
 }
-
 
 # PWA stuff
 

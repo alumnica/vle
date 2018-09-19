@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from django.views.generic import FormView
 
 from alumnica_model.mixins import OnlyLearnerMixin
@@ -34,17 +35,24 @@ class SearchView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
 
     def get_context_data(self, **kwargs):
         text_to_search = self.kwargs['text']
-        odas_list = [oda for oda in ODA.objects.filter(name__contains=text_to_search, temporal=False)
+        odas_list = [oda for oda in ODA.objects.filter(name__icontains=text_to_search, temporal=False)
                      if oda.subject.ambit.is_published]
-        tags = Tag.objects.filter(name__contains=text_to_search)
+        tags = Tag.objects.filter(name__icontains=text_to_search)
 
         for tag in tags:
-            odas = tag.odas.all()
             for oda in tag.odas.all():
-                if oda not in odas_list and not oda.temporal and oda.subject.ambit.is_published:
-                    odas_list.append(oda)
+                if oda not in odas_list and oda.subject is not None:
+                    if oda.subject.ambit is not None and oda.subject.ambit.is_published:
+                        odas_list.append(oda)
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         search_statement(user=self.request.user, string_searched=text_to_search, timestamp=timestamp)
 
         return {'odas_list': odas_list, 'text_to_search': text_to_search}
+
+
+def error404(request):
+    """
+    Handles custom 404 error page
+    """
+    return render(request, 'webapp/pages/404.html', status=404)

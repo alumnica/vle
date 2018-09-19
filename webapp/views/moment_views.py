@@ -9,6 +9,7 @@ from django.views.generic import FormView, DetailView
 from alumnica_model.models import Moment, LearnerProgressInActivity
 from alumnica_model.models.h5p import H5Package
 from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
+from vle_webapp.settings import AWS_INSTANCE_URL
 from webapp.statement_builders import access_statement_with_parent
 
 
@@ -69,18 +70,20 @@ class H5PackageView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(H5PackageView, self).get_context_data(**kwargs)
-
+        momento_pk = Moment.objects.get(h5p_package=self.object).pk
         context.update({
             'library_directory_name': self.object.main_library.full_name,
             'content_json': json.dumps(self.object.content, ensure_ascii=False),
             'stylesheets': list(OrderedSet({
                 css for lib in self.object.preloaded_dependencies.all()
-                for css in lib.get_all_stylesheets()
+                for css in lib.get_all_stylesheets(aws_url=AWS_INSTANCE_URL)
             })),
             'scripts': list(OrderedSet([
                 script for lib in self.object.preloaded_dependencies.all()
-                for script in lib.get_all_javascripts()
-            ]))
+                for script in lib.get_all_javascripts(aws_url=AWS_INSTANCE_URL)
+            ])),
+            "aws_url": AWS_INSTANCE_URL,
+            "mom": momento_pk,
         })
 
         return context

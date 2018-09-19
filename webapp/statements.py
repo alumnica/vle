@@ -16,17 +16,18 @@ xapi_verbs = {
     "logged-in": "https://w3id.org/xapi/adl/verbs/logged-in",
     "logged-out": "https://w3id.org/xapi/adl/verbs/logged-out",
     "answered": "http://adlnet.gov/expapi/verbs/answered",
+    "earned": "https://registry.tincanapi.com/#uri/verb/441",
 }
 
 
-def ComplexHandler(Obj):
+def ComplexHandler(obj):
     """
-    Object toJSON method caller
+    Object to_json method caller
     """
-    if hasattr(Obj, 'toJSON'):
-        return Obj.toJSON()
+    if hasattr(obj, 'to_json'):
+        return obj.to_json()
     else:
-        raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(Obj), repr(Obj)))
+        raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
 
 
 class Actor:
@@ -37,7 +38,7 @@ class Actor:
         self.name = name
         self.mbox = 'mailto:' + email
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -48,7 +49,7 @@ class Display:
     def __init__(self, action):
         self.en = action
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -60,7 +61,7 @@ class Verb:
         self.id = xapi_verbs[action]
         self.display = Display(action=action)
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -68,19 +69,24 @@ class Definition:
     """
     Definition object
     """
-    def __init__(self, name):
+    def __init__(self, name, type):
         self.name = Display(name)
+        if type is not None:
+            self.type = type
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
 class Object:
-    def __init__(self, id, name):
+    """
+    Xapi object
+    """
+    def __init__(self, id, name, type=None):
         self.id = id
-        self.definition = Definition(name=name)
+        self.definition = Definition(name=name, type=type)
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -91,7 +97,7 @@ class ContextID:
     def __init__(self, id):
         self.id = id
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -110,7 +116,7 @@ class ContextActivities:
         for id in tags:
             self.other.append((ContextID(id)))
 
-    def toJSON(self):
+    def to_json(self):
         other = json.loads(json.dumps(self.other, default=ComplexHandler))
         parent = json.loads(json.dumps(self.parent, default=ComplexHandler))
         return {'parent': parent, 'other': other}
@@ -123,7 +129,7 @@ class Context:
     def __init__(self, parents, tags):
         self.contextActivities = ContextActivities(parents=parents, tags=tags)
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -131,10 +137,12 @@ class Score:
     """
     Score object containing raw score
     """
-    def __init__(self, raw_score):
+    def __init__(self, raw_score, max_score=None):
         self.raw = raw_score
+        if max_score is not None:
+            self.max = max_score
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -142,18 +150,21 @@ class Result:
     """
     Result object
     """
-    def __init__(self, response, completion=None, success=None, raw_score=None, duration=None):
+    def __init__(self, response, completion=None, success=None, raw_score=None, max_score=None, duration=None):
         self.response = response
         if completion is not None:
             self.completion = completion
         if success is not None:
             self.success = success
         if raw_score is not None:
-            self.score = Score(raw_score=raw_score)
+            if max_score is not None:
+                self.score = Score(raw_score=raw_score, max_score=max_score)
+            else:
+                self.score = Score(raw_score=raw_score)
         if duration is not None:
             self.duration = duration
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__
 
 
@@ -171,5 +182,5 @@ class Statement:
         if result is not None:
             self.result = result
 
-    def toJSON(self):
+    def to_json(self):
         return self.__dict__

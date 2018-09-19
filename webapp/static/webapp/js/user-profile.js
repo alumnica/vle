@@ -1,5 +1,7 @@
 $('#selected-avatar').val($('.avatar-main img').attr('id'));
-
+/**
+ * Sends avatar changed event
+ */
 $('.avatar-options').on('click', 'img', function () {
     let clicked = $(this);
     let main = $('.avatar-main img');
@@ -16,12 +18,15 @@ $('.avatar-options').on('click', 'img', function () {
     });
 });
 
+/**
+ * Sends profile extra information
+ */
 $('#user-info-btn').on('click', function(){
     let matFav = $('#materia-fav').val(),
         hora = $('#horario').val(),
         uni = $('#univ').val();
 
-    let url = gettext('/en/api/profile_info/');
+    let url = '/api/profile_info/';
 
     $.ajax({
         method: 'POST',
@@ -33,10 +38,23 @@ $('#user-info-btn').on('click', function(){
             'university_studies': uni,
             'learner': pk
         }
-    })
+    });
+     // Create div
+    const span = document.createElement('span');
+    // Add classes
+    span.className = 'saved';
+    span.innerHTML = 'GUARDADO';
+
+    $('.extra-info').append(span);
+//     Timeout after 3 sec
+    setTimeout(function(){
+      document.querySelector('.saved').remove();
+    }, 3000);
 });
 
-
+/**
+ *
+ */
 $(document).ready(function () {
     $.ajax({
         type: 'GET',

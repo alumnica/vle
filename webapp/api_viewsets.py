@@ -3,38 +3,37 @@ import json
 
 from django.http import JsonResponse
 from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
 
-from alumnica_model.models import AuthUser, Learner, MicroODA
+from alumnica_model.models import AuthUser, Learner, MicroODA, Moment
 from alumnica_model.models.progress import LearnerEvaluationProgress, EXPERIENCE_POINTS_CONSTANTS
 from alumnica_model.models.questions import *
 from webapp.serializers import *
 from webapp.statement_builders import task_completed, task_experience_received, avatar_statement, \
-    answered_question_statement
+    answered_question_statement, h5p_task_completed
 
 
-class EvaluationViewSet(ModelViewSet):
+class EvaluationViewSet(APIView):
     """
     Review evaluation ViewSet
     """
     serializer_class = EvaluationSerializer
     queryset = Evaluation.objects.all()
 
-    def list(self, request, *args, **kwargs):
+    def post(self, request):
         """
         Obtains original Evaluation questions and user answers
         :param request: Contains all evaluation data
         :return: score, answer statuses and suggestions
         """
-        duration = request.GET['duration']
-        evaluation_data = request.GET['evaluation']
+        duration = request.POST['duration']
+        evaluation_data = request.POST['evaluation']
         evaluation = json.loads(evaluation_data)
-        relationship_answers = request.GET['relationship_answers'].split('|')
-        multiple_option_answers = request.GET['multiple_option_answers'].split('|')
-        multiple_answer_answers = request.GET['multiple_answer_answers'].split('|')
-        numeric_answers = request.GET['numeric_answer_answers'].split('|')
-        pulldown_list_answers = request.GET['pulldown_list_answers'].split('|')
-        user_pk = request.GET['pk']
+        relationship_answers = request.POST['relationship_answers'].split('|')
+        multiple_option_answers = request.POST['multiple_option_answers'].split('|')
+        multiple_answer_answers = request.POST['multiple_answer_answers'].split('|')
+        numeric_answers = request.POST['numeric_answer_answers'].split('|')
+        pulldown_list_answers = request.POST['pulldown_list_answers'].split('|')
+        user_pk = request.POST['pk']
         user = AuthUser.objects.get(pk=user_pk)
         score, answers, suggestions = self.review_evaluation(evaluation,
                                                              relationship_answers, multiple_option_answers,
@@ -236,7 +235,8 @@ class EvaluationViewSet(ModelViewSet):
             suggestions = [question['uoda_type'] for question in questions_status
                            if question['status'] == 'incorrect']
             suggestions = set(suggestions)
-            suggestions_dict = [{'uoda': uoda, 'pk': evaluation_instance.oda.all()[0].microodas.get(type=MicroODAType.objects.get(name=uoda)).activities.first().pk} for uoda in suggestions]
+            suggestions_dict = [{'uoda': uoda, 'pk': evaluation_instance.oda.all()[0].microodas.get(
+                type=MicroODAType.objects.get(name=uoda)).activities.first().pk} for uoda in suggestions]
 
         if learner.evaluations_progresses.filter(evaluation=question_instance.evaluation).exists():
             progress = learner.evaluations_progresses.get(evaluation=question_instance.evaluation)
@@ -251,6 +251,26 @@ class EvaluationViewSet(ModelViewSet):
                                          tags_array=evaluation_instance.oda.all()[0].tags.all(),
                                          timestamp=timestamp,
                                          gained_xp=EXPERIENCE_POINTS_CONSTANTS['evaluation_completed'])
+                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+                task_completed(learner.auth_user,
+                               'evaluation',
+                               evaluation_instance.name,
+                               'oda', evaluation_instance.oda.all()[0].name,
+                               tags_array=evaluation_instance.oda.all()[0].tags.all(),
+                               timestamp=timestamp,
+                               score=score,
+                               duration=duration,
+                               completion=True)
+            else:
+                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+                task_completed(learner.auth_user,
+                               'evaluation',
+                               evaluation_instance.name,
+                               'oda', evaluation_instance.oda.all()[0].name,
+                               tags_array=evaluation_instance.oda.all()[0].tags.all(),
+                               timestamp=timestamp,
+                               score=score,
+                               duration=duration)
             progress.evaluation_completed_counter += 1
             progress.save_progress()
         else:
@@ -260,15 +280,16 @@ class EvaluationViewSet(ModelViewSet):
             progress.evaluation_completed_counter += 1
             progress.save_progress()
 
-        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        task_completed(learner.auth_user,
-                       'evaluation',
-                       evaluation_instance.name,
-                       'oda', evaluation_instance.oda.all()[0].name,
-                       tags_array=evaluation_instance.oda.all()[0].tags.all(),
-                       timestamp=timestamp,
-                       score=score,
-                       duration=duration)
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            task_completed(learner.auth_user,
+                           'evaluation',
+                           evaluation_instance.name,
+                           'oda', evaluation_instance.oda.all()[0].name,
+                           tags_array=evaluation_instance.oda.all()[0].tags.all(),
+                           timestamp=timestamp,
+                           score=score,
+                           duration=duration,
+                           completion=True)
 
         return score, questions_status, suggestions_dict
 
@@ -277,6 +298,7 @@ class MicroodaViewSet(APIView):
     """
     Set Activities completed status by MicroODA
     """
+
     def get(self, request, *args, **kwargs):
         learner_pk = kwargs['learner']
         microoda_pk = kwargs['uODA']
@@ -291,25 +313,36 @@ class MicroodaViewSet(APIView):
             progress.is_complete = True
             progress.save_progress()
 
-            if progress.activity_completed_counter == 1:
-                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-                task_experience_received(user=learner.auth_user,
-                                         object_type='uoda',
-                                         object_name=microoda.name,
-                                         parent_type='oda',
-                                         parent_name=microoda.oda.name,
-                                         tags_array=microoda.tags.all(),
-                                         timestamp=timestamp,
-                                         gained_xp=EXPERIENCE_POINTS_CONSTANTS['uODA_completed'])
+        progress = learner.activities_progresses.get(activity=microoda.activities.first())
+        if progress.activity_completed_counter == 1:
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            task_experience_received(user=learner.auth_user,
+                                     object_type='uoda',
+                                     object_name=microoda.name,
+                                     parent_type='oda',
+                                     parent_name=microoda.oda.name,
+                                     tags_array=microoda.tags.all(),
+                                     timestamp=timestamp,
+                                     gained_xp=EXPERIENCE_POINTS_CONSTANTS['uODA_completed'])
 
-        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        task_completed(user=learner.auth_user,
-                       object_type='uoda',
-                       object_name=microoda.name,
-                       parent_type='oda', parent_name=microoda.oda.name,
-                       tags_array=microoda.tags.all(),
-                       timestamp=timestamp,
-                       duration=duration)
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            task_completed(user=learner.auth_user,
+                           object_type='uoda',
+                           object_name=microoda.name,
+                           parent_type='oda', parent_name=microoda.oda.name,
+                           tags_array=microoda.tags.all(),
+                           timestamp=timestamp,
+                           duration=duration,
+                           completion=True)
+        else:
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            task_completed(user=learner.auth_user,
+                           object_type='uoda',
+                           object_name=microoda.name,
+                           parent_type='oda', parent_name=microoda.oda.name,
+                           tags_array=microoda.tags.all(),
+                           timestamp=timestamp,
+                           duration=duration)
 
         microodas_suggestion = [{'mODA_name': mODA.type.name} for mODA in
                                 microoda.oda.microodas.exclude(pk=microoda.pk)]
@@ -321,6 +354,7 @@ class ChangeUserAvatar(APIView):
     """
     Learner changed avatar selection saver
     """
+
     def get(self, request, *args, **kwargs):
         learner_pk = request.GET['pk']
         avatar_id = request.GET['avatar']
@@ -338,6 +372,7 @@ class SaveExtraProfileInfo(APIView):
     """
     Edit Learner extra info
     """
+
     def get(self, request):
         learner_pk = request.GET['learner']
         learner = AuthUser.objects.get(pk=learner_pk)
@@ -360,3 +395,24 @@ class SaveExtraProfileInfo(APIView):
         learner.profile.save()
         return JsonResponse({'ok': 'ok'})
 
+
+class H5PToXapi(APIView):
+    def post(self, request, subContentId):
+        pass
+
+
+class H5PFinished(APIView):
+    """
+    Extracts score and sends h5p activity completion statement
+    """
+    def post(self, request, user, momento):
+        momento_instance = Moment.objects.get(pk=momento)
+        auth_user = AuthUser.objects.get(pk=user)
+        score = int(request.POST.get('score'))
+        max_score = int(request.POST.get('maxScore'))
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        h5p_task_completed(user=auth_user, object_type='Momento', object_name=momento_instance.name,
+                           parent_type="uoda", parent_name=momento_instance.microoda.name,
+                           tags_array=momento_instance.tags.all(),
+                           timestamp=timestamp, score=score, max_score=max_score)
+        return JsonResponse({'ok': 'ok'})

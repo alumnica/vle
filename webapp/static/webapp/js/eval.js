@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    let finished = false;
 
     $('#evaluate').fullpage({
         verticalCentered: false,
@@ -14,7 +13,9 @@ $(document).ready(function () {
         $.fn.fullpage.moveSectionDown();
     });
 
-
+    /**
+     * Sends original questions distribution and answers
+     */
     $('.end button').click(function () {
         let relationship_answers = document.getElementById('relationship').value;
         let multiple_option_answers = document.getElementById('multiple_option').value;
@@ -30,6 +31,8 @@ $(document).ready(function () {
 
         $.ajax({
             url: '/api/evaluation/',
+            method: 'POST',
+            type: 'POST',
             data: {
                 evaluation: JSON.stringify(evaluation_object),
                 relationship_answers: relationship_answers,
@@ -80,7 +83,7 @@ $(document).ready(function () {
                         let rec_div = document.getElementById('suggestions');
 
                         $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='" + suggestion.image + "' alt='\'></div><div class='oda-text'>" + suggestion.oda + "</div></a>");
-                        $(rec_div).find('#rec').attr("href", gettext("/odas/" + suggestion.pk + "/"));
+                        $(rec_div).find('#rec').attr("href", "/odas/" + suggestion.pk + "/");
 
 
                     }
@@ -101,7 +104,7 @@ $(document).ready(function () {
                         } else if (suggestion.uoda == "activation") {
                             $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/activ.png' alt='Activacion'></div><div class='oda-text'>Activación</div></a>")
                         }
-                        $(rec_div).find('#rec').attr("href", gettext("/moments/" + suggestion.pk + "/"));
+                        $(rec_div).find('#rec').attr("href", "/moments/" + suggestion.pk + "/");
                     }
                 }
             }
@@ -267,7 +270,7 @@ $(document).ready(function () {
 
     });
 
-    $('.question[question-type="multiple_answer"').each(function () {
+    $('.question[question-type="multiple_answer"]').each(function () {
         let dataAnchor = $(this).parent().attr('data-anchor');
         let thePk = $(this).attr('pk');
         let qIndex = $('.question[question-type="multiple_answer"]').index(this);
@@ -295,7 +298,7 @@ $(document).ready(function () {
 
     });
 
-    $('.question[question-type="numeric_answer"').each(function () {
+    $('.question[question-type="numeric_answer"]').each(function () {
         let dataAnchor = $(this).parent().attr('data-anchor');
         let thePk = $(this).attr('pk');
         let qIndex = $('.question[question-type="numeric_answer"]').index(this);
@@ -325,7 +328,7 @@ $(document).ready(function () {
 
     });
 
-    $('.question[question-type="pulldown_list"').each(function () {
+    $('.question[question-type="pulldown_list"]').each(function () {
         let dataAnchor = $(this).parent().attr('data-anchor');
         let thePk = $(this).attr('pk');
         let qIndex = $('.question[question-type="pulldown_list"]').index(this);

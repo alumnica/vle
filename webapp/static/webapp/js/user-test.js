@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     $('#test-end').on('click', function () {
         let testAnswers = [];
@@ -10,11 +11,15 @@ $(document).ready(function () {
     });
 });
 
+/**
+ * Reviews if all answers are given before submit
+ * @returns {boolean}
+ */
 function valid_form() {
     let answer = $('#test-answers').val().split(',');
     for (let i = 0; i < answer.length; i++) {
         if (answer[i] == '' || answer[i] == ' ') {
-            swal("Error", gettext("Pelase answer all the questions before saving"), "error");
+            swal("Error", "Contesta todas las preguntas antes de guardar", "error");
             return false;
         }
     }

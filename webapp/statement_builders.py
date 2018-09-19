@@ -1,7 +1,10 @@
-from webapp import services
+from rq import Queue
+
+from webapp import services, worker
 from webapp.statements import Actor, Verb, Object, Statement, Context, Result
 
 xapi_url = 'https://alumnica.org/'
+q = Queue(connection=worker.conn)
 
 
 def login_statement(request, user, timestamp):
@@ -17,7 +20,7 @@ def login_statement(request, user, timestamp):
     object = Object(id=object_id, name='Alumnica')
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
-    response = services.send(statement)
+    q.enqueue(services.send, statement, timeout=600)
 
 
 def register_statement(request, user, timestamp):
@@ -32,9 +35,8 @@ def register_statement(request, user, timestamp):
     object_id = xapi_url + 'register'
     object = Object(id=object_id, name='Alumnica')
 
-
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
-    response = services.send(statement)
+    q.enqueue(services.send, statement, timeout=600)
 
 
 def edited_profile(user, timestamp):
@@ -50,7 +52,7 @@ def edited_profile(user, timestamp):
     object = Object(id=object_id, name='user_profile')
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
-    response = services.send(statement)
+    q.enqueue(services.send, statement, timeout=600)
 
 
 def avatar_statement(user, avatar, timestamp):
@@ -63,12 +65,12 @@ def avatar_statement(user, avatar, timestamp):
     """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
-    verb = Verb(action='modified')
+    verb = Verb(action='selected')
     object_id = xapi_url + 'avatar/' + avatar
-    object = Object(id=object_id, name='avatar')
+    object = Object(id=object_id, name='avatar_' + avatar)
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
-    response = services.send(statement)
+    q.enqueue(services.send, statement, timeout=600)
 
 
 def logout_statement(request, user, timestamp):
@@ -84,7 +86,7 @@ def logout_statement(request, user, timestamp):
     object = Object(id=object_id, name='Alumnica')
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
-    response = services.send(statement)
+    q.enqueue(services.send, statement, timeout=600)
 
 
 def search_statement(user, string_searched, timestamp):
@@ -102,7 +104,7 @@ def search_statement(user, string_searched, timestamp):
     result = Result(response=string_searched)
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, result=result)
-    response = services.send(statement)
+    q.enqueue(services.send, statement, timeout=600)
 
 
 def access_statement(request, object_name, timestamp):
@@ -119,7 +121,7 @@ def access_statement(request, object_name, timestamp):
     object = Object(id=object_id, name=object_name)
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
-    response = services.send(statement)
+    q.enqueue(services.send, statement, timeout=600)
 
 
 def access_statement_with_parent(request, object_type, object_name, parent_type, parent_name, tags_array, timestamp):
@@ -147,11 +149,12 @@ def access_statement_with_parent(request, object_type, object_name, parent_type,
     context = Context([parent_id], tags)
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context)
-    response = services.send(statement)
+    q.enqueue(services.send, statement, timeout=600)
 
 
 def task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None,
-                   duration=None):
+                   max_score=None,
+                   duration=None, completion=False):
     """
     Xapi completed task statement constructor
     :param user: Current AuthUser
@@ -160,7 +163,7 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
     :param parent_type: parent object type
     :param parent_name: parent object name
     :param tags_array: object tags
-    :param timestamp: activity timpestamp
+    :param timestamp: activity timestamp
     :param score: score obtained
     :param duration: duration
     """
@@ -168,22 +171,61 @@ def task_completed(user, object_type, object_name, parent_type, parent_name, tag
     actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='completed')
     object_id = '{}{}/{}'.format(xapi_url, object_type, object_name)
-    object = Object(id=object_id, name=object_name)
+    object_type_url = '{}{}'.format(xapi_url, object_type)
+    object = Object(id=object_id, name=object_name, type=object_type_url)
     parent_id = '{}{}/{}'.format(xapi_url, parent_type, parent_name)
 
     tags = []
     for tag in tags_array:
-        tags.append('{}/tag/{}'.format(xapi_url, tag))
+        tags.append('{}tag/{}'.format(xapi_url, tag))
+
+    context = Context([parent_id], tags)
+    if score is None:
+        result = Result(response='{} completed'.format(object_type), completion=completion, duration=duration)
+    else:
+        result = Result(response='{} completed'.format(object_type), completion=completion, success=score >= 7,
+                        raw_score=score, max_score=max_score, duration=duration)
+
+    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
+    q.enqueue(services.send, statement, timeout=600)
+
+
+def h5p_task_completed(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp, score=None,
+                       max_score=None,
+                       duration=None):
+    """
+    Xapi completed task statement constructor
+    :param user: Current AuthUser
+    :param object_type: object type
+    :param object_name: object name
+    :param parent_type: parent object type
+    :param parent_name: parent object name
+    :param tags_array: object tags
+    :param timestamp: activity timestamp
+    :param score: score obtained
+    :param duration: duration
+    """
+    user_complete_name = user.first_name + ' ' + user.last_name
+    actor = Actor(name=user_complete_name, email=user.email)
+    verb = Verb(action='completed')
+    object_id = '{}{}/{}'.format(xapi_url, object_type, object_name)
+    object_type_url = '{}{}'.format(xapi_url, object_type)
+    object = Object(id=object_id, name=object_name, type=object_type_url)
+    parent_id = '{}{}/{}'.format(xapi_url, parent_type, parent_name)
+
+    tags = []
+    for tag in tags_array:
+        tags.append('{}tag/{}'.format(xapi_url, tag))
 
     context = Context([parent_id], tags)
     if score is None:
         result = Result(response='{} completed'.format(object_type), completion=True, duration=duration)
     else:
-        result = Result(response='{} completed'.format(object_type), completion=True, success=score >= 7,
-                        raw_score=score, duration=duration)
+        result = Result(response='{} completed'.format(object_type), completion=True, success=score == max_score,
+                        raw_score=score, max_score=max_score, duration=duration)
 
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
-    response = services.send(statement)
+    q.enqueue(services.send, statement, timeout=600)
 
 
 def answered_question_statement(user, question_instance, tags_array, timestamp, success):
@@ -203,12 +245,12 @@ def answered_question_statement(user, question_instance, tags_array, timestamp, 
     parent_id = '{}{}/{}'.format(xapi_url, 'evaluation', question_instance.evaluation.name)
     tags = []
     for tag in tags_array:
-        tags.append('{}/tag/{}'.format(xapi_url, tag))
+        tags.append('{}tag/{}'.format(xapi_url, tag))
 
     context = Context([parent_id], tags)
     result = Result(response='Question: {}'.format(question_instance.sentence), success=success)
     statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
-    response = services.send(statement)
+    q.enqueue(services.send, statement, timeout=600)
 
 
 def learning_experience_received(user, object_type, object_name, timestamp, gained_xp):
@@ -222,12 +264,12 @@ def learning_experience_received(user, object_type, object_name, timestamp, gain
     """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
-    verb = Verb(action='received')
+    verb = Verb(action='earned')
     object_id = '{}{}/{}'.format(xapi_url, object_type, object_name)
     object = Object(id=object_id, name=object_name)
-    result = Result(response='{} completed'.format(object_type), completion=True, success=True, raw_score=gained_xp)
-    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, result=result)
-    response = services.send(statement)
+    # result = Result(response='{} completed'.format(object_type), completion=True, success=True, raw_score=gained_xp)
+    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object)
+    q.enqueue(services.send, statement, timeout=600)
 
 
 def task_experience_received(user, object_type, object_name, parent_type, parent_name, tags_array, timestamp,
@@ -245,16 +287,18 @@ def task_experience_received(user, object_type, object_name, parent_type, parent
     """
     user_complete_name = user.first_name + ' ' + user.last_name
     actor = Actor(name=user_complete_name, email=user.email)
-    verb = Verb(action='received')
+    verb = Verb(action='earned')
     object_id = '{}{}/{}'.format(xapi_url, object_type, object_name)
     object = Object(id=object_id, name=object_name)
     parent_id = '{}{}/{}'.format(xapi_url, parent_type, parent_name)
 
     tags = []
     for tag in tags_array:
-        tags.append('{}/tag/{}'.format(xapi_url, tag))
+        tags.append('{}tag/{}'.format(xapi_url, tag))
 
     context = Context([parent_id], tags)
-    result = Result(response='{} completed'.format(object_type), completion=True, success=True, raw_score=gained_xp)
-    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context, result=result)
-    response = services.send(statement)
+
+    # result = Result(response='{} completed'.format(object_type), completion=True, success=True, raw_score=gained_xp)
+
+    statement = Statement(timestamp=timestamp, actor=actor, verb=verb, object=object, context=context)
+    q.enqueue(services.send, statement, timeout=600)
