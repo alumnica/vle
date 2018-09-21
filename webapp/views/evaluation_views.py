@@ -4,14 +4,14 @@ import random
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import FormView
 
-from alumnica_model.mixins import OnlyLearnerMixin
+from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models.content import Evaluation, ODA
 from alumnica_model.models.questions import TYPE_RELATIONSHIP, TYPE_PULL_DOWN_LIST, TYPE_MULTIPLE_OPTION, \
     TYPE_MULTIPLE_ANSWER, TYPE_NUMERIC_ANSWER
 from webapp.statement_builders import access_statement_with_parent
 
 
-class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
     """
     Random Evaluation questions view
     """
@@ -20,7 +20,8 @@ class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
     evaluation = []
 
     def dispatch(self, request, *args, **kwargs):
-        if request.method == 'GET':
+        response = super(EvaluationView, self).dispatch(request, *args, **kwargs)
+        if response.status_code == 200 and request.method == 'GET':
             evaluation = Evaluation.objects.get(pk=self.kwargs['pk'])
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
             access_statement_with_parent(request=request,
@@ -30,7 +31,7 @@ class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
                                          parent_name=evaluation.oda.all()[0].name,
                                          tags_array=evaluation.oda.all()[0].tags.all(),
                                          timestamp=timestamp)
-        return super(EvaluationView, self).dispatch(request, *args, **kwargs)
+        return response
 
     def get_context_data(self, **kwargs):
         self.evaluation = []

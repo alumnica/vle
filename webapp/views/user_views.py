@@ -9,8 +9,9 @@ from django.views.generic import *
 from django.views.generic.base import TemplateView
 from sweetify import sweetify
 
-from alumnica_model.mixins import OnlyLearnerMixin
+from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models import users, Ambit
+from alumnica_model.models.progress import LearnerLoginProgress
 from webapp.forms.user_forms import UserForm, UserLoginForm
 from webapp.statement_builders import login_statement, logout_statement
 
@@ -78,6 +79,9 @@ class SignUpView(FormView):
         user = form.save(commit=False)
         user.user_type = users.TYPE_LEARNER
         user.save()
+        user.profile.login_progress = LearnerLoginProgress.objects.create(login_counter=1,
+                                                                          last_activity=datetime.datetime.now(),
+                                                                          first_activity=datetime.datetime.now())
         user.profile.avatar = random.choice(avatar_options)
         user.profile.save()
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
@@ -93,7 +97,7 @@ class SignUpView(FormView):
         return self.render_to_response(context)
 
 
-class DashboardView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+class DashboardView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
     """
     User dashboard view
     """
@@ -101,12 +105,14 @@ class DashboardView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
     login_url = 'login_view'
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.first_name == "" or request.user.last_name == "" or \
-                request.user.profile.birth_date is None or request.user.profile.gender == "":
-            return redirect(to='first-login-info_view')
-        if request.user.profile.learning_style is None:
-            return redirect(to='first-login-p1_view')
-        return super(DashboardView, self).dispatch(request, *args, **kwargs)
+        response = super(DashboardView, self).dispatch(request, *args, **kwargs)
+        if response.status_code == 200:
+            if request.user.first_name == "" or request.user.last_name == "" or \
+                    request.user.profile.birth_date is None or request.user.profile.gender == "":
+                return redirect(to='first-login-info_view')
+            if request.user.profile.learning_style is None:
+                return redirect(to='first-login-p1_view')
+        return response
 
     def get_context_data(self, **kwargs):
         user = self.request.user

@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.generic import FormView, DetailView
 
+from alumnica_model.mixins import LoginCounterMixin, OnlyLearnerMixin
 from alumnica_model.models import Moment, LearnerProgressInActivity
 from alumnica_model.models.h5p import H5Package
 from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
@@ -13,7 +14,7 @@ from vle_webapp.settings import AWS_INSTANCE_URL
 from webapp.statement_builders import access_statement_with_parent
 
 
-class MomentView(LoginRequiredMixin, FormView):
+class MomentView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
     """
     MicroODA activities obtained by Momento pk view
     """
@@ -21,7 +22,8 @@ class MomentView(LoginRequiredMixin, FormView):
     template_name = "webapp/pages/momentos.html"
 
     def dispatch(self, request, *args, **kwargs):
-        if request.method == 'GET':
+        response = super(MomentView, self).dispatch(request, *args, **kwargs)
+        if response.status_code == 200 and request.method == 'GET':
             moment = Moment.objects.get(pk=self.kwargs['pk'])
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
             access_statement_with_parent(request=request,
@@ -31,7 +33,7 @@ class MomentView(LoginRequiredMixin, FormView):
                                          parent_name=moment.microoda.oda.name,
                                          tags_array=moment.tags.all(),
                                          timestamp=timestamp)
-        return super(MomentView, self).dispatch(request, *args, **kwargs)
+        return response
 
     def get_context_data(self, **kwargs):
         moment_instance = Moment.objects.get(pk=self.kwargs['pk'])

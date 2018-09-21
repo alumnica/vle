@@ -4,12 +4,12 @@ from django.shortcuts import redirect, render
 from django.views.generic import FormView, UpdateView
 from sweetify import sweetify
 
-from alumnica_model.mixins import OnlyLearnerMixin
+from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from webapp.forms.profile_forms import *
 from webapp.statement_builders import register_statement, access_statement
 
 
-class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
     """
     Personal information quiz view
     """
@@ -25,7 +25,7 @@ class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
         return redirect(to='first-login-p1_view')
 
 
-class FirstLoginP1View(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+class FirstLoginP1View(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
     """
     Short Learning style quiz view
     """
@@ -42,7 +42,7 @@ class FirstLoginP1View(LoginRequiredMixin, OnlyLearnerMixin, FormView):
         return redirect(to='dashboard_view')
 
 
-class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
     """
     Large Learning style quiz view
     """
@@ -51,10 +51,11 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView)
     template_name = 'webapp/pages/user-test.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if request.method == 'GET':
+        response = super(LargeLearningStyleQuizView, self).dispatch(request, *args, **kwargs)
+        if response.status_code == 200 and request.method == 'GET':
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
             access_statement(request, 'Large Learning Style Quiz', timestamp)
-        return super(LargeLearningStyleQuizView, self).dispatch(request, *args, **kwargs)
+        return response
 
     def form_valid(self, form):
         answers = self.request.POST['test-answers'].split(',')
@@ -87,7 +88,7 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, FormView)
         return redirect(to='dashboard_view')
 
 
-class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
+class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, UpdateView):
     """
     Edit personal information view
     """
@@ -96,10 +97,11 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, UpdateView):
     form_class = ProfileSettingsForm
 
     def dispatch(self, request, *args, **kwargs):
-        if request.method == 'GET':
+        response = super(ProfileSettingsView, self).dispatch(request, *args, **kwargs)
+        if response.status_code == 200 and request.method == 'GET':
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
             access_statement(request, 'Profile', timestamp)
-        return super(ProfileSettingsView, self).dispatch(request, *args, **kwargs)
+        return response
 
     def get_object(self, queryset=None):
         return self.request.user
