@@ -50,3 +50,21 @@ class GetLearnerLevelTestCase(TestCase):
 
         print(error)
         print(position_errors)
+
+    def test_first_equation_range_points(self):
+        errors = []
+        error_counter = 0
+        counter = 0
+        for points in self.experience_points_1[1:]:
+            level = round(get_learner_level(points))
+            for point in range(self.experience_points_1[self.experience_points_1.index(points)-1], points, 10):
+                level_in_between = int(get_learner_level(point))
+                counter += 1
+                if level_in_between != (level - 1):
+                    error_counter += 1
+                    errors.append([point, level_in_between, (level-1)])
+
+        print(errors)
+        print(counter)
+        print(error_counter)
+
