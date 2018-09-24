@@ -10,6 +10,13 @@ REPETITION_PENALTY = [1, 0.5, 0.2, 0]
 
 # first_levels_points = [0, 50, 150, 450, 800, 1820, 2840, 3890, 4990, 6140, 7340]
 
+def get_daily_bonus(login_counter):
+    if login_counter < MAX_DAILY_LOGIN:
+        return DAILY_BONUS_INCREMENT * login_counter + (1 - DAILY_BONUS_INCREMENT)
+    else:
+        return DAILY_BONUS_INCREMENT * MAX_DAILY_LOGIN + (1 - DAILY_BONUS_INCREMENT)
+
+
 def get_learner_level(experience_points):
     level = LearnerLevels.objects.last()
     # x = experience_points
@@ -40,9 +47,24 @@ def get_learner_level(experience_points):
     return level
 
 
-def evaluation_completed_xp(learner):
-    pass
+def evaluation_completed_xp(learner, oda):
+    pen_rep = 0
+    completed_uodas = 0
+    daily_bonus = get_daily_bonus(learner.login_progress.login_counter)
+    for uoda in oda.microodas.all():
+        if learner.activities_progresses.get(activity=uoda.activities.first()).is_complete:
+            completed_uodas += 1
+
+    learner_completed_counter = learner.evaluations_progresses.get(
+        evaluation=oda.evaluation).evaluation_completed_counter
+    if learner_completed_counter < 4:
+        pen_rep = REPETITION_PENALTY[learner_completed_counter]
+
+    bonus_eval = (COMPLETED_UODA_INCREMENT * completed_uodas) + 1
+
+    return BASE_EVALUATION_XP * daily_bonus * bonus_eval * pen_rep
 
 
 def uoda_completed_xp(learner):
+    # BASE_UODA_XP * daily_bonus * BonusEA * PenRep
     pass
