@@ -1,3 +1,4 @@
+from alumnica_model.models.content import MicroODAByLearningStyle
 from alumnica_model.models.progress import LearnerLevels
 
 BASE_UODA_XP = 50
@@ -65,6 +66,27 @@ def evaluation_completed_xp(learner, oda):
     return BASE_EVALUATION_XP * daily_bonus * bonus_eval * pen_rep
 
 
-def uoda_completed_xp(learner):
+def uoda_completed_xp(learner, oda):
     # BASE_UODA_XP * daily_bonus * BonusEA * PenRep
-    pass
+    pen_rep = 0
+    daily_bonus = get_daily_bonus(learner.login_progress.login_counter)
+
+    oda_sequencing = learner.odas_sequence_progresses.get(oda=oda)
+
+    position = 0
+    sequencing = MicroODAByLearningStyle[learner.learning_style.name]
+
+    bonus_ea = 2
+
+    for uoda in oda_sequencing.uoda_progress_order.split('|'):
+        if sequencing[position] != uoda:
+            bonus_ea = 1
+            break
+        position += 1
+
+    learner_completed_counter = learner.activities_progresses.get(
+        activity=oda.microodas.first().activities.first()).activity_completed_counter
+    if learner_completed_counter < 4:
+        pen_rep = REPETITION_PENALTY[learner_completed_counter]
+
+    return BASE_UODA_XP * daily_bonus * bonus_ea * pen_rep
