@@ -5,7 +5,6 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 
 from alumnica_model.models import AuthUser, Learner, MicroODA, Moment
-from alumnica_model.models.progress import LearnerEvaluationProgress, EXPERIENCE_POINTS_CONSTANTS
 from alumnica_model.models.questions import *
 from webapp.gamification import uoda_completed_xp, evaluation_completed_xp
 from webapp.serializers import *
@@ -293,7 +292,7 @@ class MicroodaViewSet(APIView):
                                      parent_name=microoda.oda.name,
                                      tags_array=microoda.tags.all(),
                                      timestamp=timestamp,
-                                     gained_xp=EXPERIENCE_POINTS_CONSTANTS['uODA_completed'])
+                                     gained_xp=uoda_completed_xp(learner, microoda.oda))
 
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
             task_completed(user=learner.auth_user,
