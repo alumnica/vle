@@ -45,7 +45,7 @@ class FirstLoginP1(forms.Form):
         xp_received = False
 
         if profile.learning_style is None:
-            profile.experience_points += EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz']
+            profile.assign_xp(EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz'])
             xp_received = True
 
         if option_1 == '1':
