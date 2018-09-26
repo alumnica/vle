@@ -6,6 +6,7 @@ from sweetify import sweetify
 
 from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from webapp.forms.profile_forms import *
+from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS
 from webapp.statement_builders import register_statement, access_statement
 
 
@@ -75,7 +76,7 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, LoginCoun
 
         if not self.request.user.profile.large_quiz_completed:
             self.request.user.profile.large_quiz_completed = True
-            self.request.user.profile.experience_points += EXPERIENCE_POINTS_CONSTANTS['learning_large_quiz']
+            self.request.user.profile.assign_xp(EXPERIENCE_POINTS_CONSTANTS['learning_large_quiz'])
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
             learning_experience_received(user=self.request.user,
                                          object_type='Learning Style Quiz',

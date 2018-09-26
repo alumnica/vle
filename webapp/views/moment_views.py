@@ -9,8 +9,8 @@ from django.views.generic import FormView, DetailView
 from alumnica_model.mixins import LoginCounterMixin, OnlyLearnerMixin
 from alumnica_model.models import Moment, LearnerProgressInActivity
 from alumnica_model.models.h5p import H5Package
-from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
 from vle_webapp.settings import AWS_INSTANCE_URL
+from webapp.gamification import uoda_completed_xp
 from webapp.statement_builders import access_statement_with_parent
 
 
@@ -41,7 +41,7 @@ class MomentView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormVi
         learner.assign_recent_oda(moment_instance.microoda.oda)
         learner.microoda_in_progress = moment_instance.microoda
         learner.save()
-        points = EXPERIENCE_POINTS_CONSTANTS['uODA_completed']
+        points = uoda_completed_xp(learner, moment_instance.microoda.oda)
 
         moment_array = moment_instance.microoda.activities.all()
 

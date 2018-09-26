@@ -1,6 +1,13 @@
 from alumnica_model.models.content import MicroODAByLearningStyle
 from alumnica_model.models.progress import LearnerLevels
 
+EXPERIENCE_POINTS_CONSTANTS = {
+    'learning_short_quiz': 1000,
+    'learning_large_quiz': 2000,
+    'profile_updated': 100,
+
+}
+
 BASE_UODA_XP = 50
 BASE_EVALUATION_XP = 100
 DAILY_BONUS_INCREMENT = 0.2
