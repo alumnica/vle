@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from alumnica_model.models import AuthUser, Learner, MicroODA, Moment
 from alumnica_model.models.progress import LearnerEvaluationProgress, EXPERIENCE_POINTS_CONSTANTS
 from alumnica_model.models.questions import *
+from webapp.gamification import uoda_completed_xp
 from webapp.serializers import *
 from webapp.statement_builders import task_completed, task_experience_received, avatar_statement, \
     answered_question_statement, h5p_task_completed
@@ -311,9 +312,10 @@ class MicroodaViewSet(APIView):
             progress = learner.activities_progresses.get(activity=activity)
             progress.activity_completed_counter += 1
             progress.is_complete = True
-            progress.save_progress()
+            progress.save()
 
         progress = learner.activities_progresses.get(activity=microoda.activities.first())
+
         if progress.activity_completed_counter == 1:
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
             task_experience_received(user=learner.auth_user,
@@ -343,6 +345,11 @@ class MicroodaViewSet(APIView):
                            tags_array=microoda.tags.all(),
                            timestamp=timestamp,
                            duration=duration)
+
+        earned_xp = uoda_completed_xp(learner, microoda.oda)
+
+        if earned_xp != 0:
+            learner.assign_xp(earned_xp)
 
         microodas_suggestion = [{'mODA_name': mODA.type.name} for mODA in
                                 microoda.oda.microodas.exclude(pk=microoda.pk)]
