@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from alumnica_model.models import AuthUser, Learner, MicroODA, Moment
 from alumnica_model.models.progress import LearnerEvaluationProgress, EXPERIENCE_POINTS_CONSTANTS
 from alumnica_model.models.questions import *
-from webapp.gamification import uoda_completed_xp
+from webapp.gamification import uoda_completed_xp, evaluation_completed_xp
 from webapp.serializers import *
 from webapp.statement_builders import task_completed, task_experience_received, avatar_statement, \
     answered_question_statement, h5p_task_completed
@@ -273,7 +273,10 @@ class EvaluationViewSet(APIView):
                                score=score,
                                duration=duration)
             progress.evaluation_completed_counter += 1
-            progress.save_progress()
+            xp = evaluation_completed_xp(learner, evaluation_instance.oda)
+            learner.assign_xp(xp)
+            progress.save()
+            learner.save()
         else:
             progress = LearnerEvaluationProgress.objects.create(evaluation=question_instance.evaluation,
                                                                 is_complete=evaluation_completed)
