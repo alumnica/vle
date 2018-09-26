@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from alumnica_model.models import Learner, users, AuthUser
 from alumnica_model.models.content import LearningStyle
-from alumnica_model.models.progress import EXPERIENCE_POINTS_CONSTANTS
+from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS
 from webapp.statement_builders import learning_experience_received, edited_profile
 
 
