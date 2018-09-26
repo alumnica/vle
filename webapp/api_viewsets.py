@@ -239,61 +239,26 @@ class EvaluationViewSet(APIView):
             suggestions_dict = [{'uoda': uoda, 'pk': evaluation_instance.oda.all()[0].microodas.get(
                 type=MicroODAType.objects.get(name=uoda)).activities.first().pk} for uoda in suggestions]
 
-        if learner.evaluations_progresses.filter(evaluation=question_instance.evaluation).exists():
-            progress = learner.evaluations_progresses.get(evaluation=question_instance.evaluation)
-            if not progress.is_complete and evaluation_completed:
-                progress.is_complete = evaluation_completed
-                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-                task_experience_received(user=learner.auth_user,
-                                         object_type='evaluation',
-                                         object_name=evaluation_instance.name,
-                                         parent_type='oda',
-                                         parent_name=evaluation_instance.oda.all()[0].name,
-                                         tags_array=evaluation_instance.oda.all()[0].tags.all(),
-                                         timestamp=timestamp,
-                                         gained_xp=EXPERIENCE_POINTS_CONSTANTS['evaluation_completed'])
-                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-                task_completed(learner.auth_user,
-                               'evaluation',
-                               evaluation_instance.name,
-                               'oda', evaluation_instance.oda.all()[0].name,
-                               tags_array=evaluation_instance.oda.all()[0].tags.all(),
-                               timestamp=timestamp,
-                               score=score,
-                               duration=duration,
-                               completion=True)
-            else:
-                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-                task_completed(learner.auth_user,
-                               'evaluation',
-                               evaluation_instance.name,
-                               'oda', evaluation_instance.oda.all()[0].name,
-                               tags_array=evaluation_instance.oda.all()[0].tags.all(),
-                               timestamp=timestamp,
-                               score=score,
-                               duration=duration)
+            progress, created = learner.evaluations_progresses.get_or_create(evaluation=question_instance.evaluation)
             progress.evaluation_completed_counter += 1
-            xp = evaluation_completed_xp(learner, evaluation_instance.oda)
-            learner.assign_xp(xp)
             progress.save()
             learner.save()
-        else:
-            progress = LearnerEvaluationProgress.objects.create(evaluation=question_instance.evaluation,
-                                                                is_complete=evaluation_completed)
-            learner.evaluations_progresses.add(progress)
-            progress.evaluation_completed_counter += 1
-            progress.save_progress()
 
-            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            task_completed(learner.auth_user,
-                           'evaluation',
-                           evaluation_instance.name,
-                           'oda', evaluation_instance.oda.all()[0].name,
-                           tags_array=evaluation_instance.oda.all()[0].tags.all(),
-                           timestamp=timestamp,
-                           score=score,
-                           duration=duration,
-                           completion=True)
+        if evaluation_completed:
+            xp = evaluation_completed_xp(learner, evaluation_instance.oda)
+            learner.assign_xp(xp)
+            learner.save()
+
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        task_completed(learner.auth_user,
+                       'evaluation',
+                       evaluation_instance.name,
+                       'oda', evaluation_instance.oda.all()[0].name,
+                       tags_array=evaluation_instance.oda.all()[0].tags.all(),
+                       timestamp=timestamp,
+                       score=score,
+                       duration=duration,
+                       completion=evaluation_completed)
 
         return score, questions_status, suggestions_dict
 
