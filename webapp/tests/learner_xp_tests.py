@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from webapp.gamification import get_learner_level, uoda_completed_xp
+from webapp.gamification import get_learner_level, uoda_completed_xp, evaluation_completed_xp
 
 
 class GetLearnerLevelTestCase(TestCase):
@@ -71,7 +71,7 @@ class GetLearnerLevelTestCase(TestCase):
 
 class GetExperiencePointsTestCase(TestCase):
     login_cases = range(1, 55)
-    uodas_completed_cases = range(0, 5)
+    uodas_completed_cases = range(0, 6)
     repetition_cases = range(1, 10)
 
     learning_style_cases = ['Acomodador', 'Asimilador', 'Convergente', 'Divergente']
@@ -92,3 +92,13 @@ class GetExperiencePointsTestCase(TestCase):
                         print('FOR  LOGINS: {}, REPETITIONS: {} , LEARNING STYLE: {}, RECOMENDED SEQUENCE: {}'.format(
                             login_counter, repetition_counter, learning_style, learning_style == learning_style_test))
                         print('xp: {}'.format(xp))
+
+    def test_evaluation_completed_xp(self):
+        for login_counter in self.login_cases:
+            for uodas_completed_counter in self.uodas_completed_cases:
+                for repetition_counter in self.repetition_cases:
+                    xp = evaluation_completed_xp(login_counter=login_counter, completed_uodas=uodas_completed_counter,
+                                                 completed_counter=repetition_counter)
+                    print('FOR  LOGINS: {}, REPETITIONS: {} , UODAS COMPLETED: {}'.format(
+                        login_counter, repetition_counter, uodas_completed_counter))
+                    print('xp: {}'.format(xp))
