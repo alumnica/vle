@@ -85,7 +85,7 @@ def uoda_completed_xp(learner, oda):
 
     bonus_ea = 2
 
-    for uoda in oda_sequencing.uoda_progress_order.split('|'):
+    for uoda in oda_sequencing.uoda_progress_order.strip().split(' '):
         if sequencing[position] != uoda:
             bonus_ea = 1
             break
