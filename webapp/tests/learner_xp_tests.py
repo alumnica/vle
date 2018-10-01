@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from webapp.gamification import get_learner_level
+from webapp.gamification import get_learner_level, uoda_completed_xp
 
 
 class GetLearnerLevelTestCase(TestCase):
@@ -57,12 +57,12 @@ class GetLearnerLevelTestCase(TestCase):
         counter = 0
         for points in self.experience_points_1[1:]:
             level = round(get_learner_level(points))
-            for point in range(self.experience_points_1[self.experience_points_1.index(points)-1], points, 10):
+            for point in range(self.experience_points_1[self.experience_points_1.index(points) - 1], points, 10):
                 level_in_between = int(get_learner_level(point))
                 counter += 1
                 if level_in_between != (level - 1):
                     error_counter += 1
-                    errors.append([point, level_in_between, (level-1)])
+                    errors.append([point, level_in_between, (level - 1)])
 
         print(errors)
         print(counter)
@@ -70,4 +70,25 @@ class GetLearnerLevelTestCase(TestCase):
 
 
 class GetExperiencePointsTestCase(TestCase):
-    pass
+    login_cases = range(1, 55)
+    uodas_completed_cases = range(0, 5)
+    repetition_cases = range(1, 10)
+
+    learning_style_cases = ['Acomodador', 'Asimilador', 'Convergente', 'Divergente']
+    MicroODAByLearningStyleCases = \
+        {'Acomodador': ' exemplification application sensitization activation formalization',
+         'Asimilador': ' formalization sensitization activation application exemplification',
+         'Convergente': ' application formalization activation exemplification sensitization',
+         'Divergente': ' sensitization activation exemplification formalization application'}
+
+    def test_uoda_completed_xp(self):
+        for learning_style in self.learning_style_cases:
+            for login_counter in self.login_cases:
+                for repetition_counter in self.repetition_cases:
+                    for learning_style_test in self.learning_style_cases:
+                        xp = uoda_completed_xp(login_counter=login_counter,
+                                               oda_sequencing=self.MicroODAByLearningStyleCases[learning_style_test],
+                                               learning_style=learning_style, completed_counter=repetition_counter)
+                        print('FOR  LOGINS: {}, REPETITIONS: {} , LEARNING STYLE: {}, RECOMENDED SEQUENCE: {}'.format(
+                            login_counter, repetition_counter, learning_style, learning_style == learning_style_test))
+                        print('xp: {}'.format(xp))
