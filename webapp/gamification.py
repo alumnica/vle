@@ -55,33 +55,25 @@ def get_learner_level(experience_points):
     return level
 
 
-def evaluation_completed_xp(learner, oda):
+def evaluation_completed_xp(login_counter, completed_uodas, completed_counter):
     pen_rep = 0
-    completed_uodas = 0
-    daily_bonus = get_daily_bonus(learner.login_progress.login_counter)
-    for uoda in oda.microodas.all():
-        if learner.activities_progresses.get(activity=uoda.activities.first()).is_complete:
-            completed_uodas += 1
+    daily_bonus = get_daily_bonus(login_counter)
 
-    learner_completed_counter = learner.evaluations_progresses.get(
-        evaluation=oda.evaluation).evaluation_completed_counter
-    if learner_completed_counter < 4:
-        pen_rep = REPETITION_PENALTY[learner_completed_counter]
+    if completed_counter < 4:
+        pen_rep = REPETITION_PENALTY[completed_counter-1]
 
     bonus_eval = (COMPLETED_UODA_INCREMENT * completed_uodas) + 1
 
     return BASE_EVALUATION_XP * daily_bonus * bonus_eval * pen_rep
 
 
-def uoda_completed_xp(learner, oda):
+def uoda_completed_xp(login_counter, oda_sequencing, learning_style, completed_counter):
     # BASE_UODA_XP * daily_bonus * BonusEA * PenRep
     pen_rep = 0
-    daily_bonus = get_daily_bonus(learner.login_progress.login_counter)
-
-    oda_sequencing = learner.odas_sequence_progresses.get(oda=oda)
+    daily_bonus = get_daily_bonus(login_counter)
 
     position = 0
-    sequencing = MicroODAByLearningStyle[learner.learning_style.name]
+    sequencing = MicroODAByLearningStyle[learning_style]
 
     bonus_ea = 2
 
@@ -91,9 +83,7 @@ def uoda_completed_xp(learner, oda):
             break
         position += 1
 
-    learner_completed_counter = learner.activities_progresses.get(
-        activity=oda.microodas.first().activities.first()).activity_completed_counter
-    if learner_completed_counter < 4:
-        pen_rep = REPETITION_PENALTY[learner_completed_counter]
+    if completed_counter <= 4:
+        pen_rep = REPETITION_PENALTY[completed_counter-1]
 
     return BASE_UODA_XP * daily_bonus * bonus_ea * pen_rep

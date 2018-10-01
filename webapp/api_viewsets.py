@@ -238,13 +238,19 @@ class EvaluationViewSet(APIView):
             suggestions_dict = [{'uoda': uoda, 'pk': evaluation_instance.oda.all()[0].microodas.get(
                 type=MicroODAType.objects.get(name=uoda)).activities.first().pk} for uoda in suggestions]
 
-            progress, created = learner.evaluations_progresses.get_or_create(evaluation=question_instance.evaluation)
-            progress.evaluation_completed_counter += 1
-            progress.save()
-            learner.save()
+        progress, created = learner.evaluations_progresses.get_or_create(evaluation=question_instance.evaluation)
+        progress.evaluation_completed_counter += 1
+        progress.save()
+        learner.save()
 
         if evaluation_completed:
-            xp = evaluation_completed_xp(learner, evaluation_instance.oda)
+            completed_uodas = 0
+            for uoda in evaluation_instance.oda.microodas.all():
+                if learner.activities_progresses.get(activity=uoda.activities.first()).is_complete:
+                    completed_uodas += 1
+            xp = evaluation_completed_xp(login_counter=learner.login_progress.login_counter,
+                                         completed_uodas=completed_uodas,
+                                         completed_counter=progress.evaluation_completed_counter)
             learner.assign_xp(xp)
             learner.save()
 
@@ -286,8 +292,11 @@ class MicroodaViewSet(APIView):
             oda_sequence.uoda_progress_order += ' {}'.format(microoda.type.name)
             oda_sequence.save()
 
-        earned_xp = uoda_completed_xp(learner, microoda.oda)
-
+        earned_xp = uoda_completed_xp(login_counter=learner.login_progress.login_counter,
+                                      oda_sequencing=oda_sequence.uoda_progress_order,
+                                      learning_style=learner.learning_style.name,
+                                      completed_counter=learner.activities_progresses.filter(
+                                          activity=microoda.activities.first()).first().activity_completed_counter)
 
         if earned_xp != 0:
             learner.assign_xp(earned_xp)
@@ -372,6 +381,7 @@ class H5PFinished(APIView):
     """
     Extracts score and sends h5p activity completion statement
     """
+
     def post(self, request, user, momento):
         momento_instance = Moment.objects.get(pk=momento)
         auth_user = AuthUser.objects.get(pk=user)
