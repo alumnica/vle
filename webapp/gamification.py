@@ -77,7 +77,7 @@ def uoda_completed_xp(login_counter, oda_sequencing, learning_style, completed_c
 
     bonus_ea = 2
 
-    for uoda in oda_sequencing.uoda_progress_order.strip().split(' '):
+    for uoda in oda_sequencing.strip().split(' '):
         if sequencing[position] != uoda:
             bonus_ea = 1
             break
