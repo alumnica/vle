@@ -41,7 +41,12 @@ class MomentView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormVi
         learner.assign_recent_oda(moment_instance.microoda.oda)
         learner.microoda_in_progress = moment_instance.microoda
         learner.save()
-        points = uoda_completed_xp(learner, moment_instance.microoda.oda)
+        oda_sequence, created = learner.odas_sequence_progresses.get_or_create(oda=moment_instance.microoda.oda)
+        points = uoda_completed_xp(login_counter=learner.login_progress.login_counter,
+                                   oda_sequencing=oda_sequence.uoda_progress_order,
+                                   learning_style=learner.learning_style.name,
+                                   completed_counter=learner.activities_progresses.filter(
+                                       activity=moment_instance).first().activity_completed_counter)
 
         moment_array = moment_instance.microoda.activities.all()
 

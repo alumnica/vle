@@ -68,3 +68,6 @@ class GetLearnerLevelTestCase(TestCase):
         print(counter)
         print(error_counter)
 
+
+class GetExperiencePointsTestCase(TestCase):
+    pass
