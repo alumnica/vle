@@ -26,7 +26,7 @@ def get_daily_bonus(login_counter):
 
 
 def get_learner_level(experience_points):
-    level = LearnerLevels.objects.last()
+    level = LearnerLevels.objects.first()
     # x = experience_points
 
     learner_levels = LearnerLevels.objects.all()
@@ -35,8 +35,10 @@ def get_learner_level(experience_points):
         if level_object.points >= experience_points:
             if level_object.points == experience_points:
                 level = level_object
+                break
             else:
-                level = learner_levels.get(level=(level.level - 1))
+                level = learner_levels.get(level=(level_object.level - 1))
+                break
 
     # if x <= 7340:
     #     for points in first_levels_points:
