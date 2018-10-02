@@ -273,7 +273,7 @@ class MicroodaViewSet(APIView):
     Set Activities completed status by MicroODA
     """
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         learner_pk = kwargs['learner']
         microoda_pk = kwargs['uODA']
         duration = kwargs['duration']
@@ -286,6 +286,7 @@ class MicroodaViewSet(APIView):
             progress.activity_completed_counter += 1
             progress.is_complete = True
             progress.save()
+            progress.check_progress()
 
         oda_sequence, created = learner.odas_sequence_progresses.get_or_create(oda=microoda.oda)
         if microoda.type.name not in oda_sequence.uoda_progress_order:
@@ -320,10 +321,7 @@ class MicroodaViewSet(APIView):
                        duration=duration,
                        completion=True)
 
-        microodas_suggestion = [{'mODA_name': mODA.type.name} for mODA in
-                                microoda.oda.microodas.exclude(pk=microoda.pk)]
-
-        return JsonResponse({'points': 10, 'suggestions': microodas_suggestion})
+        return JsonResponse({'oda': microoda.oda.pk})
 
 
 class ChangeUserAvatar(APIView):

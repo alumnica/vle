@@ -18,10 +18,15 @@ $(document).ready(function () {
 
 
         $.ajax({
-            url: '/api/microodas/' + learner + "," + microoda + "," + duration,
+            method: 'POST',
+            type: 'POST',
+            url: '/api/microodas/' + learner + "," + microoda + "," + duration + "/",
+            success: function (data) {
+                window.location.href = "/odas/" + data.oda + "/";
+        }
 
-
-        });
+        }
+        );
     });
 });
 
