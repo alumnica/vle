@@ -82,7 +82,11 @@ class SignUpView(FormView):
         user.profile.login_progress = LearnerLoginProgress.objects.create(login_counter=1,
                                                                           last_activity=datetime.datetime.now(),
                                                                           first_activity=datetime.datetime.now())
-        user.profile.avatar = random.choice(avatar_options)
+        for option in avatar_options:
+            user.profile.avatar_progresses.create(avatar_name=option)
+        avatar = user.profile.avatar_progresses.get(avatar_name=random.choice(avatar_options))
+        avatar.active = True
+        avatar.save()
         user.profile.save()
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
 
