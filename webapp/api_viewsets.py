@@ -4,7 +4,8 @@ import json
 from django.http import JsonResponse
 from rest_framework.views import APIView
 
-from alumnica_model.models import AuthUser, Learner, MicroODA, Moment
+from alumnica_model.models import AuthUser, Learner, MicroODA, Moment, MicroODACompletedNotification, \
+    EvaluationCompletedNotification
 from alumnica_model.models.questions import *
 from webapp.gamification import uoda_completed_xp, evaluation_completed_xp
 from webapp.serializers import *
@@ -265,6 +266,8 @@ class EvaluationViewSet(APIView):
                        duration=duration,
                        completion=evaluation_completed)
 
+        EvaluationCompletedNotification.objects.create(learner=learner, evaluation=evaluation, score=score)
+
         return score, questions_status, suggestions_dict
 
 
@@ -320,6 +323,8 @@ class MicroodaViewSet(APIView):
                        timestamp=timestamp,
                        duration=duration,
                        completion=True)
+
+        MicroODACompletedNotification.objects.create(learner=learner, microoda=microoda)
 
         return JsonResponse({'oda': microoda.oda.pk})
 
