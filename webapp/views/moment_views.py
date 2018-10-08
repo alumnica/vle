@@ -50,7 +50,7 @@ class MomentView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormVi
                 learner.activities_progresses.create(activity=moment, score=0, is_complete=False)
 
         points = uoda_completed_xp(login_counter=learner.login_progress.login_counter,
-                                   oda_sequencing=oda_sequence.uoda_progress_order,
+                                   oda_sequencing=("{} {}".format(oda_sequence.uoda_progress_order, moment_instance.microoda.type.name)),
                                    learning_style=learner.learning_style.name,
                                    completed_counter=(learner.activities_progresses.filter(
                                        activity=moment_instance).first().activity_completed_counter + 1))
