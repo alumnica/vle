@@ -1,5 +1,5 @@
 from alumnica_model.models.content import MicroODAByLearningStyle
-from alumnica_model.models.progress import LearnerLevels
+from alumnica_model.models.users import LearnerLevels
 
 EXPERIENCE_POINTS_CONSTANTS = {
     'learning_short_quiz': 1000,
