@@ -192,8 +192,8 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         for badge in Badge.objects.all():
             ambit = badge.ambit.first()
             if ambit is not None:
-                microoda_total_counter = MicroODA.objects.filter(
-                    Q(oda__zone=0) & Q(oda__subject__ambit__pk=ambit.pk)).count()
+                microoda_total_counter = MicroODA.objects.exclude(
+                    oda__zone=0).filter(oda__subject__ambit__pk=ambit.pk).count()
                 microoda_learner_counter = len(
                     OrderedSet([progress.activity for progress in learner.activities_progresses.filter(
                         Q(is_complete=True) & Q(activity__microoda__oda__subject__ambit=ambit))]))
@@ -203,16 +203,16 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                 learner_version_counter = 0
 
                 if learner_achievement.version == 0 or learner_achievement.version == 1:
-                    total_version_counter = int(microoda_total_counter * 0.2)
+                    total_version_counter = round(microoda_total_counter * 0.2)
                     learner_version_counter = microoda_learner_counter
                 elif learner_achievement.version == 2:
                     image = learner_achievement.badge.second_version
-                    total_version_counter = int(microoda_total_counter * 0.5)
-                    learner_version_counter = int(microoda_learner_counter-(microoda_total_counter * 0.2))
+                    total_version_counter = round(microoda_total_counter * 0.5) - round(microoda_total_counter * 0.2)
+                    learner_version_counter = round(microoda_learner_counter-(microoda_total_counter * 0.2))
                 elif learner_achievement.version == 3:
                     image = learner_achievement.badge.third_version
-                    total_version_counter = microoda_total_counter
-                    learner_version_counter = int(microoda_learner_counter - (microoda_total_counter * 0.5))
+                    total_version_counter = microoda_total_counter - round(microoda_total_counter * 0.5)
+                    learner_version_counter = round(microoda_learner_counter - (microoda_total_counter * 0.5))
 
                 achievements.append(
                     {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk, 'version': learner_achievement.version,
@@ -259,11 +259,11 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                     learner_version_counter = learner_total_counter
                 elif learner_achievement.version == 2:
                     image = learner_achievement.badge.second_version
-                    total_version_counter = round(badge_total_counter * 0.5)
+                    total_version_counter = round(badge_total_counter * 0.5) - round(badge_total_counter * 0.2)
                     learner_version_counter = round(learner_total_counter-(badge_total_counter * 0.2))
                 elif learner_achievement.version == 3:
                     image = learner_achievement.badge.third_version
-                    total_version_counter = badge_total_counter
+                    total_version_counter = badge_total_counter - round(badge_total_counter * 0.5)
                     learner_version_counter = round(learner_total_counter - (badge_total_counter * 0.5))
 
                 achievements.append(

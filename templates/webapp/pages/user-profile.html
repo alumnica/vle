@@ -55,19 +55,6 @@
                           </div>
                       </div>
                   {% endfor %}
-                <div class="badge-cell">
-                  <div class="badge-cell_stars">
-                    <i class="fa fa-star earned"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                  </div>
-                  <div class="badge-cell_img">
-                    <img src="{% static 'webapp/media/insignias/insignia_login.png' %}" alt="">
-                  </div>
-                  <div class="badge-cell_title">
-                    Propedéutico Persona del Siglo XXI
-                  </div>
-                </div>
                 <!-- end badge -->
               </div>
             </div>
@@ -78,7 +65,23 @@
             <div class="accordion-content" data-tab-content>
               <div class="accordion-grid">
                 <!-- begin achievement    ADD 'new' FOR NEWLEY AHCIEVED, ADD 'wip' TO ALL ACHIEVEMENTS, REMOVE WHEN EARNED -->
-                <div class="achievement">
+                {% for achievement in achievements %}
+                    <div class="achievement">
+                      <div class="achievement_icon">
+                        <img src={{ achievement.image.file.url }} alt="">
+                      </div>
+                      <div class="achievement_text">
+                        {{ achievement.description }}
+                      </div>
+                      <div class="achievement_counter">
+                        {{ achievement.uodas }}
+                      </div>
+                      <div class="achievement_tip">
+                        Desbloquea versión de la Insignia
+                      </div>
+                    </div>
+                  {% endfor %}
+                  <div class="achievement">
                   <div class="achievement_icon">
                     <img src="{% static 'webapp/media/insignias/insignia_login.png' %}" alt="">
                   </div>
