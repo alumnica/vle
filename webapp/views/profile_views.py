@@ -9,6 +9,7 @@ from sweetify import sweetify
 from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models import Badge, MicroODA, AvatarAchievement, LevelAchievement, TestAchievement, \
     BadgeAchievement
+from alumnica_model.models.achievements import TYPE_BADGE_ACHIEVEMENT
 from webapp.forms.profile_forms import *
 from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS, get_learner_level
 from webapp.statement_builders import register_statement, access_statement
@@ -128,7 +129,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         if learner_level > 3:
             learner_level = 3
 
-        context.update({'level': level, 'learner_name':learner_name, 'badges': badges})
+        context.update({'level': level, 'learner_name':learner_name, 'badges': badges, 'achievements': achievements})
         return context
 
     def form_invalid(self, form):
@@ -169,16 +170,105 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         learner = self.object.profile
 
         for achievement in AvatarAchievement.objects.all():
-            version = 0
-
+            earned = 0
+            if learner.avatar_achievements.filter(pk=achievement.pk).exists():
+                earned = 1
+            achievements.append({'name':achievement.name, 'type':achievement.type, 'pk':achievement.pk, 'earned':earned, 'description': '+ {} xp'.format(achievement.xp)})
 
         for achievement in LevelAchievement.objects.all():
-            pass
+            earned = 0
+            if learner.level_achievements.filter(pk=achievement.pk).exists():
+                earned = 1
+            achievements.append(
+                {'name': achievement.name, 'type': achievement.type, 'pk': achievement.pk, 'earned': earned, 'description': '+ {} xp'.format(achievement.xp)})
 
         for achievement in TestAchievement.objects.all():
-            pass
+            earned = 0
+            if learner.test_achievements.filter(pk=achievement.pk).exists():
+                earned = 1
+            achievements.append(
+                {'name': achievement.name, 'type': achievement.type, 'pk': achievement.pk, 'earned': earned, 'description': '+ {} xp'.format(achievement.xp)})
 
-        for achievement in BadgeAchievement.objects.all():
-            pass
+        for badge in Badge.objects.all():
+            ambit = badge.ambit.first()
+            if ambit is not None:
+                microoda_total_counter = MicroODA.objects.filter(
+                    Q(oda__zone=0) & Q(oda__subject__ambit__pk=ambit.pk)).count()
+                microoda_learner_counter = len(
+                    OrderedSet([progress.activity for progress in learner.activities_progresses.filter(
+                        Q(is_complete=True) & Q(activity__microoda__oda__subject__ambit=ambit))]))
+                image = badge.first_version
+                learner_achievement, created = BadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
+                total_version_counter = 0
+                learner_version_counter = 0
+
+                if learner_achievement.version == 0 or learner_achievement.version == 1:
+                    total_version_counter = int(microoda_total_counter * 0.2)
+                    learner_version_counter = microoda_learner_counter
+                elif learner_achievement.version == 2:
+                    image = learner_achievement.badge.second_version
+                    total_version_counter = int(microoda_total_counter * 0.5)
+                    learner_version_counter = int(microoda_learner_counter-(microoda_total_counter * 0.2))
+                elif learner_achievement.version == 3:
+                    image = learner_achievement.badge.third_version
+                    total_version_counter = microoda_total_counter
+                    learner_version_counter = int(microoda_learner_counter - (microoda_total_counter * 0.5))
+
+                achievements.append(
+                    {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk, 'version': learner_achievement.version,
+                     'description': 'Completa {} µODAS del {}'.format(total_version_counter, badge.name),
+                     'uodas': '{}|{}'.format(learner_version_counter, total_version_counter)})
+
+            else:
+                learner_achievement, created = BadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
+                uoda_total = MicroODA.objects.exclude(Q(oda__zone=0) | Q(oda__subject__ambit__is_published=False))
+                learner_total_counter = 0
+                badge_total_counter = 0
+                description = ''
+                image = badge.first_version
+                if badge.name == 'ODAs 100%':
+                    badge_total_counter = uoda_total.count()
+                    learner_total_counter = len(learner.get_completed_odas(with_evaluation=False))
+                    description = 'Completa {} odas'
+
+                elif badge.name == 'ODAs completadas':
+                    badge_total_counter = len(OrderedSet([microoda.oda for microoda in uoda_total]))
+                    learner_total_counter = len(learner.get_completed_odas())
+                    description = 'Completa {} odas y sus evaluaciones'
+
+                elif badge.name == 'Días consecutivos iniciando sesión':
+                    badge_total_counter = 30
+                    learner_total_counter = learner.login_progress.login_counter
+                    description = 'Inicia sesión {} días seguidos'
+
+                elif badge.name == 'Materias 100%':
+                    badge_total_counter = len(OrderedSet([microoda.oda.subject for microoda in uoda_total]))
+                    learner_total_counter = len(learner.get_completed_subjects())
+                    description = 'Completa {} materias'
+
+                elif badge.name == 'Ambitos 100%':
+                    badge_total_counter = len(OrderedSet([microoda.oda.subject.ambit for microoda in uoda_total]))
+                    learner_total_counter = len(learner.get_completed_ambits())
+                    description = 'Completa {} ámbitos'
+
+                total_version_counter = 0
+                learner_version_counter = 0
+
+                if learner_achievement.version == 0 or learner_achievement.version == 1:
+                    total_version_counter = round(badge_total_counter * 0.2)
+                    learner_version_counter = learner_total_counter
+                elif learner_achievement.version == 2:
+                    image = learner_achievement.badge.second_version
+                    total_version_counter = round(badge_total_counter * 0.5)
+                    learner_version_counter = round(learner_total_counter-(badge_total_counter * 0.2))
+                elif learner_achievement.version == 3:
+                    image = learner_achievement.badge.third_version
+                    total_version_counter = badge_total_counter
+                    learner_version_counter = round(learner_total_counter - (badge_total_counter * 0.5))
+
+                achievements.append(
+                    {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk, 'version': learner_achievement.version,
+                     'description': description.format(total_version_counter),
+                     'uodas': '{}|{}'.format(learner_version_counter, total_version_counter)})
 
         return achievements
