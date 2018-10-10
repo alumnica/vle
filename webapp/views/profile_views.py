@@ -1,12 +1,16 @@
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.shortcuts import redirect, render
+from django.utils.datastructures import OrderedSet
 from django.views.generic import FormView, UpdateView
 from sweetify import sweetify
 
 from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
+from alumnica_model.models import Badge, MicroODA, AvatarAchievement, LevelAchievement, TestAchievement, \
+    BadgeAchievement
 from webapp.forms.profile_forms import *
-from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS
+from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS, get_learner_level
 from webapp.statement_builders import register_statement, access_statement
 
 
@@ -109,6 +113,12 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
     def get_context_data(self, **kwargs):
         context = super(ProfileSettingsView, self).get_context_data(**kwargs)
+        learner = self.object.profile
+        learner_name = '{} {}'.format(self.object.first_name, self.object.profile.last_name)
+        level = get_learner_level(learner.experience_points)
+        badges = self.get_badges()
+        achievements = self.get_achievements()
+
         experience_pts = self.object.profile.experience_points
         learner_level = int(experience_pts / 5000)
 
@@ -118,7 +128,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         if learner_level > 3:
             learner_level = 3
 
-        context.update({'learner_level': learner_level})
+        context.update({'level': level, 'learner_name':learner_name, 'badges': badges})
         return context
 
     def form_invalid(self, form):
@@ -136,3 +146,39 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         user = form.save()
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('profile_view')
+
+    def get_badges(self):
+        badges = []
+        learner = self.object.profile
+        for badge_achievement in learner.badges_achievements.all():
+            version = badge_achievement.version
+            badge = badge_achievement.badge
+            ambit = badge.ambit.first()
+            image = badge.first_version
+            if version == 2:
+                image = badge.second_version
+            elif version == 3:
+                image = badge.third_version
+
+            badges.append({'name': badge.name, 'version': version, 'image': image, 'pk': badge.pk})
+
+        return badges
+
+    def get_achievements(self):
+        achievements = []
+        learner = self.object.profile
+
+        for achievement in AvatarAchievement.objects.all():
+            version = 0
+
+
+        for achievement in LevelAchievement.objects.all():
+            pass
+
+        for achievement in TestAchievement.objects.all():
+            pass
+
+        for achievement in BadgeAchievement.objects.all():
+            pass
+
+        return achievements

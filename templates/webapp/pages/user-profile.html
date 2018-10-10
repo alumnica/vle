@@ -7,8 +7,8 @@
   <div class="profile-grid">
     <!-- name and porgress bar -->
     <div class="name-prog">
-        <h1>Joan Manuel Serrat</h1>
-        <div class="level">25</div>
+        <h1>{{ learner_name }}</h1>
+        <div class="level">{{ level.level }}</div>
         <div class="progress" id="progress"></div>
       </div>
       <!-- avatar selection -->
@@ -27,7 +27,7 @@
       <!-- buttons -->
       <div class="profile-buttons">
         <button class="button expanded" type="button">Learning Style Test</button>
-        <button class="button expanded" type="button" data-open="info">Infomración Personal</button>
+        <button class="button expanded" type="button" data-open="info">Información Personal</button>
         <button class="button expanded" type="button" data-open="password">Cambiar Contraseña</button>
       </div>
       <!-- badges and recent activity -->
@@ -40,6 +40,21 @@
             <div class="accordion-content" data-tab-content>
               <div class="accordion-grid">
                 <!-- start badge -->
+                  {% for badge in badges %}
+                      <div class="badge-cell" version={{ badge.version }}>
+                          <div class="badge-cell_stars">
+                            <i class="fa fa-star earned"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                          </div>
+                          <div class="badge-cell_img">
+                            <img src={{ badge.image.file.url }} alt="">
+                          </div>
+                          <div class="badge-cell_title">
+                            {{ badge.name }}
+                          </div>
+                      </div>
+                  {% endfor %}
                 <div class="badge-cell">
                   <div class="badge-cell_stars">
                     <i class="fa fa-star earned"></i>
@@ -53,7 +68,7 @@
                     Propedéutico Persona del Siglo XXI
                   </div>
                 </div>
-                <!-- end bardge -->
+                <!-- end badge -->
               </div>
             </div>
           </li>
