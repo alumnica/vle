@@ -104,6 +104,22 @@
             <a href="#" class="accordion-title">Actividad Reciente</a>
             <div class="accordion-content" data-tab-content>
               <div class="accordion-grid">
+                  {% for notification in notifications %}
+                      <div class="recent-cell">
+                          <div class="recent-cell_icon">
+                            <img src="../assets/media/pwa-icons/icon-96x96.png" alt="">
+                          </div>
+                          <div class="recent-cell_num">
+                            {{ notification.object }}
+                          </div>
+                          <div class="recent-cell_title">
+                            {{ notification.description }}
+                          </div>
+                          <div class="recent-cell_date">
+                            1d
+                          </div>
+                      </div>
+                  {% endfor %}
                   <div class="recent-cell">
                       <div class="recent-cell_icon">
                         <img src="../assets/media/pwa-icons/icon-96x96.png" alt="">                     

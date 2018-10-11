@@ -119,7 +119,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         level = get_learner_level(learner.experience_points)
         badges = self.get_badges()
         achievements = self.get_achievements()
-
+        notifications = self.get_notifications()
         experience_pts = self.object.profile.experience_points
         learner_level = int(experience_pts / 5000)
 
@@ -129,7 +129,8 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         if learner_level > 3:
             learner_level = 3
 
-        context.update({'level': level, 'learner_name':learner_name, 'badges': badges, 'achievements': achievements})
+        context.update({'level': level, 'learner_name': learner_name, 'badges': badges, 'achievements': achievements,
+                        'notifications': notifications})
         return context
 
     def form_invalid(self, form):
@@ -173,21 +174,25 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
             earned = 0
             if learner.avatar_achievements.filter(pk=achievement.pk).exists():
                 earned = 1
-            achievements.append({'name':achievement.name, 'type':achievement.type, 'pk':achievement.pk, 'earned':earned, 'description': '+ {} xp'.format(achievement.xp)})
+            achievements.append(
+                {'name': achievement.name, 'type': achievement.type, 'pk': achievement.pk, 'earned': earned,
+                 'description': '+ {} xp'.format(achievement.xp)})
 
         for achievement in LevelAchievement.objects.all():
             earned = 0
             if learner.level_achievements.filter(pk=achievement.pk).exists():
                 earned = 1
             achievements.append(
-                {'name': achievement.name, 'type': achievement.type, 'pk': achievement.pk, 'earned': earned, 'description': '+ {} xp'.format(achievement.xp)})
+                {'name': achievement.name, 'type': achievement.type, 'pk': achievement.pk, 'earned': earned,
+                 'description': '+ {} xp'.format(achievement.xp)})
 
         for achievement in TestAchievement.objects.all():
             earned = 0
             if learner.test_achievements.filter(pk=achievement.pk).exists():
                 earned = 1
             achievements.append(
-                {'name': achievement.name, 'type': achievement.type, 'pk': achievement.pk, 'earned': earned, 'description': '+ {} xp'.format(achievement.xp)})
+                {'name': achievement.name, 'type': achievement.type, 'pk': achievement.pk, 'earned': earned,
+                 'description': '+ {} xp'.format(achievement.xp)})
 
         for badge in Badge.objects.all():
             ambit = badge.ambit.first()
@@ -208,14 +213,15 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                 elif learner_achievement.version == 2:
                     image = learner_achievement.badge.second_version
                     total_version_counter = round(microoda_total_counter * 0.5) - round(microoda_total_counter * 0.2)
-                    learner_version_counter = round(microoda_learner_counter-(microoda_total_counter * 0.2))
+                    learner_version_counter = round(microoda_learner_counter - (microoda_total_counter * 0.2))
                 elif learner_achievement.version == 3:
                     image = learner_achievement.badge.third_version
                     total_version_counter = microoda_total_counter - round(microoda_total_counter * 0.5)
                     learner_version_counter = round(microoda_learner_counter - (microoda_total_counter * 0.5))
 
                 achievements.append(
-                    {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk, 'version': learner_achievement.version,
+                    {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk,
+                     'version': learner_achievement.version,
                      'description': 'Completa {} µODAS del {}'.format(total_version_counter, badge.name),
                      'uodas': '{}|{}'.format(learner_version_counter, total_version_counter)})
 
@@ -260,15 +266,32 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                 elif learner_achievement.version == 2:
                     image = learner_achievement.badge.second_version
                     total_version_counter = round(badge_total_counter * 0.5) - round(badge_total_counter * 0.2)
-                    learner_version_counter = round(learner_total_counter-(badge_total_counter * 0.2))
+                    learner_version_counter = round(learner_total_counter - (badge_total_counter * 0.2))
                 elif learner_achievement.version == 3:
                     image = learner_achievement.badge.third_version
                     total_version_counter = badge_total_counter - round(badge_total_counter * 0.5)
                     learner_version_counter = round(learner_total_counter - (badge_total_counter * 0.5))
 
                 achievements.append(
-                    {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk, 'version': learner_achievement.version,
+                    {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk,
+                     'version': learner_achievement.version,
                      'description': description.format(total_version_counter),
                      'uodas': '{}|{}'.format(learner_version_counter, total_version_counter)})
 
         return achievements
+
+    def get_notifications(self):
+        learner = self.object.profile
+        notifications = []
+
+        for notification in learner.achievement_notifications.all():
+            notifications.append({'object': 'Versión {}'.format(notification.version), 'description': 'Obtuviste nueva version de la insignia {}'.format(notification.badge.name), 'date': notification.date})
+        for notification in learner.avatar_evolution_notifications.all():
+            notifications.append({'object': notification.earned_evolution, 'description': 'Tu avatar evolucionó de nivel', 'date': notification.date})
+        for notification in learner.uoda_completed_notifications.all():
+            notifications.append({'object': '{} XP'.format(notification.xp), 'description': 'Completaste una MicroODA de la ODA {}'.format(notification.microoda.oda.name), 'date': notification.date})
+        for notification in learner.evaluation_completed_notifications.all():
+            notifications.append({'object': '{} de score'.format(notification.score), 'description': 'Completaste la evaluación de la ODA {}'.format(notification.evaluation.oda.name), 'date': notification.date})
+        for notification in learner.level_up_notifications.all():
+            notifications.append({'object': 'Nivel {}'.format(notification.earned_level), 'description': 'Subiste de nivel!', 'date': notification.date})
+        return notifications

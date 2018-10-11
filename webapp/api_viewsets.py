@@ -324,7 +324,7 @@ class MicroodaViewSet(APIView):
                        duration=duration,
                        completion=True)
 
-        MicroODACompletedNotification.objects.create(learner=learner, microoda=microoda)
+        MicroODACompletedNotification.objects.create(learner=learner, microoda=microoda, xp=earned_xp)
 
         return JsonResponse({'oda': microoda.oda.pk})
 
