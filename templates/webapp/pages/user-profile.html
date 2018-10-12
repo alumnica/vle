@@ -81,20 +81,7 @@
                       </div>
                     </div>
                   {% endfor %}
-                  <div class="achievement">
-                  <div class="achievement_icon">
-                    <img src="{% static 'webapp/media/insignias/insignia_login.png' %}" alt="">
-                  </div>
-                  <div class="achievement_text">
-                    Completa 7 µODAs del propedéutico de ciencias
-                  </div>
-                  <div class="achievement_counter">
-                    7/7
-                  </div>
-                  <div class="achievement_tip">
-                    Desbloquea primera versión de la Insignia
-                  </div>
-                </div>
+
                 <!-- end echievemetn -->
               </div>
             </div>
@@ -116,24 +103,10 @@
                             {{ notification.description }}
                           </div>
                           <div class="recent-cell_date">
-                            1d
+                            {{ notification.date.day }}
                           </div>
                       </div>
                   {% endfor %}
-                  <div class="recent-cell">
-                      <div class="recent-cell_icon">
-                        <img src="../assets/media/pwa-icons/icon-96x96.png" alt="">                     
-                      </div>
-                      <div class="recent-cell_num">
-                        2000 XP
-                      </div>
-                      <div class="recent-cell_title">
-                        uODA - Quimica organica 2
-                      </div>
-                      <div class="recent-cell_date">
-                        1d
-                      </div>
-                    </div>
   
               </div>
             </div>
@@ -172,35 +145,28 @@
   <div class="grid-x grid-margin-x">
     <div class="cell medium-6">
       <label>Nombre</label>
-      <input type="text">
+      {{ form.first_name }}
     </div>
     <div class="cell medium-6">
       <label>Apellidos</label>
-      <input type="text">
+      {{ form.last_name }}
     </div>
     <div class="cell medium-6">
       <label>Fecha de nacimiento</label>
-      <input type="date">
+      {{ form.birth_date_field }}
     </div>
     <div class="medium-12 cell">
       <legend>Sexo</legend>
-      <input type="radio" name="sexo" value="femenino" id="sexo_femenino">
-      <label for="sexo_femenino">Femenino</label>
-      <input type="radio" name="sexo" value="masculino" id="sexo_masculino">
-      <label for="sexo_masculino">Masculino</label>
-      <input type="radio" name="sexo" value="femenino" id="sexo_femenino">
-      <label for="sexo_femenino">Femenino</label>
-      <input type="radio" name="sexo" value="masculino" id="sexo_masculino">
-      <label for="sexo_masculino">Masculino</label>
+      {{ form.gender_field }}
     </div>
     <div class="cell medium-12">
       <h4>Queremos saber más de ti</h4>
       <label>¿Cuál es tu materia favorita?</label>
-      <input type="text">
+      <input type="text" id="materia-fav" class="extra-info-input" placeholder="ej. Historia">
       <label>¿Cuál es tu maestra favorita?</label>
-      <input type="text">
+      <input type="text" id="horario" class="extra-info-input" placeholder="mañana, tarde o noche">
       <label>¿Cuál es tu momento favorito?</label>
-      <input type="text">
+      <input type="text" id="univ" class="extra-info-input" placeholder="ej. Literatura">
     </div>
   </div>
   <div class="pass-wrapper">

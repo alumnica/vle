@@ -152,7 +152,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
     def get_badges(self):
         badges = []
         learner = self.object.profile
-        for badge_achievement in learner.badges_achievements.all():
+        for badge_achievement in learner.badges_achievements.exclude(version=0):
             version = badge_achievement.version
             badge = badge_achievement.badge
             ambit = badge.ambit.first()
