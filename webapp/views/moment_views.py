@@ -60,7 +60,7 @@ class MomentView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormVi
                                    learning_style=learner.learning_style.name,
                                    completed_counter=(learner.activities_progresses.filter(
                                        activity=moment_instance).first().activity_completed_counter + 1))
-        return {'moment_array': moment_array, 'points': points}
+        return {'moment_array': moment_array, 'points': round(points)}
 
 
 @method_decorator(xframe_options_exempt, name='dispatch')
