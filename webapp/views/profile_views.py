@@ -207,17 +207,20 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                 total_version_counter = 0
                 learner_version_counter = 0
 
-                if learner_achievement.version == 0 or learner_achievement.version == 1:
+                if learner_achievement.version == 0:
                     total_version_counter = round(microoda_total_counter * 0.2)
                     learner_version_counter = microoda_learner_counter
-                elif learner_achievement.version == 2:
+                elif learner_achievement.version == 1:
                     image = learner_achievement.badge.second_version
                     total_version_counter = round(microoda_total_counter * 0.5) - round(microoda_total_counter * 0.2)
                     learner_version_counter = round(microoda_learner_counter - (microoda_total_counter * 0.2))
-                elif learner_achievement.version == 3:
+                elif learner_achievement.version == 2:
                     image = learner_achievement.badge.third_version
                     total_version_counter = microoda_total_counter - round(microoda_total_counter * 0.5)
                     learner_version_counter = round(microoda_learner_counter - (microoda_total_counter * 0.5))
+                elif learner_achievement.version == 3:
+                    total_version_counter = microoda_total_counter
+                    learner_version_counter = microoda_learner_counter
 
                 achievements.append(
                     {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk,
