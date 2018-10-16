@@ -240,13 +240,15 @@ class EvaluationViewSet(APIView):
                 type=MicroODAType.objects.get(name=uoda)).activities.first().pk} for uoda in suggestions]
 
         progress, created = learner.evaluations_progresses.get_or_create(evaluation=question_instance.evaluation)
+        progress.is_complete = evaluation_completed
         progress.evaluation_completed_counter += 1
         progress.save()
+        progress.check_general_badges_progress()
         learner.save()
 
         if evaluation_completed:
             completed_uodas = 0
-            for uoda in evaluation_instance.oda.microodas.all():
+            for uoda in evaluation_instance.oda.first().microodas.all():
                 if learner.activities_progresses.get(activity=uoda.activities.first()).is_complete:
                     completed_uodas += 1
             xp = evaluation_completed_xp(login_counter=learner.login_progress.login_counter,
@@ -266,7 +268,7 @@ class EvaluationViewSet(APIView):
                        duration=duration,
                        completion=evaluation_completed)
 
-        EvaluationCompletedNotification.objects.create(learner=learner, evaluation=evaluation, score=score)
+        EvaluationCompletedNotification.objects.create(learner=learner, evaluation=evaluation_instance, score=score)
 
         return score, questions_status, suggestions_dict
 
