@@ -434,3 +434,5 @@ class NotificationsAPIView(APIView):
 
         return JsonResponse({'ok': 'ok'})
 
+
+

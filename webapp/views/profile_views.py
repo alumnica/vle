@@ -288,13 +288,13 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         notifications = []
 
         for notification in learner.achievement_notifications.all():
-            notifications.append({'object': 'Versión {}'.format(notification.version), 'description': 'Obtuviste nueva version de la insignia {}'.format(notification.badge.name), 'date': notification.date})
+            notifications.append({'object': 'Versión {}'.format(notification.version), 'description': 'Obtuviste nueva version de la insignia {}'.format(notification.badge.name), 'date': notification.date, 'viewed': notification.viewed})
         for notification in learner.avatar_evolution_notifications.all():
-            notifications.append({'object': notification.earned_evolution, 'description': 'Tu avatar evolucionó de nivel', 'date': notification.date})
+            notifications.append({'object': notification.earned_evolution, 'description': 'Tu avatar evolucionó de nivel', 'date': notification.date, 'viewed': notification.viewed})
         for notification in learner.uoda_completed_notifications.all():
-            notifications.append({'object': '{} XP'.format(notification.xp), 'description': 'Completaste una MicroODA de la ODA {}'.format(notification.microoda.oda.name), 'date': notification.date})
+            notifications.append({'object': '{} XP'.format(notification.xp), 'description': 'Completaste una MicroODA de la ODA {}'.format(notification.microoda.oda.name), 'date': notification.date, 'viewed': notification.viewed})
         for notification in learner.evaluation_completed_notifications.all():
-            notifications.append({'object': '{} de score'.format(notification.score), 'description': 'Completaste la evaluación de la ODA {}'.format(notification.evaluation.oda.name), 'date': notification.date})
+            notifications.append({'object': '{} de score'.format(notification.score), 'description': 'Completaste la evaluación de la ODA {}'.format(notification.evaluation.oda.name), 'date': notification.date, 'viewed': notification.viewed})
         for notification in learner.level_up_notifications.all():
-            notifications.append({'object': 'Nivel {}'.format(notification.earned_level), 'description': 'Subiste de nivel!', 'date': notification.date})
+            notifications.append({'object': 'Nivel {}'.format(notification.earned_level), 'description': 'Subiste de nivel!', 'date': notification.date, 'viewed': notification.viewed})
         return notifications
