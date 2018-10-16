@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 
 from alumnica_model.models import AuthUser, Learner, MicroODA, Moment, MicroODACompletedNotification, \
-    EvaluationCompletedNotification
+    EvaluationCompletedNotification, AchievementNotification, LevelUpNotification, AvatarEvolutionNotification
 from alumnica_model.models.questions import *
 from webapp.gamification import uoda_completed_xp, evaluation_completed_xp
 from webapp.serializers import *
@@ -396,3 +396,31 @@ class H5PFinished(APIView):
                            tags_array=momento_instance.tags.all(),
                            timestamp=timestamp, score=score, max_score=max_score)
         return JsonResponse({'ok': 'ok'})
+
+
+class NotificationsAPIView(APIView):
+    def get(self, request):
+        learner_pk = request.POST['learner']
+        learner = AuthUser.objects.get(pk=learner_pk)
+
+        notifications_queryset = learner.profile.level_up_notifications.all()[0:5]
+        notifications_queryset.union(learner.profile.avatar_evolution_notifications.all()[0:5])
+        notifications_queryset.union(learner.profile.achievement_notifications.all()[0:5])
+
+        notifications_queryset.order_by('date')
+        notifications = list()
+
+        for notification in notifications_queryset[0:5]:
+            if isinstance(notification, AchievementNotification):
+                notifications.append({'title': 'Ganaste la versión {} de la insignia {}'.format(notification.version ,notification.badge.name), 'type': notification.type})
+            elif isinstance(notification, LevelUpNotification):
+                notifications.append({'title': 'Subiste al nivel {}'.format(notification.earned_level), 'type': notification.type})
+            elif isinstance(notification, AvatarEvolutionNotification):
+                notifications.append({'title': 'Tu avatar llegó a la evolución {}'.format(notification.earned_evolution), 'type': notification.type})
+
+        return JsonResponse({'notifications':notifications})
+
+
+
+
+
