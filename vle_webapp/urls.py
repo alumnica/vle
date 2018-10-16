@@ -47,6 +47,8 @@ urlpatterns = [
                   path('registration', include('django.contrib.auth.urls')),
                   path('api/microodas/<int:learner>,<int:uODA>,<str:duration>/', api_viewsets.MicroodaViewSet.as_view(),
                        name='microoda_view'),
+                  path('api/notifications/<int:learner>/', api_viewsets.NotificationsAPIView.as_view(),
+                       name='notifications_view'),
                   path('api/evaluation/', api_viewsets.EvaluationViewSet.as_view(), name='evaluation_review_view'),
                   path('api/avatar/', api_viewsets.ChangeUserAvatar.as_view(), name='avatar_change_view'),
                   path('api/profile_info/', api_viewsets.SaveExtraProfileInfo.as_view(), name='profile_extr_info_view'),
