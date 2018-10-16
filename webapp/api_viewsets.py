@@ -412,15 +412,25 @@ class NotificationsAPIView(APIView):
 
         for notification in notifications_queryset[0:5]:
             if isinstance(notification, AchievementNotification):
-                notifications.append({'title': 'Ganaste la versión {} de la insignia {}'.format(notification.version ,notification.badge.name), 'type': notification.type})
+                notifications.append({'title': 'Ganaste la versión {} de la insignia {}'.format(notification.version ,notification.badge.name), 'type': notification.type, 'viewed': notification.viewed})
             elif isinstance(notification, LevelUpNotification):
-                notifications.append({'title': 'Subiste al nivel {}'.format(notification.earned_level), 'type': notification.type})
+                notifications.append({'title': 'Subiste al nivel {}'.format(notification.earned_level), 'type': notification.type, 'viewed': notification.viewed})
             elif isinstance(notification, AvatarEvolutionNotification):
-                notifications.append({'title': 'Tu avatar llegó a la evolución {}'.format(notification.earned_evolution), 'type': notification.type})
+                notifications.append({'title': 'Tu avatar llegó a la evolución {}'.format(notification.earned_evolution), 'type': notification.type, 'viewed': notification.viewed})
 
-        return JsonResponse({'notifications':notifications})
+        return JsonResponse({'notifications': notifications})
 
+    def post(self, request):
+        learner_pk = request.POST['learner']
+        learner = AuthUser.objects.get(pk=learner_pk)
 
+        notifications_queryset = learner.profile.level_up_notifications.filter(viewed=False)
+        notifications_queryset.union(learner.profile.avatar_evolution_notifications.filter(viewed=False))
+        notifications_queryset.union(learner.profile.achievement_notifications.filter(viewed=False))
 
+        for notification in notifications_queryset:
+            notification.viewed = True
+            notification.save()
 
+        return JsonResponse({'ok': 'ok'})
 
