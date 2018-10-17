@@ -131,7 +131,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                     avatar_level = 1
                 elif 15000 < avatar.points <= 50000:
                     avatar_level = 2
-            avatares.append({'avatar':avatar, 'level':level})
+            avatares.append({'avatar':avatar, 'level': avatar_level})
 
         context.update({'level': level, 'learner_name': learner_name, 'badges': badges, 'achievements': achievements,
                         'notifications': notifications, 'avatares': avatares})
