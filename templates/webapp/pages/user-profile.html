@@ -77,7 +77,8 @@
                         {{ achievement.uodas }}
                       </div>
                       <div class="achievement_tip">
-                        Desbloquea versión de la Insignia
+                        {{ achievement.name }}
+
                       </div>
                     </div>
                   {% endfor %}
@@ -93,8 +94,8 @@
               <div class="accordion-grid">
                   {% for notification in notifications %}
                       <div class="recent-cell">
-                          <div class="recent-cell_icon">
-                            <img src="../assets/media/pwa-icons/icon-96x96.png" alt="">
+                          <div class="recent-cell_icon">                            
+                            {{ notification.type}}
                           </div>
                           <div class="recent-cell_num">
                             {{ notification.object }}

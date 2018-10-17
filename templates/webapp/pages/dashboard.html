@@ -32,22 +32,13 @@
                 </a>
             </div>
             <div class="user-info">
-                <a class="user-info-name">
-                    {{ user.first_name }} {{ user.last_name }}
-                </a>
-                <div class="user-info-score">
-                    <i class="fa fa-star"></i> {{ user.profile.experience_points }}
+                <div class="name-prog">
+                    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                    <div class="level">25</div>
+                    <div class="progress" id="progress"></div>
                 </div>
-
-                    <div class="user-info-test">
-                        {% if not request.user.profile.large_quiz_completed %}
-                        <a href="{% url 'large_learning_quiz_view' %}" class="dashboard-test-button"> <!-- link a test -->
-                            <i class="fas fa-vial"></i> Test
-                        </a>
-                        {% endif %}
-                    </div>
-
             </div>
+            
             <div class="recent-activity">
                 <div class="recent-activity-heading">
                     <span class="title">Actividad Reciente</span>
@@ -92,5 +83,5 @@
 
 
 {% block scripts %}
-
+<script src="{% static "webapp/js/progress-bar.js" %}"></script>
 {% endblock %}
