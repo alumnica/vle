@@ -414,8 +414,6 @@ class NotificationsAPIView(APIView):
         notifications_list.extend(learner.avatar_evolution_notifications.all()[0:5])
         notifications_list.extend(learner.achievement_notifications.all()[0:5])
 
-        var = learner.achievement_notifications.all()
-
         notifications_list.sort(key=lambda x: x.date, reverse=False)
         notifications = list()
 
