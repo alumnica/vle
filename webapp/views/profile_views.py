@@ -120,17 +120,21 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         badges = self.get_badges()
         achievements = self.get_achievements()
         notifications = self.get_notifications()
+
         experience_pts = self.object.profile.experience_points
-        learner_level = int(experience_pts / 5000)
 
-        if learner_level < 1:
-            learner_level = 1
-
-        if learner_level > 3:
-            learner_level = 3
+        avatares = list()
+        for avatar in learner.avatar_progresses.all():
+            avatar_level = 3
+            if avatar.points <= 50000:
+                if avatar.points <= 15000:
+                    avatar_level = 1
+                elif 15000 < avatar.points <= 50000:
+                    avatar_level = 2
+            avatares.append({'avatar':avatar, 'level':level})
 
         context.update({'level': level, 'learner_name': learner_name, 'badges': badges, 'achievements': achievements,
-                        'notifications': notifications})
+                        'notifications': notifications, 'avatares': avatares})
         return context
 
     def form_invalid(self, form):
