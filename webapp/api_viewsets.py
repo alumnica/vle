@@ -341,8 +341,13 @@ class ChangeUserAvatar(APIView):
         avatar_id = request.GET['avatar']
         learner = AuthUser.objects.get(pk=learner_pk)
 
-        learner.profile.avatar = avatar_id
-        learner.profile.save()
+        avatar = learner.profile.avatar_progresses.get(avatar_name=avatar_id)
+        if not avatar.active:
+            for avatar_active in learner.profile.avatar_progresses.filter(active=True):
+                avatar_active.active = False
+                avatar_active.save()
+            avatar.active = True
+            avatar.save()
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         avatar_statement(user=learner, avatar=avatar_id, timestamp=timestamp)

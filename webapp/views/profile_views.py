@@ -196,7 +196,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
         for badge in Badge.objects.all():
             ambit = badge.ambit.first()
-            if ambit is not None:
+            if ambit is not None and ambit.is_published:
                 microoda_total_counter = MicroODA.objects.exclude(
                     oda__zone=0).filter(oda__subject__ambit__pk=ambit.pk).count()
                 microoda_learner_counter = len(
