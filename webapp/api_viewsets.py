@@ -409,15 +409,17 @@ class NotificationsAPIView(APIView):
     def get(self, request):
         learner_pk = request.GET['learner']
         learner = Learner.objects.get(pk=learner_pk)
+        notifications_list = list()
+        notifications_list.extend(learner.level_up_notifications.all()[0:5])
+        notifications_list.extend(learner.avatar_evolution_notifications.all()[0:5])
+        notifications_list.extend(learner.achievement_notifications.all()[0:5])
 
-        notifications_queryset = learner.level_up_notifications.all()
-        notifications_queryset.union(learner.avatar_evolution_notifications.all())
-        notifications_queryset.union(learner.achievement_notifications.all())
+        var = learner.achievement_notifications.all()
 
-        notifications_queryset.order_by('date')
+        notifications_list.sort(key=lambda x: x.date, reverse=False)
         notifications = list()
 
-        for notification in notifications_queryset[0:5]:
+        for notification in notifications_list[0:5]:
             if isinstance(notification, AchievementNotification):
                 notifications.append({'title': 'Ganaste la versión {} de la insignia {}'.format(notification.version ,notification.badge.name), 'type': notification.type, 'viewed': notification.viewed})
             elif isinstance(notification, LevelUpNotification):
