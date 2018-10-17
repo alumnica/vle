@@ -402,12 +402,12 @@ class H5PFinished(APIView):
 
 class NotificationsAPIView(APIView):
     def get(self, request):
-        learner_pk = request.POST['learner']
-        learner = AuthUser.objects.get(pk=learner_pk)
+        learner_pk = request.GET['learner']
+        learner = Learner.objects.get(pk=learner_pk)
 
-        notifications_queryset = learner.profile.level_up_notifications.all()[0:5]
-        notifications_queryset.union(learner.profile.avatar_evolution_notifications.all()[0:5])
-        notifications_queryset.union(learner.profile.achievement_notifications.all()[0:5])
+        notifications_queryset = learner.level_up_notifications.all()
+        notifications_queryset.union(learner.avatar_evolution_notifications.all())
+        notifications_queryset.union(learner.achievement_notifications.all())
 
         notifications_queryset.order_by('date')
         notifications = list()

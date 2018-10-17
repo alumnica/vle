@@ -92,22 +92,21 @@
             <a href="#" class="accordion-title">Actividad Reciente</a>
             <div class="accordion-content" data-tab-content>
               <div class="accordion-grid">
-                  {% for notification in notifications %}
-                      <div class="recent-cell">
-                          <div class="recent-cell_icon">                            
-                            {{ notification.type}}
-                          </div>
-                          <div class="recent-cell_num">
-                            {{ notification.object }}
-                          </div>
-                          <div class="recent-cell_title">
-                            {{ notification.description }}
-                          </div>
-                          <div class="recent-cell_date">
-                            {{ notification.date.day }}
-                          </div>
-                      </div>
-                  {% endfor %}
+                {% for notification in notifications %}
+                  <div class="recent-cell" noti-type="{{ notification.type}}">
+                    <div class="recent-cell_icon">
+                    </div>
+                    <div class="recent-cell_num">
+                      {{ notification.object }}
+                    </div>
+                    <div class="recent-cell_title">
+                      {{ notification.description }}
+                    </div>
+                    <div class="recent-cell_date">
+                      {{ notification.days }}
+                    </div>
+                  </div>
+                {% endfor %}
   
               </div>
             </div>
@@ -181,6 +180,8 @@
 <!-- makes  menu active -->
 <script>
   document.querySelector('#top-menu-icon').classList.add("top-active");
+
+
 </script>
 
 
@@ -188,4 +189,5 @@
 
 {% block scripts %}
 <script src="{% static "webapp/js/progress-bar.js" %}"></script>
+<script src="{% static "webapp/js/user-profile.js" %}"></script>
 {% endblock %}
