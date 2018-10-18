@@ -7,8 +7,8 @@ from django.views.generic import FormView, UpdateView
 from sweetify import sweetify
 
 from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
-from alumnica_model.models import Badge, MicroODA, AvatarAchievement, LevelAchievement, TestAchievement, \
-    BadgeAchievement
+from alumnica_model.models import Badge, MicroODA, LearnerBadgeAchievement, AvatarAchievement, LevelAchievement, \
+    TestAchievement
 from alumnica_model.models.achievements import TYPE_BADGE_ACHIEVEMENT
 from webapp.forms.profile_forms import *
 from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS, get_learner_level
@@ -213,7 +213,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                     OrderedSet([progress.activity for progress in learner.activities_progresses.filter(
                         Q(is_complete=True) & Q(activity__microoda__oda__subject__ambit=ambit))]))
                 image = badge.first_version
-                learner_achievement, created = BadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
+                learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
                 total_version_counter = 0
                 learner_version_counter = 0
 
@@ -239,7 +239,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                      'uodas': '{}|{}'.format(learner_version_counter, total_version_counter)})
 
             else:
-                learner_achievement, created = BadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
+                learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
                 uoda_total = MicroODA.objects.exclude(Q(oda__zone=0) | Q(oda__subject__ambit__is_published=False))
                 learner_total_counter = 0
                 badge_total_counter = 0
