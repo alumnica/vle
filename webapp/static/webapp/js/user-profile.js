@@ -71,19 +71,43 @@
 //     })
 // });
 $(document).ready(function () {
-    // add notification icon to recent activity depening on the type of notification
-    $('.recent-cell').each(function () {
-        var notiType = $(this).attr('noti-type');
-        if(notiType === 'achievement'){
-            $(this).find('.recent-cell_icon').append('<i class="fas fa-trophy"></i>')
-        } else if (notiType === 'level_up'){
-            $(this).find('.recent-cell_icon').append('<i class="fas fa-chart-line"></i>')
-        } else if (notiType === 'avatar_evolution'){
-            $(this).find('.recent-cell_icon').append('<i class="fas fa-child"></i>')
-        } else if (notiType === 'uoda_completed'){
-            $(this).find('.recent-cell_icon').append('<i class="fas fa-book"></i>')
-        } else if (notiType === 'evaluation_completed'){
-            $(this).find('.recent-cell_icon').append('<i class="fas fa-file-alt"></i>')
-        }
-    });
+  // add notification icon to recent activity depending on the type of notification
+  $('.recent-cell').each(function () {
+    var notiType = $(this).attr('noti-type');
+    if(notiType === 'achievement'){
+        $(this).find('.recent-cell_icon').append('<i class="fas fa-trophy"></i>')
+    } else if (notiType === 'level_up'){
+        $(this).find('.recent-cell_icon').append('<i class="fas fa-chart-line"></i>')
+    } else if (notiType === 'avatar_evolution'){
+        $(this).find('.recent-cell_icon').append('<i class="fas fa-child"></i>')
+    } else if (notiType === 'uoda_completed'){
+        $(this).find('.recent-cell_icon').append('<i class="fas fa-book"></i>')
+    } else if (notiType === 'evaluation_completed'){
+        $(this).find('.recent-cell_icon').append('<i class="fas fa-file-alt"></i>')
+    }
+  });
+
+    // check badge version and color in the stars appropriately
+  $('.badge-cell').each( function () {
+    var starCount = $(this).attr('version');
+    if(starCount = 1){
+      $(this).find('.badge-cell_stars').append(
+        '<i class="fa fa-star earned"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>'
+        )
+      } else if (starCount = 2){
+        $(this).find('.badge-cell_stars').append(
+        '<i class="fa fa-star earned"></i><i class="fa fa-star earned"></i><i class="fa fa-star"></i>'
+        )
+      } else if (starCount = 3){
+        $(this).find('.badge-cell_stars').append(
+        '<i class="fa fa-star earned"></i><i class="fa fa-star earned"></i><i class="fa fa-star earned"></i>'
+        )
+      }
+    })
+  $('.achievement').each(function () {
+    var ach = $(this);
+    if(ach.attr('earned') === 1){
+      ach.removeClass('wip')
+    }
+  })
 });

@@ -429,13 +429,13 @@ class NotificationsAPIView(APIView):
 
     def post(self, request):
         learner_pk = request.POST['learner']
-        learner = AuthUser.objects.get(pk=learner_pk)
+        learner = Learner.objects.get(pk=learner_pk)
+        notifications_list = list()
+        notifications_list.extend(learner.level_up_notifications.filter(viewed=False))
+        notifications_list.extend(learner.avatar_evolution_notifications.filter(viewed=False))
+        notifications_list.extend(learner.achievement_notifications.filter(viewed=False))
 
-        notifications_queryset = learner.profile.level_up_notifications.filter(viewed=False)
-        notifications_queryset.union(learner.profile.avatar_evolution_notifications.filter(viewed=False))
-        notifications_queryset.union(learner.profile.achievement_notifications.filter(viewed=False))
-
-        for notification in notifications_queryset:
+        for notification in notifications_list:
             notification.viewed = True
             notification.save()
 

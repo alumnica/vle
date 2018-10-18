@@ -46,6 +46,11 @@
 </script>
 <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
 <script src="{% static "webapp/js/search.js" %}"></script>
-<script src="{% static "webapp/js/notifications.js" %}"></script>
+
 
 {% include "webapp/partials/menu.html" %}
+
+{% block scripts %}
+
+<script src="{% static "webapp/js/notifications.js" %}"></script>
+{% endblock %}

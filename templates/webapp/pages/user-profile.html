@@ -37,7 +37,7 @@
         <ul class="accordion" data-responsive-accordion-tabs="accordion medium-tabs small-accordion"
           data-allow-all-closed="true">
           <!-- badges content -->
-          <li class="accordion-item " data-accordion-item>
+          <li class="accordion-item is-active" data-accordion-item>
             <a href="#" class="accordion-title">Insignias</a>
             <div class="accordion-content" data-tab-content>
               <div class="accordion-grid">
@@ -45,9 +45,7 @@
                   {% for badge in badges %}
                       <div class="badge-cell" version={{ badge.version }}>
                           <div class="badge-cell_stars">
-                            <i class="fa fa-star earned"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
+                          <!--append stars here with JS-->
                           </div>
                           <div class="badge-cell_img">
                             <img src={{ badge.image.file.url }} alt="">
@@ -68,7 +66,7 @@
               <div class="accordion-grid">
                 <!-- begin achievement    ADD 'new' FOR NEWLEY AHCIEVED, ADD 'wip' TO ALL ACHIEVEMENTS, REMOVE WHEN EARNED -->
                 {% for achievement in achievements %}
-                    <div class="achievement">
+                    <div class="achievement wip" earned="{{ achievement.earned }}">
                       <div class="achievement_icon">
                         <img src={{ achievement.image.file.url }} alt="">
                       </div>
@@ -90,11 +88,11 @@
             </div>
           </li>
           <!-- recent activity -->
-          <li class="accordion-item is-active" data-accordion-item>
+          <li class="accordion-item" data-accordion-item>
             <a href="#" class="accordion-title">Actividad Reciente</a>
             <div class="accordion-content" data-tab-content>
               <div class="accordion-grid">
-                {% for notification in notifications %}
+                {% for notification in notifications reversed%}
                   <div class="recent-cell" noti-type="{{ notification.type}}">
                     <div class="recent-cell_icon">
                     </div>
