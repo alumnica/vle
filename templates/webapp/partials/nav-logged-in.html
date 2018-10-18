@@ -1,5 +1,6 @@
 {% load static %}
 {% load vle_extras %}
+{% get_active_avatar user=request.user as avatar %}
 <div class="top-nav">
     <div class="top-nav-container">        
         <button class="menu-open" type="button" id="ham-btn">
@@ -17,7 +18,7 @@
         </a>
         <a href="{% url 'profile_view' %}" class="top-menu-btn" id="top-menu-icon" title="{{ user.first_name }} {{ user.last_name }}">
 
-            <img src="{% static '' %}webapp/media/{{ request.user.profile.avatar }}0{{ request.user.profile.experience_points|learner_level }}.png" alt="" id="{{ request.user.profile.avatar }}">
+            <img src="{% static '' %}webapp/media/{{ avatar.avatar_name }}0{{ avatar.avatar_level }}.png" alt="" id="{{ avatar.avatar_name }}">
 
         </a>  
         <a class="top-menu-btn" id="noti-btn" title="Notificaciones">

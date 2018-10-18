@@ -2,7 +2,7 @@
 {% load static %}
 {% load vle_extras %}
 {% block content %}
-
+{% get_active_avatar user=request.user as avatar %}
 <div class='container' id="preloader">
     <div class='loader'>
         <div class='loader--dot'></div>
@@ -27,7 +27,7 @@
         <div class="dashboard-grid">
             <div class="profile-picture">
                 <a href="{% url 'profile_view' %}">
-                    <img src="{% static '' %}webapp/media/{{ request.user.profile.avatar }}0{{ request.user.profile.experience_points|learner_level }}.png" alt="profile picture">
+                    <img src="{% static '' %}webapp/media/{{ avatar.avatar_name }}0{{ avatar.avatar_level }}.png" alt="profile picture">
 
                 </a>
             </div>
