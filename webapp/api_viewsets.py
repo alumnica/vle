@@ -7,7 +7,8 @@ from rest_framework.views import APIView
 from alumnica_model.models import AuthUser, Learner, MicroODA, Moment, MicroODACompletedNotification, \
     EvaluationCompletedNotification, AchievementNotification, LevelUpNotification, AvatarEvolutionNotification
 from alumnica_model.models.questions import *
-from webapp.gamification import uoda_completed_xp, evaluation_completed_xp
+from alumnica_model.models.users import LearnerLevels
+from webapp.gamification import uoda_completed_xp, evaluation_completed_xp, get_learner_level
 from webapp.serializers import *
 from webapp.statement_builders import task_completed, task_experience_received, avatar_statement, \
     answered_question_statement, h5p_task_completed
@@ -440,6 +441,16 @@ class NotificationsAPIView(APIView):
             notification.save()
 
         return JsonResponse({'ok': 'ok'})
+
+
+class LearnerExperiencePoints(APIView):
+    def get(self, request):
+        learner_pk = request.GET['learner']
+        learner = Learner.objects.get(pk=learner_pk)
+        learner_level = get_learner_level(learner.experience_points)
+        next_level = LearnerLevels.objects.get(level=(learner_level.level+1))
+
+        return JsonResponse({'learner_points': (learner.experience_points - learner_level.points), 'next_level_points': (next_level.points - learner_level.points)})
 
 
 

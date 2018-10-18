@@ -49,6 +49,8 @@ urlpatterns = [
                        name='microoda_view'),
                   path('api/notifications/', api_viewsets.NotificationsAPIView.as_view(),
                        name='notifications_view'),
+                  path('api/xp/', api_viewsets.LearnerExperiencePoints.as_view(),
+                       name='xp_view'),
                   path('api/evaluation/', api_viewsets.EvaluationViewSet.as_view(), name='evaluation_review_view'),
                   path('api/avatar/', api_viewsets.ChangeUserAvatar.as_view(), name='avatar_change_view'),
                   path('api/profile_info/', api_viewsets.SaveExtraProfileInfo.as_view(), name='profile_extr_info_view'),

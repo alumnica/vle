@@ -123,6 +123,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
         experience_pts = self.object.profile.experience_points
 
+
         avatares = list()
         avatar_active = None
 
@@ -214,9 +215,6 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                         Q(is_complete=True) & Q(activity__microoda__oda__subject__ambit=ambit))]))
 
                 learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
-                total_version_counter = 0
-                learner_version_counter = 0
-
 
                 #For first version
                 total_version_counter = round(microoda_total_counter * 0.2)
