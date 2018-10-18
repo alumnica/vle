@@ -239,7 +239,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                      'uodas': '{}|{}'.format(learner_version_counter, total_version_counter)})
 
             else:
-                learner_achievement, created = BadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
+                learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
                 uoda_total = MicroODA.objects.exclude(Q(oda__zone=0) | Q(oda__subject__ambit__is_published=False))
                 learner_total_counter = 0
                 badge_total_counter = 0
