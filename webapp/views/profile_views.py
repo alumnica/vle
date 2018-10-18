@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.utils.datastructures import OrderedSet
 from django.views.generic import FormView, UpdateView
 from sweetify import sweetify
-
+from django.utils import timezone
 from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models import Badge, MicroODA, LearnerBadgeAchievement, AvatarAchievement, LevelAchievement, \
     TestAchievement
@@ -351,15 +351,21 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
     def get_notifications(self):
         learner = self.object.profile
         notifications = []
-
+        current_datetime = timezone.now()
         for notification in learner.achievement_notifications.all():
-            notifications.append({'object': 'Versión {}'.format(notification.version), 'description': 'Obtuviste nueva version de la insignia {}'.format(notification.badge.name), 'date': notification.date, 'viewed': notification.viewed, 'type': notification.type})
+            time_diff = current_datetime - notification.date
+            notifications.append({'object': 'Versión {}'.format(notification.version), 'description': 'Obtuviste nueva version de la insignia {}'.format(notification.badge.name), 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
         for notification in learner.avatar_evolution_notifications.all():
-            notifications.append({'object': notification.earned_evolution, 'description': 'Tu avatar evolucionó de nivel', 'date': notification.date, 'viewed': notification.viewed, 'type': notification.type})
+            time_diff = current_datetime - notification.date
+            notifications.append({'object': notification.earned_evolution, 'description': 'Tu avatar evolucionó de nivel', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
         for notification in learner.uoda_completed_notifications.all():
-            notifications.append({'object': '{} XP'.format(notification.xp), 'description': 'Completaste una MicroODA de la ODA {}'.format(notification.microoda.oda.name), 'date': notification.date, 'viewed': notification.viewed, 'type': notification.type})
+            time_diff = current_datetime - notification.date
+            notifications.append({'object': '{} XP'.format(notification.xp), 'description': 'Completaste una MicroODA de la ODA {}'.format(notification.microoda.oda.name), 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
         for notification in learner.evaluation_completed_notifications.all():
-            notifications.append({'object': '{} de score'.format(notification.score), 'description': 'Completaste la evaluación de la ODA {}'.format(notification.evaluation.oda.name), 'date': notification.date, 'viewed': notification.viewed, 'type': notification.type})
+            time_diff = current_datetime - notification.date
+            notifications.append({'object': '{} de score'.format(notification.score), 'description': 'Completaste la evaluación de la ODA {}'.format(notification.evaluation.oda.name), 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
         for notification in learner.level_up_notifications.all():
-            notifications.append({'object': 'Nivel {}'.format(notification.earned_level), 'description': 'Subiste de nivel!', 'date': notification.date, 'viewed': notification.viewed, 'type': notification.type})
+            time_diff = current_datetime - notification.date
+            notifications.append({'object': 'Nivel {}'.format(notification.earned_level), 'description': 'Subiste de nivel!', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
+        notifications.sort(key=lambda x: x['date'], reverse=False)
         return notifications
