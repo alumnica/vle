@@ -5,7 +5,9 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 
 from alumnica_model.models import AuthUser, Learner, MicroODA, Moment, MicroODACompletedNotification, \
-    EvaluationCompletedNotification, AchievementNotification, LevelUpNotification, AvatarEvolutionNotification
+    EvaluationCompletedNotification, AchievementNotification, LevelUpNotification, AvatarEvolutionNotification, \
+    AvatarAchievement, LearnerAvatarAchievement
+from alumnica_model.models.notifications import AvatarAchievementNotification
 from alumnica_model.models.questions import *
 from alumnica_model.models.users import LearnerLevels
 from webapp.gamification import uoda_completed_xp, evaluation_completed_xp, get_learner_level
@@ -349,6 +351,12 @@ class ChangeUserAvatar(APIView):
                 avatar_active.save()
             avatar.active = True
             avatar.save()
+
+        achievement = AvatarAchievement.objects.get(name='Selecciona un avatar diferente', counter=1)
+        learner_achievement, created = LearnerAvatarAchievement.objects.get_or_create(learner=learner, achievement=achievement)
+        if created:
+            AvatarAchievementNotification.objects.get_or_create(learner=learner, achievement=achievement)
+            learner.assign_xp(achievement.xp)
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         avatar_statement(user=learner, avatar=avatar_id, timestamp=timestamp)
