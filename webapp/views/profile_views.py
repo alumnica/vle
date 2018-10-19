@@ -259,6 +259,9 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
             else:
                 learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
                 uoda_total = MicroODA.objects.exclude(Q(oda__zone=0) | Q(oda__subject__ambit__is_published=False))
+                odas_with_evaluation = learner.get_completed_odas()
+                subjects_completed = learner.get_completed_subjects(odas_with_evaluation)
+                ambits_completed = learner.get_completed_ambits(subjects_completed)
 
                 if badge.name == 'ODAs 100%':
                     description = 'Completa {} odas'
@@ -269,7 +272,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
                 elif badge.name == 'ODAs completadas':
                     badge_total_counter = len(OrderedSet([microoda.oda for microoda in uoda_total]))
-                    learner_total_counter = len(learner.get_completed_odas())
+                    learner_total_counter = len(odas_with_evaluation)
                     description = 'Completa {} odas y sus evaluaciones'
 
                     achievements.extend(
@@ -287,7 +290,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
                 elif badge.name == 'Materias 100%':
                     badge_total_counter = len(OrderedSet([microoda.oda.subject for microoda in uoda_total]))
-                    learner_total_counter = len(learner.get_completed_subjects())
+                    learner_total_counter = len(subjects_completed)
                     description = 'Completa {} materias'
 
                     achievements.extend(
@@ -296,7 +299,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
                 elif badge.name == 'Ambitos 100%':
                     badge_total_counter = len(OrderedSet([microoda.oda.subject.ambit for microoda in uoda_total]))
-                    learner_total_counter = len(learner.get_completed_ambits())
+                    learner_total_counter = len(ambits_completed)
                     description = 'Completa {} ámbitos'
 
                     achievements.extend(
