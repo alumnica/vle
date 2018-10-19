@@ -411,11 +411,11 @@ class NotificationsAPIView(APIView):
         learner_pk = request.GET['learner']
         learner = Learner.objects.get(pk=learner_pk)
         notifications_list = list()
-        notifications_list.extend(learner.level_up_notifications.all()[0:5])
-        notifications_list.extend(learner.avatar_evolution_notifications.all()[0:5])
-        notifications_list.extend(learner.achievement_notifications.all()[0:5])
+        notifications_list.extend(learner.level_up_notifications.order_by('-date')[0:5])
+        notifications_list.extend(learner.avatar_evolution_notifications.order_by('-date')[0:5])
+        notifications_list.extend(learner.achievement_notifications.order_by('-date')[0:5])
 
-        notifications_list.sort(key=lambda x: x.date, reverse=False)
+        notifications_list.sort(key=lambda x: x.date, reverse=True)
         notifications = list()
 
         for notification in notifications_list[0:5]:
