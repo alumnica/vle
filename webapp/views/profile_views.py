@@ -226,11 +226,15 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
                 if learner_achievement.version > 0:
                     earned = 1
+                if total_version_counter < learner_version_counter:
+                    learner_counter = total_version_counter
+                else:
+                    learner_counter = learner_version_counter
                 achievements.append(
                     {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk,
                      'version': learner_achievement.version,
                      'description': 'Completa {} µODAS del {}'.format(total_version_counter, badge.name),
-                     'uodas': '{}|{}'.format(learner_version_counter, total_version_counter), 'earned': earned})
+                     'uodas': '{}|{}'.format(learner_counter, total_version_counter), 'earned': earned})
 
                 #Second version
                 image = learner_achievement.badge.second_version
@@ -238,11 +242,15 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                 earned = 0
                 if learner_achievement.version > 1:
                     earned = 1
+                if total_version_counter < learner_version_counter:
+                    learner_counter = total_version_counter
+                else:
+                    learner_counter = learner_version_counter
                 achievements.append(
                     {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk,
                      'version': learner_achievement.version,
                      'description': 'Completa {} µODAS del {}'.format(total_version_counter, badge.name),
-                     'uodas': '{}|{}'.format(learner_version_counter, total_version_counter), 'earned': earned})
+                     'uodas': '{}|{}'.format(learner_counter, total_version_counter), 'earned': earned})
 
                 #Third version
                 image = learner_achievement.badge.third_version
@@ -250,6 +258,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                 earned = 0
                 if learner_achievement.version > 2:
                     earned = 1
+
                 achievements.append(
                     {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk,
                      'version': learner_achievement.version,
@@ -309,6 +318,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         return achievements
 
     def get_achievement_to_add(self, badge_total_counter, learner_achievement, badge, description, learner_version_counter):
+
         achievements = list()
         # First version
         image = badge.first_version
@@ -317,11 +327,15 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
         if learner_achievement.version > 0:
             earned = 1
+        if total_version_counter < learner_version_counter:
+            learner_counter = total_version_counter
+        else:
+            learner_counter = learner_version_counter
         achievements.append(
             {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk,
              'version': learner_achievement.version,
              'description': description.format(total_version_counter),
-             'uodas': '{}|{}'.format(learner_version_counter, total_version_counter), 'earned': earned})
+             'uodas': '{}|{}'.format(learner_counter, total_version_counter), 'earned': earned})
 
         # Second version
         earned = 0
@@ -330,11 +344,15 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
         if learner_achievement.version > 1:
             earned = 1
+        if total_version_counter < learner_version_counter:
+            learner_counter = total_version_counter
+        else:
+            learner_counter = learner_version_counter
         achievements.append(
             {'name': badge.name, 'image': image, 'type': TYPE_BADGE_ACHIEVEMENT, 'pk': badge.pk,
              'version': learner_achievement.version,
              'description': description.format(total_version_counter),
-             'uodas': '{}|{}'.format(learner_version_counter, total_version_counter), 'earned': earned})
+             'uodas': '{}|{}'.format(learner_counter, total_version_counter), 'earned': earned})
 
         # Third version
         earned = 0
