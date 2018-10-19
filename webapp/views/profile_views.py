@@ -8,8 +8,9 @@ from sweetify import sweetify
 from django.utils import timezone
 from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models import Badge, MicroODA, LearnerBadgeAchievement, AvatarAchievement, LevelAchievement, \
-    TestAchievement
+    TestAchievement, LearnerTestAchievement
 from alumnica_model.models.achievements import TYPE_BADGE_ACHIEVEMENT
+from alumnica_model.models.notifications import TestAchievementNotification
 from webapp.forms.profile_forms import *
 from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS, get_learner_level
 from webapp.statement_builders import register_statement, access_statement
@@ -80,6 +81,10 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, LoginCoun
             self.request.user.profile.learning_style = LearningStyle.objects.get(name='Convergente')
 
         if not self.request.user.profile.large_quiz_completed:
+            test_achievement = TestAchievement.objects.get(name='Completa el Test de aprendizaje')
+            LearnerTestAchievement.objects.create(learner=self.request.user.profile, achievement=test_achievement)
+            TestAchievementNotification.objects.create(learner=self.request.user.profile, achievement=test_achievement)
+            self.request.user.profile.assign_xp(test_achievement.xp)
             self.request.user.profile.large_quiz_completed = True
             self.request.user.profile.assign_xp(EXPERIENCE_POINTS_CONSTANTS['learning_large_quiz'])
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
@@ -120,9 +125,6 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         badges = self.get_badges()
         achievements = self.get_achievements()
         notifications = self.get_notifications()
-
-        experience_pts = self.object.profile.experience_points
-
 
         avatares = list()
         avatar_active = None
@@ -365,5 +367,8 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         for notification in learner.level_up_notifications.all():
             time_diff = current_datetime - notification.date
             notifications.append({'object': 'Nivel {}'.format(notification.earned_level), 'description': 'Subiste de nivel!', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
+        for notification in learner.test_achievement_notifications.all():
+            time_diff = current_datetime - notification.date
+            notifications.append({'object': 'Logro ganado {}'.format(notification.name), 'description': 'Logro conseguido!', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
         notifications.sort(key=lambda x: x['date'], reverse=False)
         return notifications
