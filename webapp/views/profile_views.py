@@ -185,7 +185,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
         for achievement in AvatarAchievement.objects.all():
             earned = 0
-            if learner.avatar_achievements.filter(pk=achievement.pk).exists():
+            if learner.avatar_achievements.filter(achievement=achievement).exists():
                 earned = 1
             achievements.append(
                 {'name': achievement.name, 'type': achievement.type, 'pk': achievement.pk, 'earned': earned,
@@ -193,7 +193,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
         for achievement in LevelAchievement.objects.all():
             earned = 0
-            if learner.level_achievements.filter(pk=achievement.pk).exists():
+            if learner.level_achievements.filter(achievement=achievement).exists():
                 earned = 1
             achievements.append(
                 {'name': achievement.name, 'type': achievement.type, 'pk': achievement.pk, 'earned': earned,
@@ -201,7 +201,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
         for achievement in TestAchievement.objects.all():
             earned = 0
-            if learner.test_achievements.filter(pk=achievement.pk).exists():
+            if learner.test_achievements.filter(achievement=achievement).exists():
                 earned = 1
             achievements.append(
                 {'name': achievement.name, 'type': achievement.type, 'pk': achievement.pk, 'earned': earned,
@@ -263,7 +263,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                 if badge.name == 'ODAs 100%':
                     description = 'Completa {} odas'
                     learner_total_counter = len(learner.get_completed_odas(with_evaluation=False))
-                    badge_total_counter = uoda_total.count()
+                    badge_total_counter = len(OrderedSet([microoda.oda for microoda in uoda_total]))
 
                     achievements.extend(self.get_achievement_to_add(badge_total_counter, learner_achievement, badge, description, learner_total_counter))
 
@@ -368,6 +368,12 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
             time_diff = current_datetime - notification.date
             notifications.append({'object': 'Nivel {}'.format(notification.earned_level), 'description': 'Subiste de nivel!', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
         for notification in learner.test_achievement_notifications.all():
+            time_diff = current_datetime - notification.date
+            notifications.append({'object': 'Logro ganado {}'.format(notification.achievement.name), 'description': 'Logro conseguido!', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
+        for notification in learner.level_achievement_notifications.all():
+            time_diff = current_datetime - notification.date
+            notifications.append({'object': 'Logro ganado {}'.format(notification.achievement.name), 'description': 'Logro conseguido!', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
+        for notification in learner.avatar_achievement_notifications.all():
             time_diff = current_datetime - notification.date
             notifications.append({'object': 'Logro ganado {}'.format(notification.achievement.name), 'description': 'Logro conseguido!', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
         notifications.sort(key=lambda x: x['date'], reverse=False)
