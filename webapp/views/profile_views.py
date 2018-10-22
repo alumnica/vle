@@ -212,9 +212,10 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
             if ambit is not None and ambit.is_published:
                 microoda_total_counter = MicroODA.objects.exclude(
                     oda__zone=0).filter(oda__subject__ambit__pk=ambit.pk).count()
-                microoda_learner_counter = len(
-                    OrderedSet([progress.activity for progress in learner.activities_progresses.filter(
-                        Q(is_complete=True) & Q(activity__microoda__oda__subject__ambit=ambit))]))
+                microoda_learner_counter = MicroODA.objects.filter(
+                    activities__in=[progress.activity for progress in
+                                    learner.activities_progresses.filter(
+                        Q(is_complete=True) & Q(activity__microoda__oda__subject__ambit=ambit))]).count()
 
                 learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
 
@@ -267,14 +268,16 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
             else:
                 learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
-                uoda_total = MicroODA.objects.exclude(Q(oda__zone=0) | Q(oda__subject__ambit__is_published=False))
-                odas_with_evaluation = learner.get_completed_odas()
+                microodas = OrderedSet(MicroODA.objects.filter(
+                    activities__in=[progress.activity for progress in
+                                    learner.activities_progresses.filter(is_complete=True)]))
+                odas_with_evaluation = learner.get_completed_odas(microodas=microodas)
                 subjects_completed = learner.get_completed_subjects(odas_with_evaluation)
                 ambits_completed = learner.get_completed_ambits(subjects_completed)
 
                 if badge.name == 'ODAs 100%':
                     description = 'Completa {} odas'
-                    learner_total_counter = len(learner.get_completed_odas(with_evaluation=False))
+                    learner_total_counter = len(learner.get_completed_odas(microodas=microodas, with_evaluation=False))
                     badge_total_counter = ODA.objects.exclude(Q(zone=0) | Q(subject__ambit__is_published=False)).count()
                     achievements.extend(self.get_achievement_to_add(badge_total_counter, learner_achievement, badge, description, learner_total_counter))
 
