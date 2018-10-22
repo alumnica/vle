@@ -106,7 +106,7 @@ $(document).ready(function () {
     })
   $('.achievement').each(function () {
     var ach = $(this);
-    if(ach.attr('earned') === 1){
+    if(ach.attr('earned') == 1){
       ach.removeClass('wip')
     }
   })
