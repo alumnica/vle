@@ -8,7 +8,7 @@ from sweetify import sweetify
 from django.utils import timezone
 from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models import Badge, MicroODA, LearnerBadgeAchievement, AvatarAchievement, LevelAchievement, \
-    TestAchievement, LearnerTestAchievement
+    TestAchievement, LearnerTestAchievement, ODA, Subject, Ambit
 from alumnica_model.models.achievements import TYPE_BADGE_ACHIEVEMENT
 from alumnica_model.models.notifications import TestAchievementNotification
 from webapp.forms.profile_forms import *
@@ -275,12 +275,11 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                 if badge.name == 'ODAs 100%':
                     description = 'Completa {} odas'
                     learner_total_counter = len(learner.get_completed_odas(with_evaluation=False))
-                    badge_total_counter = len(OrderedSet([microoda.oda for microoda in uoda_total]))
-
+                    badge_total_counter = ODA.objects.exclude(Q(zone=0) | Q(subject__ambit__is_published=False)).count()
                     achievements.extend(self.get_achievement_to_add(badge_total_counter, learner_achievement, badge, description, learner_total_counter))
 
                 elif badge.name == 'ODAs completadas':
-                    badge_total_counter = len(OrderedSet([microoda.oda for microoda in uoda_total]))
+                    badge_total_counter = ODA.objects.exclude(Q(zone=0) | Q(subject__ambit__is_published=False)).count()
                     learner_total_counter = len(odas_with_evaluation)
                     description = 'Completa {} odas y sus evaluaciones'
 
@@ -298,7 +297,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                                                     learner_total_counter))
 
                 elif badge.name == 'Materias 100%':
-                    badge_total_counter = len(OrderedSet([microoda.oda.subject for microoda in uoda_total]))
+                    badge_total_counter = Subject.objects.exclude(ambit__is_published=False).count()
                     learner_total_counter = len(subjects_completed)
                     description = 'Completa {} materias'
 
@@ -307,7 +306,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                                                     learner_total_counter))
 
                 elif badge.name == 'Ambitos 100%':
-                    badge_total_counter = len(OrderedSet([microoda.oda.subject.ambit for microoda in uoda_total]))
+                    badge_total_counter = Ambit.objects.exclude(is_published=False).count()
                     learner_total_counter = len(ambits_completed)
                     description = 'Completa {} ámbitos'
 

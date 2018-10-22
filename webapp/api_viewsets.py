@@ -288,13 +288,13 @@ class MicroodaViewSet(APIView):
 
         learner = Learner.objects.get(pk=learner_pk)
         microoda = MicroODA.objects.get(pk=microoda_pk)
-
+        progress = None
         for activity in microoda.activities.all():
             progress = learner.activities_progresses.get(activity=activity)
             progress.activity_completed_counter += 1
             progress.is_complete = True
             progress.save()
-            progress.check_progress()
+        progress.check_progress()
 
         oda_sequence, created = learner.odas_sequence_progresses.get_or_create(oda=microoda.oda)
         if microoda.type.name not in oda_sequence.uoda_progress_order:
