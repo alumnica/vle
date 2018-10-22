@@ -123,15 +123,18 @@
 <div class="reveal" id="password" data-reveal>
   <h3 class="text-center">Cambio de Contraseña</h3>
   <p class="lead">Cambia tu contraseña de accesso</p>
-  <label for="current">Contraseña actual</label>
-  <input type="password" id="new">
-  <label for="current">Nueva contraseña</label>
-  <input type="password" id="newConfirm">
-  <label for="current">Confirmar nueva contraseña</label>
-  <input type="password" id="current">
-  <div class="pass-wrapper">
-    <button type="button expanded" class="button">Guardar cambios</button>
-  </div>
+     <form class="user-details-form" method="post">
+        {% csrf_token %}
+      <label for="current">Contraseña actual</label>
+         {{ form.previous_password }}
+      <label for="current">Nueva contraseña</label>
+         {{ form.new_password }}
+      <label for="current">Confirmar nueva contraseña</label>
+         {{ form.new_password_confirmation }}
+      <div class="pass-wrapper">
+        <button type="submit" class="button"> Guardar Cambios</button>
+      </div>
+     </form>
 
   <!-- x to close -->
   <button class="close-button" data-close aria-label="Close modal" type="button">
