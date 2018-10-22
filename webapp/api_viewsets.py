@@ -2,6 +2,7 @@ import datetime
 import json
 
 from django.http import JsonResponse
+from django.utils.dateparse import parse_date
 from rest_framework.views import APIView
 
 from alumnica_model.models import AuthUser, Learner, MicroODA, Moment, MicroODACompletedNotification, \
@@ -9,7 +10,7 @@ from alumnica_model.models import AuthUser, Learner, MicroODA, Moment, MicroODAC
     AvatarAchievement, LearnerAvatarAchievement
 from alumnica_model.models.notifications import AvatarAchievementNotification
 from alumnica_model.models.questions import *
-from alumnica_model.models.users import LearnerLevels
+from alumnica_model.models.users import LearnerLevels, GENDER_TYPES
 from webapp.gamification import uoda_completed_xp, evaluation_completed_xp, get_learner_level
 from webapp.serializers import *
 from webapp.statement_builders import task_completed, task_experience_received, avatar_statement, \
@@ -370,24 +371,37 @@ class SaveExtraProfileInfo(APIView):
 
     def get(self, request):
         learner_pk = request.GET['learner']
-        learner = AuthUser.objects.get(pk=learner_pk)
-        return JsonResponse({'favourite_subject': learner.profile.favourite_subject,
-                             'working_time': learner.profile.working_time,
-                             'university_studies': learner.profile.university_studies})
+        learner = Learner.objects.get(pk=learner_pk)
+        return JsonResponse({'first_name': learner.auth_user.first_name,
+                             'last_name': learner.auth_user.last_name,
+                             'birth_date': learner.birth_date,
+                             'gender': learner.gender,
+                            'favourite_subject': learner.favourite_subject,
+                             'working_time': learner.working_time,
+                             'university_studies': learner.university_studies})
 
     def post(self, request):
         learner_pk = request.POST['learner']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        birth_date = request.POST['birth_date']
+        gender = request.POST['gender']
         favourite_subject = request.POST['favourite_subject']
         working_time = request.POST['working_time']
         university_studies = request.POST['university_studies']
 
-        learner = AuthUser.objects.get(pk=learner_pk)
+        learner = Learner.objects.get(pk=learner_pk)
 
-        learner.profile.favourite_subject = favourite_subject
-        learner.profile.working_time = working_time
-        learner.profile.university_studies = university_studies
+        learner.auth_user.first_name = first_name
+        learner.auth_user.last_name = last_name
+        learner.birth_date = parse_date(birth_date)
+        learner.gender = GENDER_TYPES[gender]
 
-        learner.profile.save()
+        learner.favourite_subject = favourite_subject
+        learner.working_time = working_time
+        learner.university_studies = university_studies
+
+        learner.save()
         return JsonResponse({'ok': 'ok'})
 
 
