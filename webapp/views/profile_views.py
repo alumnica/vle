@@ -29,7 +29,9 @@ class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin
         form.save_form(user)
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         register_statement(request=self.request, timestamp=timestamp, user=user)
-        return redirect(to='first-login-p1_view')
+        if self.request.user.profile.learning_style is None:
+            return redirect(to='first-login-p1_view')
+        return redirect(to='dashboard_view')
 
 
 class FirstLoginP1View(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
