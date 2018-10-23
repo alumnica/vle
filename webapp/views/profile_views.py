@@ -212,10 +212,10 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
             if ambit is not None and ambit.is_published:
                 microoda_total_counter = MicroODA.objects.exclude(
                     oda__zone=0).filter(oda__subject__ambit__pk=ambit.pk).count()
-                microoda_learner_counter = MicroODA.objects.filter(
+                microoda_learner_counter = len(OrderedSet(MicroODA.objects.filter(
                     activities__in=[progress.activity for progress in
                                     learner.activities_progresses.filter(
-                        Q(is_complete=True) & Q(activity__microoda__oda__subject__ambit=ambit))]).count()
+                        Q(is_complete=True) & Q(activity__microoda__oda__subject__ambit=ambit))])))
 
                 learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
 

@@ -471,8 +471,18 @@ class LearnerExperiencePoints(APIView):
         learner = Learner.objects.get(pk=learner_pk)
         learner_level = get_learner_level(learner.experience_points)
         next_level = LearnerLevels.objects.get(level=(learner_level.level+1))
+        avatar_points = 0
+        avatar = learner.avatar_progresses.get(active=True)
+        if avatar.points < 15000:
+            avatar_points = avatar.points / 15000
+        elif 15000 <= avatar.points < 50000:
+            avatar_points = avatar.points / 50000
+        elif avatar.points >= 50000:
+            avatar_points = 1
 
-        return JsonResponse({'learner_points': (learner.experience_points - learner_level.points), 'next_level_points': (next_level.points - learner_level.points)})
+        return JsonResponse({'learner_points': (learner.experience_points - learner_level.points),
+                             'learner_next_level_points': (next_level.points - learner_level.points),
+                             'avatar_points': avatar_points})
 
 
 
