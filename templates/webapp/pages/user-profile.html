@@ -147,20 +147,23 @@
   <h3>Información Personal</h3>
   <div class="grid-x grid-margin-x">
     <div class="cell medium-6">
-      <label>Nombre</label>
-      <input type="text">
+      <label for="first_name">Nombre</label>
+      <input id='first_name' type="text">
     </div>
     <div class="cell medium-6">
-      <label>Apellidos</label>
-      <input type="text">
+      <label for="last_name">Apellidos</label>
+      <input id='last_name' type="text">
     </div>
     <div class="cell medium-6">
-      <label>Fecha de nacimiento</label>
-      <input type="text">
+      <label for="birth_date">Fecha de nacimiento</label>
+      <input id='birth_date' type="date">
     </div>
     <div class="medium-12 cell">
       <legend>Sexo</legend>
-      <input type="text">
+        <input type="radio" name="gender" value="MALE"> HOMBRE
+        <input type="radio" name="gender" value="FEMALE"> MUJER
+        <input type="radio" name="gender" value="OTHER"> OTRO
+        <input type="radio" name="gender" value="NA"> NO APLICA
     </div>
     <div class="cell medium-12">
       <h4>Queremos saber más de ti</h4>
