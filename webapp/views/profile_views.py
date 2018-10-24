@@ -416,19 +416,19 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         for notification in learner.test_achievement_notifications.all():
             time_diff = current_datetime - notification.date
             notifications.append(
-                {'object': 'Logro ganado {}'.format(notification.achievement.name), 'description': 'Logro conseguido!',
+                {'object': 'Logro ganado!', 'description': notification.achievement.name,
                  'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type,
                  'date': notification.date})
         for notification in learner.level_achievement_notifications.all():
             time_diff = current_datetime - notification.date
             notifications.append(
-                {'object': 'Logro ganado {}'.format(notification.achievement.name), 'description': 'Logro conseguido!',
+                {'object': 'Logro ganado!', 'description': notification.achievement.name,
                  'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type,
                  'date': notification.date})
         for notification in learner.avatar_achievement_notifications.all():
             time_diff = current_datetime - notification.date
             notifications.append(
-                {'object': 'Logro ganado {}'.format(notification.achievement.name), 'description': 'Logro conseguido!',
+                {'object': 'Logro ganado!', 'description': notification.achievement.name,
                  'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type,
                  'date': notification.date})
         notifications.sort(key=lambda x: x['date'], reverse=False)
