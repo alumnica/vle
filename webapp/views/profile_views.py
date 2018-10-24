@@ -209,6 +209,13 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                 {'name': achievement.name, 'type': achievement.type, 'pk': achievement.pk, 'earned': earned,
                  'description': '+ {} xp'.format(achievement.xp)})
 
+        microodas = OrderedSet(MicroODA.objects.filter(
+            activities__in=[progress.activity for progress in
+                            learner.activities_progresses.filter(is_complete=True)]))
+        odas_with_evaluation = learner.get_completed_odas(microodas=microodas)
+        subjects_completed = learner.get_completed_subjects(odas_with_evaluation)
+        ambits_completed = learner.get_completed_ambits(subjects_completed)
+
         for badge in Badge.objects.all():
             ambit = badge.ambit.first()
             if ambit is not None and ambit.is_published:
@@ -272,12 +279,6 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
             else:
                 learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner,
                                                                                              badge=badge)
-                microodas = OrderedSet(MicroODA.objects.filter(
-                    activities__in=[progress.activity for progress in
-                                    learner.activities_progresses.filter(is_complete=True)]))
-                odas_with_evaluation = learner.get_completed_odas(microodas=microodas)
-                subjects_completed = learner.get_completed_subjects(odas_with_evaluation)
-                ambits_completed = learner.get_completed_ambits(subjects_completed)
 
                 if badge.name == 'ODAs 100%':
                     description = 'Completa {} odas'
