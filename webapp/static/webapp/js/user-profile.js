@@ -1,23 +1,23 @@
-// $('#selected-avatar').val($('.avatar-main img').attr('id'));
-// /**
-//  * Sends avatar changed event
-//  */
-// $('.avatar-options').on('click', 'img', function () {
-//     let clicked = $(this);
-//     let main = $('.avatar-main img');
-//     clicked.parent().html(main);
-//     $('.avatar-main').html(clicked);
-//     $('#selected-avatar').val(clicked.attr('id'));
-//
-//     $.ajax({
-//         url: '/api/avatar',
-//         data: {
-//             'avatar': clicked.attr('id'),
-//             'pk': pk
-//         }
-//     });
-// });
-//
+ $('#selected-avatar').val($('.avatar-main img').attr('id'));
+ /**
+  * Sends avatar changed event
+  */
+ $('.other-avatars').on('click', 'img', function () {
+     let clicked = $(this);
+     let main = $('.the-avatar img');
+     clicked.parent().html(main);
+     $('.the-avatar').html(clicked);
+     $('#selected-avatar').val(clicked.attr('id'));
+
+     $.ajax({
+         url: '/api/avatar',
+         data: {
+             'avatar': clicked.attr('id'),
+             'learner': learner
+         }
+     });
+ });
+
 // /**
 //  * Sends profile extra information
 //  */

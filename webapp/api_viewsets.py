@@ -8,7 +8,8 @@ from rest_framework.views import APIView
 from alumnica_model.models import AuthUser, Learner, MicroODA, Moment, MicroODACompletedNotification, \
     EvaluationCompletedNotification, AchievementNotification, LevelUpNotification, AvatarEvolutionNotification, \
     AvatarAchievement, LearnerAvatarAchievement
-from alumnica_model.models.notifications import AvatarAchievementNotification
+from alumnica_model.models.notifications import AvatarAchievementNotification, LevelAchievementNotification, \
+    TestAchievementNotification
 from alumnica_model.models.questions import *
 from alumnica_model.models.users import LearnerLevels, GENDER_TYPES
 from webapp.gamification import uoda_completed_xp, evaluation_completed_xp, get_learner_level
@@ -341,13 +342,13 @@ class ChangeUserAvatar(APIView):
     """
 
     def get(self, request, *args, **kwargs):
-        learner_pk = request.GET['pk']
+        learner_pk = request.GET['learner']
         avatar_id = request.GET['avatar']
-        learner = AuthUser.objects.get(pk=learner_pk)
+        learner = Learner.objects.get(pk=learner_pk)
 
-        avatar = learner.profile.avatar_progresses.get(avatar_name=avatar_id)
+        avatar = learner.avatar_progresses.get(avatar_name=avatar_id)
         if not avatar.active:
-            for avatar_active in learner.profile.avatar_progresses.filter(active=True):
+            for avatar_active in learner.avatar_progresses.filter(active=True):
                 avatar_active.active = False
                 avatar_active.save()
             avatar.active = True
@@ -361,7 +362,7 @@ class ChangeUserAvatar(APIView):
             learner.assign_xp(achievement.xp)
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        avatar_statement(user=learner, avatar=avatar_id, timestamp=timestamp)
+        avatar_statement(user=learner.auth_user, avatar=avatar_id, timestamp=timestamp)
         return JsonResponse({'ok': 'ok'})
 
 
@@ -437,6 +438,9 @@ class NotificationsAPIView(APIView):
         notifications_list.extend(learner.level_up_notifications.order_by('-date')[0:5])
         notifications_list.extend(learner.avatar_evolution_notifications.order_by('-date')[0:5])
         notifications_list.extend(learner.achievement_notifications.order_by('-date')[0:5])
+        notifications_list.extend(learner.avatar_achievement_notifications.order_by('date')[0:5])
+        notifications_list.extend(learner.level_achievement_notifications.order_by('date')[0:5])
+        notifications_list.extend(learner.test_achievement_notifications.order_by('date')[0:5])
 
         notifications_list.sort(key=lambda x: x.date, reverse=True)
         notifications = list()
@@ -445,6 +449,11 @@ class NotificationsAPIView(APIView):
             if isinstance(notification, AchievementNotification):
                 notifications.append({'title': 'Ganaste la versión {} de la insignia {}'.format(notification.version,
                                                                                                 notification.badge.name),
+                                      'type': notification.type, 'viewed': notification.viewed})
+            elif isinstance(notification, AvatarAchievementNotification) \
+                    or isinstance(notification, LevelAchievementNotification) \
+                    or isinstance(notification, TestAchievementNotification):
+                notifications.append({'title': 'Ganaste el logro {}'.format(notification.achievement.name),
                                       'type': notification.type, 'viewed': notification.viewed})
             elif isinstance(notification, LevelUpNotification):
                 notifications.append(
@@ -464,6 +473,9 @@ class NotificationsAPIView(APIView):
         notifications_list.extend(learner.level_up_notifications.filter(viewed=False))
         notifications_list.extend(learner.avatar_evolution_notifications.filter(viewed=False))
         notifications_list.extend(learner.achievement_notifications.filter(viewed=False))
+        notifications_list.extend(learner.avatar_achievement_notifications.filter(viewed=False))
+        notifications_list.extend(learner.level_achievement_notifications.filter(viewed=False))
+        notifications_list.extend(learner.test_achievement_notifications.filter(viewed=False))
 
         for notification in notifications_list:
             notification.viewed = True
