@@ -217,11 +217,12 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                 microoda_learner_counter = len(OrderedSet(MicroODA.objects.filter(
                     activities__in=[progress.activity for progress in
                                     learner.activities_progresses.filter(
-                        Q(is_complete=True) & Q(activity__microoda__oda__subject__ambit=ambit))])))
+                                        Q(is_complete=True) & Q(activity__microoda__oda__subject__ambit=ambit))])))
 
-                learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
+                learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner,
+                                                                                             badge=badge)
 
-                #For first version
+                # For first version
                 total_version_counter = round(microoda_total_counter * 0.2)
                 learner_version_counter = microoda_learner_counter
                 earned = 0
@@ -239,7 +240,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                      'description': 'Completa {} µODAS del {}'.format(total_version_counter, badge.name),
                      'uodas': '{}|{}'.format(learner_counter, total_version_counter), 'earned': earned})
 
-                #Second version
+                # Second version
                 image = learner_achievement.badge.second_version
                 total_version_counter = round(microoda_total_counter * 0.5)
                 earned = 0
@@ -255,7 +256,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                      'description': 'Completa {} µODAS del {}'.format(total_version_counter, badge.name),
                      'uodas': '{}|{}'.format(learner_counter, total_version_counter), 'earned': earned})
 
-                #Third version
+                # Third version
                 image = learner_achievement.badge.third_version
                 total_version_counter = microoda_total_counter
                 earned = 0
@@ -269,7 +270,8 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                      'uodas': '{}|{}'.format(learner_version_counter, total_version_counter), 'earned': earned})
 
             else:
-                learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner, badge=badge)
+                learner_achievement, created = LearnerBadgeAchievement.objects.get_or_create(learner=learner,
+                                                                                             badge=badge)
                 microodas = OrderedSet(MicroODA.objects.filter(
                     activities__in=[progress.activity for progress in
                                     learner.activities_progresses.filter(is_complete=True)]))
@@ -281,7 +283,9 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
                     description = 'Completa {} odas'
                     learner_total_counter = len(learner.get_completed_odas(microodas=microodas, with_evaluation=False))
                     badge_total_counter = ODA.objects.exclude(Q(zone=0) | Q(subject__ambit__is_published=False)).count()
-                    achievements.extend(self.get_achievement_to_add(badge_total_counter, learner_achievement, badge, description, learner_total_counter))
+                    achievements.extend(
+                        self.get_achievement_to_add(badge_total_counter, learner_achievement, badge, description,
+                                                    learner_total_counter))
 
                 elif badge.name == 'ODAs completadas':
                     badge_total_counter = ODA.objects.exclude(Q(zone=0) | Q(subject__ambit__is_published=False)).count()
@@ -321,7 +325,8 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
 
         return achievements
 
-    def get_achievement_to_add(self, badge_total_counter, learner_achievement, badge, description, learner_version_counter):
+    def get_achievement_to_add(self, badge_total_counter, learner_achievement, badge, description,
+                               learner_version_counter):
 
         achievements = list()
         # First version
@@ -379,27 +384,51 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         current_datetime = timezone.now()
         for notification in learner.achievement_notifications.all():
             time_diff = current_datetime - notification.date
-            notifications.append({'object': 'Versión {}'.format(notification.version), 'description': 'Obtuviste nueva version de la insignia {}'.format(notification.badge.name), 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
+            notifications.append({'object': 'Versión {}'.format(notification.version),
+                                  'description': 'Obtuviste nueva version de la insignia {}'.format(
+                                      notification.badge.name), 'days': time_diff.days, 'viewed': notification.viewed,
+                                  'type': notification.type, 'date': notification.date})
         for notification in learner.avatar_evolution_notifications.all():
             time_diff = current_datetime - notification.date
-            notifications.append({'object': notification.earned_evolution, 'description': 'Tu avatar evolucionó de nivel', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
+            notifications.append(
+                {'object': notification.earned_evolution, 'description': 'Tu avatar evolucionó de nivel',
+                 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type,
+                 'date': notification.date})
         for notification in learner.uoda_completed_notifications.all():
             time_diff = current_datetime - notification.date
-            notifications.append({'object': '{} XP'.format(notification.xp), 'description': 'Completaste una MicroODA de la ODA {}'.format(notification.microoda.oda.name), 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
+            notifications.append({'object': '{} XP'.format(notification.xp),
+                                  'description': 'Completaste una MicroODA de la ODA {}'.format(
+                                      notification.microoda.oda.name), 'days': time_diff.days,
+                                  'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
         for notification in learner.evaluation_completed_notifications.all():
             time_diff = current_datetime - notification.date
-            notifications.append({'object': '{} de score'.format(notification.score), 'description': 'Completaste la evaluación de la ODA {}'.format(notification.evaluation.oda.name), 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
+            notifications.append({'object': '{} de score'.format(notification.score),
+                                  'description': 'Completaste la evaluación de la ODA {}'.format(
+                                      notification.evaluation.oda.name), 'days': time_diff.days,
+                                  'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
         for notification in learner.level_up_notifications.all():
             time_diff = current_datetime - notification.date
-            notifications.append({'object': 'Nivel {}'.format(notification.earned_level), 'description': 'Subiste de nivel!', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
+            notifications.append(
+                {'object': 'Nivel {}'.format(notification.earned_level), 'description': 'Subiste de nivel!',
+                 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type,
+                 'date': notification.date})
         for notification in learner.test_achievement_notifications.all():
             time_diff = current_datetime - notification.date
-            notifications.append({'object': 'Logro ganado {}'.format(notification.achievement.name), 'description': 'Logro conseguido!', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
+            notifications.append(
+                {'object': 'Logro ganado {}'.format(notification.achievement.name), 'description': 'Logro conseguido!',
+                 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type,
+                 'date': notification.date})
         for notification in learner.level_achievement_notifications.all():
             time_diff = current_datetime - notification.date
-            notifications.append({'object': 'Logro ganado {}'.format(notification.achievement.name), 'description': 'Logro conseguido!', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
+            notifications.append(
+                {'object': 'Logro ganado {}'.format(notification.achievement.name), 'description': 'Logro conseguido!',
+                 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type,
+                 'date': notification.date})
         for notification in learner.avatar_achievement_notifications.all():
             time_diff = current_datetime - notification.date
-            notifications.append({'object': 'Logro ganado {}'.format(notification.achievement.name), 'description': 'Logro conseguido!', 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
+            notifications.append(
+                {'object': 'Logro ganado {}'.format(notification.achievement.name), 'description': 'Logro conseguido!',
+                 'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type,
+                 'date': notification.date})
         notifications.sort(key=lambda x: x['date'], reverse=False)
         return notifications

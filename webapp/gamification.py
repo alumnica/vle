@@ -45,11 +45,16 @@ def evaluation_completed_xp(login_counter, completed_uodas, completed_counter):
     daily_bonus = get_daily_bonus(login_counter)
 
     if completed_counter < 4:
-        pen_rep = REPETITION_PENALTY[completed_counter-1]
+        pen_rep = REPETITION_PENALTY[completed_counter - 1]
 
     bonus_eval = (COMPLETED_UODA_INCREMENT * completed_uodas) + 1
 
-    return BASE_EVALUATION_XP * daily_bonus * bonus_eval * pen_rep
+    equation = {'base_xp': BASE_EVALUATION_XP,
+                'daily_bonus': round(daily_bonus, 2),
+                'bonus_eval': round(bonus_eval, 2),
+                'pen_rep': pen_rep}
+
+    return (BASE_EVALUATION_XP * daily_bonus * bonus_eval * pen_rep), equation
 
 
 def uoda_completed_xp(login_counter, oda_sequencing, learning_style, completed_counter):
@@ -69,6 +74,11 @@ def uoda_completed_xp(login_counter, oda_sequencing, learning_style, completed_c
         position += 1
 
     if completed_counter <= 4:
-        pen_rep = REPETITION_PENALTY[completed_counter-1]
+        pen_rep = REPETITION_PENALTY[completed_counter - 1]
 
-    return BASE_UODA_XP * daily_bonus * bonus_ea * pen_rep
+    equation = {'base_xp': BASE_UODA_XP,
+                'daily_bonus': round(daily_bonus, 2),
+                'bonus_ea': round(bonus_ea, 2),
+                'pen_rep': pen_rep}
+
+    return (BASE_UODA_XP * daily_bonus * bonus_ea * pen_rep), equation

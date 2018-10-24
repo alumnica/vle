@@ -40,12 +40,12 @@ class EvaluationViewSet(APIView):
         pulldown_list_answers = request.POST['pulldown_list_answers'].split('|')
         user_pk = request.POST['pk']
         user = AuthUser.objects.get(pk=user_pk)
-        score, answers, suggestions = self.review_evaluation(evaluation,
-                                                             relationship_answers, multiple_option_answers,
-                                                             multiple_answer_answers, numeric_answers,
-                                                             pulldown_list_answers, user.profile, duration)
+        score, answers, suggestions, equation = self.review_evaluation(evaluation,
+                                                                       relationship_answers, multiple_option_answers,
+                                                                       multiple_answer_answers, numeric_answers,
+                                                                       pulldown_list_answers, user.profile, duration)
         json_response = json.dumps(answers)
-        return JsonResponse({'score': score, 'data': json_response, 'suggestions': suggestions})
+        return JsonResponse({'score': score, 'data': json_response, 'suggestions': suggestions, 'equation': equation})
 
     def review_evaluation(self, evaluation, relationship_answers, multiple_option_answers, multiple_answer_answers,
                           numeric_answers, pulldown_list_answers, learner, duration):
@@ -255,9 +255,9 @@ class EvaluationViewSet(APIView):
             for uoda in evaluation_instance.oda.first().microodas.all():
                 if learner.activities_progresses.get(activity=uoda.activities.first()).is_complete:
                     completed_uodas += 1
-            xp = evaluation_completed_xp(login_counter=learner.login_progress.login_counter,
-                                         completed_uodas=completed_uodas,
-                                         completed_counter=progress.evaluation_completed_counter)
+            xp, equation = evaluation_completed_xp(login_counter=learner.login_progress.login_counter,
+                                                   completed_uodas=completed_uodas,
+                                                   completed_counter=progress.evaluation_completed_counter)
             learner.assign_xp(xp)
             learner.save()
 
@@ -274,7 +274,7 @@ class EvaluationViewSet(APIView):
 
         EvaluationCompletedNotification.objects.create(learner=learner, evaluation=evaluation_instance, score=score)
 
-        return score, questions_status, suggestions_dict
+        return score, questions_status, suggestions_dict, equation
 
 
 class MicroodaViewSet(APIView):
@@ -302,11 +302,11 @@ class MicroodaViewSet(APIView):
             oda_sequence.uoda_progress_order += ' {}'.format(microoda.type.name)
             oda_sequence.save()
 
-        earned_xp = uoda_completed_xp(login_counter=learner.login_progress.login_counter,
-                                      oda_sequencing=oda_sequence.uoda_progress_order,
-                                      learning_style=learner.learning_style.name,
-                                      completed_counter=learner.activities_progresses.filter(
-                                          activity=microoda.activities.first()).first().activity_completed_counter)
+        earned_xp, equation = uoda_completed_xp(login_counter=learner.login_progress.login_counter,
+                                                oda_sequencing=oda_sequence.uoda_progress_order,
+                                                learning_style=learner.learning_style.name,
+                                                completed_counter=learner.activities_progresses.filter(
+                                                    activity=microoda.activities.first()).first().activity_completed_counter)
 
         if earned_xp != 0:
             learner.assign_xp(earned_xp)
@@ -354,7 +354,8 @@ class ChangeUserAvatar(APIView):
             avatar.save()
 
         achievement = AvatarAchievement.objects.get(name='Selecciona un avatar diferente', counter=1)
-        learner_achievement, created = LearnerAvatarAchievement.objects.get_or_create(learner=learner, achievement=achievement)
+        learner_achievement, created = LearnerAvatarAchievement.objects.get_or_create(learner=learner,
+                                                                                      achievement=achievement)
         if created:
             AvatarAchievementNotification.objects.get_or_create(learner=learner, achievement=achievement)
             learner.assign_xp(achievement.xp)
@@ -376,7 +377,7 @@ class SaveExtraProfileInfo(APIView):
                              'last_name': learner.auth_user.last_name,
                              'birth_date': learner.birth_date,
                              'gender': learner.gender,
-                            'favourite_subject': learner.favourite_subject,
+                             'favourite_subject': learner.favourite_subject,
                              'working_time': learner.working_time,
                              'university_studies': learner.university_studies})
 
@@ -442,11 +443,17 @@ class NotificationsAPIView(APIView):
 
         for notification in notifications_list[0:5]:
             if isinstance(notification, AchievementNotification):
-                notifications.append({'title': 'Ganaste la versión {} de la insignia {}'.format(notification.version ,notification.badge.name), 'type': notification.type, 'viewed': notification.viewed})
+                notifications.append({'title': 'Ganaste la versión {} de la insignia {}'.format(notification.version,
+                                                                                                notification.badge.name),
+                                      'type': notification.type, 'viewed': notification.viewed})
             elif isinstance(notification, LevelUpNotification):
-                notifications.append({'title': 'Subiste al nivel {}'.format(notification.earned_level), 'type': notification.type, 'viewed': notification.viewed})
+                notifications.append(
+                    {'title': 'Subiste al nivel {}'.format(notification.earned_level), 'type': notification.type,
+                     'viewed': notification.viewed})
             elif isinstance(notification, AvatarEvolutionNotification):
-                notifications.append({'title': 'Tu avatar llegó a la evolución {}'.format(notification.earned_evolution), 'type': notification.type, 'viewed': notification.viewed})
+                notifications.append(
+                    {'title': 'Tu avatar llegó a la evolución {}'.format(notification.earned_evolution),
+                     'type': notification.type, 'viewed': notification.viewed})
 
         return JsonResponse({'notifications': notifications})
 
@@ -470,7 +477,7 @@ class LearnerExperiencePoints(APIView):
         learner_pk = request.GET['learner']
         learner = Learner.objects.get(pk=learner_pk)
         learner_level = get_learner_level(learner.experience_points)
-        next_level = LearnerLevels.objects.get(level=(learner_level.level+1))
+        next_level = LearnerLevels.objects.get(level=(learner_level.level + 1))
         avatar_points = 0
         avatar = learner.avatar_progresses.get(active=True)
         if avatar.points < 15000:
@@ -483,6 +490,3 @@ class LearnerExperiencePoints(APIView):
         return JsonResponse({'learner_points': (learner.experience_points - learner_level.points),
                              'learner_next_level_points': (next_level.points - learner_level.points),
                              'avatar_points': avatar_points})
-
-
-
