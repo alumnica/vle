@@ -251,6 +251,8 @@ class EvaluationViewSet(APIView):
         progress.check_general_badges_progress()
         learner.save()
 
+        equation = None
+
         if evaluation_completed:
             completed_uodas = 0
             for uoda in evaluation_instance.oda.first().microodas.all():

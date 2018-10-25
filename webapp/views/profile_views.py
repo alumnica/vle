@@ -405,7 +405,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
             time_diff = current_datetime - notification.date
             notifications.append({'object': '{} de score'.format(notification.score),
                                   'description': 'Completaste la evaluación de la ODA {}'.format(
-                                      notification.evaluation.oda.name), 'days': time_diff.days,
+                                      notification.evaluation.oda.first().name), 'days': time_diff.days,
                                   'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
         for notification in learner.level_up_notifications.all():
             time_diff = current_datetime - notification.date
