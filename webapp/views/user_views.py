@@ -125,7 +125,7 @@ class DashboardView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, For
         context = {'user': self.request.user, 'level': level}
         activities = []
         for activity in user.profile.recent_activities.order_by('pk')[0:3]:
-            activities.append([activity, activity.subject])
+            activities.append([activity.oda, activity.oda.subject])
         ambits = Ambit.objects.exclude(is_published=False)
         context.update({'recent_activities': activities, 'ambits': ambits})
 
