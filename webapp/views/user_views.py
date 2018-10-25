@@ -13,6 +13,7 @@ from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models import users, Ambit
 from alumnica_model.models.progress import LearnerLoginProgress
 from webapp.forms.user_forms import UserForm, UserLoginForm
+from webapp.gamification import get_learner_level
 from webapp.statement_builders import login_statement, logout_statement
 
 
@@ -120,7 +121,8 @@ class DashboardView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, For
 
     def get_context_data(self, **kwargs):
         user = self.request.user
-        context = {'user': self.request.user}
+        level = get_learner_level(user.profile.experience_points)
+        context = {'user': self.request.user, 'level': level}
         activities = []
         for activity in user.profile.recent_activities.order_by('pk')[0:3]:
             activities.append([activity, activity.subject])
