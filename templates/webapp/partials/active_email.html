@@ -1,0 +1,9 @@
+
+{% autoescape off %}
+
+Bienvenido a Alúmnica:
+Para completar tu registro en la plataforma da click en el link de abajo:
+https://{{ domain }}{% url 'signup_confirmation_view' uidb64=uid token=token %}
+
+Alumnica
+{% endautoescape %}
