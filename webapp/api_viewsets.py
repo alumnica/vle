@@ -199,7 +199,7 @@ class EvaluationViewSet(APIView):
                     answer = answer_data.split(';')
                     if question['question_pk'] == answer[0]:
                         question_instance = NumericQuestion.objects.get(pk=int(answer[0]))
-                        answer_obtained = int(answer[1])
+                        answer_obtained = float(answer[1])
                         if question_instance.min_limit <= answer_obtained <= question_instance.max_limit:
                             score += 1
                             correct_answer = True
