@@ -3,18 +3,24 @@ import random
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import *
 from django.views.generic.base import TemplateView
 from sweetify import sweetify
 
 from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
-from alumnica_model.models import users, Ambit
+from alumnica_model.models import users, Ambit, AuthUser
 from alumnica_model.models.progress import LearnerLoginProgress
 from webapp.forms.user_forms import UserForm, UserLoginForm
 from webapp.gamification import get_learner_level
 from webapp.statement_builders import login_statement, logout_statement
+from webapp.tokens import account_activation_token
 
 
 class LandingPageView(TemplateView):
@@ -39,7 +45,7 @@ class LoginView(FormView):
     template_name = 'webapp/pages/login.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.profile == users.TYPE_LEARNER:
+        if request.user.is_authenticated and request.user.profile.type == users.TYPE_LEARNER:
             if request.user.first_name == "":
                 return redirect(to='first-login-info_view')
             if request.user.profile.learning_style is None:
@@ -62,7 +68,13 @@ class LoginView(FormView):
         return redirect(to='dashboard_view')
 
     def form_invalid(self, form):
-        sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
+        if form['email'].errors:
+            if form.errors['email'].data[0].code == 'account_activation_error':
+                user = AuthUser.objects.get(email=form.data['email'])
+                return redirect(to='confirmation_error_view', pk=user.pk)
+            sweetify.error(self.request, form.errors['email'][0], persistent='Ok')
+        elif form['password'].errors:
+            sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
         context = self.get_context_data()
         return self.render_to_response(context)
 
@@ -78,6 +90,7 @@ class SignUpView(FormView):
     def form_valid(self, form):
         avatar_options = ['A', 'B', 'C', 'D']
         user = form.save(commit=False)
+        user.is_active = False
         user.user_type = users.TYPE_LEARNER
         user.save()
         user.profile.login_progress = LearnerLoginProgress.objects.create(login_counter=1,
@@ -89,9 +102,22 @@ class SignUpView(FormView):
         avatar.active = True
         avatar.save()
         user.profile.save()
-        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+        current_site = get_current_site(self.request)
+        mail_subject = 'Activate your blog account.'
+        message = render_to_string('webapp/partials/active_email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
+            'token': account_activation_token.make_token(user),
+        })
+        to_email = form.cleaned_data.get('email')
+        email = EmailMessage(
+            mail_subject, message, to=[to_email]
+        )
+        email.send()
+        sweetify.success(self.request, 'Por favor confirma tu registro desde tu dirección de correo electrónico', persistent='Ok')
 
-        return redirect(to='first-login-info_view')
+        return redirect(to='login_view')
 
     def form_invalid(self, form):
         if form['password'].errors:
@@ -143,3 +169,57 @@ class LogoutView(RedirectView):
         logout_statement(request=self.request, timestamp=timestamp, user=request.user)
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
+
+
+class SignUpConfirmation(FormView):
+
+    def get(self, request, *args, **kwargs):
+        uidb64 = (self.kwargs['uidb64']).encode()
+        token = self.kwargs['token']
+
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = AuthUser.objects.get(pk=uid)
+        except(TypeError, ValueError, OverflowError, AuthUser.DoesNotExist):
+            user = None
+        if user is not None:
+            if account_activation_token.check_token(user, token):
+                user.is_active = True
+                user.save()
+                login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+                sweetify.success(self.request, 'Tu cuenta ha sido activada!', persistent='Ok')
+                return redirect(to='login_view')
+            else:
+                return redirect(to='confirmation_error_view', pk=user.pk)
+        else:
+            sweetify.error(self.request, 'El link es inválido', persistent='Ok')
+            return redirect(to='login_view')
+
+
+class SignupConfirmationError(FormView):
+    template_name = 'webapp/pages/account_active_error.html'
+
+    def get_context_data(self, **kwargs):
+        user = AuthUser.objects.get(pk=self.kwargs['pk'])
+        context = {'user': user}
+        return context
+
+    def post(self, request, *args, **kwargs):
+        user = AuthUser.objects.get(pk=self.kwargs['pk'])
+        current_site = get_current_site(self.request)
+        mail_subject = 'Activate your blog account.'
+        message = render_to_string('webapp/partials/active_email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
+            'token': account_activation_token.make_token(user),
+        })
+        to_email = user.email
+        email = EmailMessage(
+            mail_subject, message, to=[to_email]
+        )
+        email.send()
+        sweetify.success(self.request, 'Por favor confirma tu registro desde tu dirección de correo electrónico',
+                         persistent='Ok')
+
+        return redirect(to='login_view')

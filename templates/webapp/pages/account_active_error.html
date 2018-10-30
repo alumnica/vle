@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+
+    <form method="post">
+        {% csrf_token %}
+
+        Tu cuenta no ha sido activada!
+        Por favor revisa tu correo electrónico y da click sobre el link de verificación
+        En caso de no haber recibido ningún link, da click en el botón de reenviar
+        <button class="button" type="submit">Reenviar</button>
+    </form>
+
+
+</body>
+</html>
