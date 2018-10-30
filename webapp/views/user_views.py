@@ -68,7 +68,13 @@ class LoginView(FormView):
         return redirect(to='dashboard_view')
 
     def form_invalid(self, form):
-        sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
+        if form['email'].errors:
+            if form.errors['email'].data[0].code == 'account_activation_error':
+                user = AuthUser.objects.get(email=form.data['email'])
+                return redirect(to='confirmation_error_view', pk=user.pk)
+            sweetify.error(self.request, form.errors['email'][0], persistent='Ok')
+        elif form['password'].errors:
+            sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
         context = self.get_context_data()
         return self.render_to_response(context)
 
@@ -176,12 +182,44 @@ class SignUpConfirmation(FormView):
             user = AuthUser.objects.get(pk=uid)
         except(TypeError, ValueError, OverflowError, AuthUser.DoesNotExist):
             user = None
-        if user is not None and account_activation_token.check_token(user, token):
-            user.is_active = True
-            user.save()
-            login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
-            sweetify.success(self.request, 'Tu cuenta ha sido activada!', persistent='Ok')
-            return redirect(to='login_view')
+        if user is not None:
+            if account_activation_token.check_token(user, token):
+                user.is_active = True
+                user.save()
+                login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+                sweetify.success(self.request, 'Tu cuenta ha sido activada!', persistent='Ok')
+                return redirect(to='login_view')
+            else:
+                return redirect(to='confirmation_error_view', pk=user.pk)
         else:
             sweetify.error(self.request, 'El link es inválido', persistent='Ok')
             return redirect(to='login_view')
+
+
+class SignupConfirmationError(FormView):
+    template_name = 'webapp/pages/account_active_error.html'
+
+    def get_context_data(self, **kwargs):
+        user = AuthUser.objects.get(pk=self.kwargs['pk'])
+        context = {'user': user}
+        return context
+
+    def post(self, request, *args, **kwargs):
+        user = AuthUser.objects.get(pk=self.kwargs['pk'])
+        current_site = get_current_site(self.request)
+        mail_subject = 'Activate your blog account.'
+        message = render_to_string('webapp/partials/active_email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
+            'token': account_activation_token.make_token(user),
+        })
+        to_email = user.email
+        email = EmailMessage(
+            mail_subject, message, to=[to_email]
+        )
+        email.send()
+        sweetify.success(self.request, 'Por favor confirma tu registro desde tu dirección de correo electrónico',
+                         persistent='Ok')
+
+        return redirect(to='login_view')
