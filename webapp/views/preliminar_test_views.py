@@ -10,14 +10,17 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 from sweetify import sweetify
 
 from alumnica_model.models import users, AuthUser
+from alumnica_model.models.content import LearningStyle
 from alumnica_model.models.progress import LearnerLoginProgress
 from webapp.forms.preliminar_test_forms import FirstLoginTestInfoForm, FirstLoginTest, TestUserLoginForm
 from webapp.forms.user_forms import UserForm
-from webapp.statement_builders import login_statement, register_statement
+from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS
+from webapp.statement_builders import login_statement, register_statement, learning_experience_received, \
+    access_statement
 from webapp.tokens import account_activation_token
 
 
@@ -34,7 +37,10 @@ class LoginTestView(FormView):
                 return redirect(to='login_view')
             if request.user.first_name == "":
                 return redirect(to='first_login_test_info_view')
-            return redirect(to='first_login_test_p1_view')
+            if request.user.profile.learning_style is None:
+                return redirect(to='first_login_test_p1_view')
+            else:
+                return redirect(to='test_answered_view')
         else:
             return super(LoginTestView, self).dispatch(request, *args, **kwargs)
 
@@ -132,11 +138,38 @@ class FirstLoginTestP1View(LoginRequiredMixin, FormView):
     first_selection = '0'
     second_selection = '0'
 
+    def dispatch(self, request, *args, **kwargs):
+        response = super(FirstLoginTestP1View, self).dispatch(request, *args, **kwargs)
+        if response.status_code == 200 and request.method == 'GET':
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+            access_statement(request, 'Large Learning Style Quiz', timestamp)
+        return response
+
     def form_valid(self, form):
-        self.first_selection = self.request.POST.get('pregunta-2set')
-        self.second_selection = self.request.POST.get('pregunta-3set')
-        form.save_form(self.request.user, self.first_selection, self.second_selection)
-        return redirect(to='logout_view')
+        answers = self.request.POST['test-answers'].split(',')
+        letters = {'a': 0, 'b': 1, 'c': 2, 'd': 3}
+        answers_numbers = [0, 0, 0, 0]
+        for answer in answers:
+            answers_numbers[letters[answer]] += 1
+
+        if answers_numbers[0] > answers_numbers[1] and answers_numbers[3] > answers_numbers[2]:
+            self.request.user.profile.learning_style = LearningStyle.objects.get(name='Acomodador')
+        elif answers_numbers[1] > answers_numbers[0] and answers_numbers[2] > answers_numbers[3]:
+            self.request.user.profile.learning_style = LearningStyle.objects.get(name='Asimilador')
+        elif answers_numbers[0] > answers_numbers[1] and answers_numbers[2] > answers_numbers[3]:
+            self.request.user.profile.learning_style = LearningStyle.objects.get(name='Divergente')
+        elif answers_numbers[1] > answers_numbers[2] and answers_numbers[3] > answers_numbers[2]:
+            self.request.user.profile.learning_style = LearningStyle.objects.get(name='Convergente')
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        learning_experience_received(user=self.request.user,
+                                     object_type='Learning Style Quiz',
+                                     object_name=self.request.user.profile.learning_style.name,
+                                     timestamp=timestamp,
+                                     gained_xp=EXPERIENCE_POINTS_CONSTANTS['learning_large_quiz'])
+
+        self.request.user.profile.save()
+
+        return redirect(to='dashboard_view')
 
 
 class SignUpTestConfirmation(FormView):
@@ -191,3 +224,7 @@ class SignupTestConfirmationError(FormView):
                          persistent='Ok')
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect(to='login_test_view')
+
+
+class TestAnswered(TemplateView):
+    template_name = 'webapp/pages/test_answered.html'
