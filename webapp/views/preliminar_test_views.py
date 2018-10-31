@@ -13,7 +13,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import FormView, RedirectView
 from sweetify import sweetify
 
-from alumnica_model.mixins import OnlyTestLearnerMixin, LoginCounterMixin
+from alumnica_model.mixins import LoginCounterMixin
 from alumnica_model.models import users, AuthUser
 from alumnica_model.models.progress import LearnerLoginProgress
 from webapp.forms.preliminar_test_forms import FirstLoginTestInfoForm, FirstLoginTest
@@ -31,11 +31,11 @@ class LoginTestView(FormView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated and request.user.profile.type == users.TYPE_LEARNER:
+            if not request.user.profile.created_by_learner_test:
+                return redirect(to='login_view')
             if request.user.first_name == "":
                 return redirect(to='first_login_test_info_view')
-            if request.user.profile.learning_style is None:
-                return redirect(to='first_login_test_p1_view')
-            return redirect(to='logout_view')
+            return redirect(to='first_login_test_p1_view')
         else:
             return super(LoginTestView, self).dispatch(request, *args, **kwargs)
 
@@ -48,9 +48,7 @@ class LoginTestView(FormView):
 
         if user.first_name == "":
             return redirect(to='first_login_test_info_view')
-        if self.request.user.profile.learning_style is None:
-            return redirect(to='first_login_test_p1_view')
-        return redirect(to='logout_view')
+        return redirect(to='first_login_test_p1_view')
 
     def form_invalid(self, form):
         if form['email'].errors:
@@ -114,7 +112,7 @@ class SignUpTestView(FormView):
         return self.render_to_response(context)
 
 
-class FirstLoginTestInfoView(LoginRequiredMixin, OnlyTestLearnerMixin, LoginCounterMixin, FormView):
+class FirstLoginTestInfoView(LoginRequiredMixin, FormView):
     login_url = 'login_test_view'
     template_name = 'webapp/pages/first-login-info.html'
     form_class = FirstLoginTestInfoForm
@@ -124,12 +122,10 @@ class FirstLoginTestInfoView(LoginRequiredMixin, OnlyTestLearnerMixin, LoginCoun
         form.save_form(user)
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         register_statement(request=self.request, timestamp=timestamp, user=user)
-        if self.request.user.profile.learning_style is None:
-            return redirect(to='first_login_test_p1_view')
-        return redirect(to='logout_view')
+        return redirect(to='first_login_test_p1_view')
 
 
-class FirstLoginTestP1View(LoginRequiredMixin, OnlyTestLearnerMixin, LoginCounterMixin, FormView):
+class FirstLoginTestP1View(LoginRequiredMixin, FormView):
     """
     Short Learning style quiz view
     """
@@ -183,7 +179,7 @@ class SignupTestConfirmationError(FormView):
         user = AuthUser.objects.get(pk=self.kwargs['pk'])
         current_site = get_current_site(self.request)
         mail_subject = 'Activa tu cuenta de Alúmnica.'
-        message = render_to_string('webapp/partials/active_email.html', {
+        message = render_to_string('webapp/partials/active_test_email.html', {
             'user': user,
             'domain': current_site.domain,
             'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
