@@ -62,7 +62,8 @@ class LoginView(FormView):
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         login_statement(request=self.request, timestamp=timestamp, user=user)
-
+        if self.request.user.profile.created_by_learner_test:
+            return redirect(to='login_test_view')
         if user.first_name == "":
             return redirect(to='first-login-info_view')
         if self.request.user.profile.learning_style is None:

@@ -1,7 +1,7 @@
 import datetime
 import random
 
-from django.contrib.auth import login, logout
+from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
@@ -10,15 +10,14 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views.generic import FormView, RedirectView
+from django.views.generic import FormView
 from sweetify import sweetify
 
-from alumnica_model.mixins import LoginCounterMixin
 from alumnica_model.models import users, AuthUser
 from alumnica_model.models.progress import LearnerLoginProgress
 from webapp.forms.preliminar_test_forms import FirstLoginTestInfoForm, FirstLoginTest
 from webapp.forms.user_forms import UserForm, UserLoginForm
-from webapp.statement_builders import login_statement, logout_statement, register_statement
+from webapp.statement_builders import login_statement, register_statement
 from webapp.tokens import account_activation_token
 
 
@@ -45,7 +44,8 @@ class LoginTestView(FormView):
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         login_statement(request=self.request, timestamp=timestamp, user=user)
-
+        if not self.request.user.profile.created_by_learner_test:
+            return redirect(to='login_view')
         if user.first_name == "":
             return redirect(to='first_login_test_info_view')
         return redirect(to='first_login_test_p1_view')
