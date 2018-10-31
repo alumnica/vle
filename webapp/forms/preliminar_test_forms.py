@@ -1,6 +1,37 @@
 from django import forms
+from rest_framework.exceptions import ValidationError
 
 from alumnica_model.models import AuthUser, Learner, users
+
+
+class TestUserLoginForm(forms.Form):
+    """
+    Login form
+    """
+    email = forms.CharField(max_length=100)
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    def clean(self):
+        cleaned_data = super(TestUserLoginForm, self).clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+        try:
+            user = AuthUser.objects.get(email=email)
+            if not user.check_password(password):
+                error = ValidationError(_("Contraseña o correo incorrecto"), code='credentials_error')
+                self.add_error('password', error)
+                return cleaned_data
+
+        except AuthUser.DoesNotExist:
+            error = ValidationError(_("Contraseña o correo incorrecto"), code='credentials_error')
+            self.add_error('password', error)
+            return cleaned_data
+
+    def get_user(self):
+        cleaned_data = super(TestUserLoginForm, self).clean()
+        email = cleaned_data.get('email')
+        user = AuthUser.objects.get(email=email)
+        return user
 
 
 class FirstLoginTestInfoForm(forms.ModelForm):

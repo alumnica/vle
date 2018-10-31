@@ -15,8 +15,8 @@ from sweetify import sweetify
 
 from alumnica_model.models import users, AuthUser
 from alumnica_model.models.progress import LearnerLoginProgress
-from webapp.forms.preliminar_test_forms import FirstLoginTestInfoForm, FirstLoginTest
-from webapp.forms.user_forms import UserForm, UserLoginForm
+from webapp.forms.preliminar_test_forms import FirstLoginTestInfoForm, FirstLoginTest, TestUserLoginForm
+from webapp.forms.user_forms import UserForm
 from webapp.statement_builders import login_statement, register_statement
 from webapp.tokens import account_activation_token
 
@@ -25,7 +25,7 @@ class LoginTestView(FormView):
     """
     Login view
     """
-    form_class = UserLoginForm
+    form_class = TestUserLoginForm
     template_name = 'webapp/pages/login.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -52,9 +52,6 @@ class LoginTestView(FormView):
 
     def form_invalid(self, form):
         if form['email'].errors:
-            if form.errors['email'].data[0].code == 'account_activation_error':
-                user = AuthUser.objects.get(email=form.data['email'])
-                return redirect(to='confirmation_error_view', pk=user.pk)
             sweetify.error(self.request, form.errors['email'][0], persistent='Ok')
         elif form['password'].errors:
             sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
@@ -192,5 +189,5 @@ class SignupTestConfirmationError(FormView):
         email.send()
         sweetify.success(self.request, 'Por favor confirma tu registro desde tu dirección de correo electrónico',
                          persistent='Ok')
-
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect(to='login_test_view')
