@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_text
@@ -118,7 +118,8 @@ class SignUpView(FormView):
             mail_subject, message, to=[to_email]
         )
         email.send()
-        sweetify.success(self.request, 'Por favor confirma tu registro desde tu dirección de correo electrónico', persistent='Ok')
+        sweetify.success(self.request, 'Por favor confirma tu registro desde tu dirección de correo electrónico',
+                         persistent='Ok')
 
         return redirect(to='login_view')
 

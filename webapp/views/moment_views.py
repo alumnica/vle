@@ -1,5 +1,6 @@
 import datetime
 import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.datastructures import OrderedSet
 from django.utils.decorators import method_decorator
@@ -7,7 +8,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.generic import FormView, DetailView
 
 from alumnica_model.mixins import LoginCounterMixin, OnlyLearnerMixin
-from alumnica_model.models import Moment, LearnerProgressInActivity
+from alumnica_model.models import Moment
 from alumnica_model.models.h5p import H5Package
 from vle_webapp.settings import AWS_INSTANCE_URL
 from webapp.gamification import uoda_completed_xp

@@ -102,7 +102,8 @@ class SignUpTestView(FormView):
             mail_subject, message, to=[to_email]
         )
         email.send()
-        sweetify.success(self.request, 'Por favor confirma tu registro desde tu dirección de correo electrónico', persistent='Ok')
+        sweetify.success(self.request, 'Por favor confirma tu registro desde tu dirección de correo electrónico',
+                         persistent='Ok')
 
         return redirect(to='login_test_view')
 

@@ -2,10 +2,11 @@ from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect, render
+from django.utils import timezone
 from django.utils.datastructures import OrderedSet
 from django.views.generic import FormView, UpdateView
 from sweetify import sweetify
-from django.utils import timezone
+
 from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models import Badge, MicroODA, LearnerBadgeAchievement, AvatarAchievement, LevelAchievement, \
     TestAchievement, LearnerTestAchievement, ODA, Subject, Ambit
