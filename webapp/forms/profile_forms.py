@@ -124,9 +124,9 @@ class ProfileSettingsForm(forms.ModelForm):
     def save(self, commit=True):
         user = super(ProfileSettingsForm, self).save(commit=False)
         cleaned_data = super(ProfileSettingsForm, self).clean()
-        new_password = self.cleaned_data.get('new_password')
+        new_password = cleaned_data.get('new_password')
         if new_password != '':
-            user.set_password(self.cleaned_data.get('new_password'))
+            user.set_password(cleaned_data.get('new_password'))
         user.save()
         user.profile.save()
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
