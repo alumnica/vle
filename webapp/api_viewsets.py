@@ -256,7 +256,9 @@ class EvaluationViewSet(APIView):
         if evaluation_completed:
             completed_uodas = 0
             for uoda in evaluation_instance.oda.first().microodas.all():
-                if learner.activities_progresses.filter(activity=uoda.activities.first()).exists() and learner.activities_progresses.get(activity=uoda.activities.first()).is_complete:
+                if learner.activities_progresses.filter(
+                        activity=uoda.activities.first()).exists() and learner.activities_progresses.get(
+                        activity=uoda.activities.first()).is_complete:
                     completed_uodas += 1
             xp, equation = evaluation_completed_xp(login_counter=learner.login_progress.login_counter,
                                                    completed_uodas=completed_uodas,

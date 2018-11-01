@@ -34,6 +34,7 @@ class Actor:
     """
     Actor object
     """
+
     def __init__(self, name, email):
         self.name = name
         self.mbox = 'mailto:' + email
@@ -46,6 +47,7 @@ class Display:
     """
     Display object containing language
     """
+
     def __init__(self, action):
         self.en = action
 
@@ -57,6 +59,7 @@ class Verb:
     """
     Verb object
     """
+
     def __init__(self, action):
         self.id = xapi_verbs[action]
         self.display = Display(action=action)
@@ -69,6 +72,7 @@ class Definition:
     """
     Definition object
     """
+
     def __init__(self, name, type):
         self.name = Display(name)
         if type is not None:
@@ -82,6 +86,7 @@ class Object:
     """
     Xapi object
     """
+
     def __init__(self, id, name, type=None):
         self.id = id
         self.definition = Definition(name=name, type=type)
@@ -94,6 +99,7 @@ class ContextID:
     """
     Context url id object
     """
+
     def __init__(self, id):
         self.id = id
 
@@ -126,6 +132,7 @@ class Context:
     """
     Context object
     """
+
     def __init__(self, parents, tags):
         self.contextActivities = ContextActivities(parents=parents, tags=tags)
 
@@ -137,6 +144,7 @@ class Score:
     """
     Score object containing raw score
     """
+
     def __init__(self, raw_score, max_score=None):
         self.raw = raw_score
         if max_score is not None:
@@ -150,6 +158,7 @@ class Result:
     """
     Result object
     """
+
     def __init__(self, response, completion=None, success=None, raw_score=None, max_score=None, duration=None):
         self.response = response
         if completion is not None:
@@ -172,6 +181,7 @@ class Statement:
     """
     Statement object
     """
+
     def __init__(self, timestamp, actor, verb, object, context=None, result=None):
         self.timestamp = timestamp
         self.actor = actor
