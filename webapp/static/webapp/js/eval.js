@@ -125,7 +125,7 @@ $(document).ready(function () {
     let relMOAnswers = new Array(relMOAnswersLength);
     let relMAAnswers = new Array(relMAAnswersLength);
     let relNAAnswers = new Array(relNAAnswersLength);
-    let relPLAnswers = new Array();
+    let relPLAnswers = [];
 
     $('.question[question-type="relationship"]').each(function () {
         let dataAnchor = $(this).parent().attr('data-anchor');
@@ -274,7 +274,7 @@ $(document).ready(function () {
         let dataAnchor = $(this).parent().attr('data-anchor');
         let thePk = $(this).attr('pk');
         let qIndex = $('.question[question-type="multiple_answer"]').index(this);
-        let theAnswer = new Array();
+        let theAnswer = [];
         let theQuest = $(this);
 
         $('input', this).on('click', function () {

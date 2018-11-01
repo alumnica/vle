@@ -73,7 +73,7 @@
 $(document).ready(function () {
   // add notification icon to recent activity depending on the type of notification
   $('.recent-cell').each(function () {
-    var notiType = $(this).attr('noti-type');
+    let notiType = $(this).attr('noti-type');
     if(notiType === 'achievement'){
         $(this).find('.recent-cell_icon').append('<i class="fas fa-trophy"></i>')
     } else if (notiType === 'level_up'){
@@ -89,23 +89,23 @@ $(document).ready(function () {
 
     // check badge version and color in the stars appropriately
   $('.badge-cell').each( function () {
-    var starCount = $(this).attr('version');
-    if(starCount = 1){
+    let starCount = $(this).attr('version');
+    if(starCount == 1){
       $(this).find('.badge-cell_stars').append(
         '<i class="fa fa-star earned"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>'
         )
-      } else if (starCount = 2){
+      } else if (starCount == 2){
         $(this).find('.badge-cell_stars').append(
         '<i class="fa fa-star earned"></i><i class="fa fa-star earned"></i><i class="fa fa-star"></i>'
         )
-      } else if (starCount = 3){
+      } else if (starCount == 3){
         $(this).find('.badge-cell_stars').append(
         '<i class="fa fa-star earned"></i><i class="fa fa-star earned"></i><i class="fa fa-star earned"></i>'
         )
       }
-    })
+    });
   $('.achievement').each(function () {
-    var ach = $(this);
+    let ach = $(this);
     if(ach.attr('earned') == 1){
       ach.removeClass('wip')
     }

@@ -5,7 +5,7 @@
 
 <div class="grid-container">
   <div class="profile-grid">
-    <!-- name and porgress bar -->
+    <!-- name and progress bar -->
     <div class="name-prog">
         <h1>{{ learner_name }}</h1>
         <div class="level">{{ level.level }}</div>
@@ -49,7 +49,7 @@
                           <!--append stars here with JS-->
                           </div>
                           <div class="badge-cell_img">
-                            <img src={{ badge.image.file.url }} alt="">
+                            <img src={{ badge.image.file.url }}>
                           </div>
                           <div class="badge-cell_title">
                             {{ badge.name }}
@@ -65,11 +65,11 @@
             <a href="#" class="accordion-title">Logros</a>
             <div class="accordion-content" data-tab-content>
               <div class="accordion-grid">
-                <!-- begin achievement    ADD 'new' FOR NEWLEY AHCIEVED, ADD 'wip' TO ALL ACHIEVEMENTS, REMOVE WHEN EARNED -->
+                <!-- begin achievement    ADD 'new' FOR NEWLY ACHIEVED, ADD 'wip' TO ALL ACHIEVEMENTS, REMOVE WHEN EARNED -->
                 {% for achievement in achievements %}
                     <div class="achievement wip" earned="{{ achievement.earned }}">
                       <div class="achievement_icon">
-                        <img src={{ achievement.image.file.url }} alt="">
+                        <img src={{ achievement.image.file.url }}>
                       </div>
                       <div class="achievement_text">
                         {{ achievement.description }}
@@ -84,7 +84,7 @@
                     </div>
                   {% endfor %}
 
-                <!-- end echievemetn -->
+                <!-- end achievement -->
               </div>
             </div>
           </li>
@@ -123,7 +123,7 @@
 
 <div class="reveal" id="password" data-reveal>
   <h3 class="text-center">Cambio de Contraseña</h3>
-  <p class="lead">Cambia tu contraseña de accesso</p>
+  <p class="lead">Cambia tu contraseña de acceso</p>
      <form class="user-details-form" method="post">
         {% csrf_token %}
       <label for="current">Contraseña actual</label>

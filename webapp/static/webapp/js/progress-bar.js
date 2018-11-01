@@ -1,4 +1,4 @@
-var bar = new ProgressBar.Line(progress, {
+let bar = new ProgressBar.Line(progress, {
   strokeWidth: 1,
   easing: 'easeInOut',
   duration: 1400,
@@ -32,7 +32,7 @@ var bar = new ProgressBar.Line(progress, {
 bar.animate(0.9); // Number from 0.0 to 1.0
 
 
-var avatarBar = new ProgressBar.Line(avatarProgress, {
+let avatarBar = new ProgressBar.Line(avatarProgress, {
   strokeWidth: 2,
   easing: 'easeInOut',
   duration: 1400,
