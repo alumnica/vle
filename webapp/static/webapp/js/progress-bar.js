@@ -1,4 +1,32 @@
-let bar = new ProgressBar.Line(progress, {
+$(document).ready(function () {
+   let learnerPoints,
+       learnerNextLevel,
+       learnerBar,
+       avatarPoints;
+// $.when(getLearnerInfo()).done(learnerProgressBar(),avatarProgressBar());
+  getLearnerInfo();
+
+  function getLearnerInfo(){
+  $.ajax({
+    type: 'GET',
+    url: '/api/xp',
+    data: {
+      'learner': learner,
+    },
+    success: function(data) {
+      avatarPoints = data.avatar_points.toFixed(2);
+      learnerPoints = data.learner_points;
+      learnerNextLevel = data.learner_next_level_points;
+      learnerBar = learnerPoints / learnerNextLevel;
+      learnerBar = learnerBar.toFixed(2);
+      learnerProgressBar(learnerPoints, learnerBar);
+      avatarProgressBar(avatarPoints);
+    },
+  });
+  };
+
+  function learnerProgressBar(bigNum, barNum){
+  let bar = new ProgressBar.Line(progress, {
   strokeWidth: 1,
   easing: 'easeInOut',
   duration: 1400,
@@ -14,7 +42,7 @@ let bar = new ProgressBar.Line(progress, {
   text: {
     // Initial value for text.
     // Default: null
-    value: '30,000',
+    value: bigNum,
 
     style: {
       transform: {
@@ -26,13 +54,14 @@ let bar = new ProgressBar.Line(progress, {
     // Class name for text element.
     // Default: 'progressbar-text'
     // className: 'progressbar__label',
-  },
+  }
 });
+bar.animate(barNum); // Number from 0.0 to 1.0
+  };
 
-bar.animate(0.9); // Number from 0.0 to 1.0
-
-
-let avatarBar = new ProgressBar.Line(avatarProgress, {
+  function avatarProgressBar(barNum){
+if ($('.avatar-progress').length){
+  let avatarBar = new ProgressBar.Line(avatarProgress, {
   strokeWidth: 2,
   easing: 'easeInOut',
   duration: 1400,
@@ -41,4 +70,8 @@ let avatarBar = new ProgressBar.Line(avatarProgress, {
   trailWidth: 2,
 });
 
-avatarBar.animate(0.5); // Number from 0.0 to 1.0
+avatarBar.animate(barNum); // Number from 0.0 to 1.0
+  }
+};
+
+});

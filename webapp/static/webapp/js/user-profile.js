@@ -71,6 +71,8 @@
 //     })
 // });
 $(document).ready(function () {
+
+
   // add notification icon to recent activity depending on the type of notification
   $('.recent-cell').each(function () {
     let notiType = $(this).attr('noti-type');
