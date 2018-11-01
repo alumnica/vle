@@ -12,6 +12,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import FormView, TemplateView
 from sweetify import sweetify
 
+from alumnica_model.mixins import OnlyTestLearnerMixin
 from alumnica_model.models import users, AuthUser
 from alumnica_model.models.content import LearningStyle
 from webapp.forms.preliminar_test_forms import FirstLoginTestInfoForm, FirstLoginTest
@@ -71,7 +72,8 @@ class SignUpTestView(FormView):
         return self.render_to_response(context)
 
 
-class FirstLoginTestInfoView(FormView):
+class FirstLoginTestInfoView(OnlyTestLearnerMixin, FormView):
+    login_url = 'login_view'
     template_name = 'webapp/pages/first-login-info.html'
     form_class = FirstLoginTestInfoForm
 
@@ -83,10 +85,11 @@ class FirstLoginTestInfoView(FormView):
         return redirect(to='first_login_test_p1_view', pk=user.pk)
 
 
-class FirstLoginTestP1View(FormView):
+class FirstLoginTestP1View(OnlyTestLearnerMixin, FormView):
     """
     Short Learning style quiz view
     """
+    login_url = 'login_view'
     template_name = 'webapp/pages/user-test-competencias.html'
     form_class = FirstLoginTest
     first_selection = '0'
@@ -129,7 +132,8 @@ class FirstLoginTestP1View(FormView):
         return redirect(to='confirmation_test_error_view')
 
 
-class SignUpTestConfirmation(FormView):
+class SignUpTestConfirmation(OnlyTestLearnerMixin, FormView):
+    login_url = 'login_view'
 
     def get(self, request, *args, **kwargs):
         uidb64 = (self.kwargs['uidb64']).encode()
@@ -153,7 +157,8 @@ class SignUpTestConfirmation(FormView):
             return redirect(to='first_login_test_info_view', pk=user.pk)
 
 
-class SignupTestConfirmationError(FormView):
+class SignupTestConfirmationError(OnlyTestLearnerMixin, FormView):
+    login_url = 'login_view'
     template_name = 'webapp/pages/account_active_error.html'
 
     def get_context_data(self, **kwargs):
