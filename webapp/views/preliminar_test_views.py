@@ -2,7 +2,6 @@ import datetime
 import random
 
 from django.contrib.auth import login
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
@@ -13,56 +12,15 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import FormView, TemplateView
 from sweetify import sweetify
 
+from alumnica_model.mixins import OnlyTestLearnerMixin
 from alumnica_model.models import users, AuthUser
 from alumnica_model.models.content import LearningStyle
-from alumnica_model.models.progress import LearnerLoginProgress
-from webapp.forms.preliminar_test_forms import FirstLoginTestInfoForm, FirstLoginTest, TestUserLoginForm
+from webapp.forms.preliminar_test_forms import FirstLoginTestInfoForm, FirstLoginTest
 from webapp.forms.user_forms import UserForm
 from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS
-from webapp.statement_builders import login_statement, register_statement, learning_experience_received, \
+from webapp.statement_builders import register_statement, learning_experience_received, \
     access_statement
 from webapp.tokens import account_activation_token
-
-
-class LoginTestView(FormView):
-    """
-    Login view
-    """
-    form_class = TestUserLoginForm
-    template_name = 'webapp/pages/login.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.profile.type == users.TYPE_LEARNER:
-            if not request.user.profile.created_by_learner_test:
-                return redirect(to='login_view')
-            if request.user.first_name == "":
-                return redirect(to='first_login_test_info_view')
-            if request.user.profile.learning_style is None:
-                return redirect(to='first_login_test_p1_view')
-            else:
-                return redirect(to='test_answered_view')
-        else:
-            return super(LoginTestView, self).dispatch(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        user = form.get_user()
-        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
-
-        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        login_statement(request=self.request, timestamp=timestamp, user=user)
-        if not self.request.user.profile.created_by_learner_test:
-            return redirect(to='login_view')
-        if user.first_name == "":
-            return redirect(to='first_login_test_info_view')
-        return redirect(to='first_login_test_p1_view')
-
-    def form_invalid(self, form):
-        if form['email'].errors:
-            sweetify.error(self.request, form.errors['email'][0], persistent='Ok')
-        elif form['password'].errors:
-            sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
-        context = self.get_context_data()
-        return self.render_to_response(context)
 
 
 class SignUpTestView(FormView):
@@ -71,7 +29,7 @@ class SignUpTestView(FormView):
     """
     form_class = UserForm
     template_name = 'webapp/pages/signup.html'
-    success_url = reverse_lazy('login_test_view')
+    success_url = reverse_lazy('first_login_test_info_view')
 
     def form_valid(self, form):
         avatar_options = ['A', 'B', 'C', 'D']
@@ -79,9 +37,6 @@ class SignUpTestView(FormView):
         user.is_active = False
         user.user_type = users.TYPE_LEARNER
         user.save()
-        user.profile.login_progress = LearnerLoginProgress.objects.create(login_counter=1,
-                                                                          last_activity=datetime.datetime.now(),
-                                                                          first_activity=datetime.datetime.now())
         for option in avatar_options:
             user.profile.avatar_progresses.create(avatar_name=option)
         avatar = user.profile.avatar_progresses.get(avatar_name=random.choice(avatar_options))
@@ -102,10 +57,11 @@ class SignUpTestView(FormView):
             mail_subject, message, to=[to_email]
         )
         email.send()
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         sweetify.success(self.request, 'Por favor confirma tu registro desde tu dirección de correo electrónico',
                          persistent='Ok')
 
-        return redirect(to='login_test_view')
+        return redirect(to='first_login_test_info_view', pk=user.pk)
 
     def form_invalid(self, form):
         if form['password'].errors:
@@ -116,34 +72,35 @@ class SignUpTestView(FormView):
         return self.render_to_response(context)
 
 
-class FirstLoginTestInfoView(LoginRequiredMixin, FormView):
-    login_url = 'login_test_view'
+class FirstLoginTestInfoView(OnlyTestLearnerMixin, FormView):
+    login_url = 'login_view'
     template_name = 'webapp/pages/first-login-info.html'
     form_class = FirstLoginTestInfoForm
 
     def form_valid(self, form):
-        user = AuthUser.objects.get(email=self.request.user.email)
+        user = AuthUser.objects.get(pk=self.kwargs['pk'])
         form.save_form(user)
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         register_statement(request=self.request, timestamp=timestamp, user=user)
-        return redirect(to='first_login_test_p1_view')
+        return redirect(to='first_login_test_p1_view', pk=user.pk)
 
 
-class FirstLoginTestP1View(LoginRequiredMixin, FormView):
+class FirstLoginTestP1View(OnlyTestLearnerMixin, FormView):
     """
     Short Learning style quiz view
     """
-    login_url = 'login_test_view'
-    template_name = 'webapp/pages/first-login-p1.html'
+    login_url = 'login_view'
+    template_name = 'webapp/pages/user-test-competencias.html'
     form_class = FirstLoginTest
     first_selection = '0'
     second_selection = '0'
 
     def dispatch(self, request, *args, **kwargs):
+        user = AuthUser.objects.get(pk=self.kwargs['pk'])
         response = super(FirstLoginTestP1View, self).dispatch(request, *args, **kwargs)
         if response.status_code == 200 and request.method == 'GET':
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            access_statement(request, 'Large Learning Style Quiz', timestamp)
+            access_statement(user, 'Large Learning Style Quiz', timestamp)
         return response
 
     def form_valid(self, form):
@@ -153,27 +110,30 @@ class FirstLoginTestP1View(LoginRequiredMixin, FormView):
         for answer in answers:
             answers_numbers[letters[answer]] += 1
 
+        user = AuthUser.objects.get(pk=self.kwargs['pk'])
+
         if answers_numbers[0] > answers_numbers[1] and answers_numbers[3] > answers_numbers[2]:
-            self.request.user.profile.learning_style = LearningStyle.objects.get(name='Acomodador')
+            user.profile.learning_style = LearningStyle.objects.get(name='Acomodador')
         elif answers_numbers[1] > answers_numbers[0] and answers_numbers[2] > answers_numbers[3]:
-            self.request.user.profile.learning_style = LearningStyle.objects.get(name='Asimilador')
+            user.profile.learning_style = LearningStyle.objects.get(name='Asimilador')
         elif answers_numbers[0] > answers_numbers[1] and answers_numbers[2] > answers_numbers[3]:
-            self.request.user.profile.learning_style = LearningStyle.objects.get(name='Divergente')
+            user.profile.learning_style = LearningStyle.objects.get(name='Divergente')
         elif answers_numbers[1] > answers_numbers[2] and answers_numbers[3] > answers_numbers[2]:
-            self.request.user.profile.learning_style = LearningStyle.objects.get(name='Convergente')
+            user.profile.learning_style = LearningStyle.objects.get(name='Convergente')
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        learning_experience_received(user=self.request.user,
+        learning_experience_received(user=user,
                                      object_type='Learning Style Quiz',
-                                     object_name=self.request.user.profile.learning_style.name,
+                                     object_name=user.profile.learning_style.name,
                                      timestamp=timestamp,
                                      gained_xp=EXPERIENCE_POINTS_CONSTANTS['learning_large_quiz'])
 
-        self.request.user.profile.save()
+        user.profile.save()
 
-        return redirect(to='dashboard_view')
+        return redirect(to='confirmation_test_error_view')
 
 
-class SignUpTestConfirmation(FormView):
+class SignUpTestConfirmation(OnlyTestLearnerMixin, FormView):
+    login_url = 'login_view'
 
     def get(self, request, *args, **kwargs):
         uidb64 = (self.kwargs['uidb64']).encode()
@@ -188,17 +148,17 @@ class SignUpTestConfirmation(FormView):
             if account_activation_token.check_token(user, token):
                 user.is_active = True
                 user.save()
-                login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
                 sweetify.success(self.request, 'Tu cuenta ha sido activada!', persistent='Ok')
-                return redirect(to='login_test_view')
+                return redirect(to='first_login_test_info_view')
             else:
                 return redirect(to='confirmation_test_error_view', pk=user.pk)
         else:
             sweetify.error(self.request, 'El link es inválido', persistent='Ok')
-            return redirect(to='login_test_view')
+            return redirect(to='first_login_test_info_view', pk=user.pk)
 
 
-class SignupTestConfirmationError(FormView):
+class SignupTestConfirmationError(OnlyTestLearnerMixin, FormView):
+    login_url = 'login_view'
     template_name = 'webapp/pages/account_active_error.html'
 
     def get_context_data(self, **kwargs):
@@ -224,7 +184,7 @@ class SignupTestConfirmationError(FormView):
         sweetify.success(self.request, 'Por favor confirma tu registro desde tu dirección de correo electrónico',
                          persistent='Ok')
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
-        return redirect(to='login_test_view')
+        return redirect(to='first_login_test_info_view', pk=user.pk)
 
 
 class TestAnswered(TemplateView):

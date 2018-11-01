@@ -107,15 +107,15 @@ def search_statement(user, string_searched, timestamp):
     q.enqueue(services.send, statement, timeout=600)
 
 
-def access_statement(request, object_name, timestamp):
+def access_statement(user, object_name, timestamp):
     """
     Xapi page access statement constructor
     :param request: Containing current AuthUser
     :param object_name: Object type
     :param timestamp: activity timestamp
     """
-    user_complete_name = request.user.first_name + ' ' + request.user.last_name
-    actor = Actor(name=user_complete_name, email=request.user.email)
+    user_complete_name = user.first_name + ' ' + user.last_name
+    actor = Actor(name=user_complete_name, email=user.email)
     verb = Verb(action='accessed')
     object_id = xapi_url + object_name
     object = Object(id=object_id, name=object_name)

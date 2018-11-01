@@ -47,7 +47,7 @@ class LoginView(FormView):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated and request.user.profile.type == users.TYPE_LEARNER:
             if request.user.profile.created_by_learner_test:
-                return redirect(to='login_test_view')
+                return redirect(to='first_login_test_p1_view', pk=request.user.pk)
             if request.user.first_name == "":
                 return redirect(to='first-login-info_view')
             if request.user.profile.learning_style is None:
@@ -63,7 +63,7 @@ class LoginView(FormView):
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         login_statement(request=self.request, timestamp=timestamp, user=user)
         if self.request.user.profile.created_by_learner_test:
-            return redirect(to='login_test_view')
+            return redirect(to='first_login_test_p1_view', pk=user.pk)
         if user.first_name == "":
             return redirect(to='first-login-info_view')
         if self.request.user.profile.learning_style is None:
