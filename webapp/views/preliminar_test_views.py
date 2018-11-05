@@ -96,11 +96,12 @@ class FirstLoginTestP1View(OnlyTestLearnerMixin, FormView):
     second_selection = '0'
 
     def dispatch(self, request, *args, **kwargs):
-        user = AuthUser.objects.get(pk=self.kwargs['pk'])
         response = super(FirstLoginTestP1View, self).dispatch(request, *args, **kwargs)
         if response.status_code == 200 and request.method == 'GET':
-            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            access_statement(user, 'Large Learning Style Quiz', timestamp)
+            user = AuthUser.objects.get(pk=self.kwargs['pk'])
+            if response.status_code == 200 and request.method == 'GET':
+                timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+                access_statement(user, 'Large Learning Style Quiz', timestamp)
         return response
 
     def form_valid(self, form):
