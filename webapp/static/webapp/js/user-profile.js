@@ -21,36 +21,44 @@
 // /**
 //  * Sends profile extra information
 //  */
-// $('#user-info-btn').on('click', function(){
-//     let matFav = $('#materia-fav').val(),
-//         hora = $('#horario').val(),
-//         uni = $('#univ').val();
-//
-//     let url = '/api/profile_info/';
-//
-//     $.ajax({
-//         method: 'POST',
-//         type: 'POST',
-//         url: url,
-//         data: {
-//             'favourite_subject': matFav,
-//             'working_time': hora,
-//             'university_studies': uni,
-//             'learner': pk
-//         }
-//     });
-//      // Create div
-//     const span = document.createElement('span');
-//     // Add classes
-//     span.className = 'saved';
-//     span.innerHTML = 'GUARDADO';
-//
-//     $('.extra-info').append(span);
-// //     Timeout after 3 sec
-//     setTimeout(function(){
-//       document.querySelector('.saved').remove();
-//     }, 3000);
-// });
+ $('#user-info-btn').on('click', function(){
+     let matFav = $('#materia-fav').val(),
+         hora = $('#horario').val(),
+         uni = $('#univ').val(),
+         first_name = $('#first_name').val(),
+         last_name = $('#last_name').val(),
+         birth_date = $('#birth_date').val(),
+         gender = $('input:radio[name=gender]:checked').val();
+
+     let url = '/api/profile_info/';
+
+     $.ajax({
+         method: 'POST',
+         type: 'POST',
+         url: url,
+         data: {
+             'first_name': first_name,
+             'last_name': last_name,
+             'birth_date': birth_date,
+             'gender': gender,
+             'favourite_subject': matFav,
+             'working_time': hora,
+             'university_studies': uni,
+             'learner': learner
+         }
+     });
+      // Create div
+     const span = document.createElement('span');
+     // Add classes
+     span.className = 'saved';
+     span.innerHTML = 'GUARDADO';
+
+     $('.extra-info').append(span);
+ //     Timeout after 3 sec
+     setTimeout(function(){
+       document.querySelector('.saved').remove();
+     }, 3000);
+ });
 //
 // /**
 //  *

@@ -401,7 +401,7 @@ class SaveExtraProfileInfo(APIView):
         learner.auth_user.first_name = first_name
         learner.auth_user.last_name = last_name
         learner.birth_date = parse_date(birth_date)
-        learner.gender = GENDER_TYPES[gender]
+        learner.gender = gender
 
         learner.favourite_subject = favourite_subject
         learner.working_time = working_time
