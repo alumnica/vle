@@ -74,22 +74,22 @@ class ProfileSettingsForm(forms.ModelForm):
     """
     Edit password information form
     """
-    previous_password = forms.CharField(required=False, widget=forms.PasswordInput())
+    password = forms.CharField(required=False, widget=forms.PasswordInput())
     new_password = forms.CharField(required=False, widget=forms.PasswordInput())
     new_password_confirmation = forms.CharField(required=False, widget=forms.PasswordInput())
 
     class Meta:
         model = AuthUser
-        fields = ['first_name', 'last_name']
+        fields = ['password']
 
     def clean(self):
         cleaned_data = super(ProfileSettingsForm, self).clean()
 
-        previous_password = cleaned_data.get('previous_password')
+        password = cleaned_data.get('password')
         new_password = cleaned_data.get('new_password')
         new_password_confirmation = cleaned_data.get('new_password_confirmation')
 
-        if previous_password is not '' or new_password is not '' or new_password_confirmation is not '':
+        if password is not '' or new_password is not '' or new_password_confirmation is not '':
             if new_password is '':
                 error = ValidationError(_("Escribe una nueva contraseña"), code='password_error')
                 self.add_error('new_password', error)
@@ -109,15 +109,15 @@ class ProfileSettingsForm(forms.ModelForm):
                                                     code='password_confirmation_error')
                             self.add_error('new_password', error)
                         else:
-                            if previous_password is not '':
+                            if password is not '':
                                 user = self.instance
-                                if not user.check_password(previous_password):
+                                if not user.check_password(password):
                                     error = ValidationError(_("Contraseña incorrecta."), code='credentials_error')
-                                    self.add_error('previous_password', error)
+                                    self.add_error('password', error)
                             else:
                                 error = ValidationError(_("Debes escribir tu contraseña anterior."),
                                                         code='credentials_error')
-                                self.add_error('previous_password', error)
+                                self.add_error('password', error)
 
         return cleaned_data
 

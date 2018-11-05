@@ -127,7 +127,7 @@
      <form class="user-details-form" method="post">
         {% csrf_token %}
       <label for="current">Contraseña actual</label>
-         {{ form.previous_password }}
+         {{ form.password }}
       <label for="current">Nueva contraseña</label>
          {{ form.new_password }}
       <label for="current">Confirmar nueva contraseña</label>

@@ -154,8 +154,8 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
             sweetify.error(self.request, form.errors['new_password'][0], persistent='Ok')
         elif form['new_password_confirmation'].errors:
             sweetify.error(self.request, form.errors['new_password_confirmation'][0], persistent='Ok')
-        elif form['previous_password'].errors:
-            sweetify.error(self.request, form.errors['previous_password'][0], persistent='Ok')
+        elif form['password'].errors:
+            sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
 
         context = self.get_context_data()
         return render(self.request, self.template_name, context=context)
