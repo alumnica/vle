@@ -188,9 +188,9 @@
 
       <!-- this is what actually submits the answeres -->
 
-      <form method="POST" id="test-competencias-post">
+      <form method="POST" id="test-competencias-post" onsubmit="valid_form()">
           {% csrf_token %}
-        <input type="hidden" id="test-answers">
+        <input type="hidden" id="test-answers" name="test-answers">
         <input type="submit" id="answer-submit" class="is-hidden">
       </form>
     </div>
@@ -198,5 +198,6 @@
 </div>
 {% endblock %}
 {% block scripts %}
+    <script src="{% static "webapp/js/app.js" %}"></script>
     <script src="{% static "webapp/js/user-test.js" %}"></script>
 {% endblock %}
