@@ -1,0 +1,65 @@
+{{!-- This is the base layout all pages where the user will be logged in --}}
+
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumnica | Logged in</title>
+  <link rel="stylesheet" href="{{root}}assets/css/app.css">
+  <link rel="shortcut icon" type="image/png" href="../assets/media/alumnica-favico.png">
+  <!-- <link rel="manifest" href="manifest.json"> -->
+
+</head>
+
+<body>
+
+
+
+  {{> nav-logged-in}}
+
+
+
+  {{>body}}
+
+ 
+
+
+
+  <script src="{{root}}assets/js/app.js"></script>
+  <script src="{{root}}assets/js/noti.js"></script>
+  {{#ifpage 'materia' 'materia.1'}}
+  <script src="{{root}}assets/js/materias.js"></script>
+  {{/ifpage}}
+  {{#ifpage 'oda' 'oda-1'}}
+  <script src="{{root}}assets/js/oda-view.js"></script>
+  {{/ifpage}}
+  {{#ifpage 'materia.1'}}
+  <script src="{{root}}assets/js/touchtip.js"></script>
+  {{/ifpage}}
+  {{#ifpage 'eval'}}
+  <script src="{{root}}assets/js/eval.js"></script>
+  {{/ifpage}}
+  {{#ifpage 'momentos'}}
+  <script src="{{root}}assets/js/the-moments.js"></script>
+  {{/ifpage}}
+  {{#ifpage 'dashboard'}}
+  <script src="{{root}}assets/js/dashboard.js"></script>
+  <script src="{{root}}assets/js/progressBar.js"></script>
+  {{/ifpage}}
+  {{#ifpage 'user-profile'}}
+  <script src="{{root}}assets/js/progressBar.js"></script>
+  <script src="{{root}}assets/js/user-profile.js"></script>
+  {{/ifpage}}
+  {{#ifpage 'user-test'}}
+  <script src="{{root}}assets/js/test.js"></script>
+  {{/ifpage}}
+  <!-- {{#ifpage 'ambitos-grid'}} -->
+  <script src="{{root}}assets/js/ambitos-grid.js"></script>
+  <!-- {{/ifpage}} -->
+
+</body>
+
+</html>
