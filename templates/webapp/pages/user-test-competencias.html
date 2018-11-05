@@ -188,7 +188,7 @@
 
       <!-- this is what actually submits the answeres -->
 
-      <form method="POST" id="test-competencias-post" onsubmit="valid_form()">
+      <form method="POST" id="test-competencias-post" onsubmit="return valid_form()">
           {% csrf_token %}
         <input type="hidden" id="test-answers" name="test-answers">
         <input type="submit" id="answer-submit" class="is-hidden">
