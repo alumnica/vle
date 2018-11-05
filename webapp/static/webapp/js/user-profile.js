@@ -111,5 +111,25 @@ $(document).ready(function () {
     if(ach.attr('earned') == 1){
       ach.removeClass('wip')
     }
-  })
+  });
+
+         $.ajax({
+         type: 'GET',
+         url: '/api/profile_info',
+         data: {
+             'learner': learner
+         },
+         success: function (data) {
+             $('#first_name').val(data.first_name);
+             $('#last_name').val(data.last_name);
+             $('#birth_date').val(data.birth_date);
+             let radios = $('input:radio[name=gender]');
+             radios.filter('[value='+data.gender+']').prop('checked', true);
+             $('#materia-fav').val(data.favourite_subject);
+             $('#horario').val(data.working_time);
+             $('#univ').val(data.university_studies);
+
+         }
+     })
+
 });
