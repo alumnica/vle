@@ -1,0 +1,154 @@
+// styles for index, login and register screens
+.home-bg {
+    background-image: url(../media/landing-01.png);
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -10;
+    padding-top: 4rem;
+}
+
+.login-bg {
+    background-image: url(../media/web-loginregistro-01.png);
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -10;
+    padding-top: 4rem;
+}
+
+.login-logo {
+    padding: 1rem 0;
+}
+
+.login-btn {
+    border-radius: 30px;
+    padding: .8rem 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 .5rem .5rem rgba(#000000, .4);
+    transition: all .2s;
+    
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 1rem 2rem rgba(#000,.2);
+
+        &::after {
+            transform: scaleX(1.4) scaleY(1.6);
+            opacity: 0;
+        }
+    }
+    
+    &:active,
+    &:focus {
+        outline: none;
+        transform: translateY(-1px);
+        box-shadow: 0 .5rem 1rem rgba(#000,.2);
+    }
+}
+
+.login-p{
+    margin: 0;
+}
+
+
+.index-content {
+    padding-top: 20%;
+    @include breakpoint(medium){
+        padding-top: 70%;
+    }
+}
+
+.login-content {
+    @include breakpoint(medium){
+        padding-top: 35%;
+    }
+}
+
+
+.social-login {
+    margin-top: 1rem;
+    @include breakpoint(medium){
+        margin-top: 2rem;
+    }
+    
+}
+
+.goog{ 
+    text-align: center;
+    margin-bottom: 1rem;
+    &-button{
+        border: solid 1px $color-primary;
+        display: block;
+        height: 3rem;
+        width: 14rem;
+        margin: 0 auto;
+        display: flex;
+        // transform: translateX(50%);
+        justify-content: center;
+        border-radius: 2rem;
+        transition: all .2s;
+        // padding-left: 1rem;
+
+        &:hover{
+            box-shadow: 0 0 5px rgba($color-primary, .5)
+        }
+
+        .fa-google{
+            align-self: center;
+            font-size: 2rem;
+            color:$color-primary;
+        }
+        span{
+            align-self: center;
+            margin-left: 10px;
+            color: $color-primary;
+        }
+
+    }
+}
+.face{ 
+    text-align: center;
+    margin-bottom: 1rem;
+    &-button{
+        // border: solid 1px $color-primary;
+        background-color: $color-primary;
+        display: block;
+        height: 3rem;
+        width: 14rem;
+        margin: 0 auto;
+        display: flex;
+        // transform: translateX(50%);
+        justify-content: center;
+        border-radius: 2rem;
+        transition: all .2s;
+        // padding-left: 1rem;
+
+        &:hover{
+            box-shadow: 0 0 5px rgba($color-primary, .5)
+        }
+
+        .fa-facebook{
+            align-self: center;
+            font-size: 2rem;
+            color: white;
+        }
+        span{
+            align-self: center;
+            margin-left: 10px;
+            color: white;
+        }
+
+    }
+}
+
+.login-padding {
+    padding: 1rem;
+}

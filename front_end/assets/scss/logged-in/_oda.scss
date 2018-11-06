@@ -1,0 +1,552 @@
+// styles for oda.html
+
+#fullpage{
+    top: -3.2rem;
+}
+
+.oda-container {
+    // height: calc(100% - 3.2rem);
+    height: 100vh;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    top: -3.2rem;
+}
+.oda-container-2 {
+    // height: calc(100% - 3.2rem);
+    height: 100vh;
+    // max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    top: -3.2rem;
+}
+
+.eval-nav{
+    position: absolute;
+    
+    bottom: 0vh;
+    left: 50%;
+    transform: translateX(-50%);    
+    z-index: 11;
+    width: 20%;
+
+    @include breakpoint(300px){
+        width: 50%;
+    }
+    @media (max-height: 500px){
+        width: 30%;
+    }
+
+    @include breakpoint(1000px){
+        width: 22%;
+    }
+}
+.eval-nav-2{
+    position: absolute;
+    width: 80%;
+    bottom: 0vh;
+    left: 0%;
+    transform: translateX(-50%);
+    @include breakpoint(1000px){
+        width: 20%;
+    }
+    // @include breakpoint (500px){
+    //     width: 40%;
+    // }
+    z-index: 11;
+}
+
+.grid-btn{
+    background-color: $light-gray;
+    border: solid 4px $white;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 3rem;
+    text-align: center;
+    font-size: 1.3rem;
+    padding-top: .4rem;
+
+
+    // position: sticky;
+    
+    position: absolute;
+    bottom: 10%;
+    // bottom: 6rem;
+    left: 1rem;
+    z-index: 11;
+
+    color: $color-violet;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    @include breakpoint(1000px){
+        width: 5rem;
+        height: 5rem;
+        border-radius: 5rem;
+        font-size: 2rem;
+        padding-top: .9rem;
+        top: 85vh;
+        // bottom: 2rem;
+        left: 2rem;
+    }
+}
+
+.return-btn {
+    background-color: $light-gray;
+    border: solid 4px $white;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 3rem;
+    text-align: center;
+    font-size: 1.3rem;
+    padding-top: .4rem;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 11;
+    color: $color-violet;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    @include breakpoint(800px){
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 3.5rem;
+        font-size: 1.5rem;
+        padding-top: .5rem;
+        bottom: 1rem;
+        right: 1rem;
+        transform: scale(.8);
+        transition: all .2s;
+    }
+    
+    &:hover{
+        transition: all .2s;
+        transform: scale(1);
+    }
+}
+
+.section {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    
+}
+
+
+// #fp-nav.left {
+//     left: 5px !important;
+//     @include breakpoint(1000px){
+//         left: calc((100vw - 1000px) / 2) !important;
+//     }
+// }
+
+.oda-title{
+    position: absolute;
+    top: 50px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    @include breakpoint(medium){
+        font-size: 2rem;
+    }
+    z-index:1 ;
+    color: black;
+    transition: all .2s;
+    a{
+        color: black;
+        transition: all .2s;
+        &:hover{
+            // text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            color: $color-primary;
+        }
+    }
+}
+
+.oda-desc {
+    text-align: center;
+    max-width: 1000px;
+    margin-top: 4rem;
+    margin-left: auto;
+    margin-right: auto;
+    @include breakpoint(1000px){
+        padding: 0 6rem;
+        font-size: 1.2rem;
+        margin-top: 6rem
+    }
+}
+
+
+.oda-tags{
+    margin-top: 1.5rem;
+    // margin-bottom: 10rem;
+    @include breakpoint(1000px){
+        margin-top: 1.5rem;
+        // margin-bottom: 5rem;
+        padding: 0 8rem;
+    }
+    @media (max-height: 350px){
+        margin-top: .5rem;
+    }
+    ul{
+        list-style: none;
+        margin: 0;
+        text-align: center;
+        // margin: 1rem 
+        // padding: 1rem
+
+        li{
+            display: inline-block;
+            font-size: .8rem;
+            color: $white;
+            background-color: $color-peri;
+            padding: .2rem .4rem;
+            border-radius: 1rem;
+            margin: .2rem 0;
+
+        }
+    }
+}
+
+
+// eval button 
+
+#menu {
+    display: block;
+    margin: 0 auto;
+    /*overflow: visible;*/
+    /* uncomment this if you are using bouncing animations*/
+}
+
+a {
+    cursor: pointer;
+    /* SVG &lt;a&gt; elements don't get this by default, so you need to explicitly set it */
+    outline: none;
+}
+
+/* You can change these default styles any way you want */
+
+.item .sector {
+    transition: all .1s linear;
+    // fill: $light-gray;
+    // fill: $color-primary;
+    stroke: transparent;
+}
+
+.item.active path {
+    fill:rgb(57, 233, 116);
+    // stroke-width: 5px;
+    transition: all .2s;
+}
+
+.e1{
+    fill: darken($dark-gray, 10);    
+}
+
+.e2{    
+    fill: darken($dark-gray, 5);    
+}
+
+.e3{    
+    fill: $dark-gray;    
+}
+
+.e4{
+    fill: lighten($dark-gray, 5);    
+}
+
+.e5{
+    fill: lighten($dark-gray, 10);
+}
+
+
+//done with oda
+
+.s1{
+    fill: darken($color-primary, 10);    
+}
+
+.s2{    
+    fill: darken($color-primary, 5);    
+}
+
+.s3{    
+    fill: $color-primary;    
+}
+
+.s4{
+    fill: lighten($color-primary, 5);    
+}
+
+.s5{
+    fill: lighten($color-primary, 10);
+}
+
+
+
+
+.item:hover .sector,
+// .item:focus .sector
+ {
+    fill: #eee;
+}
+
+
+.menu-trigger {
+    fill: rgb(67, 253, 129);
+    pointer-events: auto;
+    /* KEEP THIS to make sure it stays clickable even when SVG's pointer events is disabled */
+}
+
+.menu-trigger:hover,
+.menu-trigger:focus {
+    cursor: pointer;
+    fill: rgb(57, 233, 116);
+    transition: all .2s;
+}
+
+symbol {
+    overflow: visible;
+    /* KEEP THIS so that text will not get cut off it it is wider than the icon width */
+}
+
+.eval-text {
+    color: white;
+    font-size: 3rem;
+    text-transform: lowercase;
+    font-weight: bold;
+}
+
+
+#section0 {
+    // background-color: $color-orange;
+    height: 100vh;
+}
+#section1 {
+    // background-color: $color-orange;
+    height: 100%;
+}
+#section2 {
+    // background-color: $color-bluegreen;
+}
+#section3 {
+    // background-color: $color-yellow;
+}
+#section4 {
+    // background-color: $color-secondary;
+}
+#section5 {
+    // background-color: $color-violet;
+}
+
+
+// micro odas
+.fillWidth {
+    width: 100%;
+}
+
+.micro-tags {
+    // text-align: center;
+    // margin-bottom: .6rem;
+    
+    // margin-top: 15%;
+    // @include breakpoint(1000px){
+    //     // margin-top: 5% !important;
+    //     font-size: 1rem;
+    //     margin-bottom: 1rem;       
+    // }
+    // @include breakpoint(landscape){
+        // margin-top: 0;
+        // margin-bottom: 1rem;
+        // font-size: .9rem;
+        
+    // }
+
+    // @media (max-height: 400px){
+    //    font-size: .9rem;
+    // }
+
+    // ul {
+    //     list-style: none;
+    //     margin: 0;
+
+    //     li {
+    //         background-color: $color-peri;
+    //         padding: .3rem .7rem;
+    //         @media (max-height: 400px){
+    //             padding: .2rem .5rem;
+    //             margin: 0 .5rem 0 .5rem ;
+    //         }
+    //         // @include breakpoint(landscape){
+    //         //     padding: .1rem .4rem;
+    //         // }
+    //         border-radius: 1rem;
+    //         display: inline-block;
+    //         color: $white;
+    //         margin: .5rem .5rem;
+    //     }
+    // }
+}
+
+.uoda-container {
+    @include xy-grid;
+    @include flex-align($x: center);
+    // margin-top: 4rem;
+     @include breakpoint(800px){
+       margin-top: 3rem;
+       position: relative;
+       max-width: 1200px;
+       margin-left: auto;
+       margin-right: auto;
+    }
+}
+
+.micro-image {
+    // display: block;
+    @include xy-cell(12);
+    // border: solid 1px black;
+    // box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+    // border-radius: 1rem;
+    
+    video{
+        // max-height: 10%;
+        // border-radius: 1rem;
+        max-width: 100%;
+    }
+    
+    // width: 900px;
+    // padding-bottom: 550px;
+    // margin-left: auto;
+    // margin-right: auto;
+    // margin-bottom: 7rem;
+    // @include breakpoint(400px down){
+    //    margin-top: 50%;
+        
+    // }
+    @include breakpoint(900px){
+        @include xy-cell(8);
+        // @include flex-align($x: center);
+        // @include xy-cell-offset(2);
+        // width: 300px;
+        // padding-bottom: 200px;
+    }
+    @include breakpoint(500px){
+        @include xy-cell(8);
+        // @include xy-cell-offset(2);
+    }
+    // border: solid 1px black;
+    // background-color:violet;
+    // position: relative;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.micro-momentos {
+    
+    // @include xy-cell(12);
+    
+    // @include breakpoint(900px){
+    //     @include xy-cell(3);
+    //     // margin-top: 10%;     
+    // }
+    // @include breakpoint(500px){
+    //     @include xy-cell(2);
+    // }
+    // position: ;
+    // top: 0;
+    // left: -1rem;
+    // list-style: none;
+    // max-width: 100px;
+    // min-width: 400x;
+    // margin: 0 auto;
+    // @include breakpoint(1000px){
+    //     left: -2rem;
+    // }
+    // @include breakpoint(400px){
+    //     width: 100%;
+    // }
+    // margin: 0 auto;
+    // text-align: center;
+
+    // li {
+    //     display: inline-block;
+    //     background-color: cyan;
+    //     width: 2rem;
+    //     height: 2rem;
+    //     border-radius: 2rem;
+    //     margin-bottom: 1rem;
+    //     @media (max-height: 400px){
+    //         margin-bottom: .5rem;
+    //     }
+       
+    //     @include breakpoint(1000px){
+    //     width: 4rem;
+    //     height: 4rem;
+    //     border-radius: 4rem;
+    //     margin: 1rem;
+    //     padding-top: 10px;
+    //     font-size: 1.7rem;
+    //     }
+    //     text-align: center;
+    //     padding-top: 4px;
+    // }
+    display: flex;
+    @include breakpoint(800px){
+        flex-direction: column;
+        position: absolute;
+        right: 0;
+    }
+    @include breakpoint(500px){
+        flex-direction: column;
+        position: absolute;
+        right: 3rem;
+    }
+}
+
+.momento{
+    
+    flex: 1;
+    text-align: center;
+    height: 4rem;
+    margin: .5rem;
+    // box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
+    @include breakpoint(800px){
+        height: 6rem;
+        margin: 1rem;
+    }
+  
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
+.scroll-words{
+    text-align: center;
+    // font-weight: bold;
+    font-size: 1rem;
+    margin-top: 1rem;
+    color: rgba($color-primary, .5);
+}
+
+@-webkit-keyframes blinker {
+    from {opacity: 1.0;}
+    to {opacity: 0.0;}
+  }
+  .blink{
+      text-decoration: blink;
+      -webkit-animation-name: blinker;
+      -webkit-animation-duration: 5s;
+      -webkit-animation-iteration-count:infinite;
+      -webkit-animation-timing-function:ease-in-out;
+      -webkit-animation-direction: alternate;
+  }
+
+
+  #fp-nav.left {
+    left: 0 !important;
+}
+
+.indication{
+    // position: absolute;
+    font-size: 1rem;
+    // left: -100px;
+    // display: none;
+}

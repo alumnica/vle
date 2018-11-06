@@ -1,0 +1,166 @@
+---
+layout: logged-in
+name: For logged in Users
+---
+<!-- preloader -->
+<div class='container' id="preloader">
+    <div class='loader'>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--text'></div>
+    </div>
+</div>
+<script>
+    setTimeout(function () {
+        document.getElementById("preloader").classList.add("is-load");
+    }, 1000);
+</script>
+<!-- end preloader -->
+<div class="grid-container">
+    <div class="profile-grid">
+        <div class="avatar">
+            <div class="avatar-main">
+                <img src="../assets/media/profile-pic.png" alt="" id="A">
+            </div>
+            <div class="avatar-options">
+                <div class="avatar-options-individual">
+                    <img src="../assets/media/rated.png" alt="" id="B">
+                </div>
+                <div class="avatar-options-individual">
+                    <img src="../assets/media/tuerca-01.png" alt="" id="C">
+                </div>
+                <div class="avatar-options-individual">
+                    <img src="../assets/media/Iconos/Escenario_dinamico.png" alt="" id="D">
+                </div>
+            </div>
+            <input type="hidden" id="selected-avatar">
+        </div>
+        <div class="exp-points">
+            <i class="fa fa-star"></i> 50,000
+        </div>
+        <div class="badges">
+            <div class="badges-grid">
+                <div class="badges-item">
+                    <div class="badges-item-image">
+                        <img src="../assets/media/Insignias/insignia_microODA.png" alt="">
+                    </div>
+                    <div class="badges-item-text">
+                       10,000 Puntos
+                    </div>
+                </div>
+                <!-- end badge -->
+                <div class="badges-item">
+                    <div class="badges-item-image">
+                        <img src="../assets/media/Insignias/insignia_ambito.png" alt="">
+                    </div>
+                    <div class="badges-item-text">
+                       10,000 Puntos
+                    </div>
+                </div>
+                <!-- end badge -->
+                <div class="badges-item">
+                    <div class="badges-item-image">
+                        <img src="../assets/media/Insignias/insignia_login.png" alt="">
+                    </div>
+                    <div class="badges-item-text">
+                       10,000 Puntos
+                    </div>
+                </div>
+                <!-- end badge -->
+                <div class="badges-item">
+                    <div class="badges-item-image">
+                        <img src="../assets/media/Insignias/insignia_ODA.png" alt="">
+                    </div>
+                    <div class="badges-item-text">
+                       10,000 Puntos
+                    </div>
+                </div>
+                <!-- end badge -->
+              
+
+
+            </div>
+        </div>
+        <div class="learning-style">
+            <strong>ESTILO DE APRENDIZAGE: </strong> &nbsp; Amet consectetur adipisicing elit.
+        </div>
+        <div class="profile-information">
+            <p class="name">
+                Juan Escutia
+            </p>
+            <p class="email">
+                juan@gmail.com
+            </p>
+            <div class="profile-information-edit" data-open="user-details-modal">
+                <i class="fa fa-pencil-alt"></i>
+            </div>
+        </div>
+        <div class="extra-info" style="box-shadow: 0 0 3px rgba(94, 133, 195, 0.5); padding: 1rem 2rem;">
+            <h4>Queremos saber más de ti.</h4>
+            <label for="materia-fav"> ¿Cuál es tu materia favorita?</label>
+            <input type="text" id="materia-fav" class="extra-info-input" placeholder="ej. Historia">
+
+            <label for="horario"> ¿En qué horario te gusta estudiar (mañana, tarde, noche)?</label>
+            <input type="text" id="horario" class="extra-info-input" placeholder="mañana, tarde o noche">
+
+            <label for="univ"> ¿Qué te gustaría estudiar en la universidad?</label>
+            <input type="text" id="univ" class="extra-info-input" placeholder="ej. Literatura">
+
+            <button type="button" class="button small" id="user-info-btn">Guardar</button>
+
+        </div>
+        <div class="profile-test">
+            <a href="#" class="dashboard-test-button">
+                <i class="fas fa-vial"></i> Test
+            </a>
+        </div>
+    </div>
+</div>
+<div class="reveal" id="user-details-modal" data-reveal>
+    <h3 class="text-center">Cambiar detalles de usuario</h3>
+    <form class="user-details-form" action="">
+        <label for="user-name">Nombre</label>
+        <input type="text" name="user-name">
+
+        <label for="user-last-name">Apellidos</label>
+        <input type="text" name="user-last-name">
+
+        <label for="birth-date">Fecha de nacimiento</label>
+        <input type="date">
+
+        <label for="gender">Sexo</label>
+        <input type="radio" name="gender" value="male" checked> Masculino
+        <br>
+        <input type="radio" name="gender" value="female"> Femenuno
+        <br>
+        <input type="radio" name="gender" value="other"> Otro
+
+        <label for="new-pass">Nueva contraseña</label>
+        <input type="password" name="new-pass">
+
+        <label for="new-pass-confirm">confirmar nueva contraseña</label>
+        <input type="password" name="new-pass-confirm">
+
+        <label for="current-pass"> Contraseña Actual</label>
+        <input type="password" name="current-pass">
+
+        <button type="button" class="button"> Guardar Cambios</button>
+
+    </form>
+
+
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+
+<!-- makes  menu active -->
+<script>
+        document.querySelector('#top-menu-icon').classList.add("top-active");
+</script>
