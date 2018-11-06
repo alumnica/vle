@@ -9,14 +9,15 @@ $(document).ready(function () {
         paddingTop: '3rem',
         verticalCentered: false,
         menu: '#menu',
+        licenseKey: 'OPEN-SOURCE-GPLV3-LICENSE',
         onLeave: function (origin, destination, direction) {
             let leavingSection = this;
             let indState = $('.indication').css('display');
 
-            if (origin == 1 && indState == 'none') {
+            if (origin.index == 0 && indState == 'none') {
                 $('.indication').fadeIn(1500);
             }
-            else if (origin == 2 && direction == 'up') {
+            else if (origin.index == 1 && direction == 'up') {
                 $('.indication').fadeOut(500);
             }
         }

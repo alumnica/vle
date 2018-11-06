@@ -10,6 +10,7 @@ const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
 const named = require('vinyl-named');
 const rimraf = require('rimraf');
+const uglify = require('gulp-uglify');
 
 // -----------
 // File locations
@@ -135,7 +136,9 @@ function js(done) {
   gulp
     .src('front_end/assets/js/app.js')
     .pipe(named())
+    .pipe(sourcemaps.init())
     .pipe(webpackStream(require('./webpack.config.js', webpack)))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('front_end/dist/assets/js'))
     .pipe(gulp.dest('webapp/static/webapp/js'))
   done();
@@ -167,10 +170,10 @@ function watchFront() {
 // Watch back end gulp functions.
 function watchBack() {
   gulp.watch('front_end/assets/scss/**/*.scss').on('all', styles);
-  gulp.watch('templates/**/*.html').on('all', reload);
-  gulp.watch('webapp/**/*.py').on('all', reload);
+  // gulp.watch('templates/**/*.html').on('all', browser.reload());
+  // gulp.watch('webapp/**/*.py').on('all', reload);
   gulp.watch('front_end/assets/js/*.js').on('all', gulp.series(js, reload));
-  gulp.watch('front_end/assets/js/parts/**/*.js').on('all', gulp.series(jsparts, reload));
+  // gulp.watch('front_end/assets/js/parts/**/*.js').on('all', gulp.series(jsparts, reload));
 }
 
 
@@ -182,9 +185,11 @@ function watchBack() {
 
 // exports.frontEndBuild = series(clean, parallel(styles, pages, js, jsparts, copy), server, watch)
 
-exports.frontLive = series(cleanDist, cleanCSS, cleanJS, parallel(styles, pages, js, jsparts, copyFonts, copyMedia), serverFront, watchFront)
+exports.frontLive = series(cleanDist, cleanCSS, cleanJS, parallel(styles, pages, js, jsparts, copyFonts, copyMedia), serverFront, watchFront);
 
-exports.backLive = series(cleanDist, cleanCSS, cleanJS, parallel(styles, pages, js, jsparts, copyFonts), serverBack, watchBack)
+exports.backLive = series(cleanDist, cleanCSS, cleanJS, parallel(styles, js, copyFonts), serverBack, watchBack);
+
+exports.updateFront = series(cleanDist, cleanCSS, cleanJS, parallel(styles, js, copyFonts));
 
 exports.clean = series(cleanDist, cleanCSS, cleanJS);
 

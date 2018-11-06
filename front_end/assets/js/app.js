@@ -40,10 +40,6 @@ window.ProgressBar = ProgressBar;
 import Foundation from 'foundation-sites';
 $(document).foundation();
 
-
-//top bar and notification behaviour
-import './top-bar';
-
 // initialize counting time spent on page
 
 TimeMe.initialize({
