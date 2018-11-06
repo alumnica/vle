@@ -5,7 +5,7 @@
  $('.other-avatars').on('click', 'img', function () {
      let clicked = $(this);
      let main = $('.the-avatar img');
-     clicked.parent().html(main);
+     clicked.parent().append(main.attr('class', 'the-others'));
      $('.the-avatar').html(clicked);
      $('#selected-avatar').val(clicked.attr('id'));
 

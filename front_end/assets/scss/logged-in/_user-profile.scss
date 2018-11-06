@@ -35,6 +35,11 @@
 }
 .tabbed-content {
   grid-area: tabbed-content;
+
+  .accordion-content{
+    max-height: 600px;
+    overflow-y: auto;
+  }
 }
 
 .name-prog {

@@ -47,8 +47,9 @@ $(document).ready(function () {
                 let questions_array = JSON.parse(data.data);
                 let score = data.score;
                 let theSugg = data.suggestions;
-                $('.resultado').html(score);
-                $('.the-score').fadeIn(500);
+                $('.score .bonus-box_number').html(score);
+                $('.end-scoring').fadeIn(500);
+                showNum();
 
 
                 for (let i = 0; i < questions_array.length; i++) {
@@ -77,7 +78,7 @@ $(document).ready(function () {
                 }
 
                 if (score >= 7) {
-                    $('.the-xp').append('+ 100');
+                    $('.xp-number').append('100');
                     for (let j = 0; j < 2; j++) {
                         let suggestion = data.suggestions[j];
                         let rec_div = document.getElementById('suggestions');
@@ -88,7 +89,7 @@ $(document).ready(function () {
 
                     }
                 } else if (score <= 6) {
-                    $('.the-xp').append('+ 0');
+                    $('.xp-number').append('0');
                     for (let h = 0; h <= 2; h++) {
                         let suggestion = data.suggestions[h];
                         let rec_div = document.getElementById('suggestions');
@@ -405,3 +406,46 @@ $('.section').on('click', '.the-tab', function () {
 
 
 
+  function upCounter() {
+  $('.end-scoring_score').toggleClass('show');
+  $('.xp-number').each(function() {
+    $(this)
+      .prop('Counter', 0)
+      .animate(
+        {
+          Counter: $(this).text(),
+        },
+        {
+          duration: 2000,
+          easing: 'swing',
+          step: function(now) {
+            $(this).text(Math.ceil(now));
+          },
+        }
+      );
+  });
+}
+
+
+async function showNum() {
+  await showBoxes();
+  setTimeout(upCounter, 2000);
+}
+
+var items = $('.bonus-box');
+
+async function showBoxes() {
+  for (var i = 0; i < items.length; i++) {
+    // get function in closure, so i can iterate
+    var toggleItemMove = getToggleItemMove(i);
+    // stagger transition with setTimeout
+    setTimeout(toggleItemMove, i * 500);
+  }
+}
+
+function getToggleItemMove(i) {
+  var item = items[i];
+  return function() {
+    $(item).toggleClass('show');
+  };
+}

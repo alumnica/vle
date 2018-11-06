@@ -435,10 +435,12 @@
 
 .the-recs {
     display: flex;
-    margin-top: 1rem;
+    margin: 1rem;
     @include breakpoint(700px down){
         margin-top: .2rem;
     }
+
+
    
 
     .rec {
@@ -447,6 +449,7 @@
         padding: .2rem;
         border-radius: 1rem;
         transition: all .3s;
+        text-align: center;
         font-size: .8rem;
         @include breakpoint(800px){
             font-size: 1rem;
@@ -461,10 +464,10 @@
         }
 
         .oda-image{
-            
             img{
-                @include breakpoint (700px down){
-                    height: 70px;
+                height:50px;
+                @include breakpoint(portrait){
+                    height: 30px;
                 }
             }            
         }
@@ -556,5 +559,11 @@
     &:hover{
         transition: all .2s;
         transform: scale(1);
+    }
+}
+
+.end-scoring_recs{
+    p{
+        margin: 0;
     }
 }
