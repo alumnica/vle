@@ -1,5 +1,5 @@
 from alumnica_model.models.content import MicroODAByLearningStyle
-from alumnica_model.models.progress import LearnerLevels
+from alumnica_model.models.users import LearnerLevels
 
 EXPERIENCE_POINTS_CONSTANTS = {
     'learning_short_quiz': 1000,
@@ -27,8 +27,6 @@ def get_daily_bonus(login_counter):
 
 def get_learner_level(experience_points):
     level = LearnerLevels.objects.first()
-    # x = experience_points
-
     learner_levels = LearnerLevels.objects.all()
 
     for level_object in learner_levels:
@@ -39,21 +37,6 @@ def get_learner_level(experience_points):
             else:
                 level = learner_levels.get(level=(level_object.level - 1))
                 break
-
-    # if x <= 7340:
-    #     for points in first_levels_points:
-    #         if points >= x:
-    #             if points == x:
-    #                 return first_levels_points.index(points) + 1
-    #             else:
-    #                 return first_levels_points.index(points)
-    #
-    # elif 7340 < x <= 194090:
-    #     level = (1.224e-24 * (x ** 5)) - (6.924e-19 * (x ** 4)) + (1.491e-13 * (x ** 3)) - (1.584e-8 * (x ** 2))
-    # + (1.072e-3 * x) + 3.421
-    # elif 194090 < x <= 1586590:
-    #     level = (-2.751e-23 * (x ** 4)) + (1.16e-16 * (x ** 3)) - (1.848e-10 * (x ** 2)) + (1.502e-4 * x) + 36.55
-
     return level
 
 
@@ -62,11 +45,16 @@ def evaluation_completed_xp(login_counter, completed_uodas, completed_counter):
     daily_bonus = get_daily_bonus(login_counter)
 
     if completed_counter < 4:
-        pen_rep = REPETITION_PENALTY[completed_counter-1]
+        pen_rep = REPETITION_PENALTY[completed_counter - 1]
 
     bonus_eval = (COMPLETED_UODA_INCREMENT * completed_uodas) + 1
 
-    return BASE_EVALUATION_XP * daily_bonus * bonus_eval * pen_rep
+    equation = {'base_xp': BASE_EVALUATION_XP,
+                'daily_bonus': round(daily_bonus, 2),
+                'bonus_eval': round(bonus_eval, 2),
+                'pen_rep': pen_rep}
+
+    return (BASE_EVALUATION_XP * daily_bonus * bonus_eval * pen_rep), equation
 
 
 def uoda_completed_xp(login_counter, oda_sequencing, learning_style, completed_counter):
@@ -86,6 +74,11 @@ def uoda_completed_xp(login_counter, oda_sequencing, learning_style, completed_c
         position += 1
 
     if completed_counter <= 4:
-        pen_rep = REPETITION_PENALTY[completed_counter-1]
+        pen_rep = REPETITION_PENALTY[completed_counter - 1]
 
-    return BASE_UODA_XP * daily_bonus * bonus_ea * pen_rep
+    equation = {'base_xp': BASE_UODA_XP,
+                'daily_bonus': round(daily_bonus, 2),
+                'bonus_ea': round(bonus_ea, 2),
+                'pen_rep': pen_rep}
+
+    return (BASE_UODA_XP * daily_bonus * bonus_ea * pen_rep), equation

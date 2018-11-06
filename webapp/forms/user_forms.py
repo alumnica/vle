@@ -48,6 +48,10 @@ class UserForm(forms.ModelForm):
         return user
 
 
+class ErrorForm(forms.Form):
+    pass
+
+
 class UserLoginForm(forms.Form):
     """
     Login form
@@ -64,13 +68,16 @@ class UserLoginForm(forms.Form):
             if not user.check_password(password):
                 error = ValidationError(_("Contraseña o correo incorrecto"), code='credentials_error')
                 self.add_error('password', error)
+                return cleaned_data
+            if not user.is_active:
+                error = ValidationError(_("Tu cuenta no ha sido activada"), code='account_activation_error')
                 self.add_error('email', error)
+                return cleaned_data
 
         except AuthUser.DoesNotExist:
             error = ValidationError(_("Contraseña o correo incorrecto"), code='credentials_error')
             self.add_error('password', error)
-            self.add_error('email', error)
-        return cleaned_data
+            return cleaned_data
 
     def get_user(self):
         cleaned_data = super(UserLoginForm, self).clean()

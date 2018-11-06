@@ -185,5 +185,7 @@ function watchBack() {
 exports.frontLive = series(cleanDist, cleanCSS, cleanJS, parallel(styles, pages, js, jsparts, copyFonts, copyMedia), serverFront, watchFront)
 
 exports.backLive = series(cleanDist, cleanCSS, cleanJS, parallel(styles, pages, js, jsparts, copyFonts), serverBack, watchBack)
-// exports.copy = copy;
+
+exports.clean = series(cleanDist, cleanCSS, cleanJS);
+
 

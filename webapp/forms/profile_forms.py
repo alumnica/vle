@@ -72,10 +72,8 @@ class FirstLoginP1(forms.Form):
 
 class ProfileSettingsForm(forms.ModelForm):
     """
-    Edit personal information form
+    Edit password information form
     """
-    gender_field = forms.CharField(widget=forms.RadioSelect(attrs={'display': 'inline'}, choices=users.GENDER_TYPES))
-    birth_date_field = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     previous_password = forms.CharField(required=False, widget=forms.PasswordInput())
     new_password = forms.CharField(required=False, widget=forms.PasswordInput())
     new_password_confirmation = forms.CharField(required=False, widget=forms.PasswordInput())
@@ -83,12 +81,6 @@ class ProfileSettingsForm(forms.ModelForm):
     class Meta:
         model = AuthUser
         fields = ['first_name', 'last_name']
-
-    def __init__(self, *args, **kwargs):
-        super(ProfileSettingsForm, self).__init__(*args, **kwargs)
-        user = AuthUser.objects.get(pk=kwargs['instance'].pk)
-        self.fields['gender_field'].initial = user.profile.gender
-        self.fields['birth_date_field'].initial = user.profile.birth_date.strftime("%Y-%m-%d")
 
     def clean(self):
         cleaned_data = super(ProfileSettingsForm, self).clean()
@@ -132,16 +124,10 @@ class ProfileSettingsForm(forms.ModelForm):
     def save(self, commit=True):
         user = super(ProfileSettingsForm, self).save(commit=False)
         cleaned_data = super(ProfileSettingsForm, self).clean()
-        birth_date = cleaned_data.get('birth_date_field')
-        gender = cleaned_data.get('gender_field')
-        new_password = self.cleaned_data.get('new_password')
+        new_password = cleaned_data.get('new_password')
         if new_password != '':
-            user.set_password(self.cleaned_data.get('new_password'))
+            user.set_password(cleaned_data.get('new_password'))
         user.save()
-        if birth_date != '':
-            user.profile.birth_date = birth_date
-        if gender != '' and gender is not None:
-            user.profile.gender = gender
         user.profile.save()
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         edited_profile(user=user, timestamp=timestamp)

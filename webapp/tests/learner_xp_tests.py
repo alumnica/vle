@@ -70,9 +70,11 @@ class GetExperiencePointsTestCase(TestCase):
             for login_counter in self.login_cases:
                 for repetition_counter in self.repetition_cases:
                     for learning_style_test in self.learning_style_cases:
-                        xp = uoda_completed_xp(login_counter=login_counter,
-                                               oda_sequencing=self.MicroODAByLearningStyleCases[learning_style_test],
-                                               learning_style=learning_style, completed_counter=repetition_counter)
+                        xp, equation = uoda_completed_xp(login_counter=login_counter,
+                                                         oda_sequencing=self.MicroODAByLearningStyleCases[
+                                                             learning_style_test],
+                                                         learning_style=learning_style,
+                                                         completed_counter=repetition_counter)
                         print('FOR  LOGINS: {}, REPETITIONS: {} , LEARNING STYLE: {}, RECOMENDED SEQUENCE: {}'.format(
                             login_counter, repetition_counter, learning_style, learning_style == learning_style_test))
                         print('xp: {}'.format(xp))
@@ -81,8 +83,9 @@ class GetExperiencePointsTestCase(TestCase):
         for login_counter in self.login_cases:
             for uodas_completed_counter in self.uodas_completed_cases:
                 for repetition_counter in self.repetition_cases:
-                    xp = evaluation_completed_xp(login_counter=login_counter, completed_uodas=uodas_completed_counter,
-                                                 completed_counter=repetition_counter)
+                    xp, equation = evaluation_completed_xp(login_counter=login_counter,
+                                                           completed_uodas=uodas_completed_counter,
+                                                           completed_counter=repetition_counter)
                     print('FOR  LOGINS: {}, REPETITIONS: {} , UODAS COMPLETED: {}'.format(
                         login_counter, repetition_counter, uodas_completed_counter))
                     print('xp: {}'.format(xp))

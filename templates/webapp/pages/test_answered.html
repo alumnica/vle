@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% block content%}
+
+    Gracias!
+    Ya has contestado el test!
+    Vuelve pronto... o no,
+
+
+    <a href="{% url 'logout_view' %}" type="button" class="button">Salir</a>
+
+{% endblock %}

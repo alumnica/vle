@@ -1,5 +1,6 @@
 import datetime
 import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.datastructures import OrderedSet
 from django.utils.decorators import method_decorator
@@ -7,7 +8,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.generic import FormView, DetailView
 
 from alumnica_model.mixins import LoginCounterMixin, OnlyLearnerMixin
-from alumnica_model.models import Moment, LearnerProgressInActivity
+from alumnica_model.models import Moment
 from alumnica_model.models.h5p import H5Package
 from vle_webapp.settings import AWS_INSTANCE_URL
 from webapp.gamification import uoda_completed_xp
@@ -48,13 +49,17 @@ class MomentView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormVi
         for moment in moment_array:
             if not learner.activities_progresses.filter(activity=moment).exists():
                 learner.activities_progresses.create(activity=moment, score=0, is_complete=False)
+        if moment_instance.microoda.type.name not in oda_sequence.uoda_progress_order:
+            oda_sequence_string = "{} {}".format(oda_sequence.uoda_progress_order, moment_instance.microoda.type.name)
+        else:
+            oda_sequence_string = oda_sequence.uoda_progress_order
 
-        points = uoda_completed_xp(login_counter=learner.login_progress.login_counter,
-                                   oda_sequencing=("{} {}".format(oda_sequence.uoda_progress_order, moment_instance.microoda.type.name)),
-                                   learning_style=learner.learning_style.name,
-                                   completed_counter=(learner.activities_progresses.filter(
-                                       activity=moment_instance).first().activity_completed_counter + 1))
-        return {'moment_array': moment_array, 'points': points}
+        points, equation = uoda_completed_xp(login_counter=learner.login_progress.login_counter,
+                                             oda_sequencing=oda_sequence_string,
+                                             learning_style=learner.learning_style.name,
+                                             completed_counter=(learner.activities_progresses.filter(
+                                                 activity=moment_instance).first().activity_completed_counter + 1))
+        return {'moment_array': moment_array, 'points': round(points), 'equation': equation}
 
 
 @method_decorator(xframe_options_exempt, name='dispatch')
