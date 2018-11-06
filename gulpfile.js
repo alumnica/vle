@@ -129,6 +129,7 @@ function pages(done) {
 // Load updated HTML templates and partials into Panini
 function resetPages(done) {
   panini.refresh();
+  done();
 }
 
 // Javascrip bundle

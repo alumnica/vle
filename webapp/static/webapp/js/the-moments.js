@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  $('#moments').fullpage({
+  new fullpage('#moments', {
     verticalCentered: false,
     slidesNavigation: false,
     loopHorizontal: false,

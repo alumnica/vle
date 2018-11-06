@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#fullpage').fullpage({
+    new fullpage('#fullpage', {
         anchors: ['firstPage', 'secondPage', '3rdPage', '4thPage', '5thPage', '6thPage'],
         // sectionsColor: ['#C63D0F', '#1BBC9B', '#7E8F7C'],
         navigation: true,

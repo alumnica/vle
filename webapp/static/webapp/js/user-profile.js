@@ -45,6 +45,15 @@
              'working_time': hora,
              'university_studies': uni,
              'learner': learner
+         },
+         success: function () {
+           $('#info').foundation('close');
+           swal({
+             type: 'success',
+            title: 'Cambios guardados',
+            showConfirmButton: false,
+            timer: 1500
+           });
          }
      });
       // Create div

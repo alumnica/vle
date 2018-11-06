@@ -1,11 +1,8 @@
 $(document).ready(function () {
-
-    $('#evaluate').fullpage({
+    new fullpage('#evaluate', {
         verticalCentered: false,
         anchors: ['firstPage', 'secondPage', 'thirdPage', 'fourthPage', 'fifthPage', 'sixthPage', 'seventhPage', 'eighthPage', 'ninethPage', 'tenthPage', 'eleventhPage', 'twelvethPage'],
         menu: '#evalMenu',
-
-
     });
 
 
