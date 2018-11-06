@@ -24,8 +24,14 @@ const sassPaths = [
 
 // Delete the "dist" folder
 // This happens every time a build starts
-function clean(done) {
+function cleanDist(done) {
   rimraf('front_end/dist', done);  
+}
+function cleanCSS(done){
+  rimraf('webapp/static/webapp/css/app.css', done)
+}
+function cleanJS(done){
+  rimraf('webapp/static/webapp/js/app.js', done)
 }
 
 
@@ -54,24 +60,42 @@ function styles(done) {
       )
       .pipe(sourcemaps.write())
       // desitnation of compile files (styleguide and static)
-      .pipe(gulp.dest('front_end/dist/assets/css'))      
+      .pipe(gulp.dest('front_end/dist/assets/css'))
+      .pipe(gulp.dest('webapp/static/webapp/css'))      
       .pipe(browser.stream());
   done();
 }
 
 // Copy files out of the assets folder
 // This task skips over the "img", "js", and "scss" folders, which are parsed separately
-function copy() {
-  return gulp.src(['front_end/assets/**/*', '!front_end/assets/{js,scss,html}{,/**/*}'])
-    .pipe(gulp.dest('front_end/dist/assets'));  
+function copyFonts(done) {
+  return gulp.src(['front_end/assets/**/*', '!front_end/assets/{js,scss,html,media}{,/**/*}'])
+    .pipe(gulp.dest('front_end/dist/assets'))
+    .pipe(gulp.dest('webapp/static/webapp'));
+    done();
+}
+function copyMedia(done) {
+  return gulp.src('front_end/assets/media/**/*')
+    .pipe(gulp.dest('front_end/dist/assets/media'));
+    done();
 }
 
-// Start a server with BrowserSync to preview the site in
-function server(done) {
+// Start a server with BrowserSync to preview the front end static site
+function serverFront(done) {
   browser.init({
     server: {
       baseDir: 'front_end/dist/',
     },
+  });
+  done();
+}
+
+// Start a server with BrowserSync to preview the actual django project
+function serverBack(done) {
+  browser.init({
+    notify: false,
+    port: 8000,
+    proxy: 'localhost:8000',
   });
   done();
 }
@@ -85,10 +109,7 @@ function reload(done) {
 
 
 // Copy page templates into finished HTML files
-function pages() {
-  var htmlRoot = './assets/html/',
-    out = './styleguide/';
-
+function pages(done) {
   return gulp
     .src('front_end/assets/html/pages/**/*.html')
     .pipe(
@@ -101,12 +122,12 @@ function pages() {
       })
     )
     .pipe(gulp.dest('front_end/dist/'));
+    done();
 }
 
 // Load updated HTML templates and partials into Panini
 function resetPages(done) {
   panini.refresh();
-  done();
 }
 
 // Javascrip bundle
@@ -116,11 +137,12 @@ function js(done) {
     .pipe(named())
     .pipe(webpackStream(require('./webpack.config.js', webpack)))
     .pipe(gulp.dest('front_end/dist/assets/js'))
+    .pipe(gulp.dest('webapp/static/webapp/js'))
   done();
 }
 
 
-// reload JS Parts change of JS
+// reload JS Parts change of JS 
 function jsparts(done) {
   return gulp
     .src('front_end/assets/js/parts/**/*.js')
@@ -129,8 +151,8 @@ function jsparts(done) {
 }
 
 
-// Watch gulp functions.
-function watch() {
+// Watch front end gulp functions.
+function watchFront() {
   gulp.watch('front_end/assets/scss/**/*.scss').on('all', styles);
   gulp
     .watch('front_end/assets/html/pages/**/*.html')
@@ -142,12 +164,26 @@ function watch() {
   gulp.watch('front_end/assets/js/parts/**/*.js').on('all', gulp.series(jsparts, reload));
 }
 
+// Watch back end gulp functions.
+function watchBack() {
+  gulp.watch('front_end/assets/scss/**/*.scss').on('all', styles);
+  gulp.watch('templates/**/*.html').on('all', reload);
+  gulp.watch('webapp/**/*.py').on('all', reload);
+  gulp.watch('front_end/assets/js/*.js').on('all', gulp.series(js, reload));
+  gulp.watch('front_end/assets/js/parts/**/*.js').on('all', gulp.series(jsparts, reload));
+}
+
+
 
 // Build the 'dist' folder by runnin everything below
 
 
-exports.build = series(clean, parallel(styles, pages, js, jsparts, copy));
-exports.default = series(clean, parallel(styles, pages, js, jsparts, copy), server, watch)
+// exports.frontEndBuild = series(clean, parallel(styles, pages, js, jsparts, copyMedia, copyFonts));
 
-exports.clean = clean;
-exports.copy = copy;
+// exports.frontEndBuild = series(clean, parallel(styles, pages, js, jsparts, copy), server, watch)
+
+exports.frontLive = series(cleanDist, cleanCSS, cleanJS, parallel(styles, pages, js, jsparts, copyFonts, copyMedia), serverFront, watchFront)
+
+exports.backLive = series(cleanDist, cleanCSS, cleanJS, parallel(styles, pages, js, jsparts, copyFonts), serverBack, watchBack)
+// exports.copy = copy;
+
