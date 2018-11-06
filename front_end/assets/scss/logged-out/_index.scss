@@ -1,0 +1,143 @@
+//styles for the top navigation bar, main menu (logged in and out) and the search pop up
+
+.main-menu{
+    background-color: White;
+    position: absolute;
+    top: 45px;
+    z-index: 10;
+    width: 100%;
+    max-height: calc(100% - 50px);
+    overflow: auto;
+    box-shadow: 5px 0 5px rgba(0,0,0,.4);
+
+    &-container{
+        max-width: 1200px;
+        margin: 0 auto;
+        @include breakpoint(medium){
+            text-align: center;
+        }
+        
+
+        .accordion-title{
+            border: none !important;
+            border-radius: 0 !important;
+            font-size: 1rem;
+            font-weight: bold;
+            
+        }
+ 
+        .accordion-item.top-item > .accordion-title:hover,
+        .accordion-item.top-item.is-active > .accordion-title
+        {
+            background-color: $color-amarillo-sol;
+        }
+        
+        // .accordion-item.top-item > .accordion-item > .accordion-title {
+        //     background-color: lighten($color-violet, 30);
+    
+        // }
+        
+        .accordion-content{
+            border: none !important;
+            border-radius: 0 !important;
+
+        }
+
+        .top-item > .accordion-content{
+            padding: 0 0 0 1rem;
+            @include breakpoint(medium){
+                padding: 0 3rem;
+            }
+        }
+
+        .accordion-item {
+            border-bottom: solid 1px $light-gray;
+            text-transform: uppercase;
+        }
+
+        
+
+
+    }
+}
+
+.menu-test{
+    text-align: center;
+    margin-bottom: 1.2rem;
+}
+
+.end-sesh{
+    text-align: center;
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+    &-btn{
+        padding: 1rem 2.5rem;
+        background-color:$color-amarillo-sol;
+        color: $color-violeta;
+        border-radius: 1rem;
+        box-shadow: 2px 2px 4px rgba(0,0,0,.1)
+
+    }
+}
+
+.menu-cover{
+    background: rgba(0, 0, 0, 0.1);
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    width: 100%;
+}
+
+.menu-open{
+    font-size: 1.5rem;
+    margin-top: 5px;
+    color: $color-violet;
+    width: 21px;
+}
+
+
+
+.title-bar-login {
+    background-color: transparent;
+}
+
+
+.title-bar {
+    background-color: $light-gray;
+    
+    height: 50px;
+    
+
+    .menu-icon::after {
+                /* the block itself, the first line */
+                background: $color-violet;
+                /* middle and bottom */
+                box-shadow: 0 7px 0 $color-violet, 0 14px 0 $color-violet;
+                /* respect WebKit */
+                -webkit-box-shadow: 0 7px 0 $color-violet, 0 14px 0 $color-violet;
+            }
+
+    &-title{
+        padding-left: .5rem;
+
+        img {
+            vertical-align: top;
+        }
+    }
+}
+
+
+
+
+
+//     background: #ffc0c0;
+//     width: 100px;
+//     height: 100px;
+//     border-radius: 50%;
+//     text-align: center;
+//     line-height: 100px;
+//     vertical-align: middle;
+//     padding: 30px;

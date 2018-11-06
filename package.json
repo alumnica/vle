@@ -20,6 +20,7 @@
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
+    "babel-loader": "^8.0.4",
     "browser-sync": "^2.26.3",
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^6.0.0",
@@ -35,7 +36,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.5.0",
-    "flip": "^1.0.0",
+    "flip": "github:nnattawat/flip",
     "foundation-sites": "^6.5.0",
     "fullpage.js": "^3.0.3",
     "jquery": "^3.3.1",
