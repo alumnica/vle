@@ -369,82 +369,24 @@
 }
 
 
+.end-uoda-btn{
+    font-size: 1.5rem;
+    color: $white;
+    background-color: $color-peri;
+    border: solid 3px white;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+transition: all .2s;
 
-// .uoda-suggestions{
+    &:hover{
+     cursor: pointer;
+ }
 
-
-    // @include xy-grid;
-
-    // .score-side {
-    //     @include xy-cell(6);
-    //     text-align: center;
-    //     @include breakpoint(400px down){
-    //         @include xy-cell(12);
-    //     }
-
-    //     .uoda-image{
-    //         height: 100px;
-    //         @include breakpoint(800px){
-    //             height: 170px;
-
-    //         }
-
-    //         img{
-    //             max-height: 100%;
-    //             max-width: 100%;;
-    //         }
-
-    //     }
-    //     p {
-    //         margin: 0;
-    //         @include breakpoint(800px){
-    //             padding: 2rem;
-    //             font-size: 2rem;
-    //         }
-    //         font-size: 1.3rem;
-
-    //         .fa-star {
-    //             color: gold;
-    //         }
-    //     }
-    // }
-    // .suggestion-side {
-    //     @include xy-cell(6);
-    //     @include breakpoint(400px down){
-    //         @include xy-cell(12);
-    //     }
-    //     @include breakpoint(800px){
-    //         padding: 2rem;
-    //     }
-    //     text-align: center;
-
-    //     p {
-    //         line-height: 1.1rem;
-    //         margin: 0;
-    //         @include breakpoint(800px){
-    //             font-weight: bold;
-    //             font-size: 1.5rem;
-    //             line-height: 2rem;
-    //         }
-    //         @include breakpoint (600px down){
-    //     font-size: .9rem;
-    //     line-height: 1rem;
-    //         }
-    //     }
-    // }
-
-    // .return-to-oda-btn {
-    //     @include xy-cell(6);
-    //     text-align: center;
-    //     @include breakpoint(400px down){
-    //         @include xy-cell(12);
-    //     }
-    // }
-    // .return-to-materia-btn {
-    //     @include xy-cell(6);
-    //     text-align: center;
-    //     @include breakpoint(400px down){
-    //         @include xy-cell(12);
-    //     }
-    // }
-// }
+    &:active, &:focus{
+    transform: translateY(5px);
+    background-color: $color-violet;
+    transition: all .2s;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+     }
+}

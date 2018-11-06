@@ -2,23 +2,23 @@
 {% load static %}
 {% block content %}
 
-<div class='container' id="preloader">
-        <div class='loader'>
-            <div class='loader--dot'></div>
-            <div class='loader--dot'></div>
-            <div class='loader--dot'></div>
-            <div class='loader--dot'></div>
-            <div class='loader--dot'></div>
-            <div class='loader--dot'></div>
-            <div class='loader--text'></div>
-        </div>
-    </div>
-    
-    <script>
-        setTimeout(function(){
-            document.getElementById("preloader").classList.add("is-load");
-        }, 6000);
-    </script>
+<!--<div class='container' id="preloader">-->
+        <!--<div class='loader'>-->
+            <!--<div class='loader&#45;&#45;dot'></div>-->
+            <!--<div class='loader&#45;&#45;dot'></div>-->
+            <!--<div class='loader&#45;&#45;dot'></div>-->
+            <!--<div class='loader&#45;&#45;dot'></div>-->
+            <!--<div class='loader&#45;&#45;dot'></div>-->
+            <!--<div class='loader&#45;&#45;dot'></div>-->
+            <!--<div class='loader&#45;&#45;text'></div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!---->
+    <!--<script>-->
+        <!--setTimeout(function(){-->
+            <!--document.getElementById("preloader").classList.add("is-load");-->
+        <!--}, 6000);-->
+    <!--</script>-->
 <!-- end preloader -->
 
 <div id="moments">
@@ -50,10 +50,12 @@
         <div class="slide">
             <div class="h5p-cont ">
                 <div id="fourth">
-                    <div class="end-of-uoda">
-                        <p class="h3 text-center">µODA Completada</p>
-                        <div class="uoda-image">
-                          {% if moment_array.0.microoda.type.name == "application" %}
+                  <div class="end-uoda-btn">
+                    Terminar µODA
+                  </div>
+                  <div class="end-scoring" style="display: none;">
+                    <div class="end-scoring_title">
+                      {% if moment_array.0.microoda.type.name == "application" %}
 
                         <img src="{% static "/webapp/media/uODAs/iconos/apli.png"%}" alt="Aplicacion">
                     {% elif moment_array.0.microoda.type.name == "formalization" %}
@@ -65,15 +67,68 @@
                     {% elif moment_array.0.microoda.type.name == "sensitization" %}
                         <img src="{% static "/webapp/media/uODAs/iconos/sens.png" %}" alt="sensibilizacion">
                     {% endif %}
-                        </div>
-                        <p class="uoda-score">
-                            <i class="fa fa-star"></i> + {{ points }}
-                        </p>
-                        <a class="end-uoda-btn">
-                            <i class="fas fa-play"></i> Terminar µODA
-                        </a>
-
+                      <span>uODA completada</span>
                     </div>
+                    <div class="end-scoring_bonus">
+                      <div class="bonus-box xp">
+                        <div class="bonus-box_icon">
+                          <i class="fas fa-angle-double-up"></i>
+                        </div>
+                        <div class="bonus-box_number">
+                          {{ base_xp }}
+                        </div>
+                        <div class="bonus-box_title">
+                          XP Base
+                        </div>
+                      </div>
+                      <strong>x</strong>
+                      <div class="bonus-box daily">
+                        <div class="bonus-box_icon">
+                          <i class="fas fa-calendar-times"></i>
+                        </div>
+                        <div class="bonus-box_number">
+                          3
+                        </div>
+                        <div class="bonus-box_title">
+                          Bonus Diario
+                        </div>
+                      </div>
+                      <div class="bonus-box ea">
+                        <div class="bonus-box_icon">
+                          <i class="far fa-check-square"></i>
+                        </div>
+                        <div class="bonus-box_number">
+                          2
+                        </div>
+                        <div class="bonus-box_title">
+                          Bonus Sequencia
+                        </div>
+                      </div>
+                      <div class="bonus-box repeated">
+                        <div class="bonus-box_icon">
+                          <i class="fas fa-redo-alt"></i>
+                        </div>
+                        <div class="bonus-box_number">
+                          .5
+                        </div>
+                        <div class="bonus-box_title">
+                          Repetido
+                        </div>
+                        <div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="end-scoring_score">
+                      <div class="xp-number">
+                        {{ points }}
+                      </div>
+                      <div class="xp-badge">
+                        <i class="fas fa-angle-double-up"></i>
+                        <span>XP</span>
+                      </div>
+                    </div>
+                    <a href="#" class="end-scoring_btn">Continuar</a>
+                  </div>
                 </div>
             </div>
         </div>
@@ -85,7 +140,7 @@
     <i class="fas fa-undo-alt"></i>
 </a>
 <div id="momMenu">
-    
+
 </div>
 <script type="text/javascript">
     let microoda = {{ moment_array.0.microoda.pk }};
