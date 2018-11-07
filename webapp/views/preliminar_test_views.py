@@ -130,7 +130,7 @@ class FirstLoginTestP1View(OnlyTestLearnerMixin, FormView):
 
         user.profile.save()
 
-        return redirect(to='test_answered_view')
+        return redirect(to='test_answered_view', pk=user.pk)
 
 
 class SignUpTestConfirmation(OnlyTestLearnerMixin, FormView):
