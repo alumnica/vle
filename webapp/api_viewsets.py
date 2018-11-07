@@ -475,7 +475,10 @@ class NotificationsAPIView(APIView):
                 notifications.append(
                     {'title': 'Tu avatar llegó a la evolución {}'.format(notification.earned_evolution),
                      'type': notification.type, 'viewed': notification.viewed})
-                avatar_evolution.append({'avatar_name': notification.avatar, 'current_evolution': notification.earned_evolution, 'previous_evolution': notification.earned_evolution-1, 'viewed': notification.viewed})
+                if not notification.viewed:
+                    avatar_evolution.append({'avatar_name': notification.avatar, 'current_evolution': notification.earned_evolution, 'previous_evolution': notification.earned_evolution-1, 'viewed': notification.viewed})
+                    notification.viewed = True
+                    notification.save()
 
         return JsonResponse({'notifications': notifications, 'avatar': avatar_evolution})
 
