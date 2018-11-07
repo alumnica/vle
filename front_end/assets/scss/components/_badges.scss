@@ -1,0 +1,47 @@
+.badge-cell {
+  @include xy-cell(4, $gutters: 0.4rem);
+  // border: solid 1px $light-gray;
+  box-shadow: 1px 1px 3px rgba(0,0,0,.2);
+  // border-radius: 5px;
+  text-align: center;
+  margin-bottom: 0.7rem;
+  background-color: white;
+
+  @include breakpoint(medium) {
+    @include xy-cell(2, $gutters: 0.8rem);
+  }
+
+  &:hover {
+    // border: solid 1px $medium-gray;
+    // background-color: $color-peri-white;
+  }
+
+  &_img{
+    
+    padding: .3rem;
+  }
+
+  &_stars {
+    color: $light-gray;
+    border-bottom: 1px solid $light-gray;
+    background-color: $dark-gray;
+
+    .fa-star {
+      margin: 0 0.2rem;
+
+      &.earned {
+        color: gold;
+      }
+    }
+  }
+
+  &_title {
+    font-size: 0.8rem;
+    height: 4.2rem;
+    padding: .4rem .2rem;
+    box-shadow:  0px -1px 1px rgba(0,0,0,.1);
+    display: flex;
+    align-items: center;
+    // border-top: 1px solid $medium-gray;
+  }
+}

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#fullpage').fullpage({
+    new fullpage('#fullpage', {
         anchors: ['firstPage', 'secondPage', '3rdPage', '4thPage', '5thPage', '6thPage'],
         // sectionsColor: ['#C63D0F', '#1BBC9B', '#7E8F7C'],
         navigation: true,
@@ -9,14 +9,15 @@ $(document).ready(function () {
         paddingTop: '3rem',
         verticalCentered: false,
         menu: '#menu',
+        licenseKey: 'OPEN-SOURCE-GPLV3-LICENSE',
         onLeave: function (origin, destination, direction) {
             let leavingSection = this;
             let indState = $('.indication').css('display');
 
-            if (origin == 1 && indState == 'none') {
+            if (origin.index == 0 && indState == 'none') {
                 $('.indication').fadeIn(1500);
             }
-            else if (origin == 2 && direction == 'up') {
+            else if (origin.index == 1 && direction == 'up') {
                 $('.indication').fadeOut(500);
             }
         }

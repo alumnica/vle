@@ -1,0 +1,84 @@
+// .noti-wrapper{
+// background-color: red;
+
+// }
+
+// $var: 100vw !default; // Can be overridden elsewhere
+
+// @if $var > 1200px {
+//   // Conditional code
+// }
+
+.noti-cont{
+  position: absolute;
+  @include breakpoint(1200px){
+    right: calc((100vw - 1200px) / 2);
+  }
+  @include breakpoint(medium){
+    width: 300px;
+  }
+  right: 0;
+  top: 45px;
+  width: 100%;
+  border: solid 1px $light-gray;
+  box-shadow: 2px 5px 10px rgba(0,0,0,.2);
+  height: auto;
+  display: none;
+  &.is-open {
+    display: block;
+  }
+}
+
+
+.noti {
+  display: flex;
+  align-items: center;
+  padding: .5rem;
+  background-color: $white;
+  &:not(:last-child){
+    border-bottom: 1px solid $light-gray;
+  }
+  &:last-child{
+  box-shadow: 0px 1px 2px rgba(0,0,0,.2);
+  }
+
+  @include breakpoint(medium){
+    &:last-child{
+      box-shadow: none;
+      }
+  }
+
+  &_icon{
+    box-shadow: 1px 1px 3px rgba(0,0,0,.2);
+    background-color: $white;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon_container{
+    padding-top: 5px;
+    font-size: 1.5rem;
+    
+  }
+
+  &_text{
+    font-size: .9rem;   
+    flex: 2;
+    text-align: center;
+    margin-right: .5rem;
+    color: $darker-gray;
+  }
+
+  &.new{
+    background-color: lighten($primary-color, 35);
+  }
+
+  &:hover{
+    outline: 1px solid $medium-gray;
+  }
+}

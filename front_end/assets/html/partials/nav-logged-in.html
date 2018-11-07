@@ -1,0 +1,43 @@
+<div class="top-nav">
+  <div class="top-nav-container">
+
+    <button class="menu-open" type="button" id="ham-btn">
+      <i class="fas fa-bars"></i>
+    </button>
+    <a href="dashboard.html" class="top-nav-title" title="Dashboard">
+      <img src="../assets/media/alumnica logo 138.png" alt="">
+    </a>
+
+    <div class="top-menu-btn" id="search-btn" title="Busqueda">
+      <i class="fa fa-search"></i>
+    </div>
+    <a href="ambitos-grid.html" class="top-menu-btn" id="top-menu-grid" title="Grid de Ambitos">
+      <i class="fa fa-th"></i>
+    </a>
+    <a class="top-menu-btn" id="noti-btn" title="Notificaciones">
+      <i class="fa fa-bell"></i>
+    </a>
+    <a href="user-profile.html" class="top-menu-btn" id="top-menu-icon" title="Perfil de Usuario">
+      <img src="../assets/media/tuerca-01.png" alt="profile icon">
+    </a>
+
+
+    <!-- </div> -->
+  </div>
+  <div class="the-search" id="search-box" style="display: none">
+    <form action="">
+      <div class="search-group">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" name="searcher" id="searcher" placeholder="Busqueda" class="placechange" autocomplete="off">
+      </div>
+    </form>
+  </div>
+  {{> notification}}
+
+</div>
+<div class="search-cover" style="display: none">
+  <!-- nothing here -->
+</div>
+{{> menu}}

@@ -1,0 +1,392 @@
+//styles for momento.html
+
+.nav-items {
+  // position: absolute;
+  // height: 100%;
+  // width: 100%;
+  // top: 0;
+  // z-index: 10;
+
+  .prev-arrow{
+    position: absolute;
+    top: 47%;
+    left: 0;
+    font-size: 3rem;
+    color: $white;
+    background-color: lighten($color-violet, $amount: 40);
+    width: 3rem;
+    text-align: left;
+    padding-top: .5rem;
+    height: 5rem;
+    border-top-right-radius: 2.5rem;
+    border-bottom-right-radius: 2.5rem;
+    @include breakpoint (800px){
+      text-align: right;
+      width: 5.5rem;
+      padding-right: 1rem;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: lighten($color-violet, 20);
+    }
+  }
+
+
+    .next-arrow{
+        position: absolute;
+        top: 47%;
+        right: 0;
+        font-size: 3rem;
+        color: $white;
+        background-color: lighten($color-violet, $amount: 40);
+        width: 3rem;
+        text-align: right;
+        padding-top: .5rem;
+        height: 5rem;
+        border-top-left-radius: 2.5rem;
+        border-bottom-left-radius: 2.5rem;
+        @include breakpoint (800px){
+            width: 5.5rem;
+            text-align: left;
+            padding-left: 1rem;
+        }
+
+        &:hover {
+            cursor: pointer;
+            background-color: lighten($color-violet, 20);
+        }
+    }
+
+}
+
+
+
+
+
+.mom-return-btn {
+    background-color: $light-gray;
+    border: solid 4px $white;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 2.5rem;
+    text-align: center;
+    font-size: 1rem;
+    padding-top: .3rem;
+    position: absolute;
+    bottom: .5rem;
+    right: .5rem;
+    z-index: 11;
+    color: $color-violet;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    @include breakpoint(1000px){
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 3.5rem;
+        font-size: 1.5rem;
+        padding-top: .5rem;
+        bottom: 1rem;
+        right: 1rem;
+        transform: scale(.8);
+        transition: all .2s;
+    }
+    
+    &:hover{
+        transition: all .2s;
+        transform: scale(1);
+    }
+}
+
+
+
+.h5p-cont {
+    background-color: lighten($primary-color, 40);
+    height: 100%;
+    padding: .2rem;
+    margin: 0 1rem;
+    @include breakpoint(800px){
+        width: 95%;
+        // height: 95%;
+        padding: 1rem;
+        position: relative;
+        left: 49%;
+        transform: translateX(-50%);
+    }
+    // border-radius: 1rem;
+    @include breakpoint (500px down){
+        padding: 0;
+    }
+  
+   
+  
+    
+
+}
+
+.the-h5p {
+    
+    height: 100%;
+    width: 100%;
+    border: none;
+    
+    
+}
+
+.moments{
+    // position: absolute;
+    // top: -2rem;
+    // @include breakpoint(800px){
+    //     top: -1.5rem;
+    // }
+    // left: 50%;
+    // transform: translateX(-50%);  
+    
+}
+
+#first{
+    background-color: blanchedalmond;
+}
+
+#second {
+    background-color: sandybrown;
+}
+
+#third {
+    background-color: greenyellow;
+   
+}
+
+#fourth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // background-color:khaki;
+    @include breakpoint(800px){
+        // padding: 2rem;
+    }
+    // padding: .5rem;
+    width: 100%;
+    height: 100%;
+    
+}
+
+
+
+.single-mom{
+    display: inline-block;
+    margin: 0 .5rem;
+    background-color: lighten($primary-color, 40);
+    border: solid 2px $color-peri;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    @include breakpoint(800px){
+        border: solid 3px $color-peri;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 3rem;
+    }
+}
+
+.single-mom.active-mom {
+    transform: scale(1.5)
+}
+
+
+
+
+
+
+
+#m1::after{
+        content: "";
+        width: 70%;
+        height: 70%;
+        display: inline-block;
+        background-color: $color-bluegreen;
+        border-radius: 50%;
+        margin: 0 0 0 3px;
+        @include breakpoint(800px){
+            margin: 6px 0 0 6px;
+        }
+}
+
+#m2::after{
+        content: "";
+        width: 70%;
+        height: 70%;
+        display: inline-block;
+        background-color: $color-yellow;
+        border-radius: 50%;
+        margin: 0 0 0 3px;
+        @include breakpoint(800px){
+            margin: 6px 0 0 6px;
+        }
+}
+
+#m3::after{
+        content: "";
+        width: 70%;
+        height: 70%;
+        display: inline-block;
+        background-color: $color-green;
+        border-radius: 50%;
+        margin: 0 0 0 3px;
+        @include breakpoint(800px){
+            margin: 6px 0 0 6px;
+        }
+}
+
+.fp-controlArrow {
+    @include breakpoint (800px down){
+        top: 40% !important;
+    }
+}
+
+.fp-controlArrow.fp-next {
+    right: 0px !important;
+    border-top-left-radius: 3rem;
+    border-bottom-left-radius: 3rem;
+    border-color: white !important;
+    border-style: solid;
+    border-width: 4px 0 4px 4px !important;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    height: 5.5rem;
+    width: 4rem;
+    background-color: lighten($color-violet, $amount: 40);
+    transition: all .2s;
+
+    @include breakpoint(800px down){
+        border-top-left-radius: 3rem;
+        border-bottom-left-radius: 3rem;
+        border-width: 4px 0 4px 4px !important;
+        height: 4.5rem;
+        width: 2.5rem;
+    }
+    
+    &:after{
+        content: '';
+        border-color: transparent transparent transparent #fff;
+        // border: 10px solid white;
+        border-style: solid;
+        border-width: 20px 0 20px 30px;
+        // border: 2px solid white;
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 30%;
+        z-index: 6;
+        @include breakpoint(800px down){
+            border-width: 15px 0 15px 25px;
+        }
+
+    }
+    &:hover{
+        transform: scale(1.1);
+        transition: all .2s;
+    }
+}
+
+.fp-controlArrow.fp-prev {
+    border-color: white !important;
+    // border-style: solid;
+    border-width: 4px 4px 4px 0!important;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+
+    left: 0px !important;
+    border-top-right-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+    
+    transition: all .2s;
+    
+    height: 5.5rem;
+    width: 4rem !important;
+    background-color: lighten($color-violet, $amount: 40);
+
+    @include breakpoint(800px down){
+        border-top-right-radius: 3rem;
+        border-bottom-right-radius: 3rem;        
+        height: 4.5rem;
+        width: 2.5rem !important;
+    }
+
+    &:after{
+        content: '';
+        border-color: transparent #fff  transparent transparent;
+        // border: 10px solid white;
+        border-style: solid;
+        border-width: 20px 30px 20px 0px;
+        // border: 2px solid white;
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 30%;
+        z-index: 6;
+        @include breakpoint(800px down){
+            border-width: 15px 25px 15px 0px;
+        }
+
+    }
+    &:hover{
+        transform: scale(1.1);
+        transition: all .2s;
+    }
+}
+
+.fp-slides{
+    height: calc(100% - 45px) !important;
+}
+
+//over write nav from fulloage.js
+
+.fp-slidesNav{
+    position: absolute;
+    z-index: 4;
+    opacity: 1;
+    // -webkit-transform: translate3d(0,0,0);
+    // -ms-transform: translate3d(0,0,0);
+    // transform: translate3d(0,0,0);
+    transform: translateX(-50%) !important;
+    left: 50% !important;
+    // right: none !important;
+    margin: 0 auto !important;
+}
+.fp-slidesNav.bottom {
+    bottom: 2rem !important;
+}
+.fp-slidesNav.top {
+    top: -10px !important;
+}
+
+// nav
+#fp-nav ul li a span,
+.fp-slidesNav ul li a span {   
+    background: #73308a !important;   
+}
+
+
+.end-uoda-btn{
+    font-size: 1.5rem;
+    color: $white;
+    background-color: $color-peri;
+    border: solid 3px white;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+transition: all .2s;
+
+    &:hover{
+     cursor: pointer;
+ }
+
+    &:active, &:focus{
+    transform: translateY(5px);
+    background-color: $color-violet;
+    transition: all .2s;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+     }
+}

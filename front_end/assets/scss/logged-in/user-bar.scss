@@ -1,0 +1,54 @@
+.profile-button{
+    margin: 0;
+    background-color: rgba(255, 255, 255, 0);
+    color: $dark-gray;
+    padding: .2rem .1rem;
+    @include breakpoint(700px){
+        padding: .2rem 1rem;
+    }
+
+    span {
+        display: none;
+        @include breakpoint(700px){
+            display: inline;
+        }
+    }
+    
+
+    &:hover{
+        background-color: $lighter-gray;
+        color: $black;
+    }
+
+}
+
+.theHam {
+    position: absolute;
+    top: 0%;
+    left: 0;
+    z-index: 20;
+}
+
+.theUser {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    z-index: 21;
+}
+
+.user-menu {
+    list-style: none;
+    margin: 0;
+    pad: 0;
+
+    li {
+        padding: 1rem;
+        border-bottom: 1px solid $medium-gray;
+        color: $darker-gray;
+
+        &:hover {
+            color: darken($primary-color,  10);
+            cursor: pointer;
+        }
+    }
+}
