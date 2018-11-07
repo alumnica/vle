@@ -1,4 +1,4 @@
-{% extends "empty.html" %}
+{% extends "empty-base.html" %}
 {% load static %}
 {% load i18n %}
 {% block content%}
@@ -7,7 +7,7 @@
         <div class="cell medium-12 u-margin-top-big">
             <h4>Gracias</h4>
             <p>Contestaste el questionario de Competencias</p>
-            <a href="{% url 'login_view' %}" type="button" class="button">Salir</a>
+            <a href="{% url 'logout_view' %}" type="button" class="button">Salir</a>
         </div>
     </div>
 </div>
