@@ -349,7 +349,7 @@ class ChangeUserAvatar(APIView):
         learner_pk = request.GET['learner']
         avatar_id = request.GET['avatar']
         learner = Learner.objects.get(pk=learner_pk)
-
+        avatar_points = 0
         avatar = learner.avatar_progresses.get(avatar_name=avatar_id)
         if not avatar.active:
             for avatar_active in learner.avatar_progresses.filter(active=True):
@@ -357,6 +357,13 @@ class ChangeUserAvatar(APIView):
                 avatar_active.save()
             avatar.active = True
             avatar.save()
+
+        if avatar.points < 15000:
+            avatar_points = avatar.points / 15000
+        elif 15000 <= avatar.points < 50000:
+            avatar_points = avatar.points / 50000
+        elif avatar.points >= 50000:
+            avatar_points = 1
 
         achievement = AvatarAchievement.objects.get(name='Selecciona un avatar diferente', counter=1)
         learner_achievement, created = LearnerAvatarAchievement.objects.get_or_create(learner=learner,
@@ -367,7 +374,7 @@ class ChangeUserAvatar(APIView):
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         avatar_statement(user=learner.auth_user, avatar=avatar_id, timestamp=timestamp)
-        return JsonResponse({'ok': 'ok'})
+        return JsonResponse({'avatar_points': avatar_points})
 
 
 class SaveExtraProfileInfo(APIView):
