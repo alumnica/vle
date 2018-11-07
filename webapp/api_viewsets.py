@@ -477,7 +477,7 @@ class NotificationsAPIView(APIView):
                      'type': notification.type, 'viewed': notification.viewed})
                 avatar_evolution.append({'avatar_name': notification.avatar, 'current_evolution': notification.earned_evolution, 'previous_evolution': notification.earned_evolution-1, 'viewed': notification.viewed})
 
-        return JsonResponse({'notifications': notifications})
+        return JsonResponse({'notifications': notifications, 'avatar': avatar_evolution})
 
     def post(self, request):
         learner_pk = request.POST['learner']

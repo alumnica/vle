@@ -9,6 +9,7 @@ $(document).ready(function() {
     },
     success: function(data) {
       let notifications = data.notifications;
+      let avatarEvol = data.avatar[0];
       for (let i = 0; i < notifications.length; i++) {
         let notiType,
           notiTitle = notifications[i].title,
@@ -41,6 +42,11 @@ $(document).ready(function() {
           </div>
         </div>
         `);
+      }
+      if(avatarEvol.viewed === false){
+        $('#evolutionModal .avatar img').attr('src', '/static/webapp/media/'+avatarEvol.avatar_name+'0'+avatarEvol.previous_evolution+'.png')
+        $('#evolutionModal .avatar-new img').attr('src', '/static/webapp/media/'+avatarEvol.avatar_name+'0'+avatarEvol.current_evolution+'.png')
+        $('#evolutionModal').foundation('open');
       }
     },
   });
