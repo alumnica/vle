@@ -1,4 +1,29 @@
- $('#selected-avatar').val($('.avatar-main img').attr('id'));
+//
+// /**
+//  *
+//  */
+// $(document).ready(function () {
+//     $.ajax({
+//         type: 'GET',
+//         url: '/api/profile_info',
+//         data: {
+//             'learner': pk
+//         },
+//         success: function (data) {
+//             $('#materia-fav').val(data.favourite_subject);
+//             $('#horario').val(data.working_time);
+//             $('#univ').val(data.university_studies);
+//
+//         }
+//     })
+// });
+$(document).ready(function () {
+
+
+
+
+
+$('#selected-avatar').val($('.avatar-main img').attr('id'));
  /**
   * Sends avatar changed event
   */
@@ -14,11 +39,15 @@
          data: {
              'avatar': clicked.attr('id'),
              'learner': learner
+         },
+         success: function (data) {
+           avatarBar.destroy();
+           avatarProgressBar(data.avatar_points);
          }
      });
  });
 
-// /**
+ // /**
 //  * Sends profile extra information
 //  */
  $('#user-info-btn').on('click', function(){
@@ -56,39 +85,7 @@
            });
          }
      });
-      // Create div
-     const span = document.createElement('span');
-     // Add classes
-     span.className = 'saved';
-     span.innerHTML = 'GUARDADO';
-
-     $('.extra-info').append(span);
- //     Timeout after 3 sec
-     setTimeout(function(){
-       document.querySelector('.saved').remove();
-     }, 3000);
  });
-//
-// /**
-//  *
-//  */
-// $(document).ready(function () {
-//     $.ajax({
-//         type: 'GET',
-//         url: '/api/profile_info',
-//         data: {
-//             'learner': pk
-//         },
-//         success: function (data) {
-//             $('#materia-fav').val(data.favourite_subject);
-//             $('#horario').val(data.working_time);
-//             $('#univ').val(data.university_studies);
-//
-//         }
-//     })
-// });
-$(document).ready(function () {
-
 
   // add notification icon to recent activity depending on the type of notification
   $('.recent-cell').each(function () {

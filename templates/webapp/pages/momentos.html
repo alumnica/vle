@@ -2,23 +2,23 @@
 {% load static %}
 {% block content %}
 
-<!--<div class='container' id="preloader">-->
-        <!--<div class='loader'>-->
-            <!--<div class='loader&#45;&#45;dot'></div>-->
-            <!--<div class='loader&#45;&#45;dot'></div>-->
-            <!--<div class='loader&#45;&#45;dot'></div>-->
-            <!--<div class='loader&#45;&#45;dot'></div>-->
-            <!--<div class='loader&#45;&#45;dot'></div>-->
-            <!--<div class='loader&#45;&#45;dot'></div>-->
-            <!--<div class='loader&#45;&#45;text'></div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!---->
-    <!--<script>-->
-        <!--setTimeout(function(){-->
-            <!--document.getElementById("preloader").classList.add("is-load");-->
-        <!--}, 6000);-->
-    <!--</script>-->
+<div class='container' id="preloader">
+        <div class='loader'>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--text'></div>
+        </div>
+    </div>
+
+    <script>
+        setTimeout(function(){
+            document.getElementById("preloader").classList.add("is-load");
+        }, 6000);
+    </script>`
 <!-- end preloader -->
 
 <div id="moments">
@@ -75,7 +75,7 @@
                           <i class="fas fa-angle-double-up"></i>
                         </div>
                         <div class="bonus-box_number">
-                          {{ base_xp }}
+                          {{ equation.base_xp }}
                         </div>
                         <div class="bonus-box_title">
                           XP Base
@@ -87,7 +87,7 @@
                           <i class="fas fa-calendar-times"></i>
                         </div>
                         <div class="bonus-box_number">
-                          3
+                          {{ equation.daily_bonus }}
                         </div>
                         <div class="bonus-box_title">
                           Bonus Diario
@@ -98,7 +98,7 @@
                           <i class="far fa-check-square"></i>
                         </div>
                         <div class="bonus-box_number">
-                          2
+                          {{ equation.bonus_ea }}
                         </div>
                         <div class="bonus-box_title">
                           Bonus Sequencia
@@ -109,7 +109,7 @@
                           <i class="fas fa-redo-alt"></i>
                         </div>
                         <div class="bonus-box_number">
-                          .5
+                          {{ equation.pen_rep }}
                         </div>
                         <div class="bonus-box_title">
                           Repetido

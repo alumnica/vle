@@ -2,7 +2,9 @@ $(document).ready(function () {
    let learnerPoints,
        learnerNextLevel,
        learnerBar,
-       avatarPoints;
+       avatarPoints,
+       userBar,
+       avatarBar;
 // $.when(getLearnerInfo()).done(learnerProgressBar(),avatarProgressBar());
   getLearnerInfo();
 
@@ -24,9 +26,9 @@ $(document).ready(function () {
     },
   });
   };
-
+});
   function learnerProgressBar(bigNum, barNum){
-  let bar = new ProgressBar.Line(progress, {
+  userBar = new ProgressBar.Line(progress, {
   strokeWidth: 1,
   easing: 'easeInOut',
   duration: 1400,
@@ -43,7 +45,6 @@ $(document).ready(function () {
     // Initial value for text.
     // Default: null
     value: bigNum,
-
     style: {
       transform: {
         prefix: true,
@@ -56,12 +57,12 @@ $(document).ready(function () {
     // className: 'progressbar__label',
   }
 });
-bar.animate(barNum); // Number from 0.0 to 1.0
+userBar.animate(barNum); // Number from 0.0 to 1.0
   };
 
   function avatarProgressBar(barNum){
 if ($('.avatar-progress').length){
-  let avatarBar = new ProgressBar.Line(avatarProgress, {
+  avatarBar = new ProgressBar.Line(avatarProgress, {
   strokeWidth: 2,
   easing: 'easeInOut',
   duration: 1400,
@@ -74,4 +75,5 @@ avatarBar.animate(barNum); // Number from 0.0 to 1.0
   }
 };
 
-});
+
+
