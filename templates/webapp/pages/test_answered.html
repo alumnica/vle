@@ -2,12 +2,17 @@
 {% load static %}
 {% load i18n %}
 {% block content%}
+<div class="grid-container">
+    <div class="grid-x">
+        <div class="cell medium-12">
+            <h4>Gracias</h4>
+            <p>Contestaste el questionario de Competencias</p>
+            <a href="{% url 'logout_view' %}" type="button" class="button">Salir</a>
+        </div>
+    </div>
+</div>
 
-    Gracias!
-    Ya has contestado el test!
-    Vuelve pronto... o no,
 
 
-    <a href="{% url 'logout_view' %}" type="button" class="button">Salir</a>
 
 {% endblock %}
