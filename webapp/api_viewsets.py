@@ -448,6 +448,7 @@ class NotificationsAPIView(APIView):
 
         notifications_list.sort(key=lambda x: x.date, reverse=True)
         notifications = list()
+        avatar_evolution = list()
 
         for notification in notifications_list[0:5]:
             if isinstance(notification, AchievementNotification):
@@ -467,6 +468,7 @@ class NotificationsAPIView(APIView):
                 notifications.append(
                     {'title': 'Tu avatar llegó a la evolución {}'.format(notification.earned_evolution),
                      'type': notification.type, 'viewed': notification.viewed})
+                avatar_evolution.append({'avatar_name': notification.avatar, 'current_evolution': notification.earned_evolution, 'previous_evolution': notification.earned_evolution-1, 'viewed': notification.viewed})
 
         return JsonResponse({'notifications': notifications})
 
