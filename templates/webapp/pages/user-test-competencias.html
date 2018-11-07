@@ -6,7 +6,7 @@
   <div class="grid-x">
     <div class="cell medium-12 user-test">
         <p class="h3 u-margin-top-small">Macanismos</p>
-      <ol id="test-competencias">
+      <ol id="test-form">
         <li>
           <p class="h6">Al encontrarme con una realidad nueva, ¿cómo soy?</p>
           <div>
@@ -188,7 +188,7 @@
 
       <!-- this is what actually submits the answeres -->
 
-      <form method="POST" id="test-competencias-post" onsubmit="return valid_form()">
+      <form method="POST" id="test-post" onsubmit="return valid_form()">
           {% csrf_token %}
         <input type="hidden" id="test-answers" name="test-answers">
         <input type="submit" id="answer-submit" class="is-hidden">
