@@ -199,7 +199,7 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
             if learner.level_achievements.filter(achievement=achievement).exists():
                 earned = 1
             achievements.append(
-                {'name': achievement.name, 'type': achievement.type, 'pk': achievement.pk, 'earned': earned,
+                {'name': 'Llega al nivel {} con tu cuenta'.format(achievement.level), 'type': achievement.type, 'pk': achievement.pk, 'earned': earned,
                  'description': '+ {} xp'.format(achievement.xp)})
 
         for achievement in TestAchievement.objects.all():
