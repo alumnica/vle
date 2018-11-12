@@ -10,6 +10,7 @@
     overflow: auto;
     box-shadow: 5px 0 5px rgba(0,0,0,.4);
 
+
     &-container{
         max-width: 1200px;
         margin: 0 auto;
@@ -129,7 +130,25 @@
     }
 }
 
+#index .accordion-content ul {
 
+        list-style: none;
+        margin: 0;
+    li{
+        padding: .3rem 0;
+    }
+
+    li:not(:last-child){
+        border-bottom: 1px solid $light-gray;
+    }
+    li:hover{
+        background-color: $light-gray;
+
+    }
+
+
+
+}
 
 
 

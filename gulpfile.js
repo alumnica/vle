@@ -190,7 +190,7 @@ exports.frontLive = series(cleanDist, cleanCSS, cleanJS, parallel(styles, pages,
 
 exports.backLive = series(cleanDist, cleanCSS, cleanJS, parallel(styles, js, copyFonts), serverBack, watchBack);
 
-exports.updateFront = series(cleanDist, cleanCSS, cleanJS, parallel(styles, js, copyFonts));
+exports.syncBoth = series(cleanDist, cleanCSS, cleanJS, parallel(styles, js, copyFonts));
 
 exports.clean = series(cleanDist, cleanCSS, cleanJS);
 

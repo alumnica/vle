@@ -83,7 +83,7 @@ function notiVisible() {
 var notiCont = $('.noti-cont');
 
 $('#noti-btn').on('click', function() {
-  notiCont.slideToggle(250);
+  notiCont.show();
   var searchStatus = $('#search-box').css('display');
   if (searchStatus == 'block') {
     $('#search-box').slideToggle();
@@ -95,4 +95,15 @@ $('#noti-btn').on('click', function() {
   if (menuSatus == 'block') {
     menuShow();
   }
+});
+
+$(document).mouseup(function(e)
+{
+    var container = $('.noti-cont');
+
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!container.is(e.target) && container.has(e.target).length === 0)
+    {
+        container.hide();
+    }
 });
