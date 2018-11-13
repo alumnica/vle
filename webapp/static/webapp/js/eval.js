@@ -1,8 +1,14 @@
-window.addEventListener( "pageshow", function ( event ) {
-     $('#evaluate input').val('');
-    $('.eval-inputs input').val('');
+function init(){
+  $('#evaluate :input[type="number"]').val('');
+  $('#evaluate input:checkbox').prop('checked', false)
+  $('#evaluate input:radio').prop('checked', false)
+  $('#evalInputs input:text').val('')
+}
 
+$(window).bind("pageshow", function() {
+  init();
 });
+
 $(document).ready(function () {
     new fullpage('#evaluate', {
         verticalCentered: false,
