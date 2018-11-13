@@ -1,8 +1,14 @@
+window.addEventListener( "pageshow", function ( event ) {
+     $('#evaluate input').val('');
+    $('.eval-inputs input').val('');
+
+});
 $(document).ready(function () {
     new fullpage('#evaluate', {
         verticalCentered: false,
         anchors: ['firstPage', 'secondPage', 'thirdPage', 'fourthPage', 'fifthPage', 'sixthPage', 'seventhPage', 'eighthPage', 'ninethPage', 'tenthPage', 'eleventhPage', 'twelvethPage'],
         menu: '#evalMenu',
+      recordHistory: false
     });
 
 
