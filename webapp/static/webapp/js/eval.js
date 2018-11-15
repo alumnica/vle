@@ -1,7 +1,7 @@
 function init(){
   $('#evaluate :input[type="number"]').val('');
   $('#evaluate input:checkbox').prop('checked', false)
-  $('#evaluate input:radio').prop('checked', false)
+  $('#evaluate input:radio').prop('selected', false)
   $('#evalInputs input:text').val('')
 }
 
@@ -19,7 +19,7 @@ $(document).ready(function () {
 
 
     $('.next').on('click', '.button', function () {
-        $.fn.fullpage.moveSectionDown();
+        fullpage_api.moveSectionDown();
     });
 
     /**
