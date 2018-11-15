@@ -82,17 +82,23 @@ class H5PackageView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(H5PackageView, self).get_context_data(**kwargs)
         momento_pk = Moment.objects.get(h5p_package=self.object).pk
+        css_dependencies = list()
+        css_instances_list = list()
+        js_dependencies = list()
+        js_instances_list = list()
+
+        for lib in self.object.preloaded_dependencies.all():
+            css = lib.get_all_stylesheets(aws_url=AWS_INSTANCE_URL, dependencies_instances=css_instances_list)
+            js = lib.get_all_javascripts(aws_url=AWS_INSTANCE_URL, dependencies_instances=js_instances_list)
+
+            css_dependencies.extend(css)
+            js_dependencies.extend(js)
+
         context.update({
             'library_directory_name': self.object.main_library.full_name,
             'content_json': json.dumps(self.object.content, ensure_ascii=False),
-            'stylesheets': list(OrderedSet({
-                css for lib in self.object.preloaded_dependencies.all()
-                for css in lib.get_all_stylesheets(aws_url=AWS_INSTANCE_URL)
-            })),
-            'scripts': list(OrderedSet([
-                script for lib in self.object.preloaded_dependencies.all()
-                for script in lib.get_all_javascripts(aws_url=AWS_INSTANCE_URL)
-            ])),
+            'stylesheets': css_dependencies,
+            'scripts': js_dependencies,
             "aws_url": AWS_INSTANCE_URL,
             "mom": momento_pk,
         })
