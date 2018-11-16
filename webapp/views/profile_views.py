@@ -89,7 +89,6 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, LoginCoun
             TestAchievementNotification.objects.create(learner=self.request.user.profile, achievement=test_achievement)
             self.request.user.profile.assign_xp(test_achievement.xp)
             self.request.user.profile.large_quiz_completed = True
-            self.request.user.profile.assign_xp(EXPERIENCE_POINTS_CONSTANTS['learning_large_quiz'])
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
             learning_experience_received(user=self.request.user,
                                          object_type='Learning Style Quiz',
