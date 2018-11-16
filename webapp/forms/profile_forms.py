@@ -42,11 +42,6 @@ class FirstLoginP1(forms.Form):
         option_1 = first_selection
         option_2 = second_selection
         profile = user.profile
-        xp_received = False
-
-        if profile.learning_style is None:
-            profile.assign_xp(EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz'])
-            xp_received = True
 
         if option_1 == '1':
             if option_2 == '1':
@@ -58,14 +53,6 @@ class FirstLoginP1(forms.Form):
                 profile.learning_style = LearningStyle.objects.get(name='Asimilador')
             elif option_2 == '2':
                 profile.learning_style = LearningStyle.objects.get(name='Convergente')
-
-        if xp_received:
-            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            learning_experience_received(user=user,
-                                         object_type='Learning Style Quiz',
-                                         object_name=profile.learning_style.name,
-                                         timestamp=timestamp,
-                                         gained_xp=EXPERIENCE_POINTS_CONSTANTS['learning_short_quiz'])
 
         user.save()
 
