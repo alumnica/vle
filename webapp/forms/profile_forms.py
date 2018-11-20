@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from alumnica_model.models import Learner, users, AuthUser
 from alumnica_model.models.content import LearningStyle
+from alumnica_model.validators import validate_date
 from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS
 from webapp.statement_builders import learning_experience_received, edited_profile
 
@@ -16,7 +17,7 @@ class FirstLoginInfoForm(forms.ModelForm):
     """
     first_name = forms.CharField()
     last_name = forms.CharField()
-    birth_date_field = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    birth_date_field = forms.DateField(validators=[validate_date], widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Learner

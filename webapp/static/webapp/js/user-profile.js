@@ -83,6 +83,13 @@ $('#selected-avatar').val($('.avatar-main img').attr('id'));
             showConfirmButton: false,
             timer: 1500
            });
+         },
+         error: function (data) {
+             swal({
+                 type: 'error',
+                 title: data.responseJSON.message,
+                 showConfirmButton: true
+             });
          }
      });
  });

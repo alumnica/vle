@@ -35,6 +35,13 @@ class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin
             return redirect(to='first-login-p1_view')
         return redirect(to='dashboard_view')
 
+    def form_invalid(self, form):
+        if form['birth_date_field'].errors:
+            sweetify.error(self.request, form.errors['birth_date_field'][0], persistent='Ok')
+
+        context = self.get_context_data()
+        return render(self.request, self.template_name, context=context)
+
 
 class FirstLoginP1View(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
     """

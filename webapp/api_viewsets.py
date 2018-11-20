@@ -2,6 +2,7 @@ import datetime
 import json
 
 from django.http import JsonResponse
+from django.utils import timezone
 from django.utils.dateparse import parse_date
 from rest_framework.views import APIView
 
@@ -407,6 +408,13 @@ class SaveExtraProfileInfo(APIView):
 
         learner.auth_user.first_name = first_name
         learner.auth_user.last_name = last_name
+
+        date = parse_date(birth_date)
+        current_datetime = timezone.now().date()
+        date_diff = current_datetime - date
+        if (date.year + 160) < current_datetime.year or date_diff.days < 0:
+            return JsonResponse({'status': 'false', 'message': 'La fecha no es válida'}, status=500)
+
         learner.birth_date = parse_date(birth_date)
         learner.gender = gender
 
