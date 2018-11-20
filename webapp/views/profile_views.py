@@ -27,7 +27,8 @@ class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin
 
     def form_valid(self, form):
         user = AuthUser.objects.get(email=self.request.user.email)
-        form.save_form(user)
+        gender = self.request.POST['gender']
+        form.save_form(user, gender)
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         register_statement(request=self.request, timestamp=timestamp, user=user)
         if self.request.user.profile.learning_style is None:
