@@ -8,6 +8,7 @@ from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models.content import Evaluation, ODA
 from alumnica_model.models.questions import TYPE_RELATIONSHIP, TYPE_PULL_DOWN_LIST, TYPE_MULTIPLE_OPTION, \
     TYPE_MULTIPLE_ANSWER, TYPE_NUMERIC_ANSWER
+from webapp.gamification import evaluation_completed_xp
 from webapp.statement_builders import access_statement_with_parent
 
 
@@ -36,8 +37,22 @@ class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, Fo
     def get_context_data(self, **kwargs):
         self.evaluation = []
         self.get_evaluation(self.kwargs['pk'])
+        learner = self.request.user.profile
+        completed_uodas = 0
+        evaluation = Evaluation.objects.get(pk=self.kwargs['pk'])
+        progress, created = learner.evaluations_progresses.get_or_create(evaluation=evaluation)
+
+        for uoda in evaluation.oda.first().microodas.all():
+            if learner.activities_progresses.filter(
+                    activity=uoda.activities.first()).exists() and learner.activities_progresses.get(
+                activity=uoda.activities.first()).is_complete:
+                completed_uodas += 1
+
+        xp, equation = evaluation_completed_xp(login_counter=learner.login_progress.login_counter,
+                                               completed_uodas=completed_uodas,
+                                               completed_counter=(progress.evaluation_completed_counter+1))
         oda = ODA.objects.get(evaluation=Evaluation.objects.get(pk=self.kwargs['pk']))
-        return {'evaluation': self.evaluation, 'oda': oda}
+        return {'evaluation': self.evaluation, 'oda': oda, 'xp': xp, 'equation': equation}
 
     def get_evaluation(self, pk):
         evaluation_instance = Evaluation.objects.get(pk=pk)

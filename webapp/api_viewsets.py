@@ -42,12 +42,12 @@ class EvaluationViewSet(APIView):
         pulldown_list_answers = request.POST['pulldown_list_answers'].split('|')
         user_pk = request.POST['pk']
         user = AuthUser.objects.get(pk=user_pk)
-        score, answers, suggestions, equation = self.review_evaluation(evaluation,
+        score, answers, suggestions, equation, xp = self.review_evaluation(evaluation,
                                                                        relationship_answers, multiple_option_answers,
                                                                        multiple_answer_answers, numeric_answers,
                                                                        pulldown_list_answers, user.profile, duration)
         json_response = json.dumps(answers)
-        return JsonResponse({'score': score, 'data': json_response, 'suggestions': suggestions, 'equation': equation})
+        return JsonResponse({'score': score, 'data': json_response, 'suggestions': suggestions, 'equation': equation, 'xp': xp})
 
     def review_evaluation(self, evaluation, relationship_answers, multiple_option_answers, multiple_answer_answers,
                           numeric_answers, pulldown_list_answers, learner, duration):
