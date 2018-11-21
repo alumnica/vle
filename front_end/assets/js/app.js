@@ -34,7 +34,8 @@ window.TimeMe = TimeMe;
 import ProgressBar from 'progressbar.js';
 window.ProgressBar = ProgressBar;
 
-
+// jquery alphanum
+import 'jquery.alphanum';
 
 // Foundation
 import Foundation from 'foundation-sites';
@@ -45,3 +46,12 @@ $(document).foundation();
 TimeMe.initialize({
   idleTimeoutInSeconds: 30, // seconds
 });
+
+// alphanum for all inputs
+
+$('input').alphanum({
+  allow: ',-_@.',
+});
+
+// quita alphanum
+$('#id_email, #id_password').off('.alphanum');
