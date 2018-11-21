@@ -30,7 +30,7 @@
       <!-- buttons -->
       <div class="profile-buttons">
         {% if not request.user.profile.large_quiz_completed %}
-        <a href="{% url 'large_learning_quiz_view' %}" class="button expanded" type="button" id="learningStyle">Learning Style Test</a>
+        <a href="{% url 'large_learning_quiz_view' %}" class="button expanded" type="button" id="learningStyle">Evaluación de Estilo de Aprendizaje</a>
         {% endif %}
         <button class="button expanded" type="button" data-open="info">Información Personal</button>
         <button class="button expanded" type="button" data-open="password">Cambiar Contraseña</button>
