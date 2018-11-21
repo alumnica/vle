@@ -280,7 +280,7 @@ class EvaluationViewSet(APIView):
 
         EvaluationCompletedNotification.objects.create(learner=learner, evaluation=evaluation_instance, score=score)
 
-        return score, questions_status, suggestions_dict, equation
+        return score, questions_status, suggestions_dict, equation, xp
 
 
 class MicroodaViewSet(APIView):

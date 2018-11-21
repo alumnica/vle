@@ -87,7 +87,7 @@ $(document).ready(function () {
                 }
 
                 if (score >= 7) {
-                    $('.xp-number').append('100');
+                    $('.xp-number').append(data.xp);
                     for (let j = 0; j < 2; j++) {
                         let suggestion = data.suggestions[j];
                         let rec_div = document.getElementById('suggestions');
