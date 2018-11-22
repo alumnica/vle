@@ -45,7 +45,9 @@
     @include breakpoint(medium){
       margin: .5rem;
     } 
-    
+    &:hover{
+      cursor: pointer;
+    }
     .front, .back {      
       position: relative;     
       
