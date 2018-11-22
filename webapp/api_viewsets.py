@@ -278,7 +278,7 @@ class EvaluationViewSet(APIView):
                        duration=duration,
                        completion=evaluation_completed)
 
-        EvaluationCompletedNotification.objects.create(learner=learner, evaluation=evaluation_instance, score=score)
+        EvaluationCompletedNotification.objects.create(learner=learner, evaluation=evaluation_instance, score=score, xp=xp)
 
         return score, questions_status, suggestions_dict, equation, xp
 
