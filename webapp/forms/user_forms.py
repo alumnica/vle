@@ -3,6 +3,8 @@ import csv
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.password_validation import MinimumLengthValidator, CommonPasswordValidator, \
+    NumericPasswordValidator, validate_password
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
@@ -24,18 +26,28 @@ class UserForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
+        user = super(UserForm, self).save(commit=False)
         password = cleaned_data.get('password')
         password_confirmation = cleaned_data.get('password_confirmation')
 
-        if len(password) < 6:
-            error = ValidationError(_("La contraseña debe tener al menos seis caracteres"),
-                                    code='password_length_error')
-            self.add_error('password', error)
-        else:
+        try:
+            validate_password(password, user)
             if password != password_confirmation:
                 error = ValidationError(_("Las contraseñas no coinciden"), code='password_mismatch')
                 self.add_error('password', error)
                 self.add_error('password_confirmation', error)
+        except ValidationError as error:
+            if error.error_list[0].code == 'password_too_common':
+                error = ValidationError('La contraseña es muy común',
+                                        code='password_error')
+            elif error.error_list[0].code == 'password_entirely_numeric':
+                error = ValidationError('La contraseña no debe contener sólo números',
+                                        code='password_error')
+            elif error.error_list[0].code == 'password_too_short':
+                error = ValidationError('La contraseña debe contener al menos {} caracteres'.format(error.error_list[0].params['min_length']),
+                                        code='password_error')
+            self.add_error('password', error)
+
         return cleaned_data
 
     def save(self, commit=True):

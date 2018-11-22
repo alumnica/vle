@@ -106,6 +106,10 @@ class ProfileSettingsForm(forms.ModelForm):
                                                         code='credentials_error')
                                 self.add_error('password', error)
 
+        else:
+            error = ValidationError(_("Los campos están vacíos"), code='password_error')
+            self.add_error('new_password', error)
+
         return cleaned_data
 
     def save(self, commit=True):
