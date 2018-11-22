@@ -7,6 +7,7 @@ $(document).ready(function () {
   });
 
   $('.end-uoda-btn').on('click', function () {
+    $('.end-uoda-btn').hide();
     let timeSpentOnPage = TimeMe.getTimeOnCurrentPageInSeconds();
     let duration = timeSpentOnPage.toString().slice(0, -1);
     duration = `PT${duration}S`;
@@ -16,7 +17,7 @@ $(document).ready(function () {
         type: 'POST',
         url: '/api/microodas/' + learner + "," + microoda + "," + duration + "/",
         success: function (data) {
-          $('.end-uoda-btn').hide();
+
           $('.end-scoring').fadeIn()
           $('.end-scoring_btn').attr('href','/odas/'+ data.oda + '/')
           showNum();
