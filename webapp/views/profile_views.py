@@ -1,3 +1,5 @@
+import random
+
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
@@ -27,6 +29,14 @@ class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin
 
     def form_valid(self, form):
         user = AuthUser.objects.get(email=self.request.user.email)
+        if user.profile.avatar_progresses.count() == 0:
+            avatar_options = ['A', 'B', 'C', 'D']
+            for option in avatar_options:
+                user.profile.avatar_progresses.create(avatar_name=option)
+            avatar = user.profile.avatar_progresses.get(avatar_name=random.choice(avatar_options))
+            avatar.active = True
+            avatar.save()
+            user.profile.save()
         gender = self.request.POST['gender']
         form.save_form(user, gender)
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
