@@ -53,7 +53,7 @@ def evaluation_completed_xp(login_counter, completed_uodas, completed_counter):
                 'bonus_eval': round(bonus_eval, 2),
                 'pen_rep': pen_rep}
 
-    return (BASE_EVALUATION_XP * daily_bonus * bonus_eval * pen_rep), equation
+    return round(BASE_EVALUATION_XP * daily_bonus * bonus_eval * pen_rep), equation
 
 
 def uoda_completed_xp(login_counter, oda_sequencing, learning_style, completed_counter):
@@ -80,4 +80,4 @@ def uoda_completed_xp(login_counter, oda_sequencing, learning_style, completed_c
                 'bonus_ea': round(bonus_ea, 2),
                 'pen_rep': pen_rep}
 
-    return (BASE_UODA_XP * daily_bonus * bonus_ea * pen_rep), equation
+    return round(BASE_UODA_XP * daily_bonus * bonus_ea * pen_rep), equation
