@@ -61,8 +61,13 @@
   @include breakpoint(medium){
     margin: 0 4rem 1rem 4rem;
   }
-  
+
  }
+  a{
+    &:hover{
+    color: $color-naranja;
+  }
+  }
 }
 
 .show{

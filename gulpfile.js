@@ -141,7 +141,7 @@ function js(done) {
     .pipe(webpackStream(require('./webpack.config.js', webpack)))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('front_end/dist/assets/js'))
-    .pipe(gulp.dest('webapp/static/webapp/js'))
+    .pipe(gulp.dest('webapp/static/webapp/js'));
   done();
 }
 
@@ -150,7 +150,7 @@ function js(done) {
 function jsparts(done) {
   return gulp
     .src('front_end/assets/js/parts/**/*.js')
-    .pipe(gulp.dest('front_end/dist/assets/js/parts'))
+    .pipe(gulp.dest('front_end/dist/assets/js/parts'));
   done();
 }
 
