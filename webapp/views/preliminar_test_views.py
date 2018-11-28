@@ -78,7 +78,7 @@ class FirstLoginTestInfoView(OnlyTestLearnerMixin, FormView):
     form_class = FirstLoginTestInfoForm
 
     def form_valid(self, form):
-        user = AuthUser.objects.get(email=self.request.user.email)
+        user = AuthUser.objects.get(pk=self.kwargs['pk'])
         if user.profile.avatar_progresses.count() == 0:
             avatar_options = ['A', 'B', 'C', 'D']
             for option in avatar_options:

@@ -47,7 +47,8 @@ class LoginView(FormView):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated and request.user.profile.type == users.TYPE_LEARNER:
             if request.user.profile.created_by_learner_test:
-                return redirect(to='first_login_test_p1_view', pk=request.user.pk)
+                logout(request)
+                return redirect(to='login_view')
             if request.user.first_name == "":
                 return redirect(to='first-login-info_view')
             if request.user.profile.learning_style is None:
