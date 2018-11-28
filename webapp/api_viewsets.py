@@ -66,6 +66,7 @@ class EvaluationViewSet(APIView):
         score = 0
         questions_status = []
         question_instance = None
+        xp = 0
 
         for question in evaluation:
             correct_answer = False
