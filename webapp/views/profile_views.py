@@ -401,49 +401,49 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         learner = self.object.profile
         notifications = []
         current_datetime = timezone.now()
-        for notification in learner.achievement_notifications.all():
+        for notification in learner.achievement_notifications.order_by('date')[:5]:
             time_diff = current_datetime - notification.date
             notifications.append({'object': 'Versión {}'.format(notification.version),
                                   'description': 'Obtuviste nueva version de la insignia {}'.format(
                                       notification.badge.name), 'days': time_diff.days, 'viewed': notification.viewed,
                                   'type': notification.type, 'date': notification.date})
-        for notification in learner.avatar_evolution_notifications.all():
+        for notification in learner.avatar_evolution_notifications.order_by('date')[:5]:
             time_diff = current_datetime - notification.date
             notifications.append(
                 {'object': notification.earned_evolution, 'description': 'Tu avatar evolucionó de nivel',
                  'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type,
                  'date': notification.date})
-        for notification in learner.uoda_completed_notifications.all():
+        for notification in learner.uoda_completed_notifications.order_by('date')[:5]:
             time_diff = current_datetime - notification.date
             notifications.append({'object': '{} XP'.format(notification.xp),
                                   'description': 'Completaste una MicroODA de la ODA {}'.format(
                                       notification.microoda.oda.name), 'days': time_diff.days,
                                   'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
-        for notification in learner.evaluation_completed_notifications.all():
+        for notification in learner.evaluation_completed_notifications.order_by('date')[:5]:
             time_diff = current_datetime - notification.date
             notifications.append({'object': '{} de score'.format(notification.score),
                                   'description': 'Completaste la evaluación de la ODA {}: +{}xp'.format(
                                       notification.evaluation.oda.first().name, notification.xp), 'days': time_diff.days,
                                   'viewed': notification.viewed, 'type': notification.type, 'date': notification.date})
-        for notification in learner.level_up_notifications.all():
+        for notification in learner.level_up_notifications.order_by('date')[:5]:
             time_diff = current_datetime - notification.date
             notifications.append(
                 {'object': 'Nivel {}'.format(notification.earned_level), 'description': 'Subiste de nivel!',
                  'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type,
                  'date': notification.date})
-        for notification in learner.test_achievement_notifications.all():
+        for notification in learner.test_achievement_notifications.order_by('date')[:5]:
             time_diff = current_datetime - notification.date
             notifications.append(
                 {'object': 'Logro ganado!', 'description': '{}: +{}xp'.format(notification.achievement.name, notification.achievement.xp),
                  'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type,
                  'date': notification.date})
-        for notification in learner.level_achievement_notifications.all():
+        for notification in learner.level_achievement_notifications.order_by('date')[:5]:
             time_diff = current_datetime - notification.date
             notifications.append(
                 {'object': 'Logro ganado!', 'description': '{}: +{}xp'.format(notification.achievement.name, notification.achievement.xp),
                  'days': time_diff.days, 'viewed': notification.viewed, 'type': notification.type,
                  'date': notification.date})
-        for notification in learner.avatar_achievement_notifications.all():
+        for notification in learner.avatar_achievement_notifications.order_by('date')[:5]:
             time_diff = current_datetime - notification.date
             notifications.append(
                 {'object': 'Logro ganado!', 'description': '{}: +{}xp'.format(notification.achievement.name, notification.achievement.xp),
