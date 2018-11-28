@@ -2,6 +2,7 @@ from django import forms
 from rest_framework.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from alumnica_model.models import AuthUser, Learner, users
+from alumnica_model.validators import validate_date
 
 
 class TestUserLoginForm(forms.Form):
@@ -40,20 +41,19 @@ class FirstLoginTestInfoForm(forms.ModelForm):
     """
     first_name = forms.CharField()
     last_name = forms.CharField()
-    gender_field = forms.CharField(widget=forms.RadioSelect(attrs={'display': 'inline'}, choices=users.GENDER_TYPES))
-    birth_date_field = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    birth_date_field = forms.DateField(validators=[validate_date], widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Learner
-        fields = ['birth_date_field', 'gender_field']
+        fields = ['birth_date_field']
 
-    def save_form(self, user):
+    def save_form(self, user, gender):
         cleaned_data = super(FirstLoginTestInfoForm, self).clean()
         user.first_name = cleaned_data.get('first_name')
         user.last_name = cleaned_data.get('last_name')
         profile = user.profile
         profile.birth_date = cleaned_data.get('birth_date_field')
-        profile.gender = cleaned_data.get('gender_field')
+        profile.gender = gender
         user.save()
 
 

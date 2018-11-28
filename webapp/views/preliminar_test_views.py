@@ -4,7 +4,7 @@ import random
 from django.contrib.auth import login
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_text
@@ -78,11 +78,27 @@ class FirstLoginTestInfoView(OnlyTestLearnerMixin, FormView):
     form_class = FirstLoginTestInfoForm
 
     def form_valid(self, form):
-        user = AuthUser.objects.get(pk=self.kwargs['pk'])
-        form.save_form(user)
+        user = AuthUser.objects.get(email=self.request.user.email)
+        if user.profile.avatar_progresses.count() == 0:
+            avatar_options = ['A', 'B', 'C', 'D']
+            for option in avatar_options:
+                user.profile.avatar_progresses.create(avatar_name=option)
+            avatar = user.profile.avatar_progresses.get(avatar_name=random.choice(avatar_options))
+            avatar.active = True
+            avatar.save()
+            user.profile.save()
+        gender = self.request.POST['gender']
+        form.save_form(user, gender)
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         register_statement(request=self.request, timestamp=timestamp, user=user)
         return redirect(to='first_login_test_p1_view', pk=user.pk)
+
+    def form_invalid(self, form):
+        if form['birth_date_field'].errors:
+            sweetify.error(self.request, form.errors['birth_date_field'][0], persistent='Ok')
+
+        context = self.get_context_data()
+        return render(self.request, self.template_name, context=context)
 
 
 class FirstLoginTestP1View(OnlyTestLearnerMixin, FormView):
