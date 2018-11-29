@@ -60,10 +60,6 @@ class UserForm(forms.ModelForm):
         return user
 
 
-class ErrorForm(forms.Form):
-    pass
-
-
 class UserLoginForm(forms.Form):
     """
     Login form
