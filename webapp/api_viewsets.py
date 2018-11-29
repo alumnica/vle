@@ -451,6 +451,9 @@ class H5PFinished(APIView):
 
 
 class NotificationsAPIView(APIView):
+    """
+    Gets all not viewed notifications
+    """
     def get(self, request):
         learner_pk = request.GET['learner']
         learner = Learner.objects.get(pk=learner_pk)
@@ -510,6 +513,9 @@ class NotificationsAPIView(APIView):
 
 
 class LearnerExperiencePoints(APIView):
+    """
+    Gets Learner and avatar experience levels
+    """
     def get(self, request):
         learner_pk = request.GET['learner']
         learner = Learner.objects.get(pk=learner_pk)
