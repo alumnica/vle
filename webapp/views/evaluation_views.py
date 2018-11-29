@@ -55,6 +55,10 @@ class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, Fo
         return {'evaluation': self.evaluation, 'oda': oda, 'xp': xp, 'equation': equation}
 
     def get_evaluation(self, pk):
+        """
+        Gets random questions
+        :param pk: evaluation primary key
+        """
         evaluation_instance = Evaluation.objects.get(pk=pk)
         micro_oda_array = list(evaluation_instance.oda.all()[0].microodas.all())
         random.shuffle(micro_oda_array)
