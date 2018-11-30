@@ -409,7 +409,7 @@ class SaveExtraProfileInfo(APIView):
 
         learner.auth_user.first_name = first_name
         learner.auth_user.last_name = last_name
-
+        learner.auth_user.save()
         date = parse_date(birth_date)
         current_datetime = timezone.now().date()
         date_diff = current_datetime - date
