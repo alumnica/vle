@@ -176,7 +176,7 @@ STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
 SOCIAL_AUTH_USER_FIELDS = ['email']
-
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 XAPI_URL = os.environ.get('XAPI_URL')
 XAPI_VERSION = os.environ.get('XAPI_VERSION')
 XAPI_KEY = os.environ.get('XAPI_KEY')
