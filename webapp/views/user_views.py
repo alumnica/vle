@@ -107,7 +107,7 @@ class SignUpView(FormView):
         avatar.save()
         user.profile.save()
         current_site = get_current_site(self.request)
-        mail_subject = 'Activate your blog account.'
+        mail_subject = 'Activa tu cuenta con Alúmnica'
         message = render_to_string('webapp/partials/active_email.html', {
             'user': user,
             'domain': current_site.domain,
