@@ -7,7 +7,7 @@ from alumnica_model.validators import validate_date
 
 class TestUserLoginForm(forms.Form):
     """
-    Login form
+    Test user login form
     """
     email = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput())
@@ -37,7 +37,7 @@ class TestUserLoginForm(forms.Form):
 
 class FirstLoginTestInfoForm(forms.ModelForm):
     """
-    Personal information form
+    Test user personal information form
     """
     first_name = forms.CharField()
     last_name = forms.CharField()

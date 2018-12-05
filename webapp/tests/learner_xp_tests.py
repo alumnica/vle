@@ -4,6 +4,9 @@ from webapp.gamification import get_learner_level, uoda_completed_xp, evaluation
 
 
 class GetLearnerLevelTestCase(TestCase):
+    """
+    Tests learner level by experience points
+    """
     experience_points = [0, 50, 150, 450, 800, 1820, 2840, 3890, 4990, 6140, 7340, 8590, 9890, 11240,
                          12640, 14090, 15590, 17190, 18890, 20690, 22590, 24590, 26690, 28890, 31190,
                          33590, 36090, 38690, 41390, 44190, 47090, 50090, 53240, 56540, 59990, 63590,
@@ -54,6 +57,9 @@ class GetLearnerLevelTestCase(TestCase):
 
 
 class GetExperiencePointsTestCase(TestCase):
+    """
+    Tests get learner points when MicroODA or evaluation is completed
+    """
     login_cases = range(1, 55)
     uodas_completed_cases = range(0, 6)
     repetition_cases = range(1, 10)

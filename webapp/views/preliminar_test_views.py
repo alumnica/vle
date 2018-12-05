@@ -25,7 +25,7 @@ from webapp.tokens import account_activation_token
 
 class SignUpTestView(FormView):
     """
-    Create new AuthUser view
+    Create new test AuthUser view
     """
     form_class = UserForm
     template_name = 'webapp/pages/signup.html'
@@ -73,6 +73,9 @@ class SignUpTestView(FormView):
 
 
 class FirstLoginTestInfoView(OnlyTestLearnerMixin, FormView):
+    """
+    First information for test AuthUser
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/first-login-info.html'
     form_class = FirstLoginTestInfoForm
@@ -150,6 +153,9 @@ class FirstLoginTestP1View(OnlyTestLearnerMixin, FormView):
 
 
 class SignUpTestConfirmation(OnlyTestLearnerMixin, FormView):
+    """
+    Sign up confirmation view
+    """
     login_url = 'login_view'
 
     def get(self, request, *args, **kwargs):
@@ -175,6 +181,9 @@ class SignUpTestConfirmation(OnlyTestLearnerMixin, FormView):
 
 
 class SignupTestConfirmationError(OnlyTestLearnerMixin, FormView):
+    """
+    Sign up confirmation error view
+    """
     login_url = 'login_view'
     template_name = 'webapp/pages/account_active_error.html'
 
@@ -205,4 +214,7 @@ class SignupTestConfirmationError(OnlyTestLearnerMixin, FormView):
 
 
 class TestAnswered(TemplateView):
+    """
+    Test answered view
+    """
     template_name = 'webapp/pages/test_answered.html'

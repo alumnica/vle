@@ -18,6 +18,10 @@ REPETITION_PENALTY = [1, 0.5, 0.2, 0]
 # first_levels_points = [0, 50, 150, 450, 800, 1820, 2840, 3890, 4990, 6140, 7340]
 
 def get_daily_bonus(login_counter):
+    """
+    Gets daily bonus points
+    :param login_counter: Login counter
+    """
     if login_counter < MAX_DAILY_LOGIN:
         return DAILY_BONUS_INCREMENT * login_counter + (1 - DAILY_BONUS_INCREMENT)
     else:
@@ -25,6 +29,10 @@ def get_daily_bonus(login_counter):
 
 
 def get_learner_level(experience_points):
+    """
+    Gets current learner level
+    :param experience_points: learner experience points
+    """
     level = LearnerLevels.objects.first()
     learner_levels = LearnerLevels.objects.all()
 
@@ -40,6 +48,13 @@ def get_learner_level(experience_points):
 
 
 def evaluation_completed_xp(login_counter, completed_uodas, completed_counter):
+    """
+    Gets experience points to add after completing evaluation
+    :param login_counter: learner login counter
+    :param completed_uodas: completed MicroODAs learner learner
+    :param completed_counter: completed MicroODAs learner evaluation counter
+    :return: xp, multipliers equation
+    """
     pen_rep = 0
     daily_bonus = get_daily_bonus(login_counter)
 
@@ -57,6 +72,14 @@ def evaluation_completed_xp(login_counter, completed_uodas, completed_counter):
 
 
 def uoda_completed_xp(login_counter, oda_sequencing, learning_style, completed_counter):
+    """
+    Gets experience points to add after completing MicroODA
+    :param login_counter: learner login counter
+    :param oda_sequencing: learner microoda completed sequence
+    :param learning_style: learner learnign style
+    :param completed_counter: completed MicroODa learner counter
+    :return: xp, multipliers equation
+    """
     # BASE_UODA_XP * daily_bonus * BonusEA * PenRep
     pen_rep = 0
     daily_bonus = get_daily_bonus(login_counter)

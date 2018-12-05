@@ -177,7 +177,9 @@ class LogoutView(RedirectView):
 
 
 class SignUpConfirmation(FormView):
-
+    """
+    Sign up email confirmation view
+    """
     def get(self, request, *args, **kwargs):
         uidb64 = (self.kwargs['uidb64']).encode()
         token = self.kwargs['token']
@@ -202,6 +204,9 @@ class SignUpConfirmation(FormView):
 
 
 class SignupConfirmationError(FormView):
+    """
+    Email confirmation error view
+    """
     template_name = 'webapp/pages/account_active_error.html'
 
     def get_context_data(self, **kwargs):
