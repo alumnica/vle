@@ -54,4 +54,4 @@ $('input').alphanum({
 });
 
 // quita alphanum
-$('#id_email, #id_password').off('.alphanum');
+$('#id_email, #id_password, #id_password_confirmation').off('.alphanum');
