@@ -70,6 +70,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -154,7 +155,7 @@ LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'America/Mexico_City'
 
-USE_I18N = False
+USE_I18N = True
 
 USE_L10N = True
 
