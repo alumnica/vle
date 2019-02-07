@@ -1,0 +1,123 @@
+//Intro questions
+
+.highlight {
+    background-color: $color-yellow;
+    display: inline;
+    
+}
+
+.pregunta-2{
+    font-size: 1rem;
+    // text-align: center;
+    margin-top: .5rem;
+    font-weight: bold;
+}
+.first-q-form {
+
+    [type='checkbox'] + label,
+    [type='radio'] + label {
+        margin-left: 0;
+        margin-right: 0;
+        }
+    
+    &__container{
+        @include xy-grid;
+        @include flex;
+        @include flex-align(center);
+        
+    padding: 1rem 0;
+    @include breakpoint(medium){
+        
+    }
+    text-align: center;
+    }
+    
+
+    &__radio-group{
+       @include xy-cell(6);    
+    }
+
+    .button-submit{
+        @include xy-cell(6);
+    }
+
+    &__radio-input {
+       display: none;
+    }
+
+    &__radio-label-1{
+        border: 4px solid transparent;
+        border-radius: 5px;
+        padding: .5rem;
+        transition: all .2s;
+
+        &:hover {
+            background-color: lighten($color-peri, 30%);
+        }
+    }
+
+
+    &__radio-input:checked ~ &__radio-label-1 {
+        border: 4px solid $color-peri;
+        
+    }
+
+    &__radio-label-2{
+        border: 4px solid transparent;
+        border-radius: 5px;
+        padding: .5rem;
+        color: $white;
+        transition: all .2s;
+
+        &:hover {
+            background-color: lighten($color-violet,10%);
+        }
+    }
+
+
+    &__radio-input:checked ~ &__radio-label-2 {
+        border: 4px solid $white;
+        background-color: lighten($color-violet,10%);
+        
+        
+    }
+
+    &__radio-label-3{
+        border: 4px solid transparent;
+        border-radius: 5px;
+        padding: .5rem;
+        color: $white;
+        transition: all .2s;
+
+        &:hover {
+            background-color: lighten($color-bluegreen, 5%);
+        }
+    }
+
+
+    &__radio-input:checked ~ &__radio-label-3 {
+        border: 4px solid $white;
+        background-color: lighten($color-bluegreen, 5%);
+        
+    }
+    
+    &__radio-image {
+        
+        margin-bottom: 1rem;
+        
+        border-radius: 3px;
+        
+    }
+}
+
+.fl-bg-1{
+    background-color: $color-red;
+}
+
+.fl-bg-2{
+    background-color: $color-violet;
+}
+
+.fl-bg-3{
+    background-color: $color-bluegreen;
+}

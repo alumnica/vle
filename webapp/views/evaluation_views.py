@@ -4,14 +4,15 @@ import random
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import FormView
 
-from alumnica_model.mixins import OnlyLearnerMixin
+from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models.content import Evaluation, ODA
 from alumnica_model.models.questions import TYPE_RELATIONSHIP, TYPE_PULL_DOWN_LIST, TYPE_MULTIPLE_OPTION, \
     TYPE_MULTIPLE_ANSWER, TYPE_NUMERIC_ANSWER
+from webapp.gamification import evaluation_completed_xp
 from webapp.statement_builders import access_statement_with_parent
 
 
-class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
     """
     Random Evaluation questions view
     """
@@ -20,7 +21,8 @@ class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
     evaluation = []
 
     def dispatch(self, request, *args, **kwargs):
-        if request.method == 'GET':
+        response = super(EvaluationView, self).dispatch(request, *args, **kwargs)
+        if response.status_code == 200 and request.method == 'GET':
             evaluation = Evaluation.objects.get(pk=self.kwargs['pk'])
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
             access_statement_with_parent(request=request,
@@ -30,15 +32,33 @@ class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
                                          parent_name=evaluation.oda.all()[0].name,
                                          tags_array=evaluation.oda.all()[0].tags.all(),
                                          timestamp=timestamp)
-        return super(EvaluationView, self).dispatch(request, *args, **kwargs)
+        return response
 
     def get_context_data(self, **kwargs):
         self.evaluation = []
         self.get_evaluation(self.kwargs['pk'])
+        learner = self.request.user.profile
+        completed_uodas = 0
+        evaluation = Evaluation.objects.get(pk=self.kwargs['pk'])
+        progress, created = learner.evaluations_progresses.get_or_create(evaluation=evaluation)
+
+        for uoda in evaluation.oda.first().microodas.all():
+            if learner.activities_progresses.filter(
+                    activity=uoda.activities.first()).exists() and learner.activities_progresses.get(
+                activity=uoda.activities.first()).is_complete:
+                completed_uodas += 1
+
+        xp, equation = evaluation_completed_xp(login_counter=learner.login_progress.login_counter,
+                                               completed_uodas=completed_uodas,
+                                               completed_counter=(progress.evaluation_completed_counter+1))
         oda = ODA.objects.get(evaluation=Evaluation.objects.get(pk=self.kwargs['pk']))
-        return {'evaluation': self.evaluation, 'oda': oda}
+        return {'evaluation': self.evaluation, 'oda': oda, 'xp': xp, 'equation': equation}
 
     def get_evaluation(self, pk):
+        """
+        Gets random questions
+        :param pk: evaluation primary key
+        """
         evaluation_instance = Evaluation.objects.get(pk=pk)
         micro_oda_array = list(evaluation_instance.oda.all()[0].microodas.all())
         random.shuffle(micro_oda_array)

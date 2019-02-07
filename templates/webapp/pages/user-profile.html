@@ -2,200 +2,200 @@
 {% load static %}
 {% load vle_extras %}
 {% block content %}
-<style>
-.saved {color:gray; margin-left: 2rem; font-size:.8rem;}
 
-</style>
-<!-- preloader -->
-<div class='container' id="preloader">
-    <div class='loader'>
-        <div class='loader--dot'></div>
-        <div class='loader--dot'></div>
-        <div class='loader--dot'></div>
-        <div class='loader--dot'></div>
-        <div class='loader--dot'></div>
-        <div class='loader--dot'></div>
-        <div class='loader--text'></div>
-    </div>
-</div>
-<script>
-    let pk = {{ request.user.pk }};
-    setTimeout(function () {
-        document.getElementById("preloader").classList.add("is-load");
-    }, 1000);
-</script>
-<!-- end preloader -->
 <div class="grid-container">
-    <div class="profile-grid">
-        <div class="avatar">
-            <div class="avatar-main">
-                <img src="{% static '' %}webapp/media/{{ request.user.profile.avatar }}0{{ request.user.profile.experience_points|learner_level }}.png" alt="" id="{{ request.user.profile.avatar }}">
+  <div class="profile-grid">
+    <!-- name and progress bar -->
+    <div class="name-prog">
+        <h1>{{ learner_name }}</h1>
+        <div class="level">{{ level.level }}</div>
+        <div class="progress" id="progress"></div>
+      </div>
+      <!-- avatar selection -->
+      <div class="avatars">
+        <div class="the-avatar">
+          <img src="{% static '' %}webapp/media/{{ avatar_active.name }}0{{ avatar_active.level }}.png" alt="" id="{{ avatar_active.name }}">
+        </div>
+        <div class="avatar-progress" id="avatarProgress"></div>
+        <div class="other-avatars">
+            {% for avatar in avatares %}
+                <img class="the-others" src="{% static '' %}webapp/media/{{ avatar.name }}0{{ avatar.level }}.png" alt="" id="{{ avatar.name }}">
+            {% endfor %}
+          {% comment %}<img class="the-others" src="{% static '' %}webapp/media/B0{{ learner_level }}.png" alt="" id="B">
+          <img class="the-others" src="{% static '' %}webapp/media/C0{{ learner_level }}.png" alt="" id="C">
+          <img class="the-others" src="{% static '' %}webapp/media/D0{{ learner_level }}.png" alt="" id="D">{% endcomment %}
+        </div>
+          <input type="hidden" id="selected-avatar">
+      </div>
+      <!-- buttons -->
+      <div class="profile-buttons">
+        {% if not request.user.profile.large_quiz_completed %}
+        <a href="{% url 'large_learning_quiz_view' %}" class="button expanded" type="button" id="learningStyle">Evaluación de Estilo de Aprendizaje</a>
+        {% endif %}
+        <button class="button expanded" type="button" data-open="info">Información Personal</button>
+        <button class="button expanded" type="button" data-open="password">Cambiar Contraseña</button>
+      </div>
+      <!-- badges and recent activity -->
+      <div class="tabbed-content">
+        <ul class="accordion" data-responsive-accordion-tabs="accordion medium-tabs small-accordion"
+          data-allow-all-closed="true">
+          <!-- badges content -->
+          <li class="accordion-item is-active" data-accordion-item>
+            <a href="#" class="accordion-title">Insignias</a>
+            <div class="accordion-content" data-tab-content>
+              <div class="accordion-grid">
+                <!-- start badge -->
+                  {% for badge in badges %}
+                      <div class="badge-cell" version={{ badge.version }}>
+                          <div class="badge-cell_stars">
+                          <!--append stars here with JS-->
+                          </div>
+                          <div class="badge-cell_img">
+                            <img src={{ badge.image.file.url }}>
+                          </div>
+                          <div class="badge-cell_title">
+                            {{ badge.name }}
+                          </div>
+                      </div>
+                  {% endfor %}
+                <!-- end badge -->
+              </div>
             </div>
-            <div class="avatar-options">
-                {% if request.user.profile.avatar != "A" %}
-                    <div class="avatar-options-individual">
-                        <img src="{% static '' %}webapp/media/A0{{ learner_level }}.png" alt="" id="A">
-                    </div>
-                {% endif %}
-                {% if request.user.profile.avatar != "B" %}
-                    <div class="avatar-options-individual">
-                        <img src="{% static '' %}webapp/media/B0{{ learner_level }}.png" alt="" id="B">
-                    </div>
-                {% endif %}
-                {% if request.user.profile.avatar != "C" %}
-                    <div class="avatar-options-individual">
-                        <img src="{% static '' %}webapp/media/C0{{ learner_level }}.png" alt="" id="C">
-                    </div>
-                {% endif %}
-                {% if request.user.profile.avatar != "D" %}
-                    <div class="avatar-options-individual">
-                        <img src="{% static '' %}webapp/media/D0{{ learner_level }}.png" alt="" id="D">
-                    </div>
-                {% endif %}
+          </li>
+          <!-- logros -->
+          <li class="accordion-item"  data-accordion-item>
+            <a href="#" class="accordion-title">Logros</a>
+            <div class="accordion-content" data-tab-content>
+              <div class="accordion-grid">
+                <!-- begin achievement    ADD 'new' FOR NEWLY ACHIEVED, ADD 'wip' TO ALL ACHIEVEMENTS, REMOVE WHEN EARNED -->
+                {% for achievement in achievements %}
+                    <div class="achievement wip" earned="{{ achievement.earned }}">
+                      <div class="achievement_icon">
+                        <img src={{ achievement.image.file.url }}>
+                      </div>
+                      <div class="achievement_text">
+                        {{ achievement.description }}
+                      </div>
+                      <div class="achievement_counter">
+                        {{ achievement.uodas }}
+                      </div>
+                      <div class="achievement_tip">
+                        {{ achievement.name }}
 
+                      </div>
+                    </div>
+                  {% endfor %}
 
+                <!-- end achievement -->
+              </div>
             </div>
-            <input type="hidden" id="selected-avatar">
-        </div>
-        <div class="exp-points">
-            <i class="fa fa-star"></i> {{ request.user.profile.experience_points }}
-        </div>
-        <div class="badges">
-            <div class="badges-grid">
-
-                {% if request.user.profile.experience_points >= 5000 %}
-                    <div class="badges-item">
-                    <div class="badges-item-image">
-                        <img src="{% static 'webapp/media/insignias/insignia_ambito.png' %}" alt="">
+          </li>
+          <!-- recent activity -->
+          <li class="accordion-item" data-accordion-item>
+            <a href="#" class="accordion-title">Actividad Reciente</a>
+            <div class="accordion-content" data-tab-content>
+              <div class="accordion-grid">
+                {% for notification in notifications reversed%}
+                  <div class="recent-cell" noti-type="{{ notification.type}}">
+                    <div class="recent-cell_icon">
                     </div>
-                    <div class="badges-item-text">
-                       5,000 Puntos
+                    <div class="recent-cell_num">
+                      {{ notification.object }}
                     </div>
-                </div>
-                    <!-- end badge -->
-                {% endif %}
-                {% if request.user.profile.experience_points >= 10000 %}
-                    <div class="badges-item">
-                        <div class="badges-item-image">
-                            <img src="{% static 'webapp/media/insignias/insignia_login.png' %}" alt="">
-                        </div>
-                        <div class="badges-item-text">
-                            10,000 Puntos
-                        </div>
+                    <div class="recent-cell_title">
+                      {{ notification.description }}
                     </div>
-                    <!-- end badge -->
-                {% endif %}
-                {% if request.user.profile.experience_points >= 15000 %}
-                    <div class="badges-item">
-                        <div class="badges-item-image">
-                            <img src="{% static 'webapp/media/insignias/insignia_microODA.png' %}" alt="">
-                        </div>
-                        <div class="badges-item-text">
-                            15,000 Puntos
-                        </div>
+                    <div class="recent-cell_date">
+                      {{ notification.days }}d
                     </div>
-                    <!-- end badge -->
-                {% endif %}
-                {% if request.user.profile.experience_points >= 20000 %}
-                    <div class="badges-item">
-                        <div class="badges-item-image">
-                            <img src="{% static 'webapp/media/insignias/insignia_ODA.png' %}" alt="">
-                        </div>
-                        <div class="badges-item-text">
-                            20,000 Puntos
-                        </div>
-                    </div>
-                    <!-- end badge -->
-                {% endif %}
-              
-
-
+                  </div>
+                {% endfor %}
+  
+              </div>
             </div>
-        </div>
-        <div class="learning-style">
-            <strong>ESTILO DE APRENDIZAJE: </strong> &nbsp; {{ request.user.profile.learning_style }}
-        </div>
-        <div class="profile-information">
-            <p class="name">
-                {{ request.user.first_name }}
-            </p>
-            <p class="email">
-                {{ request.user.email }}
-            </p>
-            <div class="profile-information-edit" data-open="user-details-modal">
-                <i class="fa fa-pencil-alt"></i>
-            </div>
-        </div>
-        <div class="extra-info" style="box-shadow: 0 0 3px rgba(94, 133, 195, 0.5); padding: 1rem 2rem;">
-            <h4>Queremos saber más de ti.</h4>
-            <label for="materia-fav"> ¿Cuál es tu materia favorita?</label>
-            <input type="text" id="materia-fav" class="extra-info-input" placeholder="ej. Historia">
-
-            <label for="horario"> ¿En qué horario te gusta estudiar (mañana, tarde, noche)?</label>
-            <input type="text" id="horario" class="extra-info-input" placeholder="mañana, tarde o noche">
-
-            <label for="univ"> ¿Qué te gustaría estudiar en la universidad?</label>
-            <input type="text" id="univ" class="extra-info-input" placeholder="ej. Literatura">
-
-            <button type="button" class="button small" id="user-info-btn">Guardar</button>
-
-        </div>
-
-        <div class="profile-test">
-            {% if not request.user.profile.large_quiz_completed %}
-            <a href="{% url 'large_learning_quiz_view' %}" class="dashboard-test-button">
-                <i class="fas fa-vial"></i> Test
-            </a>
-            {% endif %}
-        </div>
-
-    </div>
+          </li>
+          
+        </ul>
+        <!-- end accordion -->
+      </div>
+  </div>
 </div>
-<div class="reveal" id="user-details-modal" data-reveal>
-    <h3 class="text-center">Cambiar detalles de usuario</h3>
-    <form class="user-details-form" method="post">
+        
+<!-- modals -->
+
+<div class="reveal" id="password" data-reveal>
+  <h3 class="text-center">Cambio de Contraseña</h3>
+  <p class="lead">Cambia tu contraseña de acceso</p>
+     <form class="user-details-form" method="post">
         {% csrf_token %}
-        <label for="user-name">Nombre</label>
-        {{ form.first_name }}
-
-        <label for="user-last-name">Apellidos</label>
-        {{ form.last_name }}
-
-        <label for="birth-date">Fecha de nacimiento</label>
-        {{ form.birth_date_field }}
-
-        <label for="gender">Sexo</label>
-        {{ form.gender_field }}
-
-        <label for="new-pass">Nueva contraseña</label>
-        {{ form.new_password }}
-
-        <label for="new-pass-confirm">confirmar nueva contraseña</label>
-        {{ form.new_password_confirmation }}
-
-        <label for="current-pass"> Contraseña Actual</label>
-        {{ form.previous_password }}
-
+      <label for="current">Contraseña actual</label>
+         {{ form.password }}
+      <label for="current">Nueva contraseña</label>
+         {{ form.new_password }}
+      <label for="current">Confirmar nueva contraseña</label>
+         {{ form.new_password_confirmation }}
+      <div class="pass-wrapper">
         <button type="submit" class="button"> Guardar Cambios</button>
+      </div>
+     </form>
 
-    </form>
-
-
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&times;</span>
-    </button>
+  <!-- x to close -->
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
+<!-- end first modal -->
 
-
+<div class="reveal" id="info" data-reveal>
+  <h3>Información Personal</h3>
+  <div class="grid-x grid-margin-x">
+    <div class="cell medium-6">
+      <label for="first_name">Nombre</label>
+      <input id='first_name' type="text">
+    </div>
+    <div class="cell medium-6">
+      <label for="last_name">Apellidos</label>
+      <input id='last_name' type="text">
+    </div>
+    <div class="cell medium-6">
+      <label for="birth_date">Fecha de nacimiento</label>
+      <input id='birth_date' type="date">
+    </div>
+    <div class="medium-12 cell">
+      <legend>Sexo</legend>
+        <input type="radio" name="gender" value="MALE"> HOMBRE
+        <input type="radio" name="gender" value="FEMALE"> MUJER
+        <input type="radio" name="gender" value="OTHER"> OTRO
+        <input type="radio" name="gender" value="NA"> NO APLICA
+    </div>
+    <div class="cell medium-12">
+      <h4>Queremos saber más de ti</h4>
+      <label>¿Cuál es tu materia favorita?</label>
+      <input type="text" id="materia-fav" class="extra-info-input" placeholder="ej. Historia">
+      <label>¿En qué horario te gusta estudiar?</label>
+      <input type="text" id="horario" class="extra-info-input" placeholder="mañana, tarde o noche">
+      <label>¿Qué te gustaría estudiar en la universidad?</label>
+      <input type="text" id="univ" class="extra-info-input" placeholder="ej. Literatura">
+    </div>
+  </div>
+  <div class="pass-wrapper">
+    <button type="button expanded" id="user-info-btn" class="button">Guardar cambios</button>
+  </div>
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
 <!-- makes  menu active -->
 <script>
-        document.querySelector('#top-menu-icon').classList.add("top-active");
+  document.querySelector('#top-menu-icon').classList.add("top-active");
+
 </script>
 
 
 {% endblock %}
 
 {% block scripts %}
+<script src="{% static "webapp/js/progress-bar.js" %}"></script>
 <script src="{% static "webapp/js/user-profile.js" %}"></script>
 {% endblock %}

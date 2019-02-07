@@ -1,0 +1,35 @@
+{{!-- This is base is for testing puroses--}}
+
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumnica Content Creation Studio</title>
+  <link rel="stylesheet" href="{{root}}assets/css/app.css">
+  <link rel="manifest" href="manifest.json">
+  
+</head>
+
+<body>
+    <div class="off-canvas off-canvas__main-menu caps position-left" id="offCanvasLeft" data-off-canvas data-transition="overlap">
+      {{>menu}}
+    </div>
+    
+    
+    <div class="off-canvas-content" data-off-canvas-content>
+
+    {{> nav}}
+
+  {{>body}}
+  
+  <script src="{{root}}assets/js/app.js"></script>
+  
+  <script src="{{root}}assets/js/materias.js"></script>
+  <script src="{{root}}assets/js/tags.js"></script>
+  
+</body>
+
+</html>

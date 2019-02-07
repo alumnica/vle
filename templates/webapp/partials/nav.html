@@ -3,10 +3,8 @@
 <div class="top-nav">
     <div class="top-nav-container">
         <!-- <div class="top-nav-container-left"> -->
-        <button class="menu-open" type="button" id="ham-btn-out">
-            <i class="fas fa-bars"></i>
-        </button>
-        <a href="{% url 'login_view' %}" class="top-nav-title" title="Dashboard">
+
+        <a href="{% url 'index_view' %}" class="top-nav-title" title="Dashboard">
             <img src="{% static "/webapp/media/alumnica-logo-100.png"%}" alt="Alumnica">
         </a>
         
@@ -15,7 +13,7 @@
 <div class="out-menu" style="display: none;">
     <ul>
         <li>
-            <a href="https://www.alumnica.org"><img src={% static 'webapp/media/alumnica-favico.png' %} alt=""> Alumnica.org</a>
+            <a href="https://www.alumnica.org"><img src={% static 'webapp/media/alumnica-favico.png' %}> Alumnica.org</a>
         </li>
     </ul>
 </div>

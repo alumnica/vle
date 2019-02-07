@@ -7,7 +7,7 @@
                 <a href="#" class="accordion-title">Índice</a>
 
                 <!-- Accordion tab content: it would start in the open state due to using the `is-active` state class. -->
-                <div class="accordion-content" data-tab-content>
+                <div class="accordion-content" id="index" data-tab-content>
 
 
                         <!-- start ámbito loop -->
@@ -22,7 +22,7 @@
         {% if not request.user.profile.large_quiz_completed %}
         <div class="menu-test">
             <a href="{% url 'large_learning_quiz_view' %}" class="dashboard-test-button">
-                <i class="fas fa-vial"></i> Test
+                <i class="fas fa-vial"></i> Evaluación de Estilo de Aprendizaje
             </a>
         </div>
         {% endif %}

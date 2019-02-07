@@ -1,16 +1,25 @@
-$(document).ready(function () {
+function init(){
+  $('#evaluate :input[type="number"]').val('');
+  $('#evaluate input:checkbox').prop('checked', false)
+  $('#evaluate input:radio').prop('selected', false)
+  $('#evalInputs input:text').val('')
+}
 
-    $('#evaluate').fullpage({
+$(window).bind("pageshow", function() {
+  init();
+});
+
+$(document).ready(function () {
+    new fullpage('#evaluate', {
         verticalCentered: false,
         anchors: ['firstPage', 'secondPage', 'thirdPage', 'fourthPage', 'fifthPage', 'sixthPage', 'seventhPage', 'eighthPage', 'ninethPage', 'tenthPage', 'eleventhPage', 'twelvethPage'],
         menu: '#evalMenu',
-
-
+      recordHistory: false
     });
 
 
     $('.next').on('click', '.button', function () {
-        $.fn.fullpage.moveSectionDown();
+        fullpage_api.moveSectionDown();
     });
 
     /**
@@ -47,8 +56,9 @@ $(document).ready(function () {
                 let questions_array = JSON.parse(data.data);
                 let score = data.score;
                 let theSugg = data.suggestions;
-                $('.resultado').html(score);
-                $('.the-score').fadeIn(500);
+                $('.score .bonus-box_number').html(score);
+                $('.end-scoring').fadeIn(500);
+                showNum();
 
 
                 for (let i = 0; i < questions_array.length; i++) {
@@ -77,34 +87,34 @@ $(document).ready(function () {
                 }
 
                 if (score >= 7) {
-                    $('.the-xp').append('+ 100');
+                    $('.xp-number').append(data.xp);
                     for (let j = 0; j < 2; j++) {
                         let suggestion = data.suggestions[j];
                         let rec_div = document.getElementById('suggestions');
 
-                        $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='" + suggestion.image + "' alt='\'></div><div class='oda-text'>" + suggestion.oda + "</div></a>");
-                        $(rec_div).find('#rec').attr("href", "/odas/" + suggestion.pk + "/");
+                        $(rec_div).append("<a href='/odas/" + suggestion.pk +"' class='rec' id='rec'><div class='oda-image'><img src='" + suggestion.image + "' alt='\'></div><div class='oda-text'>" + suggestion.oda + "</div></a>");
+                        // $(rec_div).find('#rec').attr("href", "/odas/" + suggestion.pk + "/");
+
 
 
                     }
                 } else if (score <= 6) {
-                    $('.the-xp').append('+ 0');
+                    $('.xp-number').append('0');
                     for (let h = 0; h <= 2; h++) {
                         let suggestion = data.suggestions[h];
                         let rec_div = document.getElementById('suggestions');
-                        if (suggestion.uoda == "exemplification") {
-                            $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/sens.png' alt='Ejemplificacion'></div><div class='oda-text'>Ejemplificación</div></a>")
-
-                        } else if (suggestion.uoda == "formalization") {
-                            $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/forma.png' alt='Formalizacion'></div><div class='oda-text'>Formalización</div></a>")
-                        } else if (suggestion.uoda == "application") {
-                            $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/apli.png' alt='Aplicacion'></div><div class='oda-text'>Aplicación</div></a>")
-                        } else if (suggestion.uoda == "sensitization") {
-                            $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/sens.png' alt='Sensibilizacion'></div><div class='oda-text'>Sensibilzación</div></a>")
-                        } else if (suggestion.uoda == "activation") {
-                            $(rec_div).append("<a class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/activ.png' alt='Activacion'></div><div class='oda-text'>Activación</div></a>")
+                        if (suggestion.uoda === "exemplification") {
+                            $(rec_div).append("<a href='/moments/"+ suggestion.pk + "' class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/sens.png' alt='Ejemplificacion'></div><div class='oda-text'>Ejemplificación</div></a>")
+                        } else if (suggestion.uoda === "formalization") {
+                            $(rec_div).append("<a href='/moments/"+ suggestion.pk + "' class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/forma.png' alt='Formalizacion'></div><div class='oda-text'>Formalización</div></a>")
+                        } else if (suggestion.uoda === "application") {
+                            $(rec_div).append("<a href='/moments/"+ suggestion.pk + "' class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/apli.png' alt='Aplicacion'></div><div class='oda-text'>Aplicación</div></a>")
+                        } else if (suggestion.uoda === "sensitization") {
+                            $(rec_div).append("<a href='/moments/"+ suggestion.pk + "' class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/sens.png' alt='Sensibilizacion'></div><div class='oda-text'>Sensibilzación</div></a>")
+                        } else if (suggestion.uoda === "activation") {
+                            $(rec_div).append("<a href='/moments/"+ suggestion.pk + "' class='rec' id='rec'><div class='oda-image'><img src='/static/webapp/media/uODAs/iconos/activ.png' alt='Activacion'></div><div class='oda-text'>Activación</div></a>")
                         }
-                        $(rec_div).find('#rec').attr("href", "/moments/" + suggestion.pk + "/");
+                        // $(rec_div).find('#rec').attr("href", "/moments/" + suggestion.pk + "/");
                     }
                 }
             }
@@ -125,7 +135,7 @@ $(document).ready(function () {
     let relMOAnswers = new Array(relMOAnswersLength);
     let relMAAnswers = new Array(relMAAnswersLength);
     let relNAAnswers = new Array(relNAAnswersLength);
-    let relPLAnswers = new Array();
+    let relPLAnswers = [];
 
     $('.question[question-type="relationship"]').each(function () {
         let dataAnchor = $(this).parent().attr('data-anchor');
@@ -274,7 +284,7 @@ $(document).ready(function () {
         let dataAnchor = $(this).parent().attr('data-anchor');
         let thePk = $(this).attr('pk');
         let qIndex = $('.question[question-type="multiple_answer"]').index(this);
-        let theAnswer = new Array();
+        let theAnswer = [];
         let theQuest = $(this);
 
         $('input', this).on('click', function () {
@@ -405,3 +415,46 @@ $('.section').on('click', '.the-tab', function () {
 
 
 
+  function upCounter() {
+  $('.end-scoring_score').toggleClass('show');
+  $('.xp-number').each(function() {
+    $(this)
+      .prop('Counter', 0)
+      .animate(
+        {
+          Counter: $(this).text(),
+        },
+        {
+          duration: 2000,
+          easing: 'swing',
+          step: function(now) {
+            $(this).text(Math.ceil(now));
+          },
+        }
+      );
+  });
+}
+
+
+async function showNum() {
+  await showBoxes();
+  setTimeout(upCounter, 2000);
+}
+
+var items = $('.bonus-box');
+
+async function showBoxes() {
+  for (var i = 0; i < items.length; i++) {
+    // get function in closure, so i can iterate
+    var toggleItemMove = getToggleItemMove(i);
+    // stagger transition with setTimeout
+    setTimeout(toggleItemMove, i * 500);
+  }
+}
+
+function getToggleItemMove(i) {
+  var item = items[i];
+  return function() {
+    $(item).toggleClass('show');
+  };
+}

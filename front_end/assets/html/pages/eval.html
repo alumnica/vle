@@ -1,0 +1,411 @@
+---
+layout: logged-in 
+name: For logged in Users 
+---
+<div class='container' id="preloader">
+  <div class='loader'>
+    <div class='loader--dot'></div>
+    <div class='loader--dot'></div>
+    <div class='loader--dot'></div>
+    <div class='loader--dot'></div>
+    <div class='loader--dot'></div>
+    <div class='loader--dot'></div>
+    <div class='loader--text'></div>
+  </div>
+</div>
+
+<script>
+  setTimeout(function () {
+    document.getElementById("preloader").classList.add("is-load");
+  }, 1000);
+</script>
+<!-- end preloader -->
+
+<div class="scroll-menu">
+  <ul id="evalMenu">
+    <li data-menuanchor="firstPage" class="active"><a href="#firstPage"><i class="far fa-bookmark"></i></a></li>
+    <li data-menuanchor="secondPage"><a href="#secondPage"><i class="far fa-circle"></i></a></li>
+    <li data-menuanchor="thirdPage"><a href="#thirdPage"><i class="far fa-circle"></i></a></li>
+    <li data-menuanchor="fourthPage"><a href="#fourthPage"><i class="far fa-circle"></i></a></li>
+    <li data-menuanchor="fifthPage"><a href="#fifthPage"><i class="far fa-circle"></i></a></li>
+    <li data-menuanchor="sixthPage"><a href="#sixthPage"><i class="far fa-circle"></i></a></li>
+    <li data-menuanchor="seventhPage"><a href="#seventhPage"><i class="far fa-circle"></i></a></li>
+    <li data-menuanchor="eighthPage"><a href="#eighthPage"><i class="far fa-circle"></i></a></li>
+    <li data-menuanchor="ninethPage"><a href="#ninethPage"><i class="far fa-circle"></i></a></li>
+    <li data-menuanchor="tenthPage"><a href="#tenthPage"><i class="far fa-circle"></i></a></li>
+    <li data-menuanchor="eleventhPage"><a href="#eleventhPage"><i class="far fa-circle"></i></a></li>
+    <li data-menuanchor="twelvethPage"><a href="#twelvethPage" id="score"><i class="fas fa-bookmark"></i></a></li>
+    <!-- <li data-menuanchor="twelvethPage"><a href="#twelvethPage"><i class="fas fa-bookmark"></i></a></li> -->
+  </ul>
+</div>
+<!-- return buttons -->
+
+<a href="materia.1.html" class="eval-return-btn">
+  <i class="fas fa-undo-alt"></i>
+</a>
+
+<div id="evaluate">
+  <div class="section">
+    <div class="question">
+      <div class="eval-intro">
+        <p class="eval-intro_title">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum!
+        </p>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequiadipisicing elit. Sequi inventore esse
+          eligendi maxime excepturi enim tenetur sunt, sed expedita quis!</p>
+        <p class="h4">Suerte!</p>
+      </div>
+
+      <div class="next">
+        <button class="button success large" type="button"><i class="fa fa-check"></i> Comenzar la Evaluación</button>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="question" question-type="relationship" pk="15">
+      <div class="the-text">
+        Sunt quo, possimus minima numquam debitis sit. Consequuntur, aspernatur libero. Veritatis harum quia laboriosam
+        quisquam
+        amet ratione?
+      </div>
+      <div class="match">
+        <div class="left-side">
+          <ul>
+            <li class="ls">Match 1</li>
+            <li class="ls">Wakaka</li>
+            <li class="ls">YOLO</li>
+            <li class="ls">360 No-scope</li>
+            <li class="ls">Nevermind</li>
+          </ul>
+        </div>
+        <div class="right-side">
+          <ul>
+            <li class="rs">OMG</li>
+            <li class="rs">Memes para todos</li>
+            <li class="rs">Una dos tres catorce</li>
+            <li class="rs">Here we come!</li>
+            <li class="rs">the ned</li>
+          </ul>
+        </div>
+
+        <div class="reset">
+          <i class="fas fa-eraser er-button"></i>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <div class="section">
+    <div class="question" question-type="relationship" pk="16">
+
+      <div class="the-text">
+        Sunt quo, possimus minima numquam debitis sit. Consequuntur, aspernatur libero. Veritatis harum quia laboriosam
+        quisquam
+        amet ratione?
+      </div>
+      <div class="grid-x grid-margin-x align-center">
+        <div class="cell small-5 medium-6 left-side">
+          <ul>
+            <li class="ls">Match 1</li>
+            <li class="ls">Wakaka</li>
+            <li class="ls">YOLO</li>
+            <li class="ls">360 No-scope</li>
+          </ul>
+        </div>
+        <div class="cell small-5  medium-6 right-side">
+          <ul>
+            <li class="rs">OMG</li>
+            <li class="rs">Memes para todos</li>
+            <li class="rs">Una dos tres catorce</li>
+            <li class="rs">Here we come!</li>
+          </ul>
+        </div>
+        <div class="cell small-2 medium-6 align-self-middle ">
+          <div class="reset">
+            <i class="fas fa-eraser er-button"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="answer-text">
+      <div class="the-tab incorrect">
+        <div class="icon">
+          <i class="far fa-times-circle"></i>
+        </div>
+      </div>
+      <div class="the-answer-text">
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente similique cumque natus
+          reprehenderit
+          dolore cum unde, quia laborum ab ad? Dicta consectetur quibusdam eveniet.</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="section">
+    <div class="question" question-type="multiple_option" pk="9">
+      <p class="the-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum iusto soluta quibusdam
+        totam aut aspernatur!</p>
+
+      <div class="radio-choice">
+        <input type="radio" value="0" id="YOLO" name="secondq" />
+        <label for="YOLO">YOLO</label>
+      </div>
+      <div class="radio-choice">
+        <input type="radio" value="1" id="Lo" name="secondq" />
+        <label for="Lo">Lo que sea</label>
+      </div>
+      <div class="radio-choice">
+        <input type="radio" value="2" id="MVP" name="secondq" />
+        <label for="MVP">MVP</label>
+      </div>
+      <div class="radio-choice">
+        <input type="radio" value="3" id="MC" name="secondq" />
+        <label for="MC">MC</label>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="section">
+    <div class="question" question-type="multiple_option" pk="12">
+      <p class="the-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum iusto soluta quibusdam
+        totam aut aspernatur!</p>
+
+      <div class="radio-choice">
+        <input type="radio" value="0" id="huey" name="drone" />
+        <label for="huey">Huey</label>
+      </div>
+      <div class="radio-choice">
+        <input type="radio" value="1" id="Wally" name="drone" />
+        <label for="Wally">Wally</label>
+      </div>
+      <div class="radio-choice">
+        <input type="radio" value="2" id="Jackson" name="drone" />
+        <label for="Jackson">Jackson</label>
+      </div>
+      <div class="radio-choice">
+        <input type="radio" value="3" id="Norman" name="drone" />
+        <label for="Norman">Norman</label>
+      </div>
+      <div class="radio-choice">
+        <input type="radio" value="4" id="walanda" name="drone" />
+        <label for="walanda">walanda</label>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="section">
+    <div class="question" question-type="multiple_answers" pk="60">
+      <p class="the-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam modi deserunt tempora dolor
+        id perspiciatis fugit
+        eveniet dolore nostrum repudiandae quasi, voluptatibus deleniti iste iusto.</p>
+
+      <div class="checkbox-choice">
+        <input type="checkbox" id="scales" name="feature" value="0" />
+        <label for="scales">Scales</label>
+      </div>
+
+      <div class="checkbox-choice">
+        <input type="checkbox" id="horns" name="feature" value="1" />
+        <label for="horns">Horns</label>
+      </div>
+
+      <div class="checkbox-choice">
+        <input type="checkbox" id="claws" name="feature" value="2" />
+        <label for="claws">Claws</label>
+      </div>
+      <div class="checkbox-choice">
+        <input type="checkbox" id="Hands" name="feature" value="1" />
+        <label for="Hands">Hands</label>
+      </div>
+
+      <div class="checkbox-choice">
+        <input type="checkbox" id="Talons" name="feature" value="2" />
+        <label for="Talons">Talons</label>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="section">
+    <div class="question" question-type="multiple_answers" pk="61">
+      <p class="the-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam modi deserunt tempora dolor
+        id perspiciatis fugit
+        eveniet dolore nostrum repudiandae quasi, voluptatibus deleniti iste iusto.</p>
+      <div class="checkbox-choice">
+        <input type="checkbox" id="Option1" name="noseque" value="0" />
+        <label for="Option1">Option1</label>
+      </div>
+
+      <div class="checkbox-choice">
+        <input type="checkbox" id="Option2" name="noseque" value="1" />
+        <label for="Option2">Option2</label>
+      </div>
+
+      <div class="checkbox-choice">
+        <input type="checkbox" id="LastOption" name="noseque" value="2" />
+        <label for="LastOption">LastOption</label>
+      </div>
+
+    </div>
+  </div>
+  <div class="section">
+    <div class="question" question-type="numeric_answer" pk="2">
+      <div class="the-text">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident velit accusantium voluptatibus nostrum iure
+        accusamus.
+        <br> Entonces, ¿cuanto es 1+1?
+      </div>
+      <div class="number-answer">
+        <input type="text">
+      </div>
+
+    </div>
+  </div>
+  <div class="section">
+    <div class="question" question-type="numeric_answer" pk="33">
+      <div class="the-text">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident velit accusantium voluptatibus nostrum iure
+        accusamus.
+        <br> Entonces, ¿cuanto es 1+1?
+      </div>
+      <div class="number-answer">
+        <input type="text">
+      </div>
+
+    </div>
+  </div>
+  <div class="section">
+    <div class="question" question-type="pulldown_list" pk="102">
+      <div class="the-text">
+        Algo que algo que aglo esto es el texto que te dice que hagas algo
+      </div>
+
+      <div class="desp-secc">
+        <div class="grid-x">
+          <div class="cell small-6">
+            <ul>
+              <li>Lor em ipsum dolor em ipsum dolor sit.</li>
+              <li>Cosa due whatever yolo.</li>
+              <li>Le Cose ququque</li>
+              <li>Le Cose ququque</li>
+              <li>Le Cose ququque</li>
+            </ul>
+          </div>
+          <div class="cell small-6">
+            <select name="0">
+              <option disabled selected value> -- select an option -- </option>
+              <option value="0">Una</option>
+              <option value="1">YEAH YEAH</option>
+              <option value="2">Forever</option>
+              <option value="3">whatever</option>
+            </select>
+            <select name="1">
+              <option disabled selected value> -- select an option -- </option>
+              <option value="0">Una</option>
+              <option value="1">YEAH YEAH</option>
+              <option value="2">Forever</option>
+              <option value="3">whatever</option>
+            </select>
+            <select name="2">
+              <option disabled selected value> -- select an option -- </option>
+              <option value="0">Una</option>
+              <option value="1">YEAH YEAH</option>
+              <option value="2">Forever</option>
+              <option value="3">whatever</option>
+            </select>
+            <select name="3">
+              <option disabled selected value> -- select an option -- </option>
+              <option value="0">Una</option>
+              <option value="1">YEAH YEAH</option>
+              <option value="2">Forever</option>
+              <option value="3">whatever</option>
+            </select>
+            <select name="4">
+              <option disabled selected value> -- select an option -- </option>
+              <option value="0">Una</option>
+              <option value="1">YEAH YEAH</option>
+              <option value="2">Forever</option>
+              <option value="3">whatever</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="section">
+    <div class="question" question-type="pulldown_list" pk="333">
+      <div class="the-text">
+        Algo que algo que aglo esto es el texto que te dice que hagas algo
+      </div>
+      <div class="the-subtext">
+        Esto es el subtexto que te ayuda a resolver o algo algo algo.
+      </div>
+      <div class="desp-secc">
+        <div class="grid-x">
+          <div class="cell small-6">
+            <ul>
+              <li>Lorem ipsum dolor sit.</li>
+              <li>Cosa due whatever yolo.</li>
+              <li>Le Cose ququque</li>
+            </ul>
+          </div>
+          <div class="cell small-6">
+            <select name="primera">
+              <option disabled selected value> -- select an option -- </option>
+              <option value="0">Una</option>
+              <option value="1">YEAH YEAH</option>
+              <option value="2">Forever</option>
+              <option value="3">whatever</option>
+            </select>
+            <select name="segunda">
+              <option disabled selected value> -- select an option -- </option>
+              <option value="0">Una</option>
+              <option value="1">YEAH YEAH</option>
+              <option value="2">Forever</option>
+              <option value="3">whatever</option>
+            </select>
+            <select name="tercera">
+              <option disabled selected value> -- select an option -- </option>
+              <option value="0">Una</option>
+              <option value="1">YEAH YEAH</option>
+              <option value="2">Forever</option>
+              <option value="3">whatever</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div id="end-eval">
+      <div class="final">
+               <div class="eval-intro">
+                   <p class="eval-intro_title">Evaluaciónconcluida
+                   </p>
+                   <p>Presiona el boton para mandar tus respuestas y recibir tu calificacion</p>
+               </div>    
+               <div class="end">
+                   <button class="button success large" type="button">
+                       Terminar la Evaluación</button>
+               </div>
+           </div>
+      {{>eval-score }}
+    </div>
+
+  </div>
+</div>
+<div class="eval-inputs">
+  <form>
+    <input type="text" id="relationship">
+    <input type="text" id="multiple_option">
+    <input type="text" id="multiple_answer">
+    <input type="text" id="numeric_answer">
+    <input type="text" id="pulldown_list">
+  </form>
+
+</div>
+

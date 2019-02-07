@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import FormView
 
-from alumnica_model.mixins import OnlyLearnerMixin
+from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models import ODA, Tag
 from webapp.statement_builders import search_statement
 
@@ -26,7 +26,7 @@ class RecentActivitiesView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
         return {'odas_list': odas_list}
 
 
-class SearchView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+class SearchView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
     """
     Searches string in Tags and ODAs names
     """

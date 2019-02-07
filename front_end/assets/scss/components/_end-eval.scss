@@ -1,0 +1,13 @@
+#end-eval{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // background-color:khaki;
+  @include breakpoint(800px){
+      // padding: 2rem;
+  }
+  // padding: .5rem;
+  width: 100%;
+  height: 100%;
+}
+

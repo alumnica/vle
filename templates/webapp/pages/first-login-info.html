@@ -31,7 +31,10 @@
                     </div>
                     <div class="medium-12 cell">
                         <legend>Sexo</legend>
-                        {{ form.gender_field }}
+                        <input required type="radio" name="gender" value="MALE"> HOMBRE
+                        <input required type="radio" name="gender" value="FEMALE"> MUJER
+                        <input required type="radio" name="gender" value="OTHER"> OTRO
+                        <input required type="radio" name="gender" value="NA"> NO APLICA
                     </div>
 
                     {% comment %}

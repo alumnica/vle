@@ -40,9 +40,7 @@
     </ul>
 </div>
  <!-- return buttons -->
- <a href="{% url 'ambitos-grid_view' %}" class="eval-grid-btn">
-    <i class="fas fa-th"></i>
-</a>
+
 <a href="{% url 'oda_view' oda.pk %}" class="eval-return-btn">
     <i class="fas fa-undo-alt"></i>
 </a>
@@ -55,10 +53,10 @@
 
                     <!-- titulo de la evaluacion -->
 
-                    <p class="eval-intro_title">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde?
+                    <p class="eval-intro_title">Evaluación de {{ oda.name }}
                     </p>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequiadipisicing elit. Sequi inventore esse eligendi maxime excepturi enim tenetur sunt, sed expedita quis!</p>
-                    <p class="h4">Suerte!</p>
+                    <p>Contesta todas las preguntas para evaluar tu compresión de la lección</p>
+                    <p class="h4">¡Suerte!</p>
                 </div>
            
             <div class="next">
@@ -243,7 +241,7 @@
                             {{ question.0.sentence }}
                         </div>
                         <div class="number-answer">
-                            <input type="number">
+                            <input type="text">
                         </div>
                         
                       
@@ -333,48 +331,109 @@
 
 
     <!-- cuando se ponen todas las preguntas, esta "section" sera la #12.  -->
-    <div class="section">
-    
-        <div class="final">
-            <div class="eval-intro">
-                <p class="eval-intro_title">Evaluación concluida
-                </p>
-                <p>Presiona el boton para mandar tus respuestas y recibir tu calificacion</p>
-            </div>
-            <div class="end">
-                <button class="button success large" type="button">
-                    Terminar la Evaluación</button>
-            </div>
-        </div>
-        <div class="the-score" style="display: none">
-    
-            <div class="half-part">
-                <p class="h4 text-center">Resultado</p>
-                <div class="resultado">#</div>
-                <div class="the-xp">
-                    <i class="fa fa-star"></i>
-                </div>
-            </div>
-    
-            <div class="half-part text-center u-margin">
-                <p class="h6">Te recomendamos continuar con las siguientes lecciones:</p>
-                <div class="the-recs" id="suggestions">
+  <div class="section">
+    <div id="end-eval">
+      <div class="final">
+          <div class="eval-intro">
+              <p class="eval-intro_title">Evaluación concluida
+              </p>
+              <p>Presiona el boton para mandar tus respuestas y recibir tu calificacion</p>
+          </div>
+          <div class="end">
+              <button class="button success large" type="button">
+                  Terminar la Evaluación</button>
+          </div>
+      </div>
 
-
-                </div>
-            </div>
-            <div class="half-part text-center">
-                <a href="{% url 'subject_view' oda.subject.pk %}" class="button end-button">
-                    <i class="fas fa-map"></i> &nbsp; Regresar a Materia</a>
-            </div>
-            <div class="half-part text-center">
-                <a href="{% url 'ambitos-grid_view' %}" class="button warning end-button">
-                    <i class="fa fa-th"></i> &nbsp; Regresar a Ambitos</a>
-            </div>
-    
+      <div class="end-scoring" style="display: none;">
+        <div class="end-scoring_title">
+          <span>Evaluación Completada</span>
         </div>
-    
+        <div class="end-scoring_bonus">
+          <div class="bonus-box score">
+            <div class="bonus-box_icon">
+              <i class="far fa-star"></i>
+            </div>
+            <div class="bonus-box_number">
+
+            </div>
+            <div class="bonus-box_title">
+              Resultado
+            </div>
+          </div>
+          <strong>=</strong>
+          <div class="bonus-box xp">
+            <div class="bonus-box_icon">
+              <i class="fas fa-angle-double-up"></i>
+            </div>
+            <div class="bonus-box_number">
+              {{ equation.base_xp }}
+            </div>
+            <div class="bonus-box_title">
+              XP Base
+            </div>
+          </div>
+          <strong>x</strong>
+          <div class="bonus-box daily">
+            <div class="bonus-box_icon">
+              <i class="fas fa-calendar-times"></i>
+            </div>
+            <div class="bonus-box_number">
+              {{ equation.daily_bonus }}
+            </div>
+            <div class="bonus-box_title">
+              Bonus Diario
+            </div>
+          </div>
+          <strong>x</strong>
+          <div class="bonus-box ea">
+            <div class="bonus-box_icon">
+              <i class="far fa-check-square"></i>
+            </div>
+            <div class="bonus-box_number">
+              {{ equation.bonus_eval }}
+            </div>
+            <div class="bonus-box_title">
+              Bonus Evaluación
+            </div>
+          </div>
+          <strong>x</strong>
+          <div class="bonus-box repeated">
+            <div class="bonus-box_icon">
+              <i class="fas fa-redo-alt"></i>
+            </div>
+            <div class="bonus-box_number">
+              {{ equation.pen_rep }}
+            </div>
+            <div class="bonus-box_title">
+              Repetido
+            </div>
+            <div>
+            </div>
+          </div>
+        </div>
+        <div class="end-scoring_score">
+          <div class="xp-number">
+
+          </div>
+          <div class="xp-badge">
+            <i class="fas fa-angle-double-up"></i>
+            <span>XP</span>
+          </div>
+        </div>
+         <div class="end-scoring_recs">
+    <p class="text-center">
+      Te recomendamos las siguientes lecciones
+    </p>
+    <div class="the-recs" id="suggestions">
+
     </div>
+  </div>
+
+        <a href="{% url 'ambitos-grid_view' %}" class="end-scoring_btn">Continuar</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- inputs escondidos que contienen las respuestas en forma:
@@ -382,7 +441,7 @@ PK;[,] | PK; []
 un input por tipo de pregunta
 -->
 
-<div class="eval-inputs">
+<div class="eval-inputs" id="evalInputs">
     <form>
         <input type="text" id="relationship">
         <input type="text" id="multiple_option">
@@ -393,17 +452,7 @@ un input por tipo de pregunta
 
 </div>
 
-<!-- modal de termino de evaluacion -->
 
-<div class="reveal" id="exampleModal1" data-reveal>
-    <p class="h4">Terminar Evaluación</p>
-    <p> ¿Estas seguro que deseas terminar la evaluacion?</p>
-    <button type="button" class="button" data-close id="end-eval">Si</button>
-    <button type="button" class="button alert" data-close>No</button>
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
 
     <script type="text/javascript">
     let user_pk = {{ request.user.pk|safe }};

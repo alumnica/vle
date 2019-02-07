@@ -1,0 +1,145 @@
+// styles for the evaluation.html inputs
+.question {  
+  // custom radio buttons
+
+    [type="radio"]:checked,
+    [type="radio"]:not(:checked) {
+        position: absolute;
+        left: -9999px;
+    }
+    [type="radio"]:checked + label,
+    [type="radio"]:not(:checked) + label
+    {
+        position: relative;
+        padding-left: 28px;
+        cursor: pointer;
+        line-height: 20px;
+        display: inline-block;
+        color: $black;
+    }
+    [type="radio"]:checked + label:before,
+    [type="radio"]:not(:checked) + label:before {
+        content: '';
+        position: absolute;
+        left: .4rem;
+        // top: 0;
+        width: 18px;
+        height: 18px;
+        border: 1px solid #ddd;
+        border-radius: 100%;
+        background: #fff;
+    }
+    [type="radio"]:checked + label:after,
+    [type="radio"]:not(:checked) + label:after {
+        content: '';
+        width: 12px;
+        height: 12px;
+        background: #F87DA9;
+        position: absolute;
+        top: 10px;
+        left: .6rem;
+        border-radius: 100%;
+        -webkit-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+    }
+    [type="radio"]:not(:checked) + label:after {
+        opacity: 0;
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    [type="radio"]:checked + label:after {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    .radio-choice {
+        
+        
+        label {
+            border-radius: 1rem;
+            margin-bottom: .5rem;
+            padding: .4rem;
+            display: block !important;
+            background-color: lighten($primary-color, 20);
+            font-size: 1rem;
+            font-weight: bold;
+            
+        }
+
+    }
+
+    // custom checkboxes
+
+    /* Base for label styling */
+    [type="checkbox"]:not(:checked),
+    [type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+    }
+    [type="checkbox"]:not(:checked) + label,
+    [type="checkbox"]:checked + label {
+    position: relative;
+    padding-left: 2.3rem;
+    cursor: pointer;
+    }
+
+    /* checkbox aspect */
+    [type="checkbox"]:not(:checked) + label:before,
+    [type="checkbox"]:checked + label:before {
+    content: '';
+    position: absolute;
+    left: .5rem;;
+    top: .3rem;
+    width: 1.4rem;
+    height: 1.4rem;
+    border: 2px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+    }
+    /* checked mark aspect */
+    [type="checkbox"]:not(:checked) + label:after,
+    [type="checkbox"]:checked + label:after {
+    content: '✔';
+    position: absolute;
+    top: .6rem;
+    left: .8rem;
+    font-size: 1.2rem;
+    line-height: 0.8;
+    color: #09ad7e;
+    transition: all .2s;
+    font-family: Helvetica, Arial, sans-serif;
+    }
+    /* checked mark aspect changes */
+    [type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+    transform: scale(0);
+    }
+    [type="checkbox"]:checked + label:after {
+    opacity: 1;
+    transform: scale(1);
+    }
+
+    .checkbox-choice {
+        label {
+            display: block !important;
+            background-color: lighten(#09ad7e, 30);
+            border-radius: 1rem;
+            margin-bottom: .5rem;
+            padding: .1rem;
+            font-weight: bold;
+            font-size: 1rem;
+
+        }
+    }
+
+    // remove spinner from number input
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    }
+}

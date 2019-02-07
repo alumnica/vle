@@ -2,7 +2,7 @@
 {% load static %}
 {% load vle_extras %}
 {% block content %}
-
+{% get_active_avatar user=request.user as avatar %}
 <div class='container' id="preloader">
     <div class='loader'>
         <div class='loader--dot'></div>
@@ -27,27 +27,18 @@
         <div class="dashboard-grid">
             <div class="profile-picture">
                 <a href="{% url 'profile_view' %}">
-                    <img src="{% static '' %}webapp/media/{{ request.user.profile.avatar }}0{{ request.user.profile.experience_points|learner_level }}.png" alt="profile picture">
+                    <img src="{% static '' %}webapp/media/{{ avatar.avatar_name }}0{{ avatar.avatar_level }}.png" alt="profile picture">
 
                 </a>
             </div>
             <div class="user-info">
-                <a class="user-info-name">
-                    {{ user.first_name }} {{ user.last_name }}
-                </a>
-                <div class="user-info-score">
-                    <i class="fa fa-star"></i> {{ user.profile.experience_points }}
+                <div class="name-prog">
+                    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                    <div class="level">{{ level.level }}</div>
+                    <div class="progress" id="progress"></div>
                 </div>
-
-                    <div class="user-info-test">
-                        {% if not request.user.profile.large_quiz_completed %}
-                        <a href="{% url 'large_learning_quiz_view' %}" class="dashboard-test-button"> <!-- link a test -->
-                            <i class="fas fa-vial"></i> Test
-                        </a>
-                        {% endif %}
-                    </div>
-
             </div>
+            
             <div class="recent-activity">
                 <div class="recent-activity-heading">
                     <span class="title">Actividad Reciente</span>
@@ -92,5 +83,6 @@
 
 
 {% block scripts %}
+<script src="{% static "webapp/js/progress-bar.js" %}"></script>
 
 {% endblock %}

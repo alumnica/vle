@@ -69,8 +69,8 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -147,11 +147,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
+LANGUAGES = [
+    ('es', _('Spanish')),
+]
+
 LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'America/Mexico_City'
 
-USE_I18N = False
+USE_I18N = True
 
 USE_L10N = True
 
@@ -161,9 +165,6 @@ LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
 )
 
-LANGUAGES = [
-    ('es', _('Spanish')),
-]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -176,7 +177,10 @@ STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
 SOCIAL_AUTH_USER_FIELDS = ['email']
-
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id,name,email',
+}
 XAPI_URL = os.environ.get('XAPI_URL')
 XAPI_VERSION = os.environ.get('XAPI_VERSION')
 XAPI_KEY = os.environ.get('XAPI_KEY')

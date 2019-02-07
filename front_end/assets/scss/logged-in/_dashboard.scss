@@ -1,0 +1,224 @@
+// styles for dashboard.html
+
+.dashboard-grid {
+  @include xy-grid;
+  margin-top: 1rem;
+}
+
+.profile-picture {
+  @include xy-cell(12);
+  text-align: center;
+  @include breakpoint(medium) {
+    @include xy-cell(2);
+
+    img {
+      height: 150px;
+    }
+  }
+}
+
+.user-info {
+  @include xy-cell(12);
+  padding: 1rem;
+  @include breakpoint(medium) {
+    @include xy-cell(10);
+    vertical-align: middle;
+    
+    position: relative;
+  }
+
+  &-name {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    display: block;
+    color: black;
+    @include breakpoint(medium) {
+      text-align: left;
+      padding-top: 1rem;
+    }
+  }
+  &-score {
+    text-align: center;
+    font-size: 1.4rem;
+    @include breakpoint(medium) {
+      text-align: left;
+    }
+
+    .fa-star {
+      color: gold;
+    }
+  }
+  &-test {
+    position: absolute;
+    top: 20%;
+    right: 0;
+    @include hide-for-only(small);
+  }
+}
+
+.recent-activity {
+  
+  @include xy-cell(12, $gutters: 0);
+  padding: 0.3rem 0;
+  overflow: auto;
+  @include breakpoint(medium) {
+    padding: .5rem;
+    @include xy-cell(6);
+    margin-top: 1rem;
+  }
+
+  &-heading {
+    overflow: auto;
+    vertical-align: bottom;
+    padding: 0 0.5rem 0 1rem;
+    margin-bottom: 0.5rem;
+
+    .title {
+      line-height: 35px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+
+  &-link {
+    float: right;
+    background-color: $light-gray;
+    height: 32px;
+    width: 32px;
+    text-align: center;
+    display: inline-block;
+    line-height: 30px;
+    border-radius: 50%;
+    transition: all 0.2s;
+    border: solid 2px white;
+
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 2px 2px 3px rgba(#000, 0.2);
+      transition: all 0.2s;
+    }
+  }
+
+  &-item {
+    display: flex;
+    align-items: flex-end;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    height: 120px;
+
+  }
+
+  &-oda {
+    //display: inline-block;
+    //width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-right: .5rem;
+
+    img {
+      //vertical-align: bottom;
+      max-height: 100%;
+      max-width: 100%;
+    }
+
+    &-text {
+      //display: inline-block;
+      //vertical-align: bottom;
+      //margin-bottom: 0.7rem;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 0.3rem;
+      border-radius: 0.5rem;
+      font-weight: bold;
+    }
+  }
+}
+
+.dashboard-test {
+  @include hide-for(medium);
+  @include xy-cell(12);
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+
+  &-button {
+    background-color: $color-red;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    padding: 0.5rem 2.5rem;
+    border-radius: 2rem;
+    border: solid 3px white;
+    box-shadow: 0 0.3rem 0.3rem rgba(#000000, 0.4);
+    transition: all 0.2s;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 1rem 2rem rgba(#000, 0.2);
+
+      &::after {
+        transform: scaleX(1.4) scaleY(1.6);
+        opacity: 0;
+      }
+    }
+
+    &:active,
+    &:focus {
+      outline: none;
+      transform: translateY(-1px);
+      box-shadow: 0 0.5rem 1rem rgba(#000, 0.2);
+    }
+  }
+}
+
+.blog {
+  
+  padding: .5rem;
+  @include xy-cell(12);
+  @include breakpoint(medium) {
+    @include xy-cell(6);
+    @include flex;
+    @include flex-align(center, middle);
+    margin-top: 1rem;
+  }
+
+  &-content {
+    @include breakpoint(medium) {
+      height: 430px;
+      overflow: auto;
+    }
+    //    display: flex
+  }
+}
+
+.feed-item-title {
+  font-size: 1.2rem;
+  // flex-basis: 100%;
+}
+
+.feed-img {
+  @include breakpoint(medium) {
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+    margin:0 10px;
+  }
+  text-align: center;
+  margin-bottom: 15px;
+}
+.feed-text {
+  @include breakpoint(medium) {
+    display: inline-block;
+    width: 65%;
+  }
+}
+.rss2html-note {
+  display: none;
+}
+// The title of the feed is displayed in a <h3> tag, with the class feed-title.
+// The feed description is displayed in a <p> tag with class feed-desc.
+// The feed icon is displayed in an <img> tag with class feed-title-image.
+// Each feed item title is displayed in a <h4> tag with class feed-item-title.
+// Each feed item description is displayed in a <p> tag with class feed-item-desc.

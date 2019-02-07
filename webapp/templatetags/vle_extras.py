@@ -34,3 +34,16 @@ def learner_level(value):
     if level > 3:
         level = 3
     return level
+
+
+@register.simple_tag
+def get_active_avatar(user, *args, **kwargs):
+    learner = user.profile
+    avatar = learner.avatar_progresses.filter(active=True).first()
+    avatar_level = 3
+    if avatar.points <= 50000:
+        if avatar.points <= 15000:
+            avatar_level = 1
+        elif 15000 < avatar.points <= 50000:
+            avatar_level = 2
+    return {'avatar_name': avatar.avatar_name, 'avatar_level': avatar_level}

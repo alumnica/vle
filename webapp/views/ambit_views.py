@@ -3,12 +3,12 @@ import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import FormView, TemplateView
 
-from alumnica_model.mixins import OnlyLearnerMixin
+from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models import Ambit
 from webapp.statement_builders import access_statement
 
 
-class AmbitGridView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
+class AmbitGridView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
     """
     Published Ámbitos Grid view
     """
@@ -16,10 +16,11 @@ class AmbitGridView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
     template_name = 'webapp/pages/ambitos-grid.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if request.method == 'GET':
+        response = super(AmbitGridView, self).dispatch(request, *args, **kwargs)
+        if response.status_code == 200 and request.method == 'GET':
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            access_statement(request, 'Ambitos Grid', timestamp)
-        return super(AmbitGridView, self).dispatch(request, *args, **kwargs)
+            access_statement(request.user, 'Ambitos Grid', timestamp)
+        return response
 
     def get_context_data(self, **kwargs):
         ambits_list = Ambit.objects.all().filter(is_published=True).order_by('position')
