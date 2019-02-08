@@ -33,7 +33,7 @@ SECURE_SSL_REDIRECT = bool(os.environ.get('FORCE_SSL', False))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get('ON_HEROKU', False)
 
-ALLOWED_HOSTS = ['.herokuapp.com', 'learn.alumnica.org', 'www.alumnica.org', 'localhost', '127.0.0.1', '10.29.107.68']
+ALLOWED_HOSTS = ['54.153.4.110','ec2-54-153-4-110.us-west-1.compute.amazonaws.com',  '.herokuapp.com', '.alumnica.org', '127.0.0.1']
 CORS_ORIGIN_ALLOW_ALL = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
