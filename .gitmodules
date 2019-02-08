@@ -1,3 +1,3 @@
 [submodule "alumnica_model"]
 	path = alumnica_model
-	url = https://herokucode:Code1234@gitlab.com/code-ing/ti/fundacion-manuel-moreno/alumnica/alumnica_model.git
+	url = https://gitlab.com/amartinezram/alumnica_model.git
