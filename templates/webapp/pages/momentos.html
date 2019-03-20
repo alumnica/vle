@@ -17,7 +17,7 @@
     <script>
         setTimeout(function(){
             document.getElementById("preloader").classList.add("is-load");
-        }, 6000);
+        }, 4000);
     </script>
 <!-- end preloader -->
 
@@ -25,8 +25,8 @@
     <div class="section">
         {% for moment in moment_array %}
         <div class="slide">
-            <div class="h5p-cont ">
-                <iframe src="{% url 'package_view' job_id=moment.h5p_package.job_id %}" class="the-h5p" frameborder="0">
+            <div class="h5p-cont ">                
+                <iframe src="{{ moment.url }}" width="1091" height="639" frameborder="0" allowfullscreen="allowfullscreen"></iframe><script src="{{ moment.library }}" charset="UTF-8"></script>    
 
                 </iframe>
 
