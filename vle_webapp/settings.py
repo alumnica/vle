@@ -40,7 +40,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-relay.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'alumnica@fundacionmanuelmoreno.org'
-EMAIL_HOST_PASSWORD = 'Alumnica1234'
+EMAIL_HOST_PASSWORD = 'P4$$w0rd'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'alumnica@fundacionmanuelmoreno.org'
 
@@ -116,7 +116,7 @@ if not os.environ.get('DATABASE_URL'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'NAME': os.path.join('/home/conker/alumnica/final/studio/studio_webapp', 'db.sqlite3'), #/home/conker/alumnica/final/studio/studio_webapp
         }
     }
 else:
