@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'm792=#*_(5x5c80&z+i0u80rj+0kn!f94i!*z
 SECURE_SSL_REDIRECT = bool(os.environ.get('FORCE_SSL', False))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not os.environ.get('ON_HEROKU', False)
+DEBUG = False #not os.environ.get('ON_HEROKU', False)
 
 ALLOWED_HOSTS = ['54.153.4.110','ec2-54-153-4-110.us-west-1.compute.amazonaws.com',  '.herokuapp.com', '.alumnica.org', '127.0.0.1']
 CORS_ORIGIN_ALLOW_ALL = True
@@ -205,6 +205,7 @@ if all([AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME]):
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_AUTO_CREATE_BUCKET = True
     AWS_S3_FILE_OVERWRITE = True
+    AWS_QUERYSTRING_AUTH = False
     AWS_S3_OBJECT_PARAMETERS = {
         'CacheControl': 'max-age=86400',
     }

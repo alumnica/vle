@@ -19,16 +19,18 @@
             document.getElementById("preloader").classList.add("is-load");
         }, 4000);
     </script>
+
 <!-- end preloader -->
 
 <div id="moments">
     <div class="section">
+
         {% for moment in moment_array %}
 
         <div class="slide">
           {% if moment.type == "h5p" %}
               <div class="h5p-cont">                
-                  <iframe src="{{ moment.content.url_h5p }}" class="the-h5p" frameborder="0"></iframe><script src="{{ moment.content.library_h5p }}" charset="UTF-8"></script>    
+                  <iframe src="{{ moment.content.url_h5p }}" class="the-h5p" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
               </div>
           {% elif moment.type == "mp4" %}
               <div class="h5p-cont">                
