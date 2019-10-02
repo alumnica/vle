@@ -29,8 +29,8 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
                   path('', include('pwa.urls')),
-                  path('', LandingPageView.as_view(), name='index_view'),
-                  path('learn/', IndexView.as_view(), name='index_view'),
+                  #path('', LandingPageView.as_view(), name='index_view'),
+                  path('', IndexView.as_view(), name='index_view'),
                   path('users/', include('webapp.urls.users_urls')),
                   path('test/', include('webapp.urls.preliminar_test_urls')),
                   path('profile/', include('webapp.urls.profile_urls')),

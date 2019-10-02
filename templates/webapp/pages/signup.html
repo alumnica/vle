@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% load i18n %}
-
+{% load static %}
 {% block content %}
 
 <div class="login-bg"></div>
 <div class="grid-container  login-padding">
         <div class="grid-x">
-            <div class="cell medium-3">
-                <div class="login-content">
-                    <h3>{% trans "REGISTRO" %}</h3>
+            <div class="cell medium-4 large-4">
+                <div class="login-content font-landing">
+                    <img src="{% static "/webapp/media/alumnica-200.png"%}" alt="Alumnica" style="padding-bottom:10%;"> 
                     <form method="POST" role="form" class="u-margin-bottom-small">
                         {% csrf_token %}
-                        <label>{% trans "CORREO" %} {{ form.email }}</label>
+                        <label>{% trans "EMAIL" %} {{ form.email }}</label>
                         <label>{% trans "CONTRASEÑA" %} {{ form.password }}</label>
                         <label>{% trans "CONFIRMA TU CONTRASEÑA" %} {{ form.password_confirmation }}</label>
                         <input type="submit" class="button login-btn expanded" value="{% trans "SIGUIENTE" %}">
@@ -24,19 +24,17 @@
                         <img src="https://via.placeholder.com/200x100" alt="">
                     </div> -->
                     <div class="social-login">
-                    <div class="goog">
-                            <a  href="{% url 'social:begin' 'google-oauth2' %}" class="goog-button">
-                                <i class="fab fa-google"></i>
-                                <span>Entra con Google</span>
+                        <div class="goog">
+                            <a  href="{% url 'social:begin' 'google-oauth2' %}" >
+                                    <img src="{% static 'webapp/media/GoOn-G.png' %}">                                
                             </a>
                         </div>
                         <div class="face">
-                            <a href="{% url 'social:begin' 'facebook' %}" class="face-button">
-                                <i class="fab fa-facebook"></i>
-                                <span>Entra con Facebook</span>
+                            <a href="{% url 'social:begin' 'facebook' %}" >
+                                <img src="{% static 'webapp/media/GoOn-FB.png' %}">                                
                             </a>
                         </div>
-                </div>
+                    </div>
                 </div>
             </div>
         </div>
