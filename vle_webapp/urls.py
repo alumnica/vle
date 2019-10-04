@@ -28,7 +28,7 @@ from webapp.views.user_views import IndexView, LandingPageView
 router = routers.DefaultRouter()
 
 urlpatterns = [
-                  path('', include('pwa.urls')),
+                  #path('', include('pwa.urls')),
                   #path('', LandingPageView.as_view(), name='index_view'),
                   path('', IndexView.as_view(), name='index_view'),
                   path('users/', include('webapp.urls.users_urls')),
