@@ -1,6 +1,6 @@
 // styles for index, login and register screens
 .home-bg {
-    background-image: url(../media/landing-01.png);
+    background-image: url(../media/landing-alumnica.png);
     background-size: cover;
     height: 100vh;
     width: 100vw;
@@ -28,15 +28,21 @@
 }
 
 .login-btn {
-    border-radius: 30px;
+    //border-radius: 30px;
+    background-color: white;
+    border-color: olive;
+    color: gray;
     padding: .8rem 2rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     box-shadow: 0 .5rem .5rem rgba(#000000, .4);
     transition: all .2s;
-    
+
 
     &:hover {
+        background-color: white;
+        border-color: olive;
+        color: gray;
         transform: translateY(-3px);
         box-shadow: 0 1rem 2rem rgba(#000,.2);
 
@@ -45,7 +51,7 @@
             opacity: 0;
         }
     }
-    
+
     &:active,
     &:focus {
         outline: none;
@@ -78,22 +84,22 @@
     @include breakpoint(medium){
         margin-top: 2rem;
     }
-    
+
 }
 
-.goog{ 
+.goog{
     text-align: center;
     margin-bottom: 1rem;
     &-button{
-        border: solid 1px $color-primary;
+        border: solid 1px gray;
         display: block;
         height: 3rem;
-        width: 14rem;
+        width: 17rem;
         margin: 0 auto;
         display: flex;
         // transform: translateX(50%);
         justify-content: center;
-        border-radius: 2rem;
+        border-radius: .5rem;
         transition: all .2s;
         // padding-left: 1rem;
 
@@ -107,27 +113,39 @@
             color:$color-primary;
         }
         span{
+            font-size: 1rem;
             align-self: center;
             margin-left: 10px;
             color: $color-primary;
+            color: black;
+            padding-right:9%;
+        }
+        img{
+          display: inline-block;
+          vertical-align: middle;
+          text-align: left;
+          max-width: 20%;
+          height: auto;
+          -ms-interpolation-mode: bicubic;
+
         }
 
     }
 }
-.face{ 
+.face{
     text-align: center;
     margin-bottom: 1rem;
     &-button{
         // border: solid 1px $color-primary;
-        background-color: $color-primary;
+        border: solid 1px gray;
         display: block;
         height: 3rem;
-        width: 14rem;
+        width: 17rem;
         margin: 0 auto;
         display: flex;
         // transform: translateX(50%);
         justify-content: center;
-        border-radius: 2rem;
+        border-radius: .5rem;
         transition: all .2s;
         // padding-left: 1rem;
 
@@ -141,10 +159,22 @@
             color: white;
         }
         span{
+            font-size: 1rem;
             align-self: center;
             margin-left: 10px;
-            color: white;
+            color: blue;
+            margin-left: 10px;
+            color: blue;
         }
+        img{
+          display: inline-block;
+          vertical-align: middle;
+          text-align: left;
+          max-width: 20%;
+          height: auto;
+          -ms-interpolation-mode: bicubic;
+        }
+
 
     }
 }
