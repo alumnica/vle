@@ -31,16 +31,16 @@
                 </form>
                 
                 <div class="social-login">
-                    <div class="goog">
-                        <a  href="{% url 'social:begin' 'google-oauth2' %}" class="goog-button">
-                                <img src="{% static 'webapp/media/Google_logo.svg' %}">    
-                                <span>Inicia sesión con Google   </span>                            
-                        </a>
-                    </div>
                     <div class="face">
                         <a href="{% url 'social:begin' 'facebook' %}" class="face-button">
                             <img src="{% static 'webapp/media/FB_logo.svg' %}">    
                                 <span>Inicia sesión con Facebook</span>                            
+                        </a>
+                    </div>
+                    <div class="goog">
+                        <a  href="{% url 'social:begin' 'google-oauth2' %}" class="goog-button">
+                                <img src="{% static 'webapp/media/Google_logo.svg' %}">    
+                                <span>Inicia sesión con Google   </span>                            
                         </a>
                     </div>
                 </div>
