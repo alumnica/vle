@@ -21,7 +21,7 @@ VERSION_NUMBER = 'v0.12.0'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-#PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'webapp/static/webapp/PWA/', 'serviceWorker.js')
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'webapp/static/webapp/PWA/', 'serviceWorker.js')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -33,7 +33,7 @@ SECURE_SSL_REDIRECT = bool(os.environ.get('FORCE_SSL', False))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False #not os.environ.get('ON_HEROKU', False)
 
-ALLOWED_HOSTS = ['54.153.4.110','ec2-54-153-4-110.us-west-1.compute.amazonaws.com',  '.herokuapp.com', '.alumnica.org', '127.0.0.1']
+ALLOWED_HOSTS = ['54.153.4.110','ec2-54-153-4-110.us-west-1.compute.amazonaws.com',   '.alumnica.org', '127.0.0.1']
 CORS_ORIGIN_ALLOW_ALL = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'sweetify',
     'storages',
     'rest_framework',
-    #'pwa',
+    'pwa',
     'corsheaders',
     'social_django',
 ]
@@ -270,50 +270,50 @@ REST_FRAMEWORK = {
 
 # PWA stuff
 
-# PWA_APP_NAME = 'Alumnica'
-# PWA_APP_DESCRIPTION = "Alumnica EVA"
-# PWA_APP_THEME_COLOR = '#655dc6'
-# PWA_APP_DISPLAY = 'fullscreen'
-# PWA_APP_START_URL = '/'
-# PWA_APP_ICONS = [
-#     {
-#         "src": "/static/webapp/media/pwa-icons/icon-72x72.png",
-#         "sizes": "72x72",
-#         "type": "image/png"
-#     },
-#     {
-#         "src": "/static/webapp/media/pwa-icons/icon-96x96.png",
-#         "sizes": "96x96",
-#         "type": "image/png"
-#     },
-#     {
-#         "src": "/static/webapp/media/pwa-icons/icon-128x128.png",
-#         "sizes": "128x128",
-#         "type": "image/png"
-#     },
-#     {
-#         "src": "/static/webapp/media/pwa-icons/icon-144x144.png",
-#         "sizes": "144x144",
-#         "type": "image/png"
-#     },
-#     {
-#         "src": "/static/webapp/media/pwa-icons/icon-152x152.png",
-#         "sizes": "152x152",
-#         "type": "image/png"
-#     },
-#     {
-#         "src": "/static/webapp/media/pwa-icons/icon-192x192.png",
-#         "sizes": "192x192",
-#         "type": "image/png"
-#     },
-#     {
-#         "src": "/static/webapp/media/pwa-icons/icon-384x384.png",
-#         "sizes": "384x384",
-#         "type": "image/png"
-#     },
-#     {
-#         "src": "/static/webapp/media/pwa-icons/icon-512x512.png",
-#         "sizes": "512x512",
-#         "type": "image/png"
-#     }
-# ]
+PWA_APP_NAME = 'Alumnica'
+PWA_APP_DESCRIPTION = "Alumnica EVA"
+PWA_APP_THEME_COLOR = '#655dc6'
+PWA_APP_DISPLAY = 'fullscreen'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-72x72.png",
+        "sizes": "72x72",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-96x96.png",
+        "sizes": "96x96",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-128x128.png",
+        "sizes": "128x128",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-152x152.png",
+        "sizes": "152x152",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-384x384.png",
+        "sizes": "384x384",
+        "type": "image/png"
+    },
+    {
+        "src": "/static/webapp/media/pwa-icons/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }
+]
