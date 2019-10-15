@@ -47,7 +47,7 @@ class MomentView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormVi
         learner.save()
         oda_sequence, created = learner.odas_sequence_progresses.get_or_create(oda=moment_instance.microoda.oda)
 
-        moment_array = moment_instance.microoda.activities.all()
+        moment_array = moment_instance.microoda.activities.all().order_by('default_position')
         print (moment_array)
 
         for moment in moment_array:
@@ -62,7 +62,7 @@ class MomentView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormVi
                                              oda_sequencing=oda_sequence_string,
                                              learning_style=learner.learning_style.name,
                                              completed_counter=(learner.activities_progresses.filter(
-                                                 activity=moment_instance).first().activity_completed_counter + 1))
+                                                 activity=moment_instance).first().activity_completed_counter + 1))        
         return {'moment_array': moment_array, 'points': round(points), 'equation': equation}
 
 
