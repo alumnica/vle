@@ -2,7 +2,7 @@
     "name": "Alumnica EVA",
    
     "display": "fullscreen",
-    "start_url": "/learn",
+    "start_url": "/",
     "short_name": "Alumnica",
     "description": "Alumnica PWA",
     "orientation": "any",

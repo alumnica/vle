@@ -8,13 +8,13 @@
     // position: relative;
     cursor: pointer;
 
-    
+
 
     .oda-image-1{
         height: 100%;
         width: 100%;
         display: block;
-        
+
         position: relative;
         img{
             position: absolute;
@@ -59,9 +59,9 @@
             .clip{
                 color: $medium-gray;
             }
-        }       
+        }
 
-    }                   
+    }
 }
 
 .play-btn-cont{
@@ -86,11 +86,11 @@
         // padding-top: .4rem;
         padding-left: .1rem;
         font-size: 1rem;
-        
+
         // cursor: pointer;
         // transform: scale(.8);
         // transition: all .2s;
-        
+
 
         &:after {
             content: '';
@@ -100,7 +100,7 @@
             background-color: $color-peri;
             border-radius: 2.5rem;
             border: solid 2px $white;
-            margin: 0 auto; 
+            margin: 0 auto;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
@@ -108,7 +108,7 @@
 
         }
 
-        
+
 
         // &:hover{
         //     transform: scale(1);
@@ -116,12 +116,48 @@
     }
 }
 
+.entry-btn-cont{
+    position: relative;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    transition: all .2s;
+    &:hover{
+        transform: scale(1.1);
+        transition: all .2s;
+    }
+
+    .entry-btn {
+        color: $color-amarillo;
+
+        padding-left: .1rem;
+        font-size: 1rem;
+
+        &:after {
+            content: '';
+            position: absolute;
+            width: 3.5rem;
+            height: 1.5rem;
+            background-color: $color-peri;
+            border-radius: .5rem;
+            border: solid 2px $white;
+            margin: 0 auto;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+
+        }
+
+    }
+}
+
+
 .in-progress {
 
     .oda-image-1{
-        
+
         &:hover{
-            img {               
+            img {
                 transform:translateY(-50%) scale(1.5);
             }
         }
