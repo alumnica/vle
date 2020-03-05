@@ -19,14 +19,14 @@ const uglify = require('gulp-uglify');
 const sassPaths = [
   'node_modules/foundation-sites/scss',
   'node_modules/motion-ui/src',
-  'node_modules/@fortawesome/fontawesome-free/scss',  
-  'node_modules/fullpage.js/dist',  
+  'node_modules/@fortawesome/fontawesome-free/scss',
+  'node_modules/fullpage.js/dist',
 ];
 
 // Delete the "dist" folder
 // This happens every time a build starts
 function cleanDist(done) {
-  rimraf('front_end/dist', done);  
+  rimraf('front_end/dist', done);
 }
 function cleanCSS(done){
   rimraf('webapp/static/webapp/css/app.css', done)
@@ -62,7 +62,7 @@ function styles(done) {
       .pipe(sourcemaps.write())
       // desitnation of compile files (styleguide and static)
       .pipe(gulp.dest('front_end/dist/assets/css'))
-      .pipe(gulp.dest('webapp/static/webapp/css'))      
+      .pipe(gulp.dest('webapp/static/webapp/css'))
       .pipe(browser.stream());
   done();
 }
@@ -96,7 +96,7 @@ function serverBack(done) {
   browser.init({
     notify: false,
     port: 8000,
-    proxy: 'localhost:8000',
+    proxy: '127.0.0.1:8000',
   });
   done();
 }
@@ -146,7 +146,7 @@ function js(done) {
 }
 
 
-// reload JS Parts change of JS 
+// reload JS Parts change of JS
 function jsparts(done) {
   return gulp
     .src('front_end/assets/js/parts/**/*.js')
@@ -193,5 +193,3 @@ exports.backLive = series(cleanDist, cleanCSS, cleanJS, parallel(styles, js, cop
 exports.syncBoth = series(cleanDist, cleanCSS, cleanJS, parallel(styles, js, copyFonts));
 
 exports.clean = series(cleanDist, cleanCSS, cleanJS);
-
-

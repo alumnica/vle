@@ -16,27 +16,27 @@
         @include breakpoint(medium){
             text-align: center;
         }
-        
+
 
         .accordion-title{
             border: none !important;
             border-radius: 0 !important;
             font-size: 1rem;
             font-weight: bold;
-            
+
         }
- 
+
         .accordion-item.top-item > .accordion-title:hover,
         .accordion-item.top-item.is-active > .accordion-title
         {
             background-color: $color-amarillo-sol;
         }
-        
+
         // .accordion-item.top-item > .accordion-item > .accordion-title {
         //     background-color: lighten($color-violet, 30);
-    
+
         // }
-        
+
         .accordion-content{
             border: none !important;
             border-radius: 0 !important;
@@ -55,7 +55,7 @@
             text-transform: uppercase;
         }
 
-        
+
 
 
     }
@@ -107,9 +107,9 @@
 
 .title-bar {
     background-color: $light-gray;
-    
+
     height: 50px;
-    
+
 
     .menu-icon::after {
                 /* the block itself, the first line */

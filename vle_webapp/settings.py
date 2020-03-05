@@ -116,7 +116,7 @@ if not os.environ.get('DATABASE_URL'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join('/home/conker/alumnica/final/studio/studio_webapp', 'db.sqlite3'), #/home/conker/alumnica/final/studio/studio_webapp
+            'NAME': os.path.join('/Users/weniver/Repos/Alumnica/producción/vle', 'db.sqlite3'), #/home/conker/alumnica/final/studio/studio_webapp
         }
     }
 else:

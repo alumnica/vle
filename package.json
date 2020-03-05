@@ -7,9 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "frontLive": "gulp frontLive",
     "backLive": "gulp backLive",
-    "clean": "clean",
-    "updateFront": "syncBoth",
-    "postinstall": "syncBoth"
+    "clean": "gulp clean",
+    "updateFront": "gulp syncBoth",
+    "postinstall": " gulp syncBoth"
   },
   "repository": {
     "type": "git",

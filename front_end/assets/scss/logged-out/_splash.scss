@@ -1,134 +1,121 @@
 .splash-bg {
-    
-    background: linear-gradient( to bottom,
-        rgba(255, 255, 255, 0.9), 
-        rgba(255, 255, 255, 0.7)
-      )
-    ,url(../media/landing-alumnica.png);
-    background-size: cover;
-    height: 100vh;
-    width: 100vw;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -10;
-    padding-top: 4rem;
-
-    
+  background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0.7)
+    ),
+    url(../media/landing-alumnica.png);
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -10;
+  padding-top: 4rem;
 }
 
 .main-part {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .le-content {
-    
-    border: solid 5px black;
-    
+  border: solid 5px black;
 }
 
 .splash-logo {
-    width: 300px;
-    margin: 0 auto;
-    padding-bottom: 3rem;
+  width: 300px;
+  margin: 0 auto;
+  padding-bottom: 3rem;
 }
 
-.emailer{
-    margin-top: 2rem;
+.emailer {
+  margin-top: 2rem;
 }
 
 .email-name {
-    margin: 0;
-    font-weight: bold;
-    font-size: 1.3rem;
-    border-bottom: solid 1px gray;
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.3rem;
+  border-bottom: solid 1px gray;
 }
 
 .email-to {
-    text-decoration: none;
-
+  text-decoration: none;
 }
 
 .news-input {
-    @include breakpoint(medium){
-        width: 50%;
-        margin: 0 auto;
-    }
+  @include breakpoint(medium) {
+    width: 50%;
+    margin: 0 auto;
+  }
 }
 
 .splash-info {
-    // font-weight: bold;
-    
-    line-height: 1.7rem;
+  // font-weight: bold;
 
-    &-2{
-        font-size: 1.1rem;
-    }
+  line-height: 1.7rem;
+
+  &-2 {
+    font-size: 1.1rem;
+  }
 }
 .splash-list {
-    list-style: none;
-    font-weight: bold;
-    font-size: 1.2rem;
-    line-height: 2rem;
+  list-style: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 2rem;
 }
 
 .contacto {
-    font-size: 1.4rem;
-    margin: 0;
-    
+  font-size: 1.4rem;
+  margin: 0;
 }
 .cont-linea {
-    margin: .5rem auto 1.5rem auto;
-    width: 70%;
-
-
+  margin: 0.5rem auto 1.5rem auto;
+  width: 70%;
 }
 .splash-footer {
-    
-    @include breakpoint(medium){
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-    }
-    margin-top: 2rem;
-    background-color: rgb(216, 216, 216);
-    color: rgb(56, 56, 56);
-    text-align: center;
+  @include breakpoint(medium) {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+  margin-top: 2rem;
+  background-color: rgb(216, 216, 216);
+  color: rgb(56, 56, 56);
+  text-align: center;
 
-        .footer-text {
-            margin: 0;
-        }
+  .footer-text {
+    margin: 0;
+  }
 }
-
 
 // splash 2
-.splash-container{
-   
-    background-size: cover;
-    background-position: center center; 
-    background-repeat: no-repeat;
-    background-image:url(../media/landing-alumnica.png);
-    //      radial-gradient(
-    //     circle closest-side,        
-    //    #201F41 60%,#0E0D13);
-        // url(../media/wait_landingplanet.png);
-    
-    
-    
-    height: 100vh;
-    // widows: 100px;
+.splash-container {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-image: url(../media/landing-alumnica.png);
+  //      radial-gradient(
+  //     circle closest-side,
+  //    #201F41 60%,#0E0D13);
+  // url(../media/wait_landingplanet.png);
+
+  height: 100vh;
+  // widows: 100px;
 }
-.splash-image{
-    background-image: url(../media/wait_landingplanet.png);
-    background-size: cover;
-    background-position: center center; 
-    background-repeat: no-repeat;
-    height: 100%;
-    // padding-top: 10%;
-    // top: 25%;
-    // position: relative;
-    // max-width: 1920x;
-    // min-width: 600px;
-    // height: 100vh;
+.splash-image {
+  background-image: url(../media/wait_landingplanet.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 100%;
+  // padding-top: 10%;
+  // top: 25%;
+  // position: relative;
+  // max-width: 1920x;
+  // min-width: 600px;
+  // height: 100vh;
 }
