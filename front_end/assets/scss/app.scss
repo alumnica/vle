@@ -1,9 +1,14 @@
+
+$alumnica-green: #ccff8d;
+
+
+
 @import 'settings';
 @import 'foundation';
-
 @import 'motion-ui';
 
 @import 'components/bryant-font.scss';
+@import 'components/google-fonts.scss';
 
 @import 'fontawesome';
 $fa-font-path : "../webfonts";
@@ -61,11 +66,11 @@ $fa-font-path : "../webfonts";
 @include foundation-top-bar;
 
 // Helpers
-// @include foundation-float-classes;
+@include foundation-float-classes;
 @include foundation-flex-classes;
 @include foundation-visibility-classes;
 
-// @include foundation-prototype-classes;
+@include foundation-prototype-classes;
 
 @include motion-ui-transitions;
 @include motion-ui-animations;
@@ -116,5 +121,6 @@ $fa-font-path : "../webfonts";
 @import 'logged-in/recent';
 
 @import 'custom';
+
 
 // @import 'vendors/jquery.fullpage';

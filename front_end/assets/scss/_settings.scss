@@ -113,16 +113,18 @@ $global-color-pick-contrast-tolerance: 0;
 $print-transparent-backgrounds: true;
 @include add-foundation-colors;
 // 2. Breakpoints
-// --------------
+// --------------ss
 $breakpoints: (
   small: 0,
+  realmedium: 640px,
   medium: 1000px,
   large: 1024px,
   xlarge: 1200px,
   xxlarge: 1440px,
 );
+
 $print-breakpoint: large;
-$breakpoint-classes: (small medium large);
+$breakpoint-classes: (small realmedium medium large);
 // 3. The Grid
 // -----------
 $grid-row-width: $global-width;
