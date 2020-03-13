@@ -92,16 +92,22 @@
   z-index: 20;
 }
 .z-10 {
-  z-index: 0;
+  z-index: 10;
 }
 .z-30 {
   z-index: 30;
 }
-.margin-l-top {
+.margin-paso2-large {
   @include breakpoint(large) {
-    margin: 5em 0 0 -1em;
+    margin: 4.2em 0 0 -1em;
   }
 }
+.margin-paso3-large {
+  @include breakpoint(large) {
+    margin: -14em -1.2em 0 0;
+  }
+}
+
 .gradient-text {
   color: white;
   h3 {
@@ -120,9 +126,19 @@
     }
     h3 {
       font-family: "Lato";
-      font-size: 0.7em;
+      font-size: 0.62em;
       text-transform: lowercase;
       font-variant: small-caps;
+      line-height: 1.2em;
+    }
+    @include breakpoint(portrait) {
+      h3 {
+        font-family: "Lato";
+        font-size: 0.5sem;
+        text-transform: lowercase;
+        font-variant: small-caps;
+        line-height: 1.2em;
+      }
     }
   }
 }
@@ -152,20 +168,14 @@
   );
 }
 
-.purple-gradient-large {
-  @include breakpoint(large) {
+.purple-gradient-large-down {
+  @include breakpoint(medium down) {
     @include purple-gradient;
   }
 }
-.translate-large {
-  margin:0 0 2.5em 0;
+
+.purple-gradient-large {
   @include breakpoint(large) {
-    transform: translate(1em, 1.5em);
-    margin:0;
-  }
-}
-.purple-gradient-large-down {
-  @include breakpoint(large down) {
     @include purple-gradient;
   }
 }
@@ -198,12 +208,44 @@
 
 .hero-landing {
   height: 95vh;
+  @include breakpoint(large) {
+    height: 100vh;
+  }
 }
+
 .eslogan {
-  font-size: 2em;
+  font-size: 1.8em;
   margin: 0.5em 0;
   font-family: "Lato";
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  @include breakpoint(realmedium) {
+    font-size: 2.2em;
+  }
+  @include breakpoint(large) {
+    font-size: 1.6em;
+  }
 }
+
+// .girl-size{
+//   height: 40vh;
+//   width: auto;
+// }
+
+.translate-large {
+  margin: 0 0 2.5em 0;
+  @include breakpoint(large) {
+    transform: translate(1em, 1.5em);
+    margin: 0;
+  }
+}
+//
+// .tranlate-paso3-large {
+//   @include breakpoint(large) {
+//     transform: translate(10em, 6.5em);
+//     margin:0;
+//   }
+// }
 
 //HELPERS
 .padding-mobile {
@@ -211,4 +253,5 @@
   @include breakpoint(realmedium down) {
     padding: 2rem;
   }
+  padding-top: 2em;
 }
