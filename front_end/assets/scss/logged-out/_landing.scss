@@ -198,15 +198,19 @@
 }
 
 .hero-landing {
-  height: 95vh;
+  height: calc(95vh - 3.8em);
   @include breakpoint(large) {
-    height: 100vh;
+    height: calc(100vh - 3.8em);
   }
   @include breakpoint(portrait) {
     @include breakpoint(large) {
-      height: 45vh;
+      height: 40vh;
     }
   }
+}
+
+.hero-form {
+  height: calc(95vh - 3.8em);
 }
 
 .eslogan {
@@ -223,10 +227,21 @@
   }
 }
 
-// .girl-size{
-//   height: 40vh;
-//   width: auto;
-// }
+.girl-size {
+  height: auto;
+  width: 10em;
+  @include breakpoint(realmedium only) {
+    width: 16em;
+  }
+  @include breakpoint(medium only) {
+    width: 16em;
+  }
+  @include breakpoint(portrait) {
+    @include breakpoint(large) {
+      width: 14em;
+    }
+  }
+}
 
 .translate-large {
   margin: 0 0 2.5em 0;
@@ -255,15 +270,24 @@
   }
 }
 
-.portrait-large-10 {
+.portrait-large-hide {
+  @include breakpoint(portrait) {
+    @include hide-for-only(large);
+  }
+}
+
+.show-for-portrait-large {
+  display: none;
   @include breakpoint(portrait) {
     @include breakpoint(large) {
-      @include xy-cell(10);
-      @include flex-order(0);
+      display: block;
     }
   }
 }
-.red{background-color: red}
+
+.red {
+  background-color: red;
+}
 
 //HELPERS
 .padding-mobile {
@@ -272,4 +296,9 @@
     padding: 2rem;
   }
   padding-top: 2em;
+}
+
+.aa {
+  height: 1.8em;
+  margin: 1em;
 }
