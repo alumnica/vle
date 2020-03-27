@@ -1,48 +1,75 @@
-<section class="login-bg">
-</section>
-<div class="grid-container login-padding">
-  <div class="grid-x grid-padding-x">
-    <div class="cell medium-4 large-3">
-      <div class="login-content">
-        <h3>MI CUENTA</h3>
-        <form class="u-margin-bottom-small">
-          <label>E-MAIL
-            <input type="text" placeholder="tunombre@algo.com">
-          </label>
-          <label>CONTRASEÑA
-            <input type="password">
-          </label>
-          <a href="first-login.html" class="button login-btn expanded">ENTRAR</a>
-        </form>
-        <a data-open="pass">¿Olvidaste tu contraseña?</a>
-        <div class="social-login">
-          <!-- <h4>CONTINUAR CON</h4> -->
-          <div class="goog">
-            <a class="goog-button">
-              <i class="fab fa-google"></i>
-              <span>Entra con Google</span>
+---
+layout: no-header
+name: Iniciar Sesión
+---
+
+<div class="grid-container white-background">
+  <div class="grid-x align-middle align-spaced hero-form full-h-large">
+    <div class="cell realmedium-8 large-5 small-12">
+      <div class="grid-container">
+        <div class="grid-x align-center-middle form-card">
+          <div class="cell small-10 large-9 text-left logo-form">
+            <a href="https://www.alumnica.org">
+              <img class="logo-header" src="../assets/media/alumnica-200.png" alt="Alumnica Logo" />
             </a>
           </div>
-          <div class="face">
-            <a class="face-button">
-              <i class="fab fa-facebook"></i>
-              <span>Entra con Facebook</span>
-            </a>
+          <div class="cell small-4 text-center hide-for-large rana-sola-wrapper">
+            <img src="../assets/media/rana-sola.png" alt="Explorando ecosistemas" />
+          </div>
+          <div class="cell small-10 large-9">
+            <div class="grid-container">
+              <div class="grid-x align-middle">
+                <form class="cell" action="POST">
+                  <input type="hidden" name="csrfmiddlewaretoken" value="PeDwQCzxiYKMooB231M17Rq4b3tnl2CrcToijs1adDMynjSx378pos9dT98ZELym">
+                  <div class="relative cell">
+                    <label class="inside-label">e-mail </label>
+                    <input class="input-styling" name="email" type="text" maxlength="100" required id="id_email" />
+                  </div>
+                  <div class="relative cell">
+                    <label class="inside-label">contraseña </label>
+                    <input class="input-styling" type="password" name="password" required id="id_password" />
+                  </div>
+                  <div class="cell text-right forgot-pass">
+                    <a href="/registrationpassword_reset/"><span>¿</span>olvidaste tu constraseña<span>?</span></a>
+                  </div>
+                  <div class="cell">
+                    <input type="submit" class="button landing-button-hollow" value="Iniciar Sesión">
+                  </div>
+                </form>
+
+                <div class="cell small-5 divider-form">
+                  <hr />
+                </div>
+                <div class="cell small-2 text-center divider-form">
+                  o
+                </div>
+                <div class="cell small-5 divider-form">
+                  <hr />
+                </div>
+                <div class="cell face">
+                  <a class="button facebook-button-hollow" href="/oauth/login/facebook/">
+                    <i class="fab fa-facebook-square fa-2x icon-button"></i>
+                    Entrar con Facebook</a>
+                </div>
+                <div class="cell goog">
+                  <a class="button google-button-hollow" href="/oauth/login/google-oauth2/">
+                    <img class="google-logo" src="../assets/media/Google_logo.svg" alt="Google" />
+                    Entrar con Google</a>
+                </div>
+                <div class="cell text-center no-account">
+                  <p class="">
+                    <span>¿</span>no tienes cuenta<span>?</span>
+                    <a href="registro.html">registrate</a>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="cell large-5 text-cent rana-wrapper show-for-large">
+      <img class=" align-self-middle" src="../assets/media/rana-formularios.png" alt="Explorando ecosistemas" />
+    </div>
   </div>
-</div>
-
-<div class="reveal text-center" id="pass" data-reveal>
-  <h4>
-    ¿Olvidaste tu contraseña?
-  </h4>
-  <p>Escribe tu cuenta de e-mail y te mandaremos un link para cambiar tu contraseña</p>
-
-
-  <button class="close-button" data-close aria-label="Close modal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
 </div>

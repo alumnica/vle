@@ -2,9 +2,17 @@
 @font-face {
   font-family: 'Lato';
   font-style: normal;
-  font-weight: 700;
+  font-weight: bold;
   font-display: swap;
   src: local('Lato Black'), local('Lato-Black'), url("../fonts/Lato-Bold.ttf");
+}
+// Lato Regular
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: local('Lato Black'), local('Lato-Black'), url("../fonts/Lato-Regular.ttf");
 }
 //Playfair Display Bold
 @font-face {

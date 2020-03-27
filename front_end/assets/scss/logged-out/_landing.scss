@@ -1,3 +1,48 @@
+//GENERAL
+$gray-text: rgba(0, 0, 0, 0.5);
+
+@mixin small-caps-gray {
+  color: $gray-text;
+  font-variant: small-caps;
+}
+
+.padding-mobile {
+  background-color: white;
+  @include breakpoint(realmedium down) {
+    padding: 2rem;
+  }
+  padding-top: 2em;
+}
+
+.logo-header {
+  height: 1.8em;
+  margin: 1em;
+}
+
+.white-background {
+  background-color: white;
+}
+
+.relative {
+  position: relative;
+}
+
+@mixin shadow {
+  -webkit-box-shadow: 25px 25px 60px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 25px 25px 60px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 25px 25px 60px 0px rgba(0, 0, 0, 0.1);
+}
+
+.z-20 {
+  z-index: 20;
+}
+.z-10 {
+  z-index: 10;
+}
+.z-30 {
+  z-index: 30;
+}
+
 //BUTTONS LANDING
 @mixin landing-button {
   @include button-expand(true);
@@ -6,6 +51,11 @@
   font-size: 0.8em;
   font-weight: bold;
   text-transform: uppercase;
+  letter-spacing: 0.07em;
+  height: 4.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   @include button-style($alumnica-green, $alumnica-green, black);
 }
 
@@ -15,24 +65,33 @@
   @include landing-button;
 }
 
-.landing-button-solid {
+.facebook-button-hollow {
+  @include button-hollow;
+  @include button-hollow-style(#1877f2, 0, 5px);
   @include landing-button;
-  border: 5px solid transparent;
+  @include button-style(#1877f2, #1877f2, #1877f2);
   &:hover {
-    border: 5px solid black;
+    color: white;
+  }
+}
+
+.google-button-hollow {
+  @include button-hollow;
+  @include button-hollow-style(#dadce0, 0, 5px);
+  @include landing-button;
+  @include button-style(#dadce0, #dadce0, black);
+  &:hover {
+    color: white;
   }
 }
 
 //INPUTS landing
 .input-styling {
-  padding: 0.45rem 1.5rem 0.4rem;
+  padding: 1.45rem 1.5rem 1.2rem;
+  height: 2.9em;
   border-radius: 0;
   letter-spacing: 0.07em;
   font-size: 1rem;
-}
-
-.relative {
-  position: relative;
 }
 
 .inside-label {
@@ -40,7 +99,7 @@
   position: absolute;
   color: black;
   left: 1.7rem;
-  top: 0.8rem;
+  top: 1.02rem;
   background-color: #fff;
   z-index: 10;
   line-height: 1rem;
@@ -57,29 +116,14 @@
 }
 
 .focused .inside-label {
-  transform: translateY(-125%);
+  transform: translateY(-150%);
   font-size: 0.8em;
 }
-//HELPERS
-.y-margin-50 {
-  margin: 20px 0;
-}
 
-.shadow-box {
+.shadow-large {
   @include breakpoint(large) {
-    -webkit-box-shadow: 25px 25px 60px 0px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 25px 25px 60px 0px rgba(0, 0, 0, 0.2);
-    box-shadow: 25px 25px 60px 0px rgba(0, 0, 0, 0.2);
+    @include shadow;
   }
-}
-.z-20 {
-  z-index: 20;
-}
-.z-10 {
-  z-index: 10;
-}
-.z-30 {
-  z-index: 30;
 }
 
 .gradient-box {
@@ -122,15 +166,6 @@
       font-variant: small-caps;
       line-height: 1.2em;
     }
-    // @include breakpoint(portrait) {
-    //   h3 {
-    //     font-family: "Lato";
-    //     font-size: 0.5em;
-    //     text-transform: lowercase;
-    //     font-variant: small-caps;
-    //     line-height: 1.2em;
-    //   }
-    // }
   }
 }
 
@@ -185,10 +220,6 @@
   }
 }
 
-.white-background {
-  background-color: white;
-}
-
 .girl {
   @include breakpoint(realmedium down) {
     @include breakpoint(landscape) {
@@ -207,10 +238,6 @@
       height: 40vh;
     }
   }
-}
-
-.hero-form {
-  height: calc(95vh - 3.8em);
 }
 
 .eslogan {
@@ -285,20 +312,92 @@
   }
 }
 
-.red {
-  background-color: red;
-}
-
-//HELPERS
-.padding-mobile {
-  background-color: white;
-  @include breakpoint(realmedium down) {
-    padding: 2rem;
+//LOGIN SIGNUP
+.form-card {
+  @include breakpoint(large) {
+    @include shadow;
+    padding: 3em 0;
   }
-  padding-top: 2em;
 }
 
-.aa {
-  height: 1.8em;
-  margin: 1em;
+.rana-wrapper {
+  height: 90vh;
+  display: flex;
+  > img {
+    margin: auto;
+    width: auto;
+    height: 95%;
+    object-fit: contain;
+  }
+}
+
+.icon-button {
+  margin-right: 0.5em;
+}
+
+.divider-form {
+  color: $gray-text;
+  margin: -0.5em 0 0.5em 0;
+}
+
+.hero-form {
+  height: calc(100vh - 3.8em);
+}
+
+.forgot-pass {
+  margin-top: -0.5em;
+  margin-bottom: 0.5em;
+  > a {
+    @include small-caps-gray;
+    font-size: 0.8em;
+    > span {
+      font-size: 0.7em;
+    }
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.no-account {
+  > p {
+    font-variant: small-caps;
+    font-family: "Lato";
+    letter-spacing: 0.01em;
+    font-size: 1em;
+    @include breakpoint(large down){
+      margin-bottom: 3em;
+    }
+    > a {
+      color: #7fd244;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    > span {
+      font-size: 0.7em;
+    }
+  }
+}
+
+.logo-form {
+  margin-bottom: 1em;
+}
+
+.full-h-large {
+  @include breakpoint(large) {
+    height: 100vh;
+  }
+}
+
+.google-logo {
+  height: 2em;
+  width: auto;
+  margin-right: 1em;
+  display: inline-block;
+  margin-left: -1em;
+}
+
+.rana-sola-wrapper {
+  margin-bottom: 1em;
 }
