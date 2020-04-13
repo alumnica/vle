@@ -1,0 +1,33 @@
+.red {
+  background-color: red;
+}
+.blue {
+  background-color: blue;
+}
+.list-item {
+  margin: 20px;
+  color: black;
+  border: 2px solid transparent;
+  &:hover {
+    color: rgba(0, 0, 0, 0.8);
+    border: 2px solid red;
+  }
+}
+.list-image {
+  padding-right: 20px;
+}
+.oda_icon {
+  -webkit-filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.3));
+}
+
+.ODA-card-text {
+  > h4 {
+    font-variant: small-caps;
+    font-weight:400;
+    margin:0;
+  }
+  >h1{
+font-size: 2em;
+  }
+}
