@@ -78,7 +78,8 @@ function copyFonts(done) {
 function copyMedia(done) {
   return gulp
     .src("front_end/assets/media/**/*")
-    .pipe(gulp.dest("front_end/dist/assets/media"));
+    .pipe(gulp.dest("front_end/dist/assets/media"))
+    .pipe(gulp.dest("webapp/static/webapp/media"));
   done();
 }
 
@@ -181,7 +182,7 @@ function watchBack() {
 // exports.frontEndBuild = series(clean, parallel(styles, pages, js, jsparts, copyMedia, copyFonts));
 
 // exports.frontEndBuild = series(clean, parallel(styles, pages, js, jsparts, copy), server, watch)
-exports.build = series(
+exports.frontLive = series(
   cleanDist,
   cleanCSS,
   cleanJS,

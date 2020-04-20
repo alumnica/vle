@@ -2,22 +2,123 @@
 {% load static %}`
 {% block content %}
 
-<section class="home-bg">
-</section>
-<div class="grid-container">
-  <div class="grid-x align-right align-bottom">
-    <div class="cell medium-5 text-center">
-            <div class="index-content  font-landing">
-                <!--div style="margin-bottom: 1rem;">
-                     <img src="{% static "/webapp/media/alumnica-200.png"%}" alt="Alumnica">
-                </div-->
-                <a href="{% url 'login_view' %}" class="button login-btn">Iniciar Sesión</a>
-                <p class="login-p">¿AÚN NO TIENES CUENTA?</p>
-                <a href="{% url 'signup_view' %}">REGÍSTRATE AHORA</a>
-            </div>
-        </div>
+<div class="grid-container white-background">
+  <div class="grid-x grid-margin-x align-center-middle">
+    <div class="cell text-right">
+      <a href="https://www.alumnica.org">
+        <img class="logo-header" src="{% static '/webapp/media/alumnica-200.png' %}" alt="Alumnica Logo" />
+      </a>
     </div>
+  </div>
+</div>
+<div class="grid-container white-background">
+  <div class="grid-x grid-margin-x align-center-middle">
+    <!-- <div class="cell large-10">
+  </div> -->
+    <!-- HERO -->
+    <!-- This hero is only for portraint large like ipadPro -->
+    <div class="cell large-10 show-for-portrait-large">
+      <div class="grid-container">
+        <div class="grid-x hero-landing align-center-middle">
+          <div class="cell large-6 girl small-7 text-center">
+            <img class="girl-size" src="{% static '/webapp/media/landing/img_appalu4.png' %}" alt="Niña Saltando" />
+          </div>
+          <div class="cell text-center">
+            <h2 class="eslogan">Elige aprender</h2>
+          </div>
+          <div class="cell large-6">
+            <a class="button landing-button-hollow lato-black" href="registro.html">únete a alúmnica</a>
+            <a class="button landing-button-hollow lato-black" href="login.html">Iniciar Sesión</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- This is the default hero -->
+    <div class="cell small-10 large-4 large-order-2 portrait-large-hide">
+      <div class="grid-container">
+        <div class="grid-x hero-landing align-center-middle">
+          <div class="cell large-6 girl small-7 text-center">
+            <img class="girl-size" src="{% static '/webapp/assets/media/landing/img_appalu4.png' %}" alt="Niña Saltando" />
+          </div>
+          <div class="cell text-center">
+            <h2 class="eslogan">Elige aprender</h2>
+          </div>
+          <div class="cell realmedium-8 large-10">
+            <a class="button landing-button-hollow lato-black" href="registro.html">únete a alúmnica</a>
+            <a class="button landing-button-hollow lato-black" href="login.html">Iniciar Sesión</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO END -->
+    <!-- PASOS -->
+    <div class="cell large-8">
+      <div class="grid-x align-center">
+        <!-- PASO 1 -->
+        <div class="cell large-6 z-20">
+          <div class="grid-x">
+            <div class="cell blue-gradient gradient-box">
+              <div class="grid-x align-center align-middle gradient-text">
+                <div class="cell small-2 text-center">
+                  <h1>1</h1>
+                </div>
+                <div class="cell small-8">
+                  <h3>Crea una cuenta o inicia sesión</h3>
+                </div>
+              </div>
+            </div>
+            <div class="cell text-center minus-top-m shadow-large">
+              <img src="{% static '/webapp/assets/media/landing/img_appalu1.png' %}" alt="Alumnica Logo" />
+            </div>
+          </div>
+        </div>
+        <!-- PASO 1 END -->
+
+        <!-- PASO 2 -->
+        <div class="cell large-5 z-10 margin-paso2-large">
+          <div class="grid-x">
+            <div class="cell purple-gradient-large-down gradient-box">
+              <div class="grid-x align-center align-middle gradient-text">
+                <div class="cell small-2 text-center">
+                  <h1>2</h1>
+                </div>
+                <div class="cell small-8">
+                  <h3>Elige un tema que te interese aprender</h3>
+                </div>
+              </div>
+            </div>
+            <div class="cell text-center purple-gradient-large z-10 ">
+              <img class="translate-large" src="{% static '/webapp/assets/media/landing/img_appalu2.png' %}" alt="Alumnica Logo" />
+            </div>
+          </div>
+        </div>
+        <!-- PASO 2 END -->
+
+        <!-- PASO 3 -->
+        <div class="cell large-7 z-30 margin-paso3-large">
+          <div class="grid-x">
+            <div class="cell orange-gradient gradient-box tranlate-paso3-large">
+              <div class="grid-x align-center align-middle gradient-text">
+                <div class="cell small-2 text-center">
+                  <h1>3</h1>
+                </div>
+                <div class="cell small-8">
+                  <h3>
+                    Tenemos diferentes formas de abordarlo. Selecciona una
+                    para empezar
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div class="cell text-center">
+              <img src="{% static '/webapp/assets/media/landing/img_appalu3.png' %}" alt="Alumnica Logo" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
-
