@@ -9,7 +9,7 @@
     "backLive": "gulp backLive",
     "clean": "gulp clean",
     "updateFront": "gulp syncBoth",
-    "postinstall": " gulp syncBoth"
+    "postinstall": "gulp syncBoth"
   },
   "repository": {
     "type": "git",
