@@ -56,8 +56,8 @@ function styles(done) {
       )
       .pipe(sourcemaps.write())
       // desitnation of compile files (styleguide and static)
-      .pipe(gulp.dest("front_end/dist/assets/css"))
       .pipe(gulp.dest("webapp/static/webapp/css"))
+      .pipe(gulp.dest("front_end/dist/assets/css"))
       .pipe(browser.stream())
   );
   done();

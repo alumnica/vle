@@ -27,8 +27,8 @@
             <h2 class="eslogan">Elige aprender</h2>
           </div>
           <div class="cell large-6">
-            <a class="button landing-button-hollow lato-black" href="registro.html">únete a alúmnica</a>
-            <a class="button landing-button-hollow lato-black" href="login.html">Iniciar Sesión</a>
+            <a class="button landing-button-hollow lato-black" href="{% url 'signup_view'%}">únete a alúmnica</a>
+            <a class="button landing-button-hollow lato-black" href="{% url 'login_view'%}">Iniciar Sesión</a>
           </div>
         </div>
       </div>
@@ -38,14 +38,14 @@
       <div class="grid-container">
         <div class="grid-x hero-landing align-center-middle">
           <div class="cell large-6 girl small-7 text-center">
-            <img class="girl-size" src="{% static '/webapp/assets/media/landing/img_appalu4.png' %}" alt="Niña Saltando" />
+            <img class="girl-size" src="{% static '/webapp/media/landing/img_appalu4.png' %}" alt="Niña Saltando" />
           </div>
           <div class="cell text-center">
             <h2 class="eslogan">Elige aprender</h2>
           </div>
           <div class="cell realmedium-8 large-10">
-            <a class="button landing-button-hollow lato-black" href="registro.html">únete a alúmnica</a>
-            <a class="button landing-button-hollow lato-black" href="login.html">Iniciar Sesión</a>
+            <a class="button landing-button-hollow lato-black" href="{% url 'signup_view'%}">únete a alúmnica</a>
+            <a class="button landing-button-hollow lato-black" href="{% url 'login_view'%}">Iniciar Sesión</a>
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@
               </div>
             </div>
             <div class="cell text-center minus-top-m shadow-large">
-              <img src="{% static '/webapp/assets/media/landing/img_appalu1.png' %}" alt="Alumnica Logo" />
+              <img src="{% static '/webapp/media/landing/img_appalu1.png' %}" alt="Paso 1" />
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@
               </div>
             </div>
             <div class="cell text-center purple-gradient-large z-10 ">
-              <img class="translate-large" src="{% static '/webapp/assets/media/landing/img_appalu2.png' %}" alt="Alumnica Logo" />
+              <img class="translate-large" src="{% static '/webapp/media/landing/img_appalu2.png' %}" alt="Paso 2" />
             </div>
           </div>
         </div>
@@ -112,7 +112,7 @@
               </div>
             </div>
             <div class="cell text-center">
-              <img src="{% static '/webapp/assets/media/landing/img_appalu3.png' %}" alt="Alumnica Logo" />
+              <img src="{% static '/webapp/media/landing/img_appalu3.png' %}" alt="Paso 3" />
             </div>
           </div>
         </div>

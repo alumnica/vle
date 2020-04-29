@@ -7,31 +7,29 @@
 
 
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alúmnica</title>
-    <link rel="stylesheet" href="{% static "/webapp/css/app.css" %}">
-    <link rel="icon" href="{% static 'webapp/media/alumnica-favico.png' %}" type="image/png" sizes="16x16">
-    <!--<link rel="manifest" href="{% static 'webapp/PWA/manifest.json' %}">-->
-
-
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alúmnica</title>
+  <link rel="stylesheet" href="{% static "/webapp/css/app.css" %}">
+  <link rel="icon" href="{% static 'webapp/media/alumnica-favico.png' %}" type="image/png" sizes="16x16">
+  <!--<link rel="manifest" href="{% static 'webapp/PWA/manifest.json' %}">-->
 
 </head>
 
-<body>
+<body class="white-background">
 
-        {% block content %}
-        {% endblock %}
+  {% block content %}
+  {% endblock %}
 
 
-    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
-    <script src="{% static "webapp/js/app.js" %}"></script>
+  <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+  <script src="{% static "webapp/js/app.js" %}"></script>
 
-{% block scripts %}
-{% endblock %}
-{% load sweetify %}
-{% sweetify %}
+  {% block scripts %}
+  {% endblock %}
+  {% load sweetify %}
+  {% sweetify %}
 </body>
 
 </html>

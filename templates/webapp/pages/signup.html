@@ -1,44 +1,50 @@
-{% extends "base.html" %}
+{% extends "user_form.html" %}
 {% load i18n %}
 {% load static %}
-{% block content %}
 
-<div class="login-bg"></div>
-<div class="grid-container  login-padding">
-        <div class="grid-x">
-            <div class="cell medium-4 large-4">
-                <div class="login-content font-landing">
-                    <img src="{% static "/webapp/media/alumnica-200.png"%}" alt="Alumnica" style="padding-bottom:10%;"> 
-                    <form method="POST" role="form" class="u-margin-bottom-small">
-                        {% csrf_token %}
-                        <label>{% trans "EMAIL" %} {{ form.email }}</label>
-                        <label>{% trans "CONTRASEÑA" %} {{ form.password }}</label>
-                        <label>{% trans "CONFIRMA TU CONTRASEÑA" %} {{ form.password_confirmation }}</label>
-                        <input type="submit" class="button login-btn expanded" value="{% trans "SIGUIENTE" %}">
-                    </form>
-                    <!-- <div class="social-login">
-                        <h4>{% trans "CONTINUAR CON" %}</h4>
-                        <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
-                        <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
-                        <img src="https://via.placeholder.com/100x100" alt="">
-                        <img src="https://via.placeholder.com/200x100" alt="">
-                    </div> -->
-                    <div class="social-login">
-                        <div class="face">
-                            <a href="{% url 'social:begin' 'facebook' %}" class="face-button">
-                                <img src="{% static 'webapp/media/FB_logo.svg' %}">    
-                                    <span>Inicia sesión con Facebook</span>                            
-                            </a>
-                        </div>
-                        <div class="goog">
-                            <a  href="{% url 'social:begin' 'google-oauth2' %}" class="goog-button">
-                                    <img src="{% static 'webapp/media/Google_logo.svg' %}">    
-                                    <span>Inicia sesión con Google   </span>                            
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+{% block form %}
+<form action="POST" class="cell" role="form">
+  <input type="hidden" name="csrfmiddlewaretoken" value="S74Fjfnoa5exSRr8VQGpH9gZufFhgi5zfMPrM5P15KgjRMIDVW2NYKZ8clkTz11u">
+  <div class="relative cell">
+    <label class="inside-label">e-mail </label>
+    <input class="input-styling" type="email" name="email" maxlength="254" required id="id_email" />
+  </div>
+  <div class="relative cell">
+    <label class="inside-label">contraseña </label>
+    <input class="input-styling" type="password" name="password" required id="id_password" />
+  </div>
+  <div class="relative cell">
+    <label class="inside-label">confirmar contraseña</label>
+    <input class="input-styling" type="password" name="password_confirmation" required id="id_password_confirmation" />
+  </div>
+  <div class="cell">
+    <input type="submit" class="button landing-button-hollow" value="Empezar">
+  </div>
+</form>
+
+<div class="cell small-5 divider-form">
+  <hr />
+</div>
+<div class="cell small-2 text-center divider-form">
+  o
+</div>
+<div class="cell small-5 divider-form">
+  <hr />
+</div>
+<div class="cell face">
+  <a class="button facebook-button-hollow" href="/oauth/login/facebook/">
+    <i class="fab fa-facebook-square fa-2x icon-button"></i>
+    Entrar con Facebook</a>
+</div>
+<div class="cell goog">
+  <a class="button google-button-hollow" href="/oauth/login/google-oauth2/">
+    <img class="google-logo" src="{% static '/webapp/media/landing/Google_logo.svg' %}" alt="Google" />
+    Entrar con Google</a>
+</div>
+<div class="cell text-center no-account">
+  <p class="">
+    <span>¿</span>ya tienes cuenta<span>?</span>
+    <a href="{% url 'login_view'%}">inicia sesión</a>
+  </p>
+</div>
+{% endblock form %}
