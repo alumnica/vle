@@ -1,5 +1,4 @@
 {% extends "user_form.html" %}
-{% load i18n %}
 {% load static %}
 
 {% block form %}
@@ -7,11 +6,11 @@
   {% csrf_token %}
   <div class="relative cell">
     <label class="inside-label">e-mail </label>
-    <input class="input-styling" name="email" type="text" maxlength="100" required id="id_email" />
+    {{ form.email }}
   </div>
   <div class="relative cell">
     <label class="inside-label">contraseña </label>
-    <input class="input-styling" type="password" name="password" required id="id_password" />
+    {{ form.password }}
   </div>
   <div class="cell text-right forgot-pass">
     <a href="{% url 'password_reset' %}"><span>¿</span>olvidaste tu constraseña<span>?</span></a>

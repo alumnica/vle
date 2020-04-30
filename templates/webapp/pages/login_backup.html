@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="login-bg">
+</section>
+<div class="grid-container login-padding">
+    <div class="grid-x grid-padding-x">
+        <div class="cell medium-4 large-4">
+            <div class="login-content font-landing" >
+                 <img src="{% static "/webapp/media/alumnica-200.png"%}" alt="Alumnica" style="padding-bottom:10%;"> 
+
+                <form method="POST" class="u-margin-bottom-small">
+                    {% csrf_token %}
+                    <label>EMAIL {{ form.email }}
+                    </label>
+                    <label>CONTRASEÑA {{ form.password }}
+                    </label>
+
+                    <div class="text-right">
+                        <a href="{% url 'password_reset' %}" >¿OLVIDASTE TU CONTRASEÑA?</a>
+                    </div>
+                    {% comment %}
+                    
+
+                    <a href="first-login.html" class="button login-btn expanded">INICIAR SESIÓN</a> {% endcomment %}
+
+                    <input type="submit" class="button login-btn expanded" value="INICIAR SESIÓN"> {% comment %} Aqui te puede mandar a las pantallas de "first-login" o directo al "dashboard" dependiedno
+                    si es tu primera vez o no{% endcomment %}
+
+                </form>
+                
+                <div class="social-login">
+                    <div class="face">
+                        <a href="{% url 'social:begin' 'facebook' %}" class="face-button">
+                            <img src="{% static 'webapp/media/FB_logo.svg' %}">    
+                                <span>Inicia sesión con Facebook</span>                            
+                        </a>
+                    </div>
+                    <div class="goog">
+                        <a  href="{% url 'social:begin' 'google-oauth2' %}" class="goog-button">
+                                <img src="{% static 'webapp/media/Google_logo.svg' %}">    
+                                <span>Inicia sesión con Google   </span>                            
+                        </a>
+                    </div>
+                </div>
+                <div class="text-right">
+                    ¿NO TIENES CUENTA? <a href="{% url 'signup_view' %}"> REGISTRATE </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

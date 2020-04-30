@@ -1,21 +1,20 @@
 {% extends "user_form.html" %}
-{% load i18n %}
 {% load static %}
 
 {% block form %}
 <form action="POST" class="cell" role="form">
-  <input type="hidden" name="csrfmiddlewaretoken" value="S74Fjfnoa5exSRr8VQGpH9gZufFhgi5zfMPrM5P15KgjRMIDVW2NYKZ8clkTz11u">
+  {% csrf_token %}
   <div class="relative cell">
     <label class="inside-label">e-mail </label>
     <input class="input-styling" type="email" name="email" maxlength="254" required id="id_email" />
   </div>
   <div class="relative cell">
     <label class="inside-label">contraseña </label>
-    <input class="input-styling" type="password" name="password" required id="id_password" />
+    {{ form.password }}
   </div>
   <div class="relative cell">
     <label class="inside-label">confirmar contraseña</label>
-    <input class="input-styling" type="password" name="password_confirmation" required id="id_password_confirmation" />
+    {{ form.password_confirmation }}
   </div>
   <div class="cell">
     <input type="submit" class="button landing-button-hollow" value="Empezar">
@@ -32,12 +31,12 @@
   <hr />
 </div>
 <div class="cell face">
-  <a class="button facebook-button-hollow" href="/oauth/login/facebook/">
+  <a class="button facebook-button-hollow" href="{% url 'social:begin' 'facebook' %}">
     <i class="fab fa-facebook-square fa-2x icon-button"></i>
     Entrar con Facebook</a>
 </div>
 <div class="cell goog">
-  <a class="button google-button-hollow" href="/oauth/login/google-oauth2/">
+  <a class="button google-button-hollow" href="{% url 'social:begin' 'google-oauth2' %}">
     <img class="google-logo" src="{% static '/webapp/media/landing/Google_logo.svg' %}" alt="Google" />
     Entrar con Google</a>
 </div>

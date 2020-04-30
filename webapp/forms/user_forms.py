@@ -17,8 +17,9 @@ class UserForm(forms.ModelForm):
     """
     Create new AuthUser form
     """
-    password = forms.CharField(widget=forms.PasswordInput())
-    password_confirmation = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input-styling'}))
+    password_confirmation = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input-styling'}))
+
 
     class Meta:
         model = AuthUser
@@ -64,8 +65,9 @@ class UserLoginForm(forms.Form):
     """
     Login form
     """
-    email = forms.CharField(max_length=100)
-    password = forms.CharField(widget=forms.PasswordInput())
+    # se cambian la clase de los inputs para darle estilo
+    email = forms.CharField(max_length=100,widget=forms.EmailInput(attrs={'class': 'input-styling'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input-styling'}))
 
     def clean(self):
         cleaned_data = super(UserLoginForm, self).clean()

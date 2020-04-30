@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container white-background">
+  <div class="grid-x align-middle align-spaced hero-form full-h-large">
+    <div class="cell realmedium-8 large-5 small-12">
+      <div class="grid-container">
+        <div class="grid-x align-center-middle form-card">
+          <div class="cell small-10 large-9 text-left logo-form">
+            <a href="https://www.alumnica.org">
+              <img class="logo-header" src="{% static '/webapp/media/alumnica-200.png' %}" />
+            </a>
+          </div>
+          <div class="cell small-4 text-center hide-for-large rana-sola-wrapper">
+            <img src="{% static '/webapp/media/landing/rana-sola.png' %}" alt="Explorando ecosistemas" />
+          </div>
+          <div class="cell small-10 large-9">
+            <div class="grid-container">
+              <div class="grid-x align-middle">
+                {% block form %}
+                {% endblock form %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cell large-5 text-cent rana-wrapper show-for-large">
+      <img class="align-self-middle" src="{% static '/webapp/media/landing/rana-formularios.png' %}" alt="Explorando ecosistemas" />
+    </div>
+  </div>
+</div>
+{% endblock %}
