@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block form %}
-<form action="POST" class="cell" role="form">
+<form method="POST" class="cell" role="form">
   {% csrf_token %}
   <div class="relative cell">
     <label class="inside-label">e-mail </label>
