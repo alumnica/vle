@@ -116,7 +116,7 @@ if not os.environ.get('DATABASE_URL'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join('/Users/weniver/Repos/Alumnica/producción/vle', 'db.sqlite3'), #/home/conker/alumnica/final/studio/studio_webapp
+            'NAME': os.path.join('/home/conker/alumnica/git/', 'db.sqlite3'), #/home/conker/alumnica/final/studio/studio_webapp
         }
     }
 else:
@@ -181,9 +181,6 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id,name,email',
 }
-XAPI_URL = os.environ.get('XAPI_URL')
-XAPI_VERSION = os.environ.get('XAPI_VERSION')
-XAPI_KEY = os.environ.get('XAPI_KEY')
 
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')

@@ -11,7 +11,6 @@ from alumnica_model.mixins import LoginCounterMixin, OnlyLearnerMixin
 from alumnica_model.models import Moment
 from vle_webapp.settings import AWS_INSTANCE_URL
 from webapp.gamification import uoda_completed_xp
-from webapp.statement_builders import access_statement_with_parent
 
 
 class MomentView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
@@ -28,14 +27,6 @@ class MomentView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormVi
             moment = Moment.objects.get(pk=self.kwargs['pk'])
             
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            access_statement_with_parent(request=request,
-                                         object_type='uoda',
-                                         object_name=moment.microoda.name,
-                                         parent_type='oda',
-                                         parent_name=moment.microoda.oda.name,
-                                         tags_array=moment.tags.all(),
-                                         timestamp=timestamp)
-            print ('after')
         return response
 
     def get_context_data(self, **kwargs):

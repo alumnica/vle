@@ -73,9 +73,11 @@ class UserLoginForm(forms.Form):
         cleaned_data = super(UserLoginForm, self).clean()
         email = cleaned_data.get('email')
         password = cleaned_data.get('password')
+        print ((email, password))
         try:
             user = AuthUser.objects.get(email=email)
             if not user.check_password(password):
+                print ('user.check_password(password)')
                 error = ValidationError(_("Contraseña o correo incorrecto"), code='credentials_error')
                 self.add_error('password', error)
                 return cleaned_data
@@ -85,6 +87,7 @@ class UserLoginForm(forms.Form):
                 return cleaned_data
 
         except AuthUser.DoesNotExist:
+            print ('AuthUser.DoesNotExist')
             error = ValidationError(_("Contraseña o correo incorrecto"), code='credentials_error')
             self.add_error('password', error)
             return cleaned_data

@@ -16,7 +16,6 @@ from alumnica_model.models.achievements import TYPE_BADGE_ACHIEVEMENT
 from alumnica_model.models.notifications import TestAchievementNotification
 from webapp.forms.profile_forms import *
 from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS, get_learner_level
-from webapp.statement_builders import register_statement, access_statement
 
 
 class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
@@ -40,7 +39,6 @@ class FirstLoginInfoView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin
         gender = self.request.POST['gender']
         form.save_form(user, gender)
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        register_statement(request=self.request, timestamp=timestamp, user=user)
         if self.request.user.profile.learning_style is None:
             return redirect(to='first-login-p1_view')
         return redirect(to='dashboard_view')
@@ -82,7 +80,6 @@ class LargeLearningStyleQuizView(LoginRequiredMixin, OnlyLearnerMixin, LoginCoun
         response = super(LargeLearningStyleQuizView, self).dispatch(request, *args, **kwargs)
         if response.status_code == 200 and request.method == 'GET':
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            access_statement(request.user, 'Large Learning Style Quiz', timestamp)
         return response
 
     def form_valid(self, form):
@@ -131,7 +128,6 @@ class ProfileSettingsView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixi
         response = super(ProfileSettingsView, self).dispatch(request, *args, **kwargs)
         if response.status_code == 200 and request.method == 'GET':
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            access_statement(request.user, 'Profile', timestamp)
         return response
 
     def get_object(self, queryset=None):

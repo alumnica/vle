@@ -9,7 +9,6 @@ from alumnica_model.models.content import Evaluation, ODA
 from alumnica_model.models.questions import TYPE_RELATIONSHIP, TYPE_PULL_DOWN_LIST, TYPE_MULTIPLE_OPTION, \
     TYPE_MULTIPLE_ANSWER, TYPE_NUMERIC_ANSWER
 from webapp.gamification import evaluation_completed_xp
-from webapp.statement_builders import access_statement_with_parent
 
 
 class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
@@ -25,13 +24,6 @@ class EvaluationView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, Fo
         if response.status_code == 200 and request.method == 'GET':
             evaluation = Evaluation.objects.get(pk=self.kwargs['pk'])
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            access_statement_with_parent(request=request,
-                                         object_type='evaluation',
-                                         object_name=evaluation.name,
-                                         parent_type='oda',
-                                         parent_name=evaluation.oda.all()[0].name,
-                                         tags_array=evaluation.oda.all()[0].tags.all(),
-                                         timestamp=timestamp)
         return response
 
     def get_context_data(self, **kwargs):

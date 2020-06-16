@@ -6,7 +6,7 @@ from django.views.generic import FormView
 
 from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models import ODA, Tag
-from webapp.statement_builders import search_statement
+
 
 
 class RecentActivitiesView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
@@ -46,8 +46,6 @@ class SearchView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormVi
                         odas_list.append(oda)
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        search_statement(user=self.request.user, string_searched=text_to_search, timestamp=timestamp)
-
         return {'odas_list': odas_list, 'text_to_search': text_to_search}
 
 

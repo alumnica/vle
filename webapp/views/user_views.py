@@ -19,7 +19,6 @@ from alumnica_model.models import users, Ambit, AuthUser
 from alumnica_model.models.progress import LearnerLoginProgress
 from webapp.forms.user_forms import UserForm, UserLoginForm
 from webapp.gamification import get_learner_level
-from webapp.statement_builders import login_statement, logout_statement
 from webapp.tokens import account_activation_token
 
 
@@ -62,7 +61,6 @@ class LoginView(FormView):
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        login_statement(request=self.request, timestamp=timestamp, user=user)
         if self.request.user.profile.created_by_learner_test:
             return redirect(to='first_login_test_p1_view', pk=user.pk)
         if user.first_name == "":
@@ -171,7 +169,6 @@ class LogoutView(RedirectView):
 
     def get(self, request, *args, **kwargs):
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        logout_statement(request=self.request, timestamp=timestamp, user=request.user)
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
 

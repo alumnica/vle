@@ -15,8 +15,6 @@ from alumnica_model.models.questions import *
 from alumnica_model.models.users import LearnerLevels, GENDER_TYPES
 from webapp.gamification import uoda_completed_xp, evaluation_completed_xp, get_learner_level
 from webapp.serializers import *
-from webapp.statement_builders import task_completed, task_experience_received, avatar_statement, \
-    answered_question_statement, h5p_task_completed
 
 
 class EvaluationViewSet(APIView):
@@ -222,8 +220,7 @@ class EvaluationViewSet(APIView):
 
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
             tags = question_instance.evaluation.oda.all()[0].microodas.get(type=question_instance.microoda).tags.all()
-            answered_question_statement(user=learner.auth_user, question_instance=question_instance,
-                                        success=correct_answer, timestamp=timestamp, tags_array=tags)
+            
 
         evaluation_completed = False
         evaluation_instance = question_instance.evaluation
@@ -374,8 +371,7 @@ class ChangeUserAvatar(APIView):
             AvatarAchievementNotification.objects.get_or_create(learner=learner, achievement=achievement)
             learner.assign_xp(achievement.xp)
 
-        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        avatar_statement(user=learner.auth_user, avatar=avatar_id, timestamp=timestamp)
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()        
         return JsonResponse({'avatar_points': avatar_points})
 
 
@@ -427,10 +423,6 @@ class SaveExtraProfileInfo(APIView):
         return JsonResponse({'ok': 'ok'})
 
 
-class H5PToXapi(APIView):
-    def post(self, request, subContentId):
-        pass
-
 
 class H5PFinished(APIView):
     """
@@ -442,11 +434,7 @@ class H5PFinished(APIView):
         auth_user = AuthUser.objects.get(pk=user)
         score = int(request.POST.get('score'))
         max_score = int(request.POST.get('maxScore'))
-        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        h5p_task_completed(user=auth_user, object_type='Momento', object_name=momento_instance.name,
-                           parent_type="uoda", parent_name=momento_instance.microoda.name,
-                           tags_array=momento_instance.tags.all(),
-                           timestamp=timestamp, score=score, max_score=max_score)
+        timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()        
         return JsonResponse({'ok': 'ok'})
 
 

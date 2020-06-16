@@ -5,7 +5,6 @@ from django.views.generic import FormView, TemplateView
 
 from alumnica_model.mixins import OnlyLearnerMixin, LoginCounterMixin
 from alumnica_model.models import Ambit
-from webapp.statement_builders import access_statement
 
 
 class AmbitGridView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormView):
@@ -19,7 +18,6 @@ class AmbitGridView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, For
         response = super(AmbitGridView, self).dispatch(request, *args, **kwargs)
         if response.status_code == 200 and request.method == 'GET':
             timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            access_statement(request.user, 'Ambitos Grid', timestamp)
         return response
 
     def get_context_data(self, **kwargs):

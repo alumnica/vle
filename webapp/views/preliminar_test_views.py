@@ -18,8 +18,6 @@ from alumnica_model.models.content import LearningStyle
 from webapp.forms.preliminar_test_forms import FirstLoginTestInfoForm, FirstLoginTest
 from webapp.forms.user_forms import UserForm
 from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS
-from webapp.statement_builders import register_statement, learning_experience_received, \
-    access_statement
 from webapp.tokens import account_activation_token
 
 
@@ -93,7 +91,6 @@ class FirstLoginTestInfoView(OnlyTestLearnerMixin, FormView):
         gender = self.request.POST['gender']
         form.save_form(user, gender)
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        register_statement(request=self.request, timestamp=timestamp, user=user)
         return redirect(to='first_login_test_p1_view', pk=user.pk)
 
     def form_invalid(self, form):
@@ -120,7 +117,6 @@ class FirstLoginTestP1View(OnlyTestLearnerMixin, FormView):
             user = AuthUser.objects.get(pk=self.kwargs['pk'])
             if response.status_code == 200 and request.method == 'GET':
                 timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-                access_statement(user, 'Large Learning Style Quiz', timestamp)
         return response
 
     def form_valid(self, form):
@@ -141,12 +137,6 @@ class FirstLoginTestP1View(OnlyTestLearnerMixin, FormView):
         elif answers_numbers[1] > answers_numbers[2] and answers_numbers[3] > answers_numbers[2]:
             user.profile.learning_style = LearningStyle.objects.get(name='Convergente')
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        learning_experience_received(user=user,
-                                     object_type='Learning Style Quiz',
-                                     object_name=user.profile.learning_style.name,
-                                     timestamp=timestamp,
-                                     gained_xp=EXPERIENCE_POINTS_CONSTANTS['learning_large_quiz'])
-
         user.profile.save()
 
         return redirect(to='test_answered_view', pk=user.pk)

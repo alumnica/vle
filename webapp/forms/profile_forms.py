@@ -8,7 +8,6 @@ from alumnica_model.models import Learner, users, AuthUser
 from alumnica_model.models.content import LearningStyle
 from alumnica_model.validators import validate_date
 from webapp.gamification import EXPERIENCE_POINTS_CONSTANTS
-from webapp.statement_builders import learning_experience_received, edited_profile
 
 
 class FirstLoginInfoForm(forms.ModelForm):
@@ -121,7 +120,6 @@ class ProfileSettingsForm(forms.ModelForm):
         user.save()
         user.profile.save()
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        edited_profile(user=user, timestamp=timestamp)
         return user
 
 
