@@ -40,7 +40,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-relay.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'alumnica@fundacionmanuelmoreno.org'
-EMAIL_HOST_PASSWORD = 'P4$$w0rd'
+EMAIL_HOST_PASSWORD = 'gokdbbvjeoyefnmx' #'P4$$w0rd'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'alumnica@fundacionmanuelmoreno.org'
 
