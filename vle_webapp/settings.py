@@ -27,22 +27,22 @@ PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'webapp/static/webapp/PWA/', 's
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'm792=#*_(5x5c80&z+i0u80rj+0kn!f94i!*z^xwiy5zb#6a&1')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 SECURE_SSL_REDIRECT = bool(os.environ.get('FORCE_SSL', False))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False #not os.environ.get('ON_HEROKU', False)
 
-ALLOWED_HOSTS = ['54.153.4.110','ec2-54-153-4-110.us-west-1.compute.amazonaws.com',   '.alumnica.org', '127.0.0.1']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
 CORS_ORIGIN_ALLOW_ALL = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-relay.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'alumnica@fundacionmanuelmoreno.org'
-EMAIL_HOST_PASSWORD = 'gokdbbvjeoyefnmx' #'P4$$w0rd'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') 
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') 
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'alumnica@fundacionmanuelmoreno.org'
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER') 
 
 # Application definition
 INSTALLED_APPS = [
@@ -187,11 +187,11 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 AWS_INSTANCE_URL = os.environ.get('AWS_INSTANCE_URL')
 
-SOCIAL_AUTH_FACEBOOK_KEY = '216563479203361'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'b1270062222bc3c887426b6540a65ebe'
+SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get('SOCIAL_AUTH_FACEBOOK_KEY') 
+SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('SOCIAL_AUTH_FACEBOOK_SECRET') 
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '112616299974-bv1sf5k9p438e9h3l3c3eqlefjvggpjf.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'bdzsxMKIT1OE3xEMeE3WvY7R'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY') 
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET') 
 
 LOGIN_URL = 'login_view'
 LOGIN_REDIRECT_URL = 'dashboard_view'

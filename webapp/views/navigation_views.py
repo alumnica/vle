@@ -20,8 +20,11 @@ class RecentActivitiesView(LoginRequiredMixin, OnlyLearnerMixin, FormView):
         odas_list = []
 
         for activity_progress in self.request.user.profile.activities_progresses.all():
-            if activity_progress.activity.microoda.oda not in odas_list:
-                odas_list.append(activity_progress.activity.microoda.oda)
+            try :
+                if activity_progress.activity.microoda.oda not in odas_list:
+                    odas_list.append(activity_progress.activity.microoda.oda)
+            except AttributeError:
+                continue
 
         return {'odas_list': odas_list}
 

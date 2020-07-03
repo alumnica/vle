@@ -39,7 +39,7 @@ urlpatterns = [
                   path('odas/', include('webapp.urls.oda_urls')),
                   path('moments/', include('webapp.urls.moment_urls')),
                   path('evaluations/', include('webapp.urls.evaluation_urls')),
-                  path('admin/', admin.site.urls),
+                  #path('admin/', admin.site.urls),
                   path('oauth/', include('social_django.urls', namespace='social')),
                   path('api/', include(router.urls)),
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),

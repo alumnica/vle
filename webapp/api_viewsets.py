@@ -266,15 +266,7 @@ class EvaluationViewSet(APIView):
             learner.save()
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        task_completed(learner.auth_user,
-                       'evaluation',
-                       evaluation_instance.name,
-                       'oda', evaluation_instance.oda.all()[0].name,
-                       tags_array=evaluation_instance.oda.all()[0].tags.all(),
-                       timestamp=timestamp,
-                       score=score,
-                       duration=duration,
-                       completion=evaluation_completed)
+        
 
         EvaluationCompletedNotification.objects.create(learner=learner, evaluation=evaluation_instance, score=score, xp=xp)
 
@@ -314,25 +306,10 @@ class MicroodaViewSet(APIView):
 
         if earned_xp != 0:
             learner.assign_xp(earned_xp)
-            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            task_experience_received(user=learner.auth_user,
-                                     object_type='uoda',
-                                     object_name=microoda.name,
-                                     parent_type='oda',
-                                     parent_name=microoda.oda.name,
-                                     tags_array=microoda.tags.all(),
-                                     timestamp=timestamp,
-                                     gained_xp=earned_xp)
+            timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()            
 
         timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-        task_completed(user=learner.auth_user,
-                       object_type='uoda',
-                       object_name=microoda.name,
-                       parent_type='oda', parent_name=microoda.oda.name,
-                       tags_array=microoda.tags.all(),
-                       timestamp=timestamp,
-                       duration=duration,
-                       completion=True)
+        
 
         MicroODACompletedNotification.objects.create(learner=learner, microoda=microoda, xp=earned_xp)
 
