@@ -75,8 +75,8 @@ class ProfileSettingsForm(forms.ModelForm):
         new_password = cleaned_data.get('new_password')
         new_password_confirmation = cleaned_data.get('new_password_confirmation')
 
-        if password is not '' or new_password is not '' or new_password_confirmation is not '':
-            if new_password is '':
+        if password != '' or new_password != '' or new_password_confirmation != '':
+            if new_password == '':
                 error = ValidationError(_("Escribe una nueva contraseña"), code='password_error')
                 self.add_error('new_password', error)
             else:
@@ -85,7 +85,7 @@ class ProfileSettingsForm(forms.ModelForm):
                                             code='password_length_error')
                     self.add_error('new_password', error)
                 else:
-                    if new_password_confirmation is '':
+                    if new_password_confirmation == '':
                         error = ValidationError(_("Por favor confirma tu contraseña."),
                                                 code='password_confirmation_error')
                         self.add_error('new_password_confirmation', error)
@@ -95,7 +95,7 @@ class ProfileSettingsForm(forms.ModelForm):
                                                     code='password_confirmation_error')
                             self.add_error('new_password', error)
                         else:
-                            if password is not '':
+                            if password != '':
                                 user = self.instance
                                 if not user.check_password(password):
                                     error = ValidationError(_("Contraseña incorrecta."), code='credentials_error')
