@@ -39,6 +39,7 @@ def learner_level(value):
 @register.simple_tag
 def get_active_avatar(user, *args, **kwargs):
     if user and user.is_authenticated:
+        print (user)
         learner = user.profile
         avatar = learner.avatar_progresses.filter(active=True).first()
         avatar_level = 3
