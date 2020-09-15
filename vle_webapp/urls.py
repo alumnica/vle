@@ -48,6 +48,17 @@ urlpatterns = [
                   path('registration', include('django.contrib.auth.urls')),
                   path('api/microodas/<int:learner>,<int:uODA>,<str:duration>/', api_viewsets.MicroodaViewSet.as_view(),
                        name='microoda_view'),
+                  
+                  path('api/odas/', api_viewsets.ODAViewSet.as_view({'get': 'list'}),
+                       name='odas_view_api'),
+
+                  url(r'^api/odas/(?P<oda>\d+)/microodas/$', api_viewsets.MicroODAViewSet.as_view({'get': 'list'}),
+                       name='microodas_view_api'),
+
+                  url(r'^api/odas/microodas/(?P<microoda>\d+)/moments/$', api_viewsets.MomentViewSet.as_view({'get': 'list'}),
+                       name='moments_view_api'),
+
+
                   path('api/notifications/', api_viewsets.NotificationsAPIView.as_view(),
                        name='notifications_view'),
                   path('api/xp/', api_viewsets.LearnerExperiencePoints.as_view(),

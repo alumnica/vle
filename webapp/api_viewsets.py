@@ -2,11 +2,13 @@ import datetime
 import json
 
 from django.http import JsonResponse
+from rest_framework.response import Response
 from django.utils import timezone
 from django.utils.dateparse import parse_date
 from rest_framework.views import APIView
+from rest_framework import viewsets
 
-from alumnica_model.models import AuthUser, Learner, MicroODA, Moment, MicroODACompletedNotification, \
+from alumnica_model.models import ODA, AuthUser, Learner, MicroODA, Moment, MicroODACompletedNotification, \
     EvaluationCompletedNotification, AchievementNotification, LevelUpNotification, AvatarEvolutionNotification, \
     AvatarAchievement, LearnerAvatarAchievement
 from alumnica_model.models.notifications import AvatarAchievementNotification, LevelAchievementNotification, \
@@ -498,3 +500,43 @@ class LearnerExperiencePoints(APIView):
         return JsonResponse({'learner_points': (learner.experience_points - learner_level.points),
                              'learner_next_level_points': (next_level.points - learner_level.points),
                              'avatar_points': avatar_points})
+
+
+class ODAViewSet(viewsets.ViewSet):
+    """
+    A simple ViewSet for listing or retrieving users.
+    """
+    def list(self, request):
+        print ('in list')
+        
+        queryset = ODA.objects.filter(is_published=True)
+        print ('odas -> ' + str ( queryset))
+        serializer = ODASerializer(queryset, many=True)
+        print (serializer.data)
+        return Response(serializer.data)
+
+class MicroODAViewSet(viewsets.ViewSet):
+    """
+    A simple ViewSet for listing or retrieving users.
+    """
+    def list(self,  request, oda):
+        print ('in list mkicroodas')
+        print (oda)
+        queryset = MicroODA.objects.filter(oda = oda)
+        print ('microodas -> ' + str ( queryset))
+        serializer = MicroodaSerializer(queryset, many=True)
+        print (serializer.data)
+        return Response(serializer.data)
+
+class MomentViewSet(viewsets.ViewSet):
+    """
+    A simple ViewSet for listing or retrieving users.
+    """
+    def list(self,  request, microoda):
+        print ('in list moments')
+        print (microoda)
+        queryset = Moment.objects.filter(microoda = microoda)
+        print ('moments -> ' + str ( queryset))
+        serializer = MomentSerializer(queryset, many=True)
+        print (serializer.data)
+        return Response(serializer.data)
