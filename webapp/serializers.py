@@ -35,7 +35,7 @@ class ODASerializer(serializers.ModelSerializer):
 	img_oda = ImageSerializer()
 	class Meta:
 		model = ODA
-		fields = ['id', 'name', 'description', 'subject', 'tema', 'img_portada', 'img_oda', 'references']
+		fields = ['id', 'name', 'description', 'subject', 'learning_objective', 'img_portada', 'img_oda', 'references']
 		
 
 class MicroodaTypeSerializer(serializers.ModelSerializer):
