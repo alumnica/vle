@@ -52,8 +52,15 @@ class SearchView(LoginRequiredMixin, OnlyLearnerMixin, LoginCounterMixin, FormVi
         return {'odas_list': odas_list, 'text_to_search': text_to_search}
 
 
-def error404(request):
+def error404(request, exception):
     """
     Handles custom 404 error page
     """
     return render(request, 'webapp/pages/404.html', status=404)
+
+def error500(request):
+    """
+    Handles custom 500 error page
+    """
+    return render(request, 'webapp/pages/404.html', status=500)
+

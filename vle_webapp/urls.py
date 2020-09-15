@@ -72,4 +72,4 @@ urlpatterns = [
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler404 = navigation_views.error404
 handler400 = navigation_views.error404
-handler500 = navigation_views.error404
+handler500 = navigation_views.error500

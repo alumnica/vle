@@ -187,6 +187,7 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 AWS_INSTANCE_URL = os.environ.get('AWS_INSTANCE_URL')
 
+
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get('SOCIAL_AUTH_FACEBOOK_KEY') 
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('SOCIAL_AUTH_FACEBOOK_SECRET') 
 
@@ -317,3 +318,5 @@ PWA_APP_ICONS = [
         "type": "image/png"
     }
 ]
+
+print ('...................................Iniciado...........................')
