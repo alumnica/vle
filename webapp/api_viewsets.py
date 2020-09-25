@@ -17,6 +17,7 @@ from alumnica_model.models.questions import *
 from alumnica_model.models.users import LearnerLevels, GENDER_TYPES
 from webapp.gamification import uoda_completed_xp, evaluation_completed_xp, get_learner_level
 from webapp.serializers import *
+from django.shortcuts import get_object_or_404
 
 
 class EvaluationViewSet(APIView):
@@ -513,6 +514,13 @@ class ODAViewSet(viewsets.ViewSet):
         print ('odas -> ' + str ( queryset))
         serializer = ODASerializer(queryset, many=True)
         print (serializer.data)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        print (' in retrive', pk)
+        queryset = ODA.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+        serializer = ODASerializer(user)
         return Response(serializer.data)
 
 class MicroODAViewSet(viewsets.ViewSet):

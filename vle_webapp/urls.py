@@ -50,7 +50,9 @@ urlpatterns = [
                        name='microoda_view'),
                   
                   path('api/odas/', api_viewsets.ODAViewSet.as_view({'get': 'list'}),
-                       name='odas_view_api'),
+                       name='odas_view_api_list'),
+                  path('api/odas/<int:pk>/', api_viewsets.ODAViewSet.as_view({'get': 'retrieve'}),
+                       name='odas_view_api_retrieve'),
 
                   url(r'^api/odas/(?P<oda>\d+)/microodas/$', api_viewsets.MicroODAViewSet.as_view({'get': 'list'}),
                        name='microodas_view_api'),
