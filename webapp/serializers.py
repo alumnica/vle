@@ -55,7 +55,8 @@ class MicroodaSerializer(serializers.ModelSerializer):
 class ContentSerializer(serializers.ModelSerializer):	
 	class Meta:
 		model = Content
-		fields = ['id', 'content',  'url_h5p']
+		fields = ['id', 'content',  'url_h5p', 'text', 'question', 'answer1', 'answer2', 'answer3', 
+				'correct_answer', 'positive_retro', 'negative_retro', 'coordenada1', 'coordenada2', 'coordenada3', 'coordenada4']
 
 
 
